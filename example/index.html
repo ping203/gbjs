@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-controller="AppCtrl">
+	<head>
+		<title ng-bind="page.title">Demo</title>
+
+		<!--createjs-->
+		<script src="../bower_components/EaselJS/lib/easeljs-0.8.2.min.js"></script>
+		<script src="../bower_components/TweenJS/lib/tweenjs-0.6.2.min.js"></script>
+		<script src="../bower_components/SoundJS/lib/soundjs-0.6.2.min.js"></script>
+		<script src="../bower_components/PreloadJS/lib/preloadjs-0.6.2.min.js"></script>
+		<script src="../dist/gbjs.min.js"></script>
+	</head>
+	<body onload="init()">
+		<canvas id="testCanvas" width="960" height="400"></canvas>
+	</body>
+
+
+	<script type="text/javascript">
+		var stage;
+		function init() {
+			stage = new createjs.Stage("testCanvas");
+
+			stage.enableMouseOver();
+			
+
+			var cards = ['3b', '10r', '3c', '3t', '10b', '10c', '10r', '10t'];
+
+			for (var i = cards.length - 1; i >= 0; i--) {
+				addCard(cards[i]);
+			}
+
+		}
+
+		function addCard(card) {
+			var bitmap = new gbjs.BitmapCard("card/"+card+".png", 'pointer');
+			bitmap.x = stage.numChildren * 100 + 10;
+			bitmap.y = stage.canvas.height - 130;
+			bitmap.setHoverShadow("#666", 5, 5, 10);
+			stage.addChild(bitmap);
+		}
+
+		createjs.Ticker.addEventListener("tick", function() {
+			stage.update();
+		});
+	</script>
+</html>
