@@ -109,11 +109,14 @@ this.gbjs = this.gbjs || {};
 	 * set up the handlers for click
 	 */
 	p.handleEventClick = function() {
+		var y = this.y;
 		if(this.ready === true) {
-			this.y +=30;
+			y +=30;
 		} else {
-			this.y -=30;
+			y -=30;
 		}
+
+		createjs.Tween.get(this).to({y:y}, 100);
 		this.ready = !this.ready;
 	}
 

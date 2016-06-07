@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-controller="AppCtrl">
+	<head>
+		<title ng-bind="page.title">Demo</title>
+
+		<!--createjs-->
+		<script src="../bower_components/EaselJS/lib/easeljs-0.8.2.min.js"></script>
+		<script src="../bower_components/TweenJS/lib/tweenjs-0.6.2.min.js"></script>
+		<script src="../bower_components/SoundJS/lib/soundjs-0.6.2.min.js"></script>
+		<script src="../bower_components/PreloadJS/lib/preloadjs-0.6.2.min.js"></script>
+
+		<!--gbjs-->
+		<script src="../src/display/BitmapCard.js"></script>
+		<script src="../src/display/Player.js"></script>
+
+		<!--container-->
+		<script src="../src/display/CardContainer.js"></script>
+		<script src="../src/display/DeskContainer.js"></script>
+		<script src="../src/display/ChairContainer.js"></script>
+		<script src="../src/display/Container.js"></script>
+		<script src="../src/display/HandContainer.js"></script>
+		<!--bitmap-->
+		<script src="../src/display/BitmapAvatar.js"></script>
+		<script src="../src/display/BitmapCard.js"></script>
+		<script src="../src/display/BitmapDesk.js"></script>
+
+		<!--text-->
+		<script src="../src/display/TextUsername.js"></script>
+		<script src="../src/display/TextMoney.js"></script>
+	</head>
+	<body onload="init()">
+		<canvas id="testCanvas" width="960" height="400"></canvas>
+	</body>
+
+
+	<script type="text/javascript">
+		var stage, hands;
+		function init() {
+			stage = new createjs.Stage("testCanvas");
+			createjs.Ticker.setFPS(200);
+			hands = new gbjs.HandContainer();
+
+
+			hands.addEventListener("mousedown", function (evt) {
+				// bump the target in front of its siblings:
+				var o = evt.target;
+				o.parent.addChild(o);
+				o.offset = {x: o.x - evt.stageX, y: o.y - evt.stageY};
+			});
+			// the pressmove event is dispatched when the mouse moves after a mousedown on the target until the mouse is released.
+			hands.addEventListener("pressmove", function (evt) {
+				var o = evt.target;
+				o.x = evt.stageX + o.offset.x;
+				o.y = evt.stageY + o.offset.y;
+			});
+
+			hands.onmouseup = function(evt) {
+				console.log(evt);
+			};
+
+			stage.enableMouseOver();
+			stage.addChild(hands);
+
+			var cards = ['3b', '10r', '3c', '3t', '10b', '10c', '10r', '10t'];
+
+			for (var i = cards.length - 1; i >= 0; i--) {
+				addCard(cards[i]);
+			}
+
+		}
+
+		function addCard(card) {
+			var bitmap = new gbjs.BitmapCard("card/"+card+".png", 'pointer');
+			bitmap.x = hands.numChildren * 100 + 10;
+			bitmap.y = stage.canvas.height - 130;
+			bitmap.setHoverShadow("#666", 5, 5, 10);
+			hands.addChild(bitmap);
+		}
+
+		createjs.Ticker.addEventListener("tick", function() {
+			stage.update();
+		});
+	</script>
+</html>
