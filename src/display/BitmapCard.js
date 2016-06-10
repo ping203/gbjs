@@ -30,7 +30,6 @@ this.gbjs = this.gbjs || {};
 		this.cursor = cursor;
 
 
-
 		/**
 		 * @private
 		 * @type {createjs.Shadow<Object>}
