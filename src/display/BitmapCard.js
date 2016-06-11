@@ -14,8 +14,13 @@ this.gbjs = this.gbjs || {};
 	 * display. This can be either an Image, Canvas, or Video object, or a string URI to an image file to load and use.
 	 * If it is a URI, a new Image object will be constructed and assigned to the .image property.
 	 **/
-	function BitmapCard(imageOrUri, cursor) {
+	function BitmapCard(imageOrUri, value, cursor) {
 		this.Bitmap_constructor(imageOrUri);
+		/**
+		 * @protected
+		 * @type {Number}
+		 */
+		this.value = value;
 
 		/**
 		 * @protected
@@ -78,6 +83,14 @@ this.gbjs = this.gbjs || {};
 			this.shadow = this._hoverShadow;
 		}
 		
+	}
+
+	/**
+	 * @method setValue
+	 * @return {Number}
+	 */
+	p.getValue = function() {
+		return this.value;
 	}
 
 	/**
