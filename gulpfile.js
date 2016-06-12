@@ -7,7 +7,10 @@ var Server = require('karma').Server;
 
 
 gulp.task('build', function () {
-  var target = gulp.src('./src/**/*.js');
+  var target = gulp.src([
+  	'src/**/*.js', 
+  	'!src/**/*.spec.js'
+  ]);
   return target.pipe(concat('gbjs.min.js'))
     .pipe(uglify({preserveComments: 'some'}))
     .pipe(gulp.dest('./dist'));
