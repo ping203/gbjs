@@ -87,4 +87,17 @@ describe("Test TUPhom", function() {
 		var cards = gbjs.TUPhom([48, 49], hand.getChildAt(0)).getCards();
 		expect(cards.map(map)).toEqual([0, 1, 4, 5, 8, 9, 12, 13]);
   });
+
+
+  it('Chặt dọc khong thanh cong', function() {
+  	addCards([4, 8, 12]);
+		var cards = gbjs.TUPhom([0, 4, 8, 12], hand.getChildAt(0)).getCards();
+		expect(cards.length).toEqual(0);
+  });
+
+  it('Chặt dọc', function() {
+  	addCards([4, 8, 12, 16]);
+		var cards = gbjs.TUPhom([0, 4, 8, 12], hand.getChildAt(0)).getCards();
+		expect(cards.map(map)).toEqual([4, 8, 12, 16]);
+  });
 });

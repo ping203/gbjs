@@ -129,11 +129,7 @@ this.gbjs = this.gbjs || {};
 					}
 				}
 			} else {
-				//0123  44 45 46 47 48
-        // neu click vao so
-        if((TUPhom.getRank(cardsFire[0]) == 0)){
-        	
-        }
+				return this._getDoc();
 			}
 		}
 
@@ -250,7 +246,7 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
-	 * @param  {Number} cardSelect
+	 * @method _getArrSpecialSuit
 	 * @param {Number} sodoithong
 	 * @return {Number}
 	 */
@@ -279,7 +275,7 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
-	 * @param  {Number} rank
+	 * @method _getSelectNgang
 	 * @return {Array}
 	 */
 	TUPhom.prototype._getSelectNgang = function () {
@@ -291,16 +287,57 @@ this.gbjs = this.gbjs || {};
 
 
 	/**
-	 * @param  {Number} iCardFire
-	 * @return {Number} iCardSelect
-	 * @return {Array}
+	 * @method getCartByRank
+	 * 
+	 * @return {Number} rank
+	 * @return {gbjs.Card}
+	 */
+	TUPhom.prototype.getCartByRank = function(rank) {
+		return _.find(this.handCards, function(card) {
+			return (TUPhom.getRank(card.getValue()) == rank);
+		});
+	}
+
+	/**
+	 * @method isUndefined
+	 * 
+	 * @return {boolean}
+	 */
+	TUPhom.isUndefined = function(fn) {
+		return (typeof(fn) == 'undefined');
+	}
+
+	/**
+	 * @method _getDoc
+	 * 
+	 * @return {Array<Null, gbjs.Card<Object>>}
 	 */
 	TUPhom.prototype._getDoc = function() {
-		
+		var self = this;
+		var results = [];
+		var card;
+		var rankOfCardSelect = self.rank;
+		var rankOfCardFile = TUPhom.getRank(self.cardsFire[0]);
+		if(rankOfCardFile > rankOfCardSelect) {
+			return [];
+		}
+		results.push(self.card);
+		for(var i = 0; i < this.cardsFire.length - 1; i++) {
+			rankOfCardSelect++;
+			card = this.getCartByRank(rankOfCardSelect);
+			if(!TUPhom.isUndefined(card)) {
+				results.push(card);
+			}  else {
+				return [];
+			}
+			
+		}
+		return results;
 	}
 
 	/**
 	 * @method getRank
+	 * 
 	 * @param  {Card<Object>} card
 	 * @return {Number}
 	 */
@@ -309,6 +346,8 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
+	 * @method getPhomSpecial
+	 * 
 	 * @return {Array} cards
 	 * @return {Number}
 	 */
