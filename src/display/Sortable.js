@@ -50,6 +50,8 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
+	 * @method _onDragStart
+	 * 
 	 * @param  {Event} evt
 	 */
 	Sortable.prototype._onDragStart = function(evt) {
@@ -64,7 +66,10 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
+	 * @method _onTouchMove
+	 * 
 	 * @param  {Event|TouchEvent} evt
+	 *
 	 */
 	Sortable.prototype._onTouchMove = function(evt) {
 		if(!this.dragObj) return;
@@ -82,6 +87,26 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
+	 * @method handleEvent
+	 * 
+	 * @param  {Event} evt
+	 */
+	Sortable.prototype.handleEvent =function (evt) {
+		var type = evt.type;
+
+		if (type === 'dragover' || type === 'dragenter') {
+			if (this.dragObj) {
+				this._onDragOver(evt);
+			}
+		}
+		else if (type === 'drop' || type === 'dragend') {
+			this._onDrop(evt);
+		}
+	}
+
+	/**
+	 * @method _onDragOver
+	 * 
 	 * @param  {Event} evt
 	 */
 	Sortable.prototype._onDragOver = function(evt) {
@@ -94,6 +119,14 @@ this.gbjs = this.gbjs || {};
 		this.dragObj = null;
 	}
 
+	/**
+	 * @method _onDrop
+	 * 
+	 * @param  {Event} evt
+	 */
+	Sortable.prototype._onDrop = function(evt) {
+		// body...
+	}
 
 	gbjs.Sortable = Sortable;
 

@@ -18,10 +18,23 @@ describe("Test TUPhom", function() {
 		return card.getValue();
 	}
 
+
 	it("Không có quân bài chặt 2", function() {
-		addCards([0, 1]);
+		addCards([0, 1, 2]);
 		var cards = gbjs.TUPhom([48], hand.getChildAt(0)).getCards();
     expect(cards.map(map)).toEqual([]);
+  });
+
+	it("Chat doi 3 4-5", function() {
+		addCards([4, 5, 6]);
+		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(0)).getCards();
+    expect(cards.map(map)).toEqual([4, 5]);
+  });
+
+  it("Chat doi 3 5-6", function() {
+		addCards([4, 5, 6]);
+		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(1)).getCards();
+    expect(cards.map(map)).toEqual([5, 6]);
   });
 
   it("Chặt 2 bằng tứ quý", function() {

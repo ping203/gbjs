@@ -82,13 +82,6 @@ this.gbjs = this.gbjs || {};
 			return (a > b);
 		});
 
-		this.parent.sortChildren(function(a, b) {
-			return (a.getValue() > b.getValue());
-		});
-
-		this.index = this.parent.getChildIndex(this.card);
-
-
 		if(cardsFire.length === 1) {
 			// nguoi choi danh 2
 			if(cardsFire[0] >=48) {
@@ -123,9 +116,10 @@ this.gbjs = this.gbjs || {};
 					} else if(self.rank > TUPhom.getRank(cardsFire[0])) {
 						//truong hop 2 con tro len thuong
 						var cards = self._getSelectNgang();
-						return _.filter(cards, function(obj) {
+						cards = _.filter(cards, function(obj) {
 							return (obj.getValue() >= self.value);
 						});
+						return cards.slice(0, self.cardsFire.length);
 					}
 				}
 			} else {
