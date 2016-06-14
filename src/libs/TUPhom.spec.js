@@ -103,8 +103,8 @@ describe("Test TUPhom", function() {
 
 
   it('Chặt dọc khong thanh cong', function() {
-  	addCards([1, 6, 9, 12]);
-		var cards = gbjs.TUPhom([0, 4, 8, 13], hand.getChildAt(0)).getCards();
+  	addCards([0,4, 8, 12]);
+		var cards = gbjs.TUPhom([1, 5, 9, 13], hand.getChildAt(0)).getCards();
 		expect(cards.length).toEqual(0);
   });
 
@@ -112,5 +112,11 @@ describe("Test TUPhom", function() {
   	addCards([4, 8, 12, 16]);
 		var cards = gbjs.TUPhom([0, 4, 8, 12], hand.getChildAt(0)).getCards();
 		expect(cards.map(map)).toEqual([4, 8, 12, 16]);
+  });
+
+  it('Chặt dọc cung rank', function() {
+  	addCards([0, 4, 8, 13]);
+		var cards = gbjs.TUPhom([1, 5, 9, 12], hand.getChildAt(0)).getCards();
+		expect(cards.map(map)).toEqual([0, 4, 8, 13]);
   });
 });

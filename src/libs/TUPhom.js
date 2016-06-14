@@ -311,7 +311,8 @@ this.gbjs = this.gbjs || {};
 		var results = [];
 		var card = self.card;
 		var rankOfCardSelect = self.rank;
-		if(self.cardsFire[0] > self.value) {
+		var rankOfCardFire = TUPhom.getRank(self.cardsFire[0]);
+		if(rankOfCardSelect < rankOfCardFire) {
 			return [];
 		}
 		results.push(card);
@@ -319,8 +320,15 @@ this.gbjs = this.gbjs || {};
 			rankOfCardSelect++;
 
 			card = _.find(self.handCards, function(handCard) {
-				return ((TUPhom.getRank(handCard.getValue()) == rankOfCardSelect) 
-					&& (handCard.getValue() > self.cardsFire[i]));
+				if(TUPhom.getRank(handCard.getValue()) == rankOfCardSelect) {
+					if(i != (self.cardsFire.length - 1)) {
+						return true;
+					}
+					if(handCard.getValue() > self.cardsFire[i]) {
+						return true;
+					}
+				}
+				return false;
 			})
 			if(!TUPhom.isUndefined(card)) {
 				results.push(card);

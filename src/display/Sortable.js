@@ -65,6 +65,10 @@ this.gbjs = this.gbjs || {};
 
 	}
 
+	Sortable.prototype._dragStarted = function() {
+		// body...
+	}
+
 	/**
 	 * @method _onTouchMove
 	 * 
