@@ -46,6 +46,8 @@
 			stage = new createjs.Stage("testCanvas");
 			createjs.Ticker.setFPS(200);
 			hands = new gbjs.HandContainer();
+			hands.x = 100;
+			hands.y = 10;
 			stage.enableMouseOver();
 			stage.addChild(hands);
 

@@ -109,9 +109,9 @@ describe("Test TUPhom", function() {
   });
 
   it('Chặt dọc', function() {
-  	addCards([4, 8, 12, 16]);
+  	addCards([5, 8, 12, 16]);
 		var cards = gbjs.TUPhom([0, 4, 8, 12], hand.getChildAt(0)).getCards();
-		expect(cards.map(map)).toEqual([4, 8, 12, 16]);
+		expect(cards.map(map)).toEqual([5, 8, 12, 16]);
   });
 
   it('Chặt dọc cung rank', function() {
