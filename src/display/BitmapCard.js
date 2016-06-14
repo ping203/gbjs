@@ -26,7 +26,7 @@ this.gbjs = this.gbjs || {};
 		 * @protected
 		 * @type {Boolean}
 		 */
-		this.ready = false;
+		this.selected = false;
 
 		/**
 		 * @protected
@@ -120,17 +120,39 @@ this.gbjs = this.gbjs || {};
 	/**
 	 * set up the handlers for click
 	 */
-	p.handleEventClick = function() {
+	p.handleEventClick = function(evt) {
+		if(this.draggable) return;
+		this.select();
+	}
+
+	/**
+	 * @protected select
+	 * set up the handlers for click
+	 */
+	p.select = function() {
 		var y = this.y;
-		if(this.ready === true) {
+		if(this.selected === true) {
 			y +=30;
 		} else {
 			y -=30;
 		}
 
 		createjs.Tween.get(this).to({y:y}, 100);
-		this.ready = !this.ready;
+		this.selected = !this.selected;
 	}
+
+	/**
+	 * @protected unSelect
+	 * set up the handlers for click
+	 */
+	p.unSelect = function() {
+		if(this.selected === true) {
+			y = this.y + 30;
+			createjs.Tween.get(this).to({y:y}, 100);
+			this.selected = false;
+		}
+	}
+
 
 	/**
 	 * @description 

@@ -66,7 +66,7 @@ this.gbjs = this.gbjs || {};
 		/**
 		 * Setup event
 		 */
-		parent.on('mousedown', this._onDragStart, this);
+		//parent.on('mousedown', this._onDragStart, this);
 		parent.on('pressmove', this._onTouchMove, this);
 		parent.on('pressup', this._onDragOver, this);
 
@@ -85,7 +85,7 @@ this.gbjs = this.gbjs || {};
 	 * @param  {Event} evt
 	 */
 	Sortable.prototype._onDragStart = function(evt) {
-		
+		console.log(evt);
 
 
 	}
@@ -95,7 +95,17 @@ this.gbjs = this.gbjs || {};
 		var o = evt.target;
 		o.parent.addChild(o);
 		o.offset = {x: o.x - evt.stageX, y: o.y - evt.stageY};
+		o.draggable = true;
 		Sortable.active = this;
+		this.cloneObj = o.clone();
+		if(this.space) {
+			return true;
+		}
+		var o1 = o.parent.getChildAt(0);
+		var o2 = o.parent.getChildAt(1);
+		if(o1 && o2) {
+			this.space = o2.x - o1.x;
+		}
 	}
 
 	/**
@@ -127,24 +137,28 @@ this.gbjs = this.gbjs || {};
 		if(o.x < 0) {
 			o.x = 0;
 		}
+		var newIndex = Math.round(o.x/this.space);
 
-		var newIndex = Math.round(o.x/70);
-		if(newIndex != this.newIndex) {
-			this.newIndex = newIndex;
+		if(newIndex >= children.length) {
+			newIndex = children.length - 1;
 		}
 
+		if(newIndex == this.newIndex) {
+			return;
+		}
+		this.newIndex = newIndex;
 
 		if(action == 'next') {
 			//update before item
 			for(var i = 0; i < this.newIndex; i++) {
 				var child = children[i];
-				child.x = i * 70;
+				child.x = i * this.space;
 			}
 		} else {
 			//update before item
 			for(var i = this.newIndex; i < children.length -1; i++) {
 				var child = children[i];
-				child.x = (i + 1) * 70;
+				child.x = (i + 1) * this.space;
 			}
 		}
 	}
@@ -166,11 +180,13 @@ this.gbjs = this.gbjs || {};
 	 * @param  {Event} evt
 	 */
 	Sortable.prototype._onDragOver = function(evt) {
+		if(!Sortable.active) return;
 		Sortable.active = false;
 		var o = evt.target;
 		o.parent.addChildAt(o, this.newIndex);
-		o.x = this.newIndex * 70;
-		o.y = 270;
+		o.x = this.newIndex * this.space;
+		o.y = this.cloneObj.y;
+		o.draggable = false;
 	}
 
 	/**

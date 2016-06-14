@@ -44,10 +44,10 @@
 		var stage, hands;
 		function init() {
 			stage = new createjs.Stage("testCanvas");
-			createjs.Ticker.setFPS(200);
+			createjs.Ticker.setFPS(60);
 			hands = new gbjs.HandContainer();
 			hands.x = 100;
-			hands.y = 10;
+			hands.y = stage.canvas.height - 130;
 			stage.enableMouseOver();
 			stage.addChild(hands);
 
@@ -60,9 +60,8 @@
 		}
 
 		function addCard(card) {
-			var bitmap = new gbjs.BitmapCard("card/"+card+".png", 'pointer');
+			var bitmap = new gbjs.BitmapCard("card/"+card+".png", card, 'pointer');
 			bitmap.x = hands.numChildren * 70;
-			bitmap.y = stage.canvas.height - 130;
 			bitmap.setHoverShadow("#666", 5, 5, 10);
 			hands.addChild(bitmap);
 		}
