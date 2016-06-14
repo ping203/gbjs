@@ -309,16 +309,19 @@ this.gbjs = this.gbjs || {};
 	TUPhom.prototype._getDoc = function() {
 		var self = this;
 		var results = [];
-		var card;
+		var card = self.card;
 		var rankOfCardSelect = self.rank;
-		var rankOfCardFile = TUPhom.getRank(self.cardsFire[0]);
-		if(rankOfCardFile > rankOfCardSelect) {
+		if(self.cardsFire[0] > self.value) {
 			return [];
 		}
-		results.push(self.card);
-		for(var i = 0; i < this.cardsFire.length - 1; i++) {
+		results.push(card);
+		for(var i = 1; i < this.cardsFire.length; i++) {
 			rankOfCardSelect++;
-			card = this.getCartByRank(rankOfCardSelect);
+
+			card = _.find(self.handCards, function(handCard) {
+				return ((TUPhom.getRank(handCard.getValue()) == rankOfCardSelect) 
+					&& (handCard.getValue() > self.cardsFire[i]));
+			})
 			if(!TUPhom.isUndefined(card)) {
 				results.push(card);
 			}  else {

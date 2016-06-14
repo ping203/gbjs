@@ -103,8 +103,8 @@ describe("Test TUPhom", function() {
 
 
   it('Chặt dọc khong thanh cong', function() {
-  	addCards([4, 8, 12]);
-		var cards = gbjs.TUPhom([0, 4, 8, 12], hand.getChildAt(0)).getCards();
+  	addCards([1, 6, 9, 12]);
+		var cards = gbjs.TUPhom([0, 4, 8, 13], hand.getChildAt(0)).getCards();
 		expect(cards.length).toEqual(0);
   });
 
