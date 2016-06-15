@@ -35,6 +35,12 @@ this.gbjs = this.gbjs || {};
 
 		/**
 		 * @protected
+		 * @type {Number}
+		 */
+		this.dragIndex;
+
+		/**
+		 * @protected
 		 * @type {String}
 		 */
 		this.newIndex;
@@ -93,10 +99,11 @@ this.gbjs = this.gbjs || {};
 	Sortable.prototype._dragStarted = function(evt) {
 		// bump the target in front of its siblings:
 		var o = evt.target;
-		o.parent.addChild(o);
 		o.offset = {x: o.x - evt.stageX, y: o.y - evt.stageY};
 		o.draggable = true;
 		Sortable.active = this;
+		this.dragObj = o;
+		this.updateDragIndex();
 		this.cloneObj = o.clone();
 		if(this.space) {
 			return true;
@@ -105,6 +112,14 @@ this.gbjs = this.gbjs || {};
 		var o2 = o.parent.getChildAt(1);
 		if(o1 && o2) {
 			this.space = o2.x - o1.x;
+		}
+	}
+
+
+	Sortable.prototype.updateDragIndex = function() {
+		var lastChild = this.parent.getChildAt(this.parent.numChildren - 1);
+		if(lastChild != this.dragObj) {
+			this.parent.addChild(this.dragObj);
 		}
 	}
 
@@ -127,6 +142,8 @@ this.gbjs = this.gbjs || {};
 		var x = evt.stageX + o.offset.x;
 		var y = evt.stageY + o.offset.y;
 
+		this.updateDragIndex();
+
 		if(x < o.x) {
 			action = 'prev';
 		}
@@ -134,10 +151,10 @@ this.gbjs = this.gbjs || {};
 		o.x = x;
 		o.y = y;
 
-		if(o.x < 0) {
-			o.x = 0;
+		if(x < 0) {
+			x = 0;
 		}
-		var newIndex = Math.round(o.x/this.space);
+		var newIndex = Math.round(x/this.space);
 
 		if(newIndex >= children.length) {
 			newIndex = children.length - 1;
@@ -152,13 +169,13 @@ this.gbjs = this.gbjs || {};
 			//update before item
 			for(var i = 0; i < this.newIndex; i++) {
 				var child = children[i];
-				child.x = i * this.space;
+				createjs.Tween.get(child).to({x:i * this.space}, 100);
 			}
 		} else {
 			//update before item
 			for(var i = this.newIndex; i < children.length -1; i++) {
 				var child = children[i];
-				child.x = (i + 1) * this.space;
+				createjs.Tween.get(child).to({x:(i + 1) * this.space}, 100);
 			}
 		}
 	}
@@ -196,6 +213,12 @@ this.gbjs = this.gbjs || {};
 	 */
 	Sortable.prototype._onDrop = function(evt) {
 		// body...
+	}
+
+
+	Sortable.prototype.destroy = function() {
+		parent.on('pressmove', this._onTouchMove, this);
+		parent.on('pressup', this._onDragOver, this);
 	}
 
 
