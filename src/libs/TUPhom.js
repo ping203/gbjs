@@ -180,9 +180,6 @@ this.gbjs = this.gbjs || {};
 		if(results.length < 4) {
 			results = [];
 		}
-		if(results.length > 0 && (results[0].getValue() != self.value)) {
-			results = [];
-		}
 		return results;
 	}
 
@@ -255,19 +252,33 @@ this.gbjs = this.gbjs || {};
 	TUPhom.prototype._getSelectNgang = function () {
 		var self = this;
 		var cards = [];
-		if(self.value > self.cardsFire[0]) {
-			cards.push(self.card);
+		var cfl = self.cardsFire.length;
+		//cards
+		cards = self.getCartsByRank(self.rank);
 
-			cards =  _.filter(this.handCards, function(card) {
-				return (TUPhom.getRank(card.getValue()) == self.rank);
-			});
-
-			cards.sort(function(a, b) {
-				return (a.getValue() > b.getValue()) ? 1: -1;
-			})
-			cards = cards.slice(0, self.cardsFire.length);
+		if(cards.length < cfl.length) {
+			return [];
 		}
-		return cards; 
+		if(cfl == 2 && TUPhom.getRank(self.cardsFire[0]) == self.rank) {
+			var max1 = self.cardsFire[1] % 4;
+			var max2 = cards[0].getValue() % 4;
+			var max3 = cards[1].getValue() % 4;
+			if(max2 < max3) {
+				max2 = max3;
+			}
+
+			if(max1 > max2) {
+				cards = [];
+			}
+		} else if(self.rank > TUPhom.getRank(self.cardsFire[0])){
+			cards = cards.slice(0, cfl - 1);
+			if(cards.indexOf(self.card) == -1) {
+				cards.push(self.card);
+			}
+		} else {
+			cards = [];
+		}
+		return cards;
 	}
 
 
@@ -279,6 +290,18 @@ this.gbjs = this.gbjs || {};
 	 */
 	TUPhom.prototype.getCartByRank = function(rank) {
 		return _.find(this.handCards, function(card) {
+			return (TUPhom.getRank(card.getValue()) == rank);
+		});
+	}
+
+	/**
+	 * @method getCartByRank
+	 * 
+	 * @return {Number} rank
+	 * @return {<Array<gbjs.Card>}
+	 */
+	TUPhom.prototype.getCartsByRank = function(rank) {
+		return _.filter(this.handCards, function(card) {
 			return (TUPhom.getRank(card.getValue()) == rank);
 		});
 	}

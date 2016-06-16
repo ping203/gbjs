@@ -40,8 +40,12 @@
 
 
 		//chat doi 3
-		addCards([3, 1, 4]);
-		var cards = gbjs.TUPhom([0, 2], hand.getChildAt(1)).getCards();
+		addCards([0, 3, 4]);
+		var cards = gbjs.TUPhom([1, 2], hand.getChildAt(1)).getCards();
+		console.log("chat doi 3:", cards.map(map));
+
+		addCards([4, 5, 6]);
+		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(2)).getCards();
 		console.log("chat doi 3:", cards.map(map));
 
 

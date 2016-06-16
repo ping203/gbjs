@@ -25,13 +25,19 @@ describe("Test TUPhom", function() {
     expect(cards.map(map)).toEqual([]);
   });
 
-	it("Chat doi 3 4-5", function() {
+	it("Chat duoc doi 3 4-5", function() {
 		addCards([3, 1, 4]);
 		var cards = gbjs.TUPhom([0, 2], hand.getChildAt(1)).getCards();
-    expect(cards.map(map)).toEqual([1, 3]); 
+    expect(cards.map(map)).toEqual([3, 1]); 
   });
 
-  it("Chat doi 3 5-6", function() {
+  it("Chat khong duoc doi 3 4-5", function() {
+		addCards([0, 2, 4]);
+		var cards = gbjs.TUPhom([1, 3], hand.getChildAt(1)).getCards();
+    expect(cards.map(map)).toEqual([]); 
+  });
+
+  it("Chat duoc doi 3 5-6", function() {
 		addCards([4, 5, 6]);
 		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(1)).getCards();
     expect(cards.map(map)).toEqual([4, 5]);
@@ -39,7 +45,7 @@ describe("Test TUPhom", function() {
 
   it("Chặt 2 bằng tứ quý", function() {
 		addCards([0, 1, 2, 3]);
-		var cards = gbjs.TUPhom([48], hand.getChildAt(0)).getCards();
+		var cards = gbjs.TUPhom([48], hand.getChildAt(3)).getCards();
     expect(cards.map(map)).toEqual([0, 1, 2, 3]);
   });
 
