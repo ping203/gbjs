@@ -39,10 +39,17 @@
 
 
 
+		//chat doi 3
+		addCards([3, 1, 4]);
+		var cards = gbjs.TUPhom([0, 2], hand.getChildAt(1)).getCards();
+		console.log("chat doi 3:", cards.map(map));
+
+
+
 		//test danh 2 chat tu quy
 		addCards([0, 1, 2, 3]);
 		var cards = gbjs.TUPhom([48], hand.getChildAt(0)).getCards();
-		console.log("Chat tu quy2:", cards.map(map));
+		console.log("Chat tu quy2:", cards.map(map)); 
 
 		//test danh 2 chat doi thong
 		addCards([0, 1, 4, 5, 8, 9]);

@@ -26,15 +26,15 @@ describe("Test TUPhom", function() {
   });
 
 	it("Chat doi 3 4-5", function() {
-		addCards([4, 5, 6]);
-		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(0)).getCards();
-    expect(cards.map(map)).toEqual([4, 5]);
+		addCards([3, 1, 4]);
+		var cards = gbjs.TUPhom([0, 2], hand.getChildAt(1)).getCards();
+    expect(cards.map(map)).toEqual([1, 3]); 
   });
 
   it("Chat doi 3 5-6", function() {
 		addCards([4, 5, 6]);
 		var cards = gbjs.TUPhom([0, 1], hand.getChildAt(1)).getCards();
-    expect(cards.map(map)).toEqual([5, 6]);
+    expect(cards.map(map)).toEqual([4, 5]);
   });
 
   it("Chặt 2 bằng tứ quý", function() {

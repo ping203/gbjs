@@ -99,28 +99,8 @@ this.gbjs = this.gbjs || {};
 					if(cardsFire.length ==2 && cardsFire[0] > 47) {
 						return self._getChatDoi2();
 					}
-					// truong hop 2 con con minh chon
-					if(cardsFire.length ==2 && this.rank== TUPhom.getRank(cardsFire[0])) {
-						var cards = self._getSelectNgang();
-						if(cards.length ==2) {
-							var maxChat1 = cardsFire[1] % 4;
-							var maxChat2 = cards[0].getValue() % 4;
-							var maxChat3 = cards[1].getValue() % 4;
-							if(maxChat2  < maxChat3) {
-								maxChat2 = maxChat3;
-							}
-							if(maxChat1 < maxChat2) {
-								return  cards;
-							}
-						}
-					} else if(self.rank > TUPhom.getRank(cardsFire[0])) {
-						//truong hop 2 con tro len thuong
-						var cards = self._getSelectNgang();
-						cards = _.filter(cards, function(obj) {
-							return (obj.getValue() >= self.value);
-						});
-						return cards.slice(0, self.cardsFire.length);
-					}
+					//truong hop 2 con tro len thuong
+					return self._getSelectNgang();
 				}
 			} else {
 				return this._getDoc();
@@ -274,9 +254,20 @@ this.gbjs = this.gbjs || {};
 	 */
 	TUPhom.prototype._getSelectNgang = function () {
 		var self = this;
-		return _.filter(this.handCards, function(card) {
-			return (TUPhom.getRank(card.getValue()) == self.rank);
-		})
+		var cards = [];
+		if(self.value > self.cardsFire[0]) {
+			cards.push(self.card);
+
+			cards =  _.filter(this.handCards, function(card) {
+				return (TUPhom.getRank(card.getValue()) == self.rank);
+			});
+
+			cards.sort(function(a, b) {
+				return (a.getValue() > b.getValue()) ? 1: -1;
+			})
+			cards = cards.slice(0, self.cardsFire.length);
+		}
+		return cards; 
 	}
 
 
