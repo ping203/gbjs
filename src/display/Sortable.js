@@ -72,7 +72,7 @@ this.gbjs = this.gbjs || {};
 		/**
 		 * Setup event
 		 */
-		//parent.on('mousedown', this._onDragStart, this);
+		parent.on('mousedown', this._onDragStart, this);
 		parent.on('pressmove', this._onTouchMove, this);
 		parent.on('pressup', this._onDragOver, this);
 
@@ -91,20 +91,8 @@ this.gbjs = this.gbjs || {};
 	 * @param  {Event} evt
 	 */
 	Sortable.prototype._onDragStart = function(evt) {
-		console.log(evt);
-
-
-	}
-
-	Sortable.prototype._dragStarted = function(evt) {
-		// bump the target in front of its siblings:
 		var o = evt.target;
-		o.offset = {x: o.x - evt.stageX, y: o.y - evt.stageY};
-		o.draggable = true;
-		Sortable.active = this;
 		this.dragObj = o;
-		this.updateDragIndex();
-		this.cloneObj = o.clone();
 		if(this.space) {
 			return true;
 		}
@@ -113,6 +101,16 @@ this.gbjs = this.gbjs || {};
 		if(o1 && o2) {
 			this.space = o2.x - o1.x;
 		}
+	}
+
+	Sortable.prototype._dragStarted = function(evt) {
+		// bump the target in front of its siblings:
+		var o = evt.target;
+		o.offset = {x: o.x - evt.stageX, y: o.y - evt.stageY};
+		o.draggable = true;
+		Sortable.active = this;
+		this.updateDragIndex();
+		this.cloneObj = o.clone();
 	}
 
 
@@ -130,6 +128,8 @@ this.gbjs = this.gbjs || {};
 	 *
 	 */
 	Sortable.prototype._onTouchMove = function(evt) {
+		if(!this.dragObj) return;
+
 		// only set the status to dragging, when we are actually dragging
 		if (!Sortable.active) {
 			this._dragStarted(evt);
@@ -137,16 +137,11 @@ this.gbjs = this.gbjs || {};
 		var child, cloneChild;
 		var o = evt.target;
 		var children = this.parent.children;
-		var action = 'next';
-
 		var x = evt.stageX + o.offset.x;
 		var y = evt.stageY + o.offset.y;
 
 		this.updateDragIndex();
 
-		if(x < o.x) {
-			action = 'prev';
-		}
 
 		o.x = x;
 		o.y = y;
@@ -164,19 +159,26 @@ this.gbjs = this.gbjs || {};
 			return;
 		}
 		this.newIndex = newIndex;
+		this._sort();
+	}
 
-		if(action == 'next') {
-			//update before item
-			for(var i = 0; i < this.newIndex; i++) {
-				var child = children[i];
-				createjs.Tween.get(child).to({x:i * this.space}, 100);
-			}
-		} else {
-			//update before item
-			for(var i = this.newIndex; i < children.length -1; i++) {
-				var child = children[i];
-				createjs.Tween.get(child).to({x:(i + 1) * this.space}, 100);
-			}
+	/**
+	 * @method _sort
+	 */
+	Sortable.prototype._sort = function() {
+		var index = this.newIndex;
+		var children = this.parent.children;
+		var space = this.space;
+		//update before item
+		for(var i = 0; i < index; i++) {
+			var child = children[i];
+			createjs.Tween.get(child).to({x:i * space}, 100);
+		}
+
+		//update before item
+		for(var i =index; i < children.length -1; i++) {
+			var child = children[i];
+			createjs.Tween.get(child).to({x:(i + 1) * space}, 100);
 		}
 	}
 

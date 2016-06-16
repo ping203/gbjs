@@ -65,7 +65,12 @@
 				}
 			}, 5000);
 
+			setTimeout(function() {
+				hands.removeChildAt(0);
+			}, 7000);
 		}
+
+		
 
 		function addCard(card) {
 			var bitmap = new gbjs.BitmapCard("card/"+card+".png", card, 'pointer');
