@@ -21,36 +21,25 @@ this.gbjs = this.gbjs || {};
 		 * @type {Number}
 		 */
 		this.value = value;
-
 		/**
 		 * @protected
 		 * @type {Boolean}
 		 */
 		this.selected = false;
-
 		/**
 		 * @protected
 		 * @type {String}
 		 */
 		this.cursor = cursor;
-
-
 		/**
-		 * @private
+		 * @protected
 		 * @type {createjs.Shadow<Object>}
 		 */
-		this._hoverShadow;
-
-		/**
-		 * @private
-		 * @type {createjs.Shadow<Object>}
-		 */
-		this._shadow;
+		this.shadow = createjs.Shadow.identity;
 
 
 		//enable pointer
 		if(this.cursor) {
-			this.cursor = cursor;
 			this.addEventListener('click', this.handleEventClick.bind(this));
 			this.addEventListener("rollover", this);
 			this.addEventListener("rollout", this);
@@ -62,6 +51,8 @@ this.gbjs = this.gbjs || {};
 
 
 	var p = createjs.extend(BitmapCard, createjs.Bitmap);
+
+
 
 	/**
 	 * Draws the display object into the specified context ignoring its visible, alpha, shadow, and transform.
@@ -142,7 +133,7 @@ this.gbjs = this.gbjs || {};
 	}
 
 	/**
-	 * @protected unSelect
+	 * @method unSelect
 	 * set up the handlers for click
 	 */
 	p.unSelect = function() {

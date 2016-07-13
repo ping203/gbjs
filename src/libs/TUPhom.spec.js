@@ -125,4 +125,10 @@ describe("Test TUPhom", function() {
 		var cards = gbjs.TUPhom([1, 5, 9, 12], hand.getChildAt(0)).getCards();
 		expect(cards.map(map)).toEqual([0, 4, 8, 13]);
   });
+
+  it('chat ka2', function() {
+  	addCards([40, 44, 48]);
+		var cards = gbjs.TUPhom([1, 5, 9], hand.getChildAt(0)).getCards();
+		expect(cards.map(map)).toEqual([40, 44, 48]);
+  });
 });

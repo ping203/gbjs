@@ -1,0 +1,6 @@
+{
+	"source": [
+		"src/utils/utils.js",
+		"src/**/*.js"
+	]
+}
