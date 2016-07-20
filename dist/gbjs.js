@@ -1749,7 +1749,7 @@ this.TWIST = this.TWIST || {};
         var avatarImage = new Image();
         var avatarHash = md5(this.username);
         var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
-        avatarImage.src = (imagePath || TWIST.imagePath) + 'player/avatars/' + avatarNumber + '.png';
+        avatarImage.src = (TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png';
         var avatarBitmap = new createjs.Bitmap(avatarImage);
         avatarImage.onload = function () {
             avatarBitmap.set({
@@ -1770,7 +1770,7 @@ this.TWIST = this.TWIST || {};
         avatarBg.set({alpha: 0.7});
 
         var roomMasterImage = new Image();
-        roomMasterImage.src = (imagePath || TWIST.imagePath) + 'player/' + 'icon_chuphong.png';
+        roomMasterImage.src = (TWIST.imagePath || imagePath) + 'player/' + 'icon_chuphong.png';
         var roomMaster = new createjs.Bitmap(roomMasterImage);
         roomMaster.set({x: avatarImageDiameter * 0.7, y: avatarImageDiameter * 0.7,
             name: "roomMaster", visible: this.isRoomMaster
@@ -2579,7 +2579,7 @@ this.TWIST = this.TWIST || {};
             height: 42,
             visible: true
         });
-        var chipContainerBg = new createjs.Bitmap((imagePath || TWIST.imagePath) + 'player/' + 'money-container.png');
+        var chipContainerBg = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'player/' + 'money-container.png');
         var chipContainerValue = new createjs.Text("0", '20px Roboto Condensed', 'white');
         chipContainerValue.set({x: 45, y: 30, textAlign: 'center', textBaseline: 'bottom'});
         this.chipContainer.addChild(chipContainerBg, chipContainerValue);
