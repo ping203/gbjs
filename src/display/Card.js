@@ -3,7 +3,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'card/cards.png';
+    var imagePath = location.origin + location.pathname + '../src/images/';
 
     function Card(position) {
         if (typeof position !== 'number' || position < 0 || position > 51)
@@ -76,7 +76,7 @@ this.TWIST = this.TWIST || {};
 
 
         var cards = new Image();
-        cards.src = imagePath;
+        cards.src = (TWIST.imagePath.imagePath || imagePath) + 'card/cards.png';
         var bg = new createjs.Bitmap(cards);
         bg.sourceRect = $.extend({}, Card.size);
         if (value !== -1) {

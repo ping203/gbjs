@@ -844,7 +844,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'card/cards.png';
+    var imagePath = location.origin + location.pathname + '../src/images/';
 
     function Card(position) {
         if (typeof position !== 'number' || position < 0 || position > 51)
@@ -917,7 +917,7 @@ this.TWIST = this.TWIST || {};
 
 
         var cards = new Image();
-        cards.src = imagePath;
+        cards.src = (TWIST.imagePath.imagePath || imagePath) + 'card/cards.png';
         var bg = new createjs.Bitmap(cards);
         bg.sourceRect = $.extend({}, Card.size);
         if (value !== -1) {
@@ -1331,7 +1331,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
     var imagePath, CONFIG;
-    var imagePath = TWIST.imagePath || (location.origin + location.pathname + 'images/');
+    var imagePath = location.origin + location.pathname + '../src/images/';
 
     function Desk(gameType) {
         this.initialize(gameType);
@@ -1673,7 +1673,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'player/';
+    var imagePath = location.origin + location.pathname + '../src/images/';
     var _animationTime = 300;
 
 
@@ -1749,7 +1749,7 @@ this.TWIST = this.TWIST || {};
         var avatarImage = new Image();
         var avatarHash = md5(this.username);
         var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
-        avatarImage.src = imagePath + 'avatars/' + avatarNumber + '.png';
+        avatarImage.src = (imagePath || TWIST.imagePath) + 'player/avatars/' + avatarNumber + '.png';
         var avatarBitmap = new createjs.Bitmap(avatarImage);
         avatarImage.onload = function () {
             avatarBitmap.set({
@@ -1770,7 +1770,7 @@ this.TWIST = this.TWIST || {};
         avatarBg.set({alpha: 0.7});
 
         var roomMasterImage = new Image();
-        roomMasterImage.src = imagePath + 'icon_chuphong.png';
+        roomMasterImage.src = (imagePath || TWIST.imagePath) + 'player/' + 'icon_chuphong.png';
         var roomMaster = new createjs.Bitmap(roomMasterImage);
         roomMaster.set({x: avatarImageDiameter * 0.7, y: avatarImageDiameter * 0.7,
             name: "roomMaster", visible: this.isRoomMaster
@@ -2579,7 +2579,7 @@ this.TWIST = this.TWIST || {};
             height: 42,
             visible: true
         });
-        var chipContainerBg = new createjs.Bitmap(imagePath + 'money-container.png');
+        var chipContainerBg = new createjs.Bitmap((imagePath || TWIST.imagePath) + 'player/' + 'money-container.png');
         var chipContainerValue = new createjs.Text("0", '20px Roboto Condensed', 'white');
         chipContainerValue.set({x: 45, y: 30, textAlign: 'center', textBaseline: 'bottom'});
         this.chipContainer.addChild(chipContainerBg, chipContainerValue);

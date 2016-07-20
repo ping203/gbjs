@@ -3,7 +3,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
     var imagePath, CONFIG;
-    var imagePath = TWIST.imagePath || (location.origin + location.pathname + 'images/');
+    var imagePath = location.origin + location.pathname + '../src/images/';
 
     function Desk(gameType) {
         this.initialize(gameType);
