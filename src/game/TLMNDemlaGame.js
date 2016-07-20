@@ -204,6 +204,7 @@ this.TWIST = this.TWIST || {};
         this.buttonBar.hide();
         this.errorPanel.empty();
         this.desk.lastDraftCards = undefined;
+        this.setPlayerTurn();
     };
 
     p.endGame = function (data) {
@@ -258,7 +259,7 @@ this.TWIST = this.TWIST || {};
                 player.gameResultString = "";
             }
 
-            var Player = this.getPlayerbyID(player.uuid);
+            var Player = this.getPlayerByUuid(player.uuid);
             if (Player) {
                 Player.setMoney(player.money);
                 Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");

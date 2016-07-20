@@ -103,34 +103,34 @@
                         handCards: []
                     }, {
                         uuid: 1,
-                        handCards: [1,2,3,4,5,6,7,8,9,40,41,42,43]
+                        handCards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 40, 41, 42, 43]
                     }]
             },
             nextTime: 100
         }, {
             event: "hitTurn",
             data: {
-                uuid : 1
+                uuid: 1
             },
             nextTime: 100
         }, {
             event: "draftCards",
             data: {
-                uuid : 1,
-                cardList : [1,2,3,4,5]
+                uuid: 1,
+                cardList: [1, 2, 3, 4, 5]
             },
             nextTime: 1000
         }, {
             event: "hitTurn",
             data: {
-                uuid : 3
+                uuid: 3
             },
             nextTime: 100
         }, {
             event: "draftCards",
             data: {
-                uuid : 3,
-                cardList : [24,25]
+                uuid: 3,
+                cardList: [24, 25]
             },
             nextTime: 1000
         }, {
@@ -141,10 +141,21 @@
             },
             nextTime: 1000
         }, {
+            event: "changeStatus",
+            data: {
+                newStatus: 5
+            },
+            nextTime: 1000
+        }, {
             event: "endGame",
             data: {
-                uuid: 6,
-                username: "User Index 4"
+                winType: 1,
+                listPlayers: [{
+                        remainCards: [1, 2, 3],
+                        changeMoney: 1000,
+                        money: 5000,
+                        uuid : 1
+                    }]
             },
             nextTime: 1000
         }];

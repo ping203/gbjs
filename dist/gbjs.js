@@ -1,487 +1,861 @@
 /**
  * @module utils
  */
-this.gbjs = this.gbjs || {};
+this.Global = this.Global || {};
+
+(function () {
+    "use strict";
+
+    /**
+     * Static class utils
+     * the library.
+     * @object utils
+     **/
+
+    Global = {
+        autoFit: function () {
+            var width = 1280, height = 720;
+            _autoFit = function () {
+                var windowWidth = window.innerWidth;
+                var windowHeight = window.innerHeight;
+                var wRatio = windowWidth / width;
+                var hRatio = windowHeight / height;
+                var zoom = (wRatio > hRatio) ? hRatio : wRatio;
+                zoom = zoom > 1 ? 1 : zoom;
+                var content = $("#main");
+                var gameplayCanvas = $("#gameplayStage");
+                var left = (windowWidth - 1000 * zoom) / 2;
+                gameplayCanvas.css({"width": width * zoom, "height": height * zoom, left: left + "px"});
+                content.css("zoom", zoom);
+                return {"zoom": zoom};
+            };
+            _autoFit();
+            window.removeEventListener("resize", _autoFit, true);
+            window.addEventListener("resize", _autoFit, true);
+        },
+        getParameterByName: function (name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        },
+        numberWithDot: function (x) {
+            if (isNaN(x))
+                return 0;
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return parts.join(".");
+        },
+        _generateUniqueId: function () {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+            }
+            return (function () {
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+            })();
+        },
+        getUniqueId: function () {
+            var uniqueId = localStorage.getItem("___uniqueId___");
+            if (!uniqueId) {
+                uniqueId = this._generateUniqueId();
+                localStorage.setItem("___uniqueId___", uniqueId);
+            }
+            return uniqueId;
+        },
+        converEsObject: function (EsObject) {
+            var data = EsObject.data;
+            if (!data)
+                data = EsObject;
+            if (!data)
+                return;
+            var dataJSON = '{';
+            for (var proName in data) {
+                if (dataJSON != '{') {
+                    dataJSON += ',';
+                }
+                var propertier = data[proName];
+                dataJSON = dataJSON + '"' + proName + '":' + JSON.stringify(propertier.value);
+            }
+            dataJSON += '}';
+            return JSON.parse(dataJSON);
+        },
+        convertData: function (data) {
+            var dataConverted = {};
+            for (var key in data) {
+                dataConverted[AppKeysConvert[key] ? AppKeysConvert[key] : key] = data[key];
+            }
+            return dataConverted;
+        },
+        convertBettingToChip: function (betting, unit) {
+            if (isNaN(betting) || isNaN(unit))
+                return [1];
+            var multiples = Math.floor(betting / unit);
+            var biggestChipIndex = ChipRatio.findIndex(function (item) {
+                return multiples >= item;
+            });
+            if (biggestChipIndex < 0)
+                biggestChipIndex = ChipRatio.length;
+            var chipArray = [];
+            for (var i = ChipRatio.length; i > 0; i--) {
+                var numberChip = Math.floor(multiples / ChipRatio[i - 1]);
+                if (numberChip > 0) {
+                    chipArray.push({
+                        type: i - 1,
+                        number: numberChip
+                    });
+                }
+            }
+            return chipArray;
+        }
+    };
+})();
+/*
+ * JavaScript MD5
+ * https://github.com/blueimp/JavaScript-MD5
+ *
+ * Copyright 2011, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ *
+ * Based on
+ * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+ * Digest Algorithm, as defined in RFC 1321.
+ * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ * Distributed under the BSD License
+ * See http://pajhome.org.uk/crypt/md5 for more info.
+ */
+
+/*global unescape, define, module */
+
+;(function ($) {
+  'use strict'
+
+  /*
+  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+  * to work around bugs in some JS interpreters.
+  */
+  function safe_add (x, y) {
+    var lsw = (x & 0xFFFF) + (y & 0xFFFF)
+    var msw = (x >> 16) + (y >> 16) + (lsw >> 16)
+    return (msw << 16) | (lsw & 0xFFFF)
+  }
+
+  /*
+  * Bitwise rotate a 32-bit number to the left.
+  */
+  function bit_rol (num, cnt) {
+    return (num << cnt) | (num >>> (32 - cnt))
+  }
+
+  /*
+  * These functions implement the four basic operations the algorithm uses.
+  */
+  function md5_cmn (q, a, b, x, s, t) {
+    return safe_add(bit_rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
+  }
+  function md5_ff (a, b, c, d, x, s, t) {
+    return md5_cmn((b & c) | ((~b) & d), a, b, x, s, t)
+  }
+  function md5_gg (a, b, c, d, x, s, t) {
+    return md5_cmn((b & d) | (c & (~d)), a, b, x, s, t)
+  }
+  function md5_hh (a, b, c, d, x, s, t) {
+    return md5_cmn(b ^ c ^ d, a, b, x, s, t)
+  }
+  function md5_ii (a, b, c, d, x, s, t) {
+    return md5_cmn(c ^ (b | (~d)), a, b, x, s, t)
+  }
+
+  /*
+  * Calculate the MD5 of an array of little-endian words, and a bit length.
+  */
+  function binl_md5 (x, len) {
+    /* append padding */
+    x[len >> 5] |= 0x80 << (len % 32)
+    x[(((len + 64) >>> 9) << 4) + 14] = len
+
+    var i
+    var olda
+    var oldb
+    var oldc
+    var oldd
+    var a = 1732584193
+    var b = -271733879
+    var c = -1732584194
+    var d = 271733878
+
+    for (i = 0; i < x.length; i += 16) {
+      olda = a
+      oldb = b
+      oldc = c
+      oldd = d
+
+      a = md5_ff(a, b, c, d, x[i], 7, -680876936)
+      d = md5_ff(d, a, b, c, x[i + 1], 12, -389564586)
+      c = md5_ff(c, d, a, b, x[i + 2], 17, 606105819)
+      b = md5_ff(b, c, d, a, x[i + 3], 22, -1044525330)
+      a = md5_ff(a, b, c, d, x[i + 4], 7, -176418897)
+      d = md5_ff(d, a, b, c, x[i + 5], 12, 1200080426)
+      c = md5_ff(c, d, a, b, x[i + 6], 17, -1473231341)
+      b = md5_ff(b, c, d, a, x[i + 7], 22, -45705983)
+      a = md5_ff(a, b, c, d, x[i + 8], 7, 1770035416)
+      d = md5_ff(d, a, b, c, x[i + 9], 12, -1958414417)
+      c = md5_ff(c, d, a, b, x[i + 10], 17, -42063)
+      b = md5_ff(b, c, d, a, x[i + 11], 22, -1990404162)
+      a = md5_ff(a, b, c, d, x[i + 12], 7, 1804603682)
+      d = md5_ff(d, a, b, c, x[i + 13], 12, -40341101)
+      c = md5_ff(c, d, a, b, x[i + 14], 17, -1502002290)
+      b = md5_ff(b, c, d, a, x[i + 15], 22, 1236535329)
+
+      a = md5_gg(a, b, c, d, x[i + 1], 5, -165796510)
+      d = md5_gg(d, a, b, c, x[i + 6], 9, -1069501632)
+      c = md5_gg(c, d, a, b, x[i + 11], 14, 643717713)
+      b = md5_gg(b, c, d, a, x[i], 20, -373897302)
+      a = md5_gg(a, b, c, d, x[i + 5], 5, -701558691)
+      d = md5_gg(d, a, b, c, x[i + 10], 9, 38016083)
+      c = md5_gg(c, d, a, b, x[i + 15], 14, -660478335)
+      b = md5_gg(b, c, d, a, x[i + 4], 20, -405537848)
+      a = md5_gg(a, b, c, d, x[i + 9], 5, 568446438)
+      d = md5_gg(d, a, b, c, x[i + 14], 9, -1019803690)
+      c = md5_gg(c, d, a, b, x[i + 3], 14, -187363961)
+      b = md5_gg(b, c, d, a, x[i + 8], 20, 1163531501)
+      a = md5_gg(a, b, c, d, x[i + 13], 5, -1444681467)
+      d = md5_gg(d, a, b, c, x[i + 2], 9, -51403784)
+      c = md5_gg(c, d, a, b, x[i + 7], 14, 1735328473)
+      b = md5_gg(b, c, d, a, x[i + 12], 20, -1926607734)
+
+      a = md5_hh(a, b, c, d, x[i + 5], 4, -378558)
+      d = md5_hh(d, a, b, c, x[i + 8], 11, -2022574463)
+      c = md5_hh(c, d, a, b, x[i + 11], 16, 1839030562)
+      b = md5_hh(b, c, d, a, x[i + 14], 23, -35309556)
+      a = md5_hh(a, b, c, d, x[i + 1], 4, -1530992060)
+      d = md5_hh(d, a, b, c, x[i + 4], 11, 1272893353)
+      c = md5_hh(c, d, a, b, x[i + 7], 16, -155497632)
+      b = md5_hh(b, c, d, a, x[i + 10], 23, -1094730640)
+      a = md5_hh(a, b, c, d, x[i + 13], 4, 681279174)
+      d = md5_hh(d, a, b, c, x[i], 11, -358537222)
+      c = md5_hh(c, d, a, b, x[i + 3], 16, -722521979)
+      b = md5_hh(b, c, d, a, x[i + 6], 23, 76029189)
+      a = md5_hh(a, b, c, d, x[i + 9], 4, -640364487)
+      d = md5_hh(d, a, b, c, x[i + 12], 11, -421815835)
+      c = md5_hh(c, d, a, b, x[i + 15], 16, 530742520)
+      b = md5_hh(b, c, d, a, x[i + 2], 23, -995338651)
+
+      a = md5_ii(a, b, c, d, x[i], 6, -198630844)
+      d = md5_ii(d, a, b, c, x[i + 7], 10, 1126891415)
+      c = md5_ii(c, d, a, b, x[i + 14], 15, -1416354905)
+      b = md5_ii(b, c, d, a, x[i + 5], 21, -57434055)
+      a = md5_ii(a, b, c, d, x[i + 12], 6, 1700485571)
+      d = md5_ii(d, a, b, c, x[i + 3], 10, -1894986606)
+      c = md5_ii(c, d, a, b, x[i + 10], 15, -1051523)
+      b = md5_ii(b, c, d, a, x[i + 1], 21, -2054922799)
+      a = md5_ii(a, b, c, d, x[i + 8], 6, 1873313359)
+      d = md5_ii(d, a, b, c, x[i + 15], 10, -30611744)
+      c = md5_ii(c, d, a, b, x[i + 6], 15, -1560198380)
+      b = md5_ii(b, c, d, a, x[i + 13], 21, 1309151649)
+      a = md5_ii(a, b, c, d, x[i + 4], 6, -145523070)
+      d = md5_ii(d, a, b, c, x[i + 11], 10, -1120210379)
+      c = md5_ii(c, d, a, b, x[i + 2], 15, 718787259)
+      b = md5_ii(b, c, d, a, x[i + 9], 21, -343485551)
+
+      a = safe_add(a, olda)
+      b = safe_add(b, oldb)
+      c = safe_add(c, oldc)
+      d = safe_add(d, oldd)
+    }
+    return [a, b, c, d]
+  }
+
+  /*
+  * Convert an array of little-endian words to a string
+  */
+  function binl2rstr (input) {
+    var i
+    var output = ''
+    for (i = 0; i < input.length * 32; i += 8) {
+      output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
+    }
+    return output
+  }
+
+  /*
+  * Convert a raw string to an array of little-endian words
+  * Characters >255 have their high-byte silently ignored.
+  */
+  function rstr2binl (input) {
+    var i
+    var output = []
+    output[(input.length >> 2) - 1] = undefined
+    for (i = 0; i < output.length; i += 1) {
+      output[i] = 0
+    }
+    for (i = 0; i < input.length * 8; i += 8) {
+      output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
+    }
+    return output
+  }
+
+  /*
+  * Calculate the MD5 of a raw string
+  */
+  function rstr_md5 (s) {
+    return binl2rstr(binl_md5(rstr2binl(s), s.length * 8))
+  }
+
+  /*
+  * Calculate the HMAC-MD5, of a key and some data (raw strings)
+  */
+  function rstr_hmac_md5 (key, data) {
+    var i
+    var bkey = rstr2binl(key)
+    var ipad = []
+    var opad = []
+    var hash
+    ipad[15] = opad[15] = undefined
+    if (bkey.length > 16) {
+      bkey = binl_md5(bkey, key.length * 8)
+    }
+    for (i = 0; i < 16; i += 1) {
+      ipad[i] = bkey[i] ^ 0x36363636
+      opad[i] = bkey[i] ^ 0x5C5C5C5C
+    }
+    hash = binl_md5(ipad.concat(rstr2binl(data)), 512 + data.length * 8)
+    return binl2rstr(binl_md5(opad.concat(hash), 512 + 128))
+  }
+
+  /*
+  * Convert a raw string to a hex string
+  */
+  function rstr2hex (input) {
+    var hex_tab = '0123456789abcdef'
+    var output = ''
+    var x
+    var i
+    for (i = 0; i < input.length; i += 1) {
+      x = input.charCodeAt(i)
+      output += hex_tab.charAt((x >>> 4) & 0x0F) +
+      hex_tab.charAt(x & 0x0F)
+    }
+    return output
+  }
+
+  /*
+  * Encode a string as utf-8
+  */
+  function str2rstr_utf8 (input) {
+    return unescape(encodeURIComponent(input))
+  }
+
+  /*
+  * Take string arguments and return either raw or hex encoded strings
+  */
+  function raw_md5 (s) {
+    return rstr_md5(str2rstr_utf8(s))
+  }
+  function hex_md5 (s) {
+    return rstr2hex(raw_md5(s))
+  }
+  function raw_hmac_md5 (k, d) {
+    return rstr_hmac_md5(str2rstr_utf8(k), str2rstr_utf8(d))
+  }
+  function hex_hmac_md5 (k, d) {
+    return rstr2hex(raw_hmac_md5(k, d))
+  }
+
+  function md5 (string, key, raw) {
+    if (!key) {
+      if (!raw) {
+        return hex_md5(string)
+      }
+      return raw_md5(string)
+    }
+    if (!raw) {
+      return hex_hmac_md5(key, string)
+    }
+    return raw_hmac_md5(key, string)
+  }
+
+  if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return md5
+    })
+  } else if (typeof module === 'object' && module.exports) {
+    module.exports = md5
+  } else {
+    $.md5 = md5;
+  }
+}(this))
+this.TWIST = this.TWIST || {};
 
 (function() {
 	"use strict";
+        
+//        var instanceServer;
+//        
+//	function Observer(cardsFire, card) {
+//              if(instanceServer) return instanceServer; 
+//              this.init();
+//	}
+//        
+//        var p = Observer.prototype = new EventEmitter();
+//        
+//        p.init = function(){
+//            instanceServer = this;
+//        };
 
-	/**
-	 * Static class utils
-	 * the library.
-	 * @object utils
-	 **/
-	var utils = gbjs.utils = gbjs.utils || {};
+        TWIST.Observer = new EventEmitter();
 })();
 /**
  * @module Info
  */
-this.gbjs = this.gbjs || {};
+this.TWIST = this.TWIST || {};
 
-(function() {
-	"use strict";
+(function () {
+    "use strict";
 
-	/**
-	 * TUPhom
-	 *
-	 * @example
-	 * gbjs.TUPhom([1, 2, 3])
-	 *
-	 * @param {Array<gbjs.Card>} handCards
-	 * @param {Array<Number>} cardsFire
-	 * @param {gbjs.Card<Object>} cardSelect
-	 * 
-	 * @return {Array<gbjs.Card>}
-	 */
-	function TUPhom(cardsFire, card) {
-		if(!(this instanceof TUPhom)) {
-			return new TUPhom(cardsFire, card);
-		}
+    /**
+     * TLMN Logic
+     *
+     * @example
+     * gbjs.TLMNLogic([1, 2, 3])
+     *
+     * @param {Array<gbjs.Card>} handCards
+     * @param {Array<Number>} cardsFire
+     * @param {gbjs.Card<Object>} cardSelect
+     * 
+     * @return {Array<gbjs.Card>}
+     */
+    function TLMNLogic(cardsFire, card) {
+        if (!(this instanceof TLMNLogic)) {
+            return new TLMNLogic(cardsFire, card);
+        }
 
-		/**
-		 * @protected
-		 * @type {gbjs.Card<Object>}
-		 */
-		this.card = card;
+        /**
+         * @protected
+         * @type {gbjs.Card<Object>}
+         */
+        this.card = card;
 
-		/**
-		 * @protected
-		 * @type {gbjs.HandContainer<Object>}
-		 */
-		this.parent = this.card.parent;
-		/**
-		 * @protected
-		 * @type {String}
-		 */
-		this.value = this.card.getValue();
-		/**
-		 * @protected
-		 * @type {Number}
-		 */
-		this.index = this.parent.getChildIndex(this.card);
+        /**
+         * @protected
+         * @type {gbjs.HandContainer<Object>}
+         */
+        this.parent = this.card.parent;
+        /**
+         * @protected
+         * @type {String}
+         */
+        this.value = this.card.getValue();
+        /**
+         * @protected
+         * @type {Number}
+         */
+        this.index = this.parent.getChildIndex(this.card);
 
-		/**
-		 * @protected
-		 * @type {Number}
-		 */
-		this.rank = TUPhom.getRank(this.value);
+        /**
+         * @protected
+         * @type {Number}
+         */
+        this.rank = this.getRank(this.value);
 
-		/**
-		 * @protected
-		 * @type {Array<gbjs.Card>}
-		 */
-		this.handCards = this.parent.children;
-		/**
-		 * @protected
-		 * @type {Array<Number>}
-		 */
-		this.cardsFire = cardsFire;
-	}
-
-
-	/**
-	 * @return {Array<gbjs.Card>}
-	 */
-	TUPhom.prototype.getCards = function() {
-		var spec;
-		var self = this;
-		var cardsFire = self.cardsFire;
-		if (self.value > self._getMinPush() 
-			&& cardsFire.length != 2 
-			&& cardsFire.length != 1){
-			return [];
-		}
+        /**
+         * @protected
+         * @type {Array<gbjs.Card>}
+         */
+        this.handCards = this.parent.children;
+        /**
+         * @protected
+         * @type {Array<Number>}
+         */
+        this.cardsFire = cardsFire;
+    }
 
 
-		cardsFire.sort(function(a, b) {
-			return (a > b);
-		});
+    /**
+     * @return {Array<gbjs.Card>}
+     */
+    var p = TLMNLogic.prototype;
 
-		if(cardsFire.length === 1) {
-			// nguoi choi danh 2
-			if(cardsFire[0] >=48) {
-				return self._getCardsChat2();
-			}
-		} else {
-			// phom 33 doi thong, 4 doi thong tu quy
-			if(TUPhom.getRank(cardsFire[0]) == TUPhom.getRank(cardsFire[1])) {
-				//get phom dac biet 3doi thong, 4 doi thong
-				spec = TUPhom.getPhomSpecial(cardsFire);
-				if(spec > 0) {
-					return self._getArrSpecialSuit(spec);
-				} else {
-					//doi 2
-					if(cardsFire.length ==2 && cardsFire[0] > 47) {
-						return self._getChatDoi2();
-					}
-					//truong hop 2 con tro len thuong
-					return self._getSelectNgang();
-				}
-			} else {
-				return this._getDoc();
-			}
-		}
-
-		return [];
-	}
-
-	/**
-	 * @return {Array<gbjs.Card>}
-	 */
-	TUPhom.prototype._getCardsChat2 = function() {
-		var cards = this._getTuQuy();
-		if(cards.length == 0) {
-			cards = this._getDoithong(4);
-		}
-		if(cards.length == 0) {
-			cards = this._getDoithong(3);
-		}
-		return cards;
-	}
-
-	/**
-	 * @return {Array<gbjs.Card>}
-	 */
-	TUPhom.prototype._getChatDoi2 = function() {
-		var cards = this._getTuQuy();
-		if(cards.length == 0) {
-			cards = this._getDoithong(4);
-		}
-		return cards;
-	}
-
-	/**
-	 * @return {Array<gbjs.Card>}
-	 */
-	TUPhom.prototype._getTuQuyTohon = function() {
-		var self = this;
-		var cardFire = this.cardsFire[0];
-		var i = 0;
-		if(TUPhom.getRank(cardFire) > this.rank) {
-			return [];
-		};
-		return this._getTuQuy();
-	}
-
-	/**
-	 * @return {String}
-	 */
-	TUPhom.prototype._getMinPush = function() {
-		return this.handCards[this.handCards.length -1].getValue();
-	}
-
-	/**
-	 * @param  {gbjs.Card} cardSelect
-	 * @param {Number} sodoithong
-	 * @return {Array}
-	 */
-	TUPhom.prototype._getSodoithongChon = function(sodoithong) {
-		if(TUPhom.getRank(this.cardsFire[0]) > this.rank) {
-			return;
-		}
-		return this._getDoithong(sodoithong);
-	}
+    p.getCards = function () {
+        var spec;
+        var self = this;
+        var cardsFire = self.cardsFire;
+        if (self.value > self._getMinPush()
+                && cardsFire.length != 2
+                && cardsFire.length != 1) {
+            return [];
+        }
 
 
-	/**
-	 * @param  {Number} cardSelect
-	 * @return {Array}
-	 */
-	TUPhom.prototype._getTuQuy = function() {
-		var self = this;
-		var results = _.filter(self.handCards, function(card) {
-			return (TUPhom.getRank(card.getValue()) == self.rank);
-		});
-		if(results.length < 4) {
-			results = [];
-		}
-		return results;
-	}
+        cardsFire.sort(function (a, b) {
+            return (a > b);
+        });
 
-	/**
-	 * @param  {Number} cardSelect
-	 * @param {Number} sodoithong
-	 */
-	TUPhom.prototype._getDoithong = function(sodoithong) {
-		var results = [];
-		var rank = this.rank;
-		var indexCard = this.index;
-		for(var i = 0; i < sodoithong; i++) {
-			var dudoi = 0;
-			for(var j  = indexCard + i; j < this.handCards.length; j++) {
-				if(TUPhom.getRank(this.handCards[j].getValue()) == rank) {
-					dudoi++;
-					results.push(this.handCards[j]);
-					if(dudoi == 2) {
-						break;
-					}
-				}
-			}
+        if (cardsFire.length === 1) {
+            // nguoi choi danh 2
+            if (cardsFire[0] >= 48) {
+                return self._getCardsChat2();
+            }
+        } else {
+            // phom 33 doi thong, 4 doi thong tu quy
+            if (this.getRank(cardsFire[0]) == this.getRank(cardsFire[1])) {
+                //get phom dac biet 3doi thong, 4 doi thong
+                spec = this.getPhomSpecial(cardsFire);
+                if (spec > 0) {
+                    return self._getArrSpecialSuit(spec);
+                } else {
+                    //doi 2
+                    if (cardsFire.length == 2 && cardsFire[0] > 47) {
+                        return self._getChatDoi2();
+                    }
+                    //truong hop 2 con tro len thuong
+                    return self._getSelectNgang();
+                }
+            } else {
+                return this._getDoc();
+            }
+        }
 
-			if (dudoi<2){
-				results = [];
-				break;
-			}
-			rank++;
-			
-		}
-		if(results.length/2 !=sodoithong) {
-			results = [];
-		}
-		return results;
-	}
+        return [];
+    }
 
-	/**
-	 * @method _getArrSpecialSuit
-	 * @param {Number} sodoithong
-	 * @return {Number}
-	 */
-	TUPhom.prototype._getArrSpecialSuit = function(sodoithong) {
-		var results = [];
-		switch(sodoithong) {
-			case 3:
-				// tim 3 doi thong to hon or bang
-				results = this._getDoithong(sodoithong);
-				if(results.length ==0) {
-					//tim them tu quy
-					results = this._getTuQuy();
-				}
-			break;
-			case 4:
-				results = this._getDoithong(sodoithong);
-			break;
-			case 5:
-				results = this._getTuQuyTohon();
-				if(results.length == 0) {
-					results = this._getDoithong(3);
-				}
-			break;
-		}
-		return results;
-	}
+    /**
+     * @return {Array<gbjs.Card>}
+     */
+    p._getCardsChat2 = function () {
+        var cards = this._getTuQuy();
+        if (cards.length == 0) {
+            cards = this._getDoithong(4);
+        }
+        if (cards.length == 0) {
+            cards = this._getDoithong(3);
+        }
+        return cards;
+    }
 
-	/**
-	 * @method _getSelectNgang
-	 * @return {Array}
-	 */
-	TUPhom.prototype._getSelectNgang = function () {
-		var self = this;
-		var cards = [];
-		var cfl = self.cardsFire.length;
-		//cards
-		cards = self.getCartsByRank(self.rank);
+    /**
+     * @return {Array<gbjs.Card>}
+     */
+    p._getChatDoi2 = function () {
+        var cards = this._getTuQuy();
+        if (cards.length == 0) {
+            cards = this._getDoithong(4);
+        }
+        return cards;
+    }
 
-		if(cards.length < cfl.length) {
-			return [];
-		}
-		if(cfl == 2 && TUPhom.getRank(self.cardsFire[0]) == self.rank) {
-			var max1 = self.cardsFire[1] % 4;
-			var max2 = cards[0].getValue() % 4;
-			var max3 = cards[1].getValue() % 4;
-			if(max2 < max3) {
-				max2 = max3;
-			}
+    /**
+     * @return {Array<gbjs.Card>}
+     */
+    p._getTuQuyTohon = function () {
+        var self = this;
+        var cardFire = this.cardsFire[0];
+        var i = 0;
+        if (this.getRank(cardFire) > this.rank) {
+            return [];
+        }
+        ;
+        return this._getTuQuy();
+    }
 
-			if(max1 > max2) {
-				cards = [];
-			}
-		} else if(self.rank > TUPhom.getRank(self.cardsFire[0])){
-			cards = cards.slice(0, cfl - 1);
-			if(cards.indexOf(self.card) == -1) {
-				cards.push(self.card);
-			}
-		} else {
-			cards = [];
-		}
-		return cards;
-	}
+    /**
+     * @return {String}
+     */
+    p._getMinPush = function () {
+        return this.handCards[this.handCards.length - 1].getValue();
+    }
+
+    /**
+     * @param  {gbjs.Card} cardSelect
+     * @param {Number} sodoithong
+     * @return {Array}
+     */
+    p._getSodoithongChon = function (sodoithong) {
+        if (this.getRank(this.cardsFire[0]) > this.rank) {
+            return;
+        }
+        return this._getDoithong(sodoithong);
+    }
 
 
-	/**
-	 * @method getCartByRank
-	 * 
-	 * @return {Number} rank
-	 * @return {gbjs.Card}
-	 */
-	TUPhom.prototype.getCartByRank = function(rank) {
-		return _.find(this.handCards, function(card) {
-			return (TUPhom.getRank(card.getValue()) == rank);
-		});
-	}
+    /**
+     * @param  {Number} cardSelect
+     * @return {Array}
+     */
+    p._getTuQuy = function () {
+        var self = this;
+        var results = _.filter(self.handCards, function (card) {
+            return (this.getRank(card.getValue()) == self.rank);
+        });
+        if (results.length < 4) {
+            results = [];
+        }
+        return results;
+    }
 
-	/**
-	 * @method getCartByRank
-	 * 
-	 * @return {Number} rank
-	 * @return {<Array<gbjs.Card>}
-	 */
-	TUPhom.prototype.getCartsByRank = function(rank) {
-		return _.filter(this.handCards, function(card) {
-			return (TUPhom.getRank(card.getValue()) == rank);
-		});
-	}
+    /**
+     * @param  {Number} cardSelect
+     * @param {Number} sodoithong
+     */
+    p._getDoithong = function (sodoithong) {
+        var results = [];
+        var rank = this.rank;
+        var indexCard = this.index;
+        for (var i = 0; i < sodoithong; i++) {
+            var dudoi = 0;
+            for (var j = indexCard + i; j < this.handCards.length; j++) {
+                if (this.getRank(this.handCards[j].getValue()) == rank) {
+                    dudoi++;
+                    results.push(this.handCards[j]);
+                    if (dudoi == 2) {
+                        break;
+                    }
+                }
+            }
 
-	/**
-	 * @method isUndefined
-	 * 
-	 * @return {boolean}
-	 */
-	TUPhom.isUndefined = function(fn) {
-		return (typeof(fn) == 'undefined');
-	}
+            if (dudoi < 2) {
+                results = [];
+                break;
+            }
+            rank++;
 
-	/**
-	 * @method _getDoc
-	 * 
-	 * @return {Array<Null, gbjs.Card<Object>>}
-	 */
-	TUPhom.prototype._getDoc = function() {
-		var self = this;
-		var results = [];
-		var card = self.card;
-		var rankOfCardSelect = self.rank;
-		var rankOfCardFire = TUPhom.getRank(self.cardsFire[0]);
-		if(rankOfCardSelect < rankOfCardFire) {
-			return [];
-		}
-		results.push(card);
-		for(var i = 1; i < this.cardsFire.length; i++) {
-			rankOfCardSelect++;
+        }
+        if (results.length / 2 != sodoithong) {
+            results = [];
+        }
+        return results;
+    }
 
-			card = _.find(self.handCards, function(handCard) {
-				if(TUPhom.getRank(handCard.getValue()) == rankOfCardSelect) {
-					if(i != (self.cardsFire.length - 1)) {
-						return true;
-					}
-					if(handCard.getValue() > self.cardsFire[i]) {
-						return true;
-					}
-				}
-				return false;
-			})
-			if(!TUPhom.isUndefined(card)) {
-				results.push(card);
-			}  else {
-				return [];
-			}
-			
-		}
-		return results;
-	}
+    /**
+     * @method _getArrSpecialSuit
+     * @param {Number} sodoithong
+     * @return {Number}
+     */
+    p._getArrSpecialSuit = function (sodoithong) {
+        var results = [];
+        switch (sodoithong) {
+            case 3:
+                // tim 3 doi thong to hon or bang
+                results = this._getDoithong(sodoithong);
+                if (results.length == 0) {
+                    //tim them tu quy
+                    results = this._getTuQuy();
+                }
+                break;
+            case 4:
+                results = this._getDoithong(sodoithong);
+                break;
+            case 5:
+                results = this._getTuQuyTohon();
+                if (results.length == 0) {
+                    results = this._getDoithong(3);
+                }
+                break;
+        }
+        return results;
+    }
 
-	/**
-	 * @method getRank
-	 * 
-	 * @param  {Card<Object>} card
-	 * @return {Number}
-	 */
-	TUPhom.getRank = function(card) {
-		return Math.floor(card/4);
-	}
+    /**
+     * @method _getSelectNgang
+     * @return {Array}
+     */
+    p._getSelectNgang = function () {
+        var self = this;
+        var cards = [];
+        var cfl = self.cardsFire.length;
+        //cards
+        cards = self.getCartsByRank(self.rank);
 
-	/**
-	 * @method getPhomSpecial
-	 * 
-	 * @return {Array} cards
-	 * @return {Number}
-	 */
-	TUPhom.getPhomSpecial = function(cards) {
-		var result = 0, rank1, rank2;
-		switch(cards.length) {
-			// check tu quy
-			case 4:
-				rank1 = TUPhom.getRank(cards[0]);
-				rank2 = TUPhom.getRank(cards[1]);
-				if(rank1 == rank2) {
-					result = 5;
-				}
-			break;
-			// check đôi thông
-			case 6:
-				rank1 = TUPhom.getRank(cards[0]);
-				rank2 = TUPhom.getRank(cards[2]);
-				if (rank1 == (rank2 - 1)){
-					result = 3; //"3 ĐÔI THÔNG";
-				}
-			break;
-			case 8:
-				rank1 = TUPhom.getRank(cards[0]);;
-				rank2 = TUPhom.getRank(cards[2]);;
-				if (rank1 == (rank2 - 1)){
-					result = 4; //"4 ĐÔI THÔNG";
-				}
-			break;
-		}
+        if (cards.length < cfl.length) {
+            return [];
+        }
+        if (cfl == 2 && this.getRank(self.cardsFire[0]) == self.rank) {
+            var max1 = self.cardsFire[1] % 4;
+            var max2 = cards[0].getValue() % 4;
+            var max3 = cards[1].getValue() % 4;
+            if (max2 < max3) {
+                max2 = max3;
+            }
 
-		return result;
-	}
+            if (max1 > max2) {
+                cards = [];
+            }
+        } else if (self.rank > this.getRank(self.cardsFire[0])) {
+            cards = cards.slice(0, cfl - 1);
+            if (cards.indexOf(self.card) == -1) {
+                cards.push(self.card);
+            }
+        } else {
+            cards = [];
+        }
+        return cards;
+    }
 
-	gbjs.TUPhom = TUPhom;
+
+    /**
+     * @method getCartByRank
+     * 
+     * @return {Number} rank
+     * @return {gbjs.Card}
+     */
+    p.getCartByRank = function (rank) {
+        return _.find(this.handCards, function (card) {
+            return (this.getRank(card.getValue()) == rank);
+        });
+    }
+
+    /**
+     * @method getCartByRank
+     * 
+     * @return {Number} rank
+     * @return {<Array<gbjs.Card>}
+     */
+    p.getCartsByRank = function (rank) {
+        var _self = this;
+        return _.filter(this.handCards, function (card) {
+            return (_self.getRank(card.getValue()) == rank);
+        });
+    }
+
+    /**
+     * @method isUndefined
+     * 
+     * @return {boolean}
+     */
+    p.isUndefined = function (fn) {
+        return (typeof (fn) == 'undefined');
+    }
+
+    /**
+     * @method _getDoc
+     * 
+     * @return {Array<Null, gbjs.Card<Object>>}
+     */
+    p._getDoc = function () {
+        var self = this;
+        var results = [];
+        var card = self.card;
+        var rankOfCardSelect = self.rank;
+        var rankOfCardFire = this.getRank(self.cardsFire[0]);
+        if (rankOfCardSelect < rankOfCardFire) {
+            return [];
+        }
+        results.push(card);
+        for (var i = 1; i < this.cardsFire.length; i++) {
+            rankOfCardSelect++;
+
+            card = _.find(self.handCards, function (handCard) {
+                if (this.getRank(handCard.getValue()) == rankOfCardSelect) {
+                    if (i != (self.cardsFire.length - 1)) {
+                        return true;
+                    }
+                    if (handCard.getValue() > self.cardsFire[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+            if (!this.isUndefined(card)) {
+                results.push(card);
+            } else {
+                return [];
+            }
+
+        }
+        return results;
+    }
+
+    /**
+     * @method getRank
+     * 
+     * @param  {Card<Object>} card
+     * @return {Number}
+     */
+    p.getRank = function (card) {
+        return Math.floor(card / 4);
+    }
+
+    /**
+     * @method getPhomSpecial
+     * 
+     * @return {Array} cards
+     * @return {Number}
+     */
+    p.getPhomSpecial = function (cards) {
+        var result = 0, rank1, rank2;
+        switch (cards.length) {
+            // check tu quy
+            case 4:
+                rank1 = this.getRank(cards[0]);
+                rank2 = this.getRank(cards[1]);
+                if (rank1 == rank2) {
+                    result = 5;
+                }
+                break;
+                // check đôi thông
+            case 6:
+                rank1 = this.getRank(cards[0]);
+                rank2 = this.getRank(cards[2]);
+                if (rank1 == (rank2 - 1)) {
+                    result = 3; //"3 ĐÔI THÔNG";
+                }
+                break;
+            case 8:
+                rank1 = this.getRank(cards[0]);
+                ;
+                rank2 = this.getRank(cards[2]);
+                ;
+                if (rank1 == (rank2 - 1)) {
+                    result = 4; //"4 ĐÔI THÔNG";
+                }
+                break;
+        }
+
+        return result;
+    }
+
+    TWIST.TLMNLogic = TLMNLogic;
 })();
 this.FATE = this.FATE || {};
 
 (function() {
 	"use strict";
         
+        var instanceServer;
+        
 	function MockupServer(cardsFire, card) {
-
-		/**
-		 * @protected
-		 * @type {gbjs.Card<Object>}
-		 */
-		this.card = card;
-
-		/**
-		 * @protected
-		 * @type {gbjs.HandContainer<Object>}
-		 */
-		this.parent = this.card.parent;
-		/**
-		 * @protected
-		 * @type {String}
-		 */
-		this.value = this.card.getValue();
-		/**
-		 * @protected
-		 * @type {Number}
-		 */
-		this.index = this.parent.getChildIndex(this.card);
-
-		/**
-		 * @protected
-		 * @type {Number}
-		 */
-		this.rank = TUPhom.getRank(this.value);
-
-		/**
-		 * @protected
-		 * @type {Array<gbjs.Card>}
-		 */
-		this.handCards = this.parent.children;
-		/**
-		 * @protected
-		 * @type {Array<Number>}
-		 */
-		this.cardsFire = cardsFire;
+              if(instanceServer) return instanceServer; 
+              this.init();
 	}
+        
+        var p = MockupServer.prototype;
+        
+        p.init = function(){
+            this.rooms = [];
+        };
 
-
-	FATE.MockupServer = MockupServer;
+        FATE.MockupServer = MockupServer;
 })();
 this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    
+
+    var imagePath = location.origin + location.pathname + '../src/images/card/cards.png';
+
     function Card(position) {
         if (typeof position !== 'number' || position < 0 || position > 51)
             position = -1;
         this.initialize(position);
     }
 
-    Card.userCard = {width: 90, height: 123, seperator: 91, cardDraggable: true, selectedHeight: 30, scale: 1};
-    Card.playerCard = {width: 45, height: 61.5, seperator: 0, cardDraggable: false, scale: 0.5};
-    Card.draftCard = {width: 45, height: 61.5, seperator: 46, scale: 0.5};
+    Card.size = {width: 88, height: 115};
+    Card.userCard = {width: 53, height: 69, seperator: 59, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.6};
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
 
@@ -498,7 +872,6 @@ this.TWIST = this.TWIST || {};
     Card.newImage = {width: 43.2 * 0.7, height: 57.6 * 0.7, seperator: 21, baiDraggable: false, selectedHeight: 30};
 
     Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
-    Card.size = {  width: 88,height: 115};
 
     Card.Suite = {
         3: 0, //co = 39/13
@@ -544,12 +917,11 @@ this.TWIST = this.TWIST || {};
 
 
         var cards = new Image();
-        cards.src = "img/gamePlay/canvas/cards.png";
+        cards.src = imagePath;
         var bg = new createjs.Bitmap(cards);
-        bg.sourceRect = $.extend({},Card.size);
-
+        bg.sourceRect = $.extend({}, Card.size);
         if (value !== -1) {
-            Card.RankMapIndex = Card.CardIndexType || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+            Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
             var rankName = Card.RankMapIndex[rankSuite.rank];
             var suidName = Card.SuitMap[rankSuite.suite];
             bg.sourceRect.x = (rankName - 1) * Card.size.width;
@@ -558,6 +930,32 @@ this.TWIST = this.TWIST || {};
             bg.sourceRect.x = 0;
             bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
         }
+
+        this.inPhom = new createjs.Bitmap(cards);
+        this.inPhom.sourceRect = {
+            width: 25,
+            height: 25,
+            x: Card.size.width * 1,
+            y: Card.size.height * Card.SuitNameMap.length
+        };
+        this.inPhom.set({
+            x: 55,
+            y: 10
+        });
+        this.inPhom.visible = false;
+
+        this.border = new createjs.Bitmap(cards);
+        this.border.sourceRect = {
+            width: Card.size.width,
+            height: Card.size.height,
+            x: Card.size.width * 2,
+            y: Card.size.height * Card.SuitNameMap.length
+        };
+        this.border.set({
+            x: -2,
+            y: -1.5
+        });
+        this.border.visible = this.showBorder;
 
         this.addChild(bg);
     };
@@ -672,7 +1070,7 @@ this.TWIST = this.TWIST || {};
                     this.cardValue = cardValue;
                     //this.updateCache();
                 })
-                .to({scaleX: this.width / Card.userCard.width, x: oldX}, 150).call(function () {
+                .to({scaleX: Card.userCard.scale, x: oldX}, 150).call(function () {
             this.setInPhom(this.isInPhom);
             if (typeof callback == "function") {
                 callback();
@@ -872,16 +1270,11 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         this.addEventListener('click', function (e) {
             if (!_self.isDragging) {
-                try {
-//                            console.log(_self.position);
-                    if (!_self.selected) {
-                        $rootScope.playerEvent = {evt: "cardSelected", data: _self};
-                        $rootScope.digest();
-                    }
-                    _self.setSelected(!_self.selected);
-                } catch (e) {
-                    console.warn(e);
+                if (!_self.selected) {
+                    TWIST.Observer.emit("cardSelected", _self);
                 }
+                _self.setSelected(!_self.selected);
+
             }
         });
     };
@@ -945,7 +1338,7 @@ this.TWIST = this.TWIST || {};
     }
 
     Desk.playerPositions = {
-        4: [{x: 12, y: 410}, {x: 1110, y: 184}, {x: 583, y: 17}, {x: 71, y: 193}],
+        4: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 450, y: 17}, {x: 110, y: 160}],
         2: [{x: 12, y: 410}, {x: 583, y: 17}],
         5: [{x: 12, y: 410}, {x: 1110, y: 184}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 193}],
         9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
@@ -966,19 +1359,19 @@ this.TWIST = this.TWIST || {};
     p.container_initialize = p.initialize;
 
 
-    Desk.width = 1280;
-    Desk.height = 720;
+    Desk.width = 1000;
+    Desk.height = 580;
 
     // vi tri gua ban
-    Desk.position = {x: 640, y: 360};
+    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) /2 , y: (Desk.height - TWIST.Card.playerCard.height)/2};
 
-    Desk.draftPosition = {x: 500, y: 280, rotateDeg: 0};
+    Desk.draftPosition = {x: Desk.width/2, y: Desk.height/5, rotateDeg: 0};
 
     p.initialize = function (gameType) {
         this.container_initialize();
         var _self = this;
-        gameType = gameType || {};
-
+        this.gameType = gameType || {};
+        this.config = {};
         this.initPosition(gameType);
 
         var deckCard = this.createDeckCard();
@@ -1043,42 +1436,39 @@ this.TWIST = this.TWIST || {};
             handPosition[i] = {
                 x: 110,
                 y: 10,
-                align: 'right'
+                align: 'left'
             };
         }
 
         if (maxUser === 4) {
             playerPosition = Desk.playerPositions[maxUser];
-            handPosition[0] = {x: 150, y: -110, align: 'center'};
-            handPosition[1] = {x: -50, y: 20, align: 'left'};
+            handPosition[0] = {x: 150, y: -50, align: 'center'};
+            handPosition[1] = {x: -50, y: 20, align: 'right'};
         }
 
-        this.playerPosition = playerPosition;
-        this.handPosition = handPosition;
-        this.draftPosition = draftPosition;
-        this.NumberCardInHand = gameType.NumberCardInHand;
+        this.config.playerPositions = playerPosition;
+        this.config.handPositions = handPosition;
+        this.config.draftPositions = draftPosition;
     };
 
-    p.generateCards = function (numberPlayer) {
-        if (typeof numberPlayer === 'undefined')
-            numberPlayer = 4;
-        var numberCard = this.NumberCardInHand * numberPlayer;
-        for (var i = 0; i < numberCard; i++) {
+    p.generateCards = function (numberCards) {
+        numberCards = numberCards || 0;
+        for (var i = 0; i < numberCards; i++) {
             var cardImage = new TWIST.Card();
+            var scale = TWIST.Card.playerCard.scale;
             cardImage.set({
-                scaleX: 0.8,
-                scaleY: 0.8
+                scaleX: scale,
+                scaleY: scale
             });
             this.deckCard.addChild(cardImage);
         }
         this.deckCard.visible = true;
     };
 
-    p.generateDealCards = function (numberPlayer) {
-        if (typeof numberPlayer === 'undefined')
-            numberPlayer = 4;
-        var numberCard = numberPlayer;
-        for (var i = 0; i < numberCard; i++) {
+    p.generateDealCards = function (numberCards) {
+        numberCards = numberCards || 0;
+//        con
+        for (var i = 0; i < numberCards; i++) {
             var cardImage = new TWIST.Card();
             cardImage.set({
                 scaleX: 0.5,
@@ -1210,10 +1600,10 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     function Timer(params) {
-        this.set({x: 50, y: 50, radius: 43, startTime: 0, totalTime: 0, remainingTime: 0, currentTimer: 0, delayTime: 100});
+        this.set({startTime: 0, totalTime: 0, remainingTime: 0, currentTimer: 0});
         this.initialize(params)
     }
-    
+
     var p = Timer.prototype = new createjs.Container();
     p.Container_initialize = p.initialize;
     p.initialize = function (params) {
@@ -1226,23 +1616,19 @@ this.TWIST = this.TWIST || {};
         this.endAngle = 0;
 
     };
+
     p.drawPercentRect = function (currentTimer) {
         this.timerLine.graphics.clear();
-        this.startAngle = Math.PI * 3 / 2 - currentTimer * Math.PI * 2;
-        this.endAngle = Math.PI * 2 - Math.PI * 1 / 2;
-        this.timerLine.graphics.s("#fee802").ss(14).arc(this.x, this.y, this.radius, this.startAngle, this.endAngle, false);
+        this.startAngle = -Math.PI * 1 / 2;
+        this.endAngle = -Math.PI * 1 / 2 + currentTimer * Math.PI * 2;
+        this.timerLine.graphics.s("#fee802").ss(this.strokeThick).arc(this.radius, this.radius, this.radius, this.startAngle, this.endAngle, false);
     };
-    p.setCounter = function (totalTime, remainingTime, callback) {
-        if (typeof totalTime == 'undefined' || totalTime <= 0)
-            return;
-        if (typeof remainingTime == 'undefined' || remainingTime < 0 || remainingTime > totalTime)
-            remainingTime = totalTime;
-        if (typeof callback == 'function')
-            this.callback = callback;
-        this.totalTime = totalTime;
-        this.remainingTime = remainingTime;
-        this.startTime = (new Date()).getTime() - (totalTime - remainingTime);
-        this.currentTimer = (this.totalTime - remainingTime) / this.totalTime
+
+    p.setCounter = function (totalTime, remainingTime) {
+        this.totalTime = totalTime || 20000;
+        this.remainingTime = remainingTime || 20000;
+        this.startTime = (new Date()).getTime() - (this.totalTime - this.remainingTime);
+        this.currentTimer = (this.totalTime - this.remainingTime) / this.totalTime;
     };
     p.clearTimer = function () {
         if (this.tween) {
@@ -1253,29 +1639,26 @@ this.TWIST = this.TWIST || {};
         this.remainingTime = 0;
         this.currentTimer = 0;
         if (this.callback) {
-            this.callback = null;
-            delete this.callback
+            delete this.callback;
         }
     };
     p.tick = function () {
-        if (this.currentTimer >= 1 || this.totalTime == 0 || !this.totalTime) {
-            if (this.callback)
-                this.callback();
-            this.clearTimer();
-            return
-        }
-        ;
         this.currentTimer = ((new Date()).getTime() - this.startTime) / this.totalTime;
+        if (this.currentTimer >= 1) {
+            this.clearTimer();
+            return;
+        }
         this.drawPercentRect(this.currentTimer);
     };
 
-    p.startTimer = function (totalTime, remainingTime, callback) {
-        this.timerLine.graphics.clear();
-        this.setCounter(totalTime, remainingTime, callback);
+    p.startTimer = function (totalTime, remainingTime) {
+        this.clearTimer();
+        this.setCounter(totalTime, remainingTime);
+        var _self = this;
         this.tween = createjs.Tween.get(this.timerLine)
-                .to({endAngle: 2 * Math.PI}, remainingTime, createjs.Ease.linear)
+                .to({}, remainingTime)
                 .call(function () {
-                    this.graphics.clear();
+                    _self.clearTimer();
                 });
         var _self = this;
         this.tween.addEventListener("change", function () {
@@ -1289,7 +1672,6 @@ this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    console.log(location);
 
     var imagePath = location.origin + location.pathname + '../src/images/player/';
     var _animationTime = 300;
@@ -1310,14 +1692,13 @@ this.TWIST = this.TWIST || {};
 
     Player.handConfig = {x: 100, y: 100};
 
-    Player.draftCardsConfig = {x: 100, y: 100, align : "left"};
+    Player.draftCardsConfig = {x: 100, y: 100, align: "left"};
 
     var p = Player.prototype = new createjs.Container();
 
     p.contructor_initialize = p.initialize;
 
     p.initialize = function (data) {
-        console.log(data);
         this.contructor_initialize();
         $.extend(this, data);
         this.initCanvas();
@@ -1326,34 +1707,51 @@ this.TWIST = this.TWIST || {};
     p.initCanvas = function () {
         var self = this;
         var config = this.config || {};
+        var avatarConfig = config.avartar || Player.avatarConfig;
 
-//        username container
-        
+        this.initUsername(config, self);
+        this.initAvatar(config, self);
+        this.initDraftCards(config, self);
+        this.initHandCards(config, self);
+        this.initChatMessage(config, self);
+        this.initMoneyEffect(config, self);
+        this.initStatus(config, self);
+        this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y, radius : avatarConfig.radius,strokeThick : 10 });
+
+        this.addChild(this.timer, this.avatarContainer, this.usernameContainer, this.draftCards, this.hand, this.status, this.chat, this.moneyChangeEffect);
+        this.render();
+    };
+
+    p.initUsername = function (config, self) {
         var usernameContainer = new createjs.Container();
         var usernameConfig = config.username || Player.usernameConfig;
-        $.extend(usernameContainer,usernameConfig);
+        $.extend(usernameContainer, usernameConfig);
 
-        var usernameText = new createjs.Text(Player.Defaults.UserName + ' ' + this.position, '18px Roboto Condensed', 'white');
+        var usernameText = new createjs.Text(this.username, '18px Roboto Condensed', 'white');
         usernameText.set({x: 50, y: 20, textAlign: 'center', textBaseline: 'bottom'});
-        var moneyText = new createjs.Text('1000', '14px Roboto Condensed', '#f3ba04');
+        var moneyText = new createjs.Text(this.money, '14px Roboto Condensed', '#f3ba04');
         moneyText.set({x: 50, y: 40, textAlign: 'center', textBaseline: 'bottom'});
         var usernameBg = new createjs.Shape();
         usernameBg.graphics.beginFill("black").drawRoundRectComplex(0, 0, usernameConfig.width, usernameConfig.height, 10, 10, 10, 10);
-        usernameBg.alpha = 0.4;
+        usernameBg.alpha = 0.2;
         usernameContainer.addChild(usernameBg, usernameText, moneyText);
         this.usernameContainer = usernameContainer;
+    };
 
-//        avatar container
+    p.initAvatar = function (config, self) {
+        //        avatar container
 
         var avatarContainer = new createjs.Container();
         var avatarConfig = config.avartar || Player.avatarConfig;
         var avatarImageDiameter = avatarConfig.innerRadius * 2;
-        $.extend(avatarContainer,avatarConfig);
+        $.extend(avatarContainer, avatarConfig);
 
         var avatarImage = new Image();
-        avatarImage.src = this.avatar || avatarConfig.AvatarDefault;
+        var avatarHash = md5(this.username);
+        var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
+        avatarImage.src = imagePath + 'avatars/' + avatarNumber + '.png';
         var avatarBitmap = new createjs.Bitmap(avatarImage);
-        avatarImage.onLoad = function () {
+        avatarImage.onload = function () {
             avatarBitmap.set({
                 width: avatarImageDiameter,
                 height: avatarImageDiameter,
@@ -1361,7 +1759,8 @@ this.TWIST = this.TWIST || {};
                 scaleY: avatarImageDiameter / avatarImage.height
             });
         };
-        
+        avatarBitmap.set({x : avatarConfig.radius - avatarConfig.innerRadius, y : avatarConfig.radius - avatarConfig.innerRadius})
+
         var maskShape = new createjs.Shape();
         maskShape.graphics.drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.innerRadius);
         avatarBitmap.mask = maskShape;
@@ -1370,41 +1769,60 @@ this.TWIST = this.TWIST || {};
         avatarBg.graphics.beginFill('#000').drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.radius);
         avatarBg.set({alpha: 0.7});
 
-        var roomMaster = new createjs.Bitmap(imagePath + 'icon_chuphong.png');
+        var roomMasterImage = new Image();
+        roomMasterImage.src = imagePath + 'icon_chuphong.png';
+        var roomMaster = new createjs.Bitmap(roomMasterImage);
         roomMaster.set({x: avatarImageDiameter * 0.7, y: avatarImageDiameter * 0.7,
-            name: "roomMaster", visible: true
+            name: "roomMaster", visible: this.isRoomMaster
         });
+        var roomMasterSize = avatarImageDiameter * 0.3;
+        roomMasterImage.onload = function () {
+            roomMaster.set({
+                width: roomMasterSize,
+                height: roomMasterSize,
+                scaleX: roomMasterSize / roomMasterImage.width,
+                scaleY: roomMasterSize / roomMasterImage.height
+            });
+        };
+
         var avatarHit = new createjs.Shape();
         avatarHit.graphics.beginFill('#fff').drawRect(0, 0, avatarImageDiameter, avatarImageDiameter);
         avatarContainer.hitArea = avatarHit;
 
         avatarContainer.addChild(avatarBg, avatarBitmap, roomMaster);
         this.avatarContainer = avatarContainer;
+    };
 
-//        draft cards
+    p.initDraftCards = function (config, self) {
+        //        draft cards
 
         var draftCardsConfig = config.draftCards || Player.draftCardsConfig;
         this.draftCards = new createjs.Container();
-        $.extend(this.draftCards,draftCardsConfig);
+        $.extend(this.draftCards, draftCardsConfig);
+    };
 
-//        hand container
-
-        var handConfig = config.hand || Player.handConfig;
+    p.initHandCards = function (config, self) {
+        //        hand container
+        var handConfig = config.handPositions || Player.handConfig;
         this.hand = new createjs.Container();
-        $.extend(this.hand,handConfig);
-        
+        $.extend(this.hand, handConfig);
+        var card = TWIST.Card.playerCard;
+        var radius = (card.width - 3) / 2;
+
         this.handCards = new createjs.Container();
         this.numberOfCards = new createjs.Container();
-        this.numberOfCards.set({x: 10, y: 10});
+        this.numberOfCards.set({x: 0, y: 0});
         var numberOfCardsBg = new createjs.Shape();
-        numberOfCardsBg.graphics.beginFill('#000').drawCircle(22.5, 31, 17);
-        numberOfCardsBg.set({alpha: 0.7, x: 0, y: 0, visible: false});
-        var numberOfCards = new createjs.Text("", '24px Roboto Condensed', '#7fc100');
-        numberOfCards.set({x: 22.5, y: 31, textAlign: 'center', visible: false, name: "numberOfCard", textBaseline: 'middle'});
+        numberOfCardsBg.graphics.beginFill('#000').drawCircle(card.width / 2, card.height / 2, radius);
+        numberOfCardsBg.set({alpha: 0.3, visible: false});
+        var numberOfCards = new createjs.Text("", (radius * 1.5) + 'px Roboto Condensed', '#7fc100');
+        numberOfCards.set({x: card.width / 2, y: card.height / 2, textAlign: 'center', visible: false, name: "numberOfCard", textBaseline: 'middle'});
         this.numberOfCards.addChild(numberOfCardsBg, numberOfCards);
-        
-        this.hand.addChild(this.handCards, this.numberOfCards);
 
+        this.hand.addChild(this.handCards, this.numberOfCards);
+    };
+
+    p.initChatMessage = function (config, self) {
         //show chat message
         this.chat = new createjs.Container();
         this.chat.set({name: 'chat'});
@@ -1412,7 +1830,9 @@ this.TWIST = this.TWIST || {};
         chatText.set({textAlign: 'center', textBaseline: 'bottom'});
         var chatBg = new createjs.Shape();
         this.chat.addChild(chatBg, chatText);
+    };
 
+    p.initMoneyEffect = function (config, self) {
         //show change money effect
         this.moneyChangeEffect = new createjs.Container();
         this.moneyChangeEffect.set({name: 'moneyChangeEffect', x: 50, y: 50});
@@ -1422,65 +1842,93 @@ this.TWIST = this.TWIST || {};
         moneyChangeText.set({x: 0, y: 10, textAlign: 'center', textBaseline: 'bottom'});
         moneyChangeText.shadow = new createjs.Shadow("#000", 0, 0, 10);
         this.moneyChangeEffect.addChild(moneyChangeBg, moneyChangeText);
+    };
 
+    p.initStatus = function (config, self) {
         //player status
         this.status = new createjs.Container();
         this.status.set({x: 50, y: 50});
         var statusBg = new createjs.Text();
         var statusText = new createjs.Text();
         this.status.addChild(statusBg, statusText);
-
-
-        this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y});
-
-        this.addChild(this.timer, this.avatarContainer, this.usernameContainer, this.draftCards, this.hand, this.status, this.chat, this.moneyChangeEffect);
     };
 
     p.render = function (player) {
-        this.setPlayerName(this.playerModel.userName);
-        this.setMoney(this.playerModel.money);
-        this.setRoomMaster(this.playerModel.isMaster);
+        this.setPlayerName(this.username);
+        this.setMoney(this.money);
+        this.setRoomMaster(this.isRoomMaster);
         return;
     };
 
+    p.setRemainingTime = function (remainingTime, totalTime) {
+        remainingTime = remainingTime || 20000;
+        totalTime = totalTime || 20000;
+        this.timer.startTimer(totalTime, remainingTime);
+    };
+    
+    p.clearTimer = function (remainingTime, totalTime) {
+        this.timer.clearTimer();
+    };
 
     p.setPlayerName = function (name) {
 
         var usernameContainer = this.usernameContainer;
-        if (!usernameContainer)
-            return;
-        usernameContainer.visible = true;
         var usernameText = usernameContainer.getChildAt(1);
         usernameText.text = name;
         var measuredWidth = usernameText.getMeasuredWidth();
-        if (measuredWidth > 140) {
-            var ratio = 140 / measuredWidth;
+        var usernameMaxWidth = Player.usernameConfig.width;
+        if (measuredWidth > usernameMaxWidth) {
+            var ratio = usernameMaxWidth / measuredWidth;
             var newLength = Math.round(usernameText.text.length * ratio) - 3;
             usernameText.text = usernameText.text.substring(0, newLength) + "...";
         }
     };
 
-
     p.setMoney = function (money) {
         var usernameContainer = this.usernameContainer;
-        this.playerModel.money = money;
-        if (!usernameContainer)
-            return;
-        usernameContainer.visible = true;
+        this.money = money;
         var moneyText = usernameContainer.getChildAt(2);
         moneyText.text = Global.numberWithDot(money);
-        return;
     };
 
-    p.setRoomMaster = function (roomMaster) {
-        var avatarContainer = this.avatarContainer;
-        if (!avatarContainer)
-            return;
-        var roomMasterImage = avatarContainer.getChildByName("roomMaster");
-        if (roomMaster)
-            roomMasterImage.visible = true;
+    p.setRoomMaster = function (roomMaster, oldRoomMasterPosition) {
+        if (typeof roomMaster === undefined)
+            roomMaster = this.isRoomMaster;
         else
-            roomMasterImage.visible = false;
+            this.isRoomMaster = roomMaster;
+        var roomMasterItem = this.avatarContainer.getChildByName("roomMaster");
+        roomMasterItem.visible = roomMaster;
+        if (roomMaster) {
+            var oldScale = {
+                scaleX: roomMasterItem.scaleX,
+                scaleY: roomMasterItem.scaleY
+            };
+            roomMasterItem.set({scaleX: 1, scaleY: 1});
+            var initGlobalPosition = roomMasterItem.globalPosition = roomMasterItem.globalToLocal(0, 0);
+            roomMasterItem.set(oldScale);
+
+            if (oldRoomMasterPosition) {
+                var initPosition = {
+                    x: roomMasterItem.x,
+                    y: roomMasterItem.y
+                };
+                var currentPosition = {
+                    x: initPosition.x + initGlobalPosition.x - oldRoomMasterPosition.x,
+                    y: initPosition.y + initGlobalPosition.y - oldRoomMasterPosition.y
+                };
+                roomMasterItem.set(currentPosition);
+                createjs.Tween.get(roomMasterItem)
+                        .to({
+                            x: initPosition.x,
+                            y: initPosition.y
+                        }, _animationTime).call(function () {
+
+                });
+
+            }
+        }
+
+        return roomMasterItem;
     };
 
     p.clearHand = function () {
@@ -1534,21 +1982,15 @@ this.TWIST = this.TWIST || {};
 
     p.renderCards = function (options) {
         var hand = this.hand;
-        if (!hand)
-            return;
-
         hand.visible = true;
 
-        this._renderHandCards(this.playerModel.handCards, options);
+        this._renderHandCards(this.handCards.cardList, options);
         var _self = this;
         if (this.hideCardLength) {
-            var cardNumberBg = hand.getChildAt(1);
-            cardNumberBg.visible = false;
-            var cardNumber = hand.getChildAt(2);
-            cardNumber.visible = false;
+            this.numberOfCards.visible = false;
         } else {
             setTimeout(function () {
-                _self.setNumberCards(_self.playerModel.handCards.length);
+                _self.setNumberCards(_self.handCards.cardList.length);
             }, 1000);
         }
 
@@ -1556,9 +1998,6 @@ this.TWIST = this.TWIST || {};
 
     p._renderHandCards = function (listCard, options) {
         var _self = this;
-        if (!listCard || listCard.length == 0)
-            return;
-
         options = options || {};
 
         this.handCards.removeAllChildren();
@@ -1566,7 +2005,7 @@ this.TWIST = this.TWIST || {};
         var handCards = this.handCards,
                 cardType = options.cardType || (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.playerCard),
                 numberCard = listCard.length,
-                desk = this.parent.parent.getChildByName('desk'),
+                desk = this.parent.parent.getChildAt(1),
                 dealTimeAnimation = 150,
                 eachCardDelay = 30,
                 animationTime,
@@ -1585,17 +2024,15 @@ this.TWIST = this.TWIST || {};
             if ((i == numberCard - 1) && !setReSort) {
                 options.reSort = true
             }
-            ;
             this.addHandCards(cardImage, options);
         }
     };
 
     p.setNumberCards = function (numOfCards) {
 
-        var cardNumberBg = this.hand.getChildAt(1);
-        var cardNumber = this.hand.getChildAt(2);
-
-        if (this.position != 0 && numOfCards > 0) {
+        var cardNumberBg = this.numberOfCards.getChildAt(0);
+        var cardNumber = this.numberOfCards.getChildAt(1);
+        if (this.position !== 0 && numOfCards > 0) {
             cardNumberBg.visible = true;
             cardNumber.visible = true;
             cardNumber.text = numOfCards;
@@ -1616,7 +2053,7 @@ this.TWIST = this.TWIST || {};
         var position = card.pos || handCards.children.length,
                 oldX = card.x,
                 oldY = card.y,
-                cardType = options.cardType || (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.playerCard);
+                cardType = options.cardType || (this.position === 0 ? TWIST.Card.userCard : TWIST.Card.playerCard);
         card.set({
             x: card.x - this.x - this.hand.x,
             y: card.y - this.y - this.hand.y,
@@ -1721,26 +2158,26 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.draftCardsInHand = function (data, options) {
+    p.draftCardsInHand = function (cardList, options) {
         var options = options || {},
                 cardsToDrash = [],
                 bai = TWIST.Card.draftCard,
-                cardsToDrash = this.getCardsInHand(data),
+                cardsToDrash = this.getCardsInHand(cardList),
                 draftCards = options.draftCards || this.draftCards;
         var newPosition = options.position || {
             x: draftCards.children.length * bai.seperator,
             y: 0
         };
-        if (this.draftCards.align == "right" && !options.position) {
-            newPosition.x = 300 - newPosition.x
+        if (this.draftCards.align === "right" && !options.position) {
+            newPosition.x = 300 - newPosition.x;
         }
         for (var i = 0, length = cardsToDrash.length; i < length; i++) {
             var card = cardsToDrash[i];
-            card.cardValue = data[i];
+            card.cardValue = cardList[i];
             var newOptions = $.extend(options, {
                 draftCards: draftCards,
                 position: newPosition,
-                reSort: i == length - 1
+                reSort: i === length - 1
             });
             this.draftSingleCard(card, newOptions);
             if (this.draftCards.align == "right" && !options.position) {
@@ -1749,7 +2186,7 @@ this.TWIST = this.TWIST || {};
                 newPosition.x += bai.seperator;
             }
         }
-        this.numberOfCards.text = this.handCards.children.length;
+        this.setNumberCards(this.handCards.children.length);
     };
 
     p.draftSingleCard = function (card, options) {
@@ -1776,7 +2213,7 @@ this.TWIST = this.TWIST || {};
             scaleX: bai.scale,
             scaleY: bai.scale
         }, _animationTime * 1 / 2).call(function () {
-            if (_self.position != 0) {
+            if (_self.position !== 0) {
                 this.openCard(this.cardValue);
             } else if (options.reSort) {
                 this.setInPhom(false);
@@ -1888,7 +2325,6 @@ this.TWIST = this.TWIST || {};
         cards.forEach(function (item, index) {
             item.setInPhom(cardsInPhom.indexOf(item.cardValue) > -1);
         });
-//                this.sortCard();
 
         cards.sort(function (a, b) {
             if (cardsInPhom.indexOf(a.cardValue) > -1 && !(cardsInPhom.indexOf(b.cardValue) > -1)) {
@@ -1931,10 +2367,7 @@ this.TWIST = this.TWIST || {};
         setTimeout(_sortCard, 100);
         function _sortCard() {
             var length = cards.length;
-//                    cards.sort(function(a,b){
-//                        return a.position - b.position
-//                    });
-            var indexLeft = (1280 - length * TWIST.Card.userCard.seperator - (_self.hand.x + _self.x) * 2) / 2;
+            var indexLeft = (TWIST.Desk.width - length * TWIST.Card.userCard.seperator - (_self.hand.x + _self.x) * 2) / 2;
             _self.handCards.indexLeft = indexLeft;
 
             for (var i = 0; i < cards.length; i++) {
@@ -2309,8 +2742,8 @@ this.TWIST = this.TWIST || {};
         moneyChangeContainer.set({visible: true, y: 50});
         var moneyChangeBg = moneyChangeContainer.getChildAt(0);
         var moneyChangeText = moneyChangeContainer.getChildAt(1);
-        var absMoney = Math.abs(parseInt(money));
-        if (type == "lose") {
+        var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
+        if (type === "lose") {
             moneyChangeText.color = "red";
             moneyChangeBg.text = moneyChangeText.text = "- " + absMoney;
         } else {
@@ -2454,310 +2887,6 @@ this.TWIST = this.TWIST || {};
     }
 
     TWIST.Player = Player;
-
-})();
-/**
- * @module Container
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	/**
-	 * @class BitmapAvatar
-	 * @extends Bitmap
-	 * @constructor
-	 * @param {HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | String} imageOrUri The source object or URI to an image to
-	 * display. This can be either an Image, Canvas, or Video object, or a string URI to an image file to load and use.
-	 * If it is a URI, a new Image object will be constructed and assigned to the .image property.
-	 **/
-	function BitmapAvatar(imageOrUri) {
-		this.Bitmap_constructor(imageOrUri);
-	}
-
-
-	var p = createjs.extend(BitmapAvatar, createjs.Bitmap);
-
-	gbjs.BitmapAvatar = createjs.promote(BitmapAvatar, "Bitmap");
-
-})();
-/**
- * @module Container
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-	/**
-	 * @class BitmapCard
-	 * @extends Bitmap
-	 * @constructor
-	 * @param {HTMLImageElement | HTMLCanvasElement | HTMLVideoElement | String} imageOrUri The source object or URI to an image to
-	 * display. This can be either an Image, Canvas, or Video object, or a string URI to an image file to load and use.
-	 * If it is a URI, a new Image object will be constructed and assigned to the .image property.
-	 **/
-	function BitmapCard(imageOrUri, value, cursor) {
-		this.Bitmap_constructor(imageOrUri);
-		/**
-		 * @protected
-		 * @type {Number}
-		 */
-		this.value = value;
-		/**
-		 * @protected
-		 * @type {Boolean}
-		 */
-		this.selected = false;
-		/**
-		 * @protected
-		 * @type {String}
-		 */
-		this.cursor = cursor;
-		/**
-		 * @protected
-		 * @type {createjs.Shadow<Object>}
-		 */
-		this.shadow = createjs.Shadow.identity;
-
-
-		//enable pointer
-		if(this.cursor) {
-			this.addEventListener('click', this.handleEventClick.bind(this));
-			this.addEventListener("rollover", this);
-			this.addEventListener("rollout", this);
-		}
-	}
-
-
-	
-
-
-	var p = createjs.extend(BitmapCard, createjs.Bitmap);
-
-
-
-	/**
-	 * Draws the display object into the specified context ignoring its visible, alpha, shadow, and transform.
-	 * Returns true if the draw was handled (useful for overriding functionality).
-	 *
-	 * NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
-	 * @method draw
-	 * @param {CanvasRenderingContext2D} ctx The canvas 2D context object to draw into.
-	 * @param {Boolean} [ignoreCache=false] Indicates whether the draw operation should ignore any current cache.
-	 * For example, used for drawing the cache (to prevent it from simply drawing an existing cache back
-	 * into itself).
-	 **/
-	p.draw = function(ctx, ignoreCache) {
-		this.shadow = this._shadow;
-		// call Text's drawing method to do the real work of drawing to the canvas:
-		// this super class method reference is automatically created by createjs.extends for methods overridden in the subclass:
-		this.Bitmap_draw(ctx, ignoreCache);
-		if(this.hover) {
-			this.shadow = this._hoverShadow;
-		}
-		
-	}
-
-	/**
-	 * @method setValue
-	 * @return {Number}
-	 */
-	p.getValue = function() {
-		return this.value;
-	}
-
-	/**
-	 * @method setHoverShadow
-	 * @constructor
-	 * @param {String} color The color of the shadow. This can be any valid CSS color value.
-	 * @param {Number} offsetX The x offset of the shadow in pixels.
-	 * @param {Number} offsetY The y offset of the shadow in pixels.
-	 * @param {Number} blur The size of the blurring effect.
-	 */
-	p.setHoverShadow = function( color,  offsetX,  offsetY,  blur ) {
-		this._hoverShadow = new createjs.Shadow(color,  offsetX,  offsetY,  blur);
-	}
-
-	/**
-	 * @method setShadow
-	 * @constructor
-	 * @param {String} color The color of the shadow. This can be any valid CSS color value.
-	 * @param {Number} offsetX The x offset of the shadow in pixels.
-	 * @param {Number} offsetY The y offset of the shadow in pixels.
-	 * @param {Number} blur The size of the blurring effect.
-	 */
-	p.setShadow = function(color,  offsetX,  offsetY,  blur) {
-		this._shadow = new createjs.Shadow(color,  offsetX,  offsetY,  blur);
-	}
-
-	/**
-	 * set up the handlers for click
-	 */
-	p.handleEventClick = function(evt) {
-		if(this.draggable) return;
-		this.select();
-	}
-
-	/**
-	 * @protected select
-	 * set up the handlers for click
-	 */
-	p.select = function() {
-		var y = this.y;
-		if(this.selected === true) {
-			y +=30;
-		} else {
-			y -=30;
-		}
-
-		createjs.Tween.get(this).to({y:y}, 100);
-		this.selected = !this.selected;
-	}
-
-	/**
-	 * @method unSelect
-	 * set up the handlers for click
-	 */
-	p.unSelect = function() {
-		if(this.selected === true) {
-			y = this.y + 30;
-			createjs.Tween.get(this).to({y:y}, 100);
-			this.selected = false;
-		}
-	}
-
-
-	/**
-	 * @description 
-	 * set up the handlers for mouseover / out
-	 */
-	p.handleEvent = function (evt) {
-		this.hover = (evt.type == "rollover");
-	};
-
-	gbjs.BitmapCard = createjs.promote(BitmapCard, "Bitmap");
-
-})();
-/**
- * @module Container
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	function BitmapDesk() {
-		this.Container_constructor();
-	}
-
-
-	var p = createjs.extend(BitmapDesk, createjs.Bitmap);
-
-	gbjs.BitmapDesk = createjs.promote(BitmapDesk, "Bitmap");
-
-})();
-/**
- * @module CardContainer
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	function CardContainer(imageOrUri) {
-		this.Container_constructor();
-	}
-
-
-	var p = createjs.extend(CardContainer, createjs.Container);
-
-	gbjs.CardContainer = createjs.promote(CardContainer, "Container");
-
-})();
-/**
- * @module ChairContainer
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-	/*
-	 * @class ChairContainer
-	 * @extends Container
-	 * @constructor
-	 **/
-	function ChairContainer() {
-		this.Container_constructor();
-
-	}
-
-
-	var p = createjs.extend(ChairContainer, createjs.Container);
-
-
-	gbjs.ChairContainer = createjs.promote(ChairContainer, "Container");
-
-})();
-/**
- * @module Container
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-	/*
-	 * @class Container
-	 * @extends Container
-	 * @constructor
-	 **/
-	function Container() {
-		this.Container_constructor();
-	}
-
-
-	var p = createjs.extend(Container, createjs.Container);
-
-	gbjs.Container = createjs.promote(Container, "Container");
-
-})();
-/**
- * @module Container
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	function HandContainer() {
-		this.Container_constructor();
-
-		/**
-		 * @protected
-		 * @type {gbjs.Sortable}
-		 */
-		this.sortable = new gbjs.Sortable(this);
-	}
-
-
-	var p = createjs.extend(HandContainer, createjs.Container);
-
-	/**
-	 * Deal card
-	 * @return {[type]} [description]
-	 */
-	p.dealCard = function() {
-		// body...
-	}
-
-	gbjs.HandContainer = createjs.promote(HandContainer, "Container");
 
 })();
 /**
@@ -2993,68 +3122,6 @@ this.gbjs = this.gbjs || {};
 	gbjs.Sortable = Sortable;
 
 })();
-/**
- * @module Text Money
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	/**
-	 * @class TextMoney
-	 * @extends Text
-	 * @constructor
-	 * @param {String} [text] The text to display.
-	 * @param {String} [font] The font style to use. Any valid value for the CSS font attribute is acceptable (ex. "bold
-	 * 36px Arial").
-	 * @param {String} [color] The color to draw the text in. Any valid value for the CSS color attribute is acceptable (ex.
-	 * "#F00", "red", or "#FF0000").
-	 */
-	function TextMoney(text, font, color) {
-		// this super class constructor reference is automatically created by createjs.extends:
-		this.Text_constructor(text, font, color);
-	}
-
-
-	var p = createjs.extend(TextMoney, createjs.Text);
-	
-	// set up the inheritance relationship: TextMoney extends Text.
-	gbjs.TextMoney = createjs.promote(TextMoney, "Text");
-
-})();
-/**
- * @module Text Username
- */
-this.gbjs = this.gbjs || {};
-
-(function() {
-	"use strict";
-
-
-	/**
-	 * @class TextUsername
-	 * @extends Text
-	 * @constructor
-	 * @param {String} [text] The text to display.
-	 * @param {String} [font] The font style to use. Any valid value for the CSS font attribute is acceptable (ex. "bold
-	 * 36px Arial").
-	 * @param {String} [color] The color to draw the text in. Any valid value for the CSS color attribute is acceptable (ex.
-	 * "#F00", "red", or "#FF0000").
-	 */
-	function TextUsername(text, font, color) {
-		// this super class constructor reference is automatically created by createjs.extends:
-		this.Text_constructor(text, font, color);
-	}
-
-
-	var p = createjs.extend(TextUsername, createjs.Text);
-	
-	// set up the inheritance relationship: TextUsername extends Text.
-	gbjs.TextUsername = createjs.promote(TextUsername, "Text");
-
-})();
 
 this.TWIST = this.TWIST || {};
 
@@ -3148,6 +3215,25 @@ this.TWIST = this.TWIST || {};
         this.initBaseGame();
         this.drawRoom();
         this.pushInRoomGameEvent();
+        this.initErrotPanel();
+        this.initButtonBar();
+        this.userInfo = {};
+    };
+
+    p.initErrotPanel = function () {
+        this.errorPanel = this.wrapper.find('.error-panel');
+        this.errorList = this.errorList || {};
+        $.extend(this.errorList, {
+            0: "Lỗi hệ thống !",
+            1: "Lỗi game !",
+            1470: "Chưa chọn cây bài !"
+        });
+    };
+
+    p.initButtonBar = function () {
+        this.buttonBar = this.wrapper.find('.button-bar');
+        this.buttonBar.hide();
+        this.startButton = this.buttonBar.find('#start-button');
     };
 
     p.drawRoom = function () {
@@ -3157,6 +3243,8 @@ this.TWIST = this.TWIST || {};
     };
 
     p.pushInRoomGameEvent = function () {
+        this.on("userInfo", this.setUserInfo);
+
         this.on("gameInfo", this.drawGameInfo);
 
         this.on("userJoin", this.addPlayer);
@@ -3165,21 +3253,36 @@ this.TWIST = this.TWIST || {};
 
         this.on("error", this.showError);
 
-        this.on("change-master", this.changeRoomMaster);
+        this.on("changeMaster", this.changeRoomMaster);
 
-        this.on("isolate-update-money", this.isolateUpdateMoney);
+        this.on("isolateUpdateMoney", this.isolateUpdateMoney);
 
-        this.on("game:user-chat", this.userChat);
+        this.on("userChat", this.userChat);
 
-        this.on("changeState", this.changeStatus);
+        this.on("changeStatus", this.changeStatus);
+
+//        gameplayer Event
+
+        this.on("dealCards", this.dealCards);
+
+        this.on("hitTurn", this.onHitTurn);
+
+        this.on("draftCards", this.onDraftCards);
+
+        this.on("endTurn", this.onEndTurn);
 
         this.on("endGame", this.endGame);
 
         this.on("reconnect", this.reconnect);
+
+        this.on("updateUuid", this.updateUuid);
+    };
+
+    p.setUserInfo = function (data) {
+        this.userInfo = data || {};
     };
 
     p.drawGameInfo = function (data) {
-        console.log(data);
         var model = this.model || {};
         this.model = model;
         $.extend(model, data);
@@ -3192,23 +3295,69 @@ this.TWIST = this.TWIST || {};
     };
 
     p.addPlayer = function (data) {
-
+        var playerPositions = this.desk.config.playerPositions;
+        $.extend(data, playerPositions[data.position]);
+        this.model.players.push(data);
+        if (this.playersContainer.children.length < this.options.maxPlayers) {
+            this.drawPlayer(data);
+        }
     };
 
     p.removePlayer = function (data) {
-
+        var player = this.getPlayerByUuid(data.uuid);
+        if (player) {
+            this.playersContainer.removeChild(player);
+        }
+        var playerData = this.removePlayerData(data.uuid);
     };
 
     p.showError = function (data) {
-
+        var message = this.errorList[data.code];
+        var errorItem = $('<div class="error-item">' + message + '</div>');
+        $(errorItem).css({margin: "0 auto", display: "inline-block"});
+        this.errorPanel.empty();
+        this.errorPanel.append(errorItem);
+        var _self = this;
+        errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+            $(errorItem).remove();
+        });
     };
 
     p.changeRoomMaster = function (data) {
-
+        var oldRoomMasterPosition = this.roomMasterIcon.globalPosition;
+        var uuid = data.uuid;
+        var players = this.model.players || [];
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            var Player = this.getPlayerByUuid(player.uuid);
+            if (player.uuid === uuid) {
+                player.isRoomMaster = true;
+                if (Player) {
+                    this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
+                }
+            } else {
+                player.isRoomMaster = false;
+                if (Player)
+                    Player.setRoomMaster(false);
+            }
+        }
     };
 
     p.isolateUpdateMoney = function (data) {
-
+        var players = data.players;
+        var _self = this;
+        players.forEach(function (item, index) {
+            var playerData = _self.getPlayerDataByUuid(item.uuid);
+            if (playerData) {
+                playerData.money = parseInt(playerData.money) + item.changeMoney;
+                var Player = _self.getPlayerByUuid(item.uuid);
+                if (Player) {
+                    Player.setMoney(playerData.money);
+                    var type = item.changeMoney < 0 ? "lose" : "win";
+                    Player.showMoneyExchageEffect(item.changeMoney, type);
+                }
+            }
+        });
     };
 
     p.userChat = function (data) {
@@ -3216,7 +3365,12 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (data) {
-
+        var newStatus = InRoomGame.statusList[data.newStatus];
+        var func = this[newStatus];
+        if (typeof func === "function") {
+            func.call(this);
+        }
+        this.emit("ping");
     };
 
     p.endGame = function (data) {
@@ -3230,60 +3384,364 @@ this.TWIST = this.TWIST || {};
     p.drawPlayers = function () {
         var players = this.model.players || [];
         var _self = this;
-        
+
         players.sort(function (a, b) {
             return a.position - b.position;
         });
-        
-        var options = this.options;
-        var playerPositions = this.desk.playerPosition;
-        
+
+        var config = this.desk.config;
         players.forEach(function (item, index) {
-//            item 
-            console.log(playerPositions,index);
-            $.extend(item,playerPositions[index]);
-            var config = {
-                
-            };
-            item.config = config;
-            item.position = index;
+            $.extend(item, config.playerPositions[index]);
+            var currenConfig = {};
+            for (var pro in config) {
+                currenConfig[pro] = config[pro][index];
+            }
+            item.config = currenConfig;
             _self.drawPlayer(item);
         });
     };
 
     p.drawPlayer = function (playerData) {
+        playerData.config = playerData.config || {};
+        playerData.index = playerData.index || 0;
+
         var newPlayer = new TWIST.Player(playerData);
         this.playersContainer.addChild(newPlayer);
+
+        if (playerData.isRoomMaster) {
+            this.roomMasterIcon = newPlayer.setRoomMaster(true);
+        }
+    };
+
+    p.getPlayerByUuid = function (uuid) {
+        var players = this.playersContainer.children || [];
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player.uuid === uuid)
+                return player;
+        }
+    };
+
+    p.getPlayerDataByUuid = function (uuid) {
+        var players = this.model.players || [];
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player.uuid === uuid)
+                return player;
+        }
+    };
+
+    p.getCurrentPlayer = function (uuid) {
+        var currentUuid = this.userInfo.uuid;
+        return this.getPlayerByUuid(currentUuid);
+    };
+
+    p.removePlayerData = function (uuid) {
+        var players = this.model.players || [];
+        var index = players.length;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player.uuid === uuid) {
+                index = i;
+                break;
+            }
+        }
+        players.splice(index, 1);
+    };
+
+    p.updateUuid = function (data) {
+        var username = data.username;
+        if (!this.model || !this.model.players)
+            return;
+        var playerList = this.model.players;
+        for (var i = 0, length = playerList.length; i < length; i++) {
+            if (playerList[i].username === username) {
+                playerList[i].uuid = data.uuid;
+            }
+        }
+        var PlayerList = this.playersContainer.children;
+        for (var i = 0, length = PlayerList.length; i < length; i++) {
+            if (PlayerList[i].username === username) {
+                PlayerList[i].uuid = data.uuid;
+            }
+        }
+        ;
     };
 
     TWIST.InRoomGame = InRoomGame;
 
 })();
-
 this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    
+
     var initOptions = {
-        maxPlayer : 4
+        maxPlayers: 4,
+        numberCardsInHand: 13,
+        turnTime: 20000
     };
 
     function TLMNDemlaGame(wrapper, options) {
-        this.options = options || initOptions;
+        this.options = options || {};
+        $.extend(this.options, initOptions);
         this.wrapper = $(wrapper);
         this.initTLMNDemlaGame();
     }
+
     var p = TLMNDemlaGame.prototype = new TWIST.InRoomGame();
 
     p.initTLMNDemlaGame = function (wrapper) {
+        TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
         this.initInRoomGame();
         this.pushTLMNDemlaEvent();
+        this.initResultPanel();
         this.initEvent();
+        this.bindButton();
+        this.observerEvent();
     };
 
     p.pushTLMNDemlaEvent = function () {
+        this.on("gameInfo", this.drawGameInfo);
+    };
+
+    p.STATUS_WAITING_FOR_PLAYER = function () {
+        this.buttonBar.hide();
+    };
+
+    p.STATUS_WAITING_FOR_START = function () {
+        this.buttonBar.show();
+        this.buttonBar.find('.button').hide();
+
+        var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
+        if (playerData && playerData.isRoomMaster) {
+            this.startButton.show();
+        }
+    };
+
+    p.initResultPanel = function () {
+        this.resultPanel = this.wrapper.find('#result-panel');
+        this.resultPanel.hide();
+    };
+
+    p.observerEvent = function () {
+        var _self = this;
+        TWIST.Observer.on("cardSelected", function (card) {
+            _self.handCardSelected(card);
+        });
+    };
+
+    p.handCardSelected = function (card) {
+        var lastDraftCard = this.desk.lastDraftCards;
+        if (card && lastDraftCard) {
+            var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
+            if (result.length > 0)
+                card.removeAllSelected();
+            result.forEach(function (item, index) {
+                item.setSelected(true);
+            });
+        }
+    };
+
+    p.STATUS_PLAYING = function () {
+        this.startButton.hide();
+    };
+
+    p.dealCards = function (data) {
+        var players = data.players;
+        var numberPlayer = players.length;
+        var numberCards = numberPlayer * this.options.numberCardsInHand;
+        var _self = this;
+
+        this.desk.generateCards(numberCards);
+
+        players.forEach(function (item, index) {
+            var handCards = item.handCards;
+            handCards.sort(function (a, b) {
+                return a - b;
+            });
+            var Player = _self.getPlayerByUuid(item.uuid);
+            if (Player) {
+                handCards.length = handCards.length || _self.options.numberCardsInHand;
+                Player.handCards.cardList = handCards;
+                Player.renderCards({
+                    showPlayerCard: true,
+                    dragable: true
+                });
+            }
+
+        });
+
+    };
+
+    p.onHitTurn = function (data) {
+        var currentUuid = data.uuid;
+        var currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer.handCards.children.length > 0) {
+            this.sortCardButton.show();
+        }
+        this.setPlayerTurn(data.uuid);
+
+        if (data.uuid === this.userInfo.uuid) {
+            this.hitButton.show();
+            this.foldTurnButton.show();
+        }
+    };
+
+    p.setPlayerTurn = function (uuid) {
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player) {
+                if (player.uuid === uuid) {
+                    player.setRemainingTime();
+                } else {
+                    player.clearTimer();
+                }
+            }
+        }
+    };
+
+    p.onDraftCards = function (data) {
+        var cards = data.cardList;
+        var userID = data.uuid;
+        this.desk.lastDraftCards = data.cardList;
+        var Player = this.getPlayerByUuid(userID);
+        if (!Player) {
+            this.showError({code: 1});
+            return;
+        }
+        if (userID === this.userInfo.uuid) {
+            this.hitButton.hide();
+            this.foldTurnButton.hide();
+        }
+        this.desk.removeOverlayCards();
+        this.desk.setZeroVetical();
+        this.desk.overlayDraftCards();
+        var cardType = TWIST.Card.userCard;
+        var position = {};
+        position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
+        position.y = cardType.height * 0.8;
+
+        Player.draftCardsInHand(cards, {
+            draftCards: this.desk.draftCards,
+            position: position,
+            rotateAble: true
+        });
+    };
+
+    p.onEndTurn = function (data) {
+        this.desk.lastDraftCard = undefined;
+        this.desk.clear();
+        this.onHitTurn(data);
+    };
+
+    p.bindButton = function () {
+        var _self = this;
+        this.startButton.unbind('click');
+        this.startButton.click(function () {
+            _self.emit("start");
+        });
+
+        this.hitButton = this.wrapper.find('#hit-card');
+        this.hitButton.unbind('click');
+        this.hitButton.click(function () {
+            var Player = _self.getCurrentPlayer();
+            var cards = Player.getSelectedCards();
+            if (cards.length === 0) {
+                _self.showError({
+                    code: 1470
+                });
+                return;
+            }
+            _self.emit('hitCards', {
+                cards: cards
+            });
+        });
+
+        this.sortCardButton = this.wrapper.find('#sort-card');
+        this.sortCardButton.unbind('click');
+        this.sortCardButton.click(function () {
+            var Player = _self.getCurrentPlayer();
+            Player.sortTL();
+        });
+
+        this.foldTurnButton = this.wrapper.find('#fold-turn');
+        this.foldTurnButton.unbind('click');
+        this.foldTurnButton.click(function () {
+            _self.emit('foldTurn');
+        });
+    };
+
+    p.STATUS_ENDING = function () {
+        this.buttonBar.hide();
+        this.errorPanel.empty();
+        this.desk.lastDraftCards = undefined;
+        this.setPlayerTurn();
+    };
+
+    p.endGame = function (data) {
+        var _self = this;
+        var resultData = {};
+        switch (data.winType) {
+            case 0:
+                resultData.winTypeString = "Tứ quý 3";
+                break;
+            case 1:
+                resultData.winTypeString = "3 đôi thông chứa 3 bích";
+                break;
+            case 2:
+                resultData.winTypeString = "Tứ quý 2";
+                break;
+            case 3:
+                resultData.winTypeString = "6 Đôi";
+                break;
+            case 4:
+                resultData.winTypeString = "5 Đôi thông";
+                break;
+            case 5:
+                resultData.winTypeString = "Sảnh rồng";
+                break;
+            case 99:
+                resultData.winTypeString = "Thắng !";
+                break;
+            default:
+                resultData.winTypeString = "Thắng !";
+                break;
+        }
         
+        resultData.listPlayers = data.listPlayers;
+        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
+            var player = resultData.listPlayers[i]
+            var cardList = player.remainCards;
+            cardList.sort(function (a, b) {
+                return a - b
+            });
+            if (parseInt(player.changeMoney) < 0) {
+                if (data.winType == 99) {
+                    if (cardList.length == this.options.numberCardsInHand) {
+                        player.gameResultString = "Thua cóng";
+                    } else
+                        player.gameResultString = "Thua " + cardList.length + " lá!";
+                } else {
+                    player.gameResultString = "Thua !";
+                }
+            } else if (parseInt(player.changeMoney) > 0) {
+                player.gameResultString = resultData.winTypeString;
+            } else {
+                player.gameResultString = "";
+            }
+
+            var Player = this.getPlayerByUuid(player.uuid);
+            if (Player) {
+                Player.setMoney(player.money);
+                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+            }
+        }
+
+        setTimeout(function () {
+            _self.emit("showResult",resultData);
+        }, 2000);
     };
 
     TWIST.TLMNDemlaGame = TLMNDemlaGame;
@@ -3321,4 +3779,3 @@ this.gbjs = this.gbjs || {};
 	i.buildDate = /*=date*/""; // injected by build process
 
 })();
-
