@@ -76,7 +76,7 @@ this.TWIST = this.TWIST || {};
 
 
         var cards = new Image();
-        cards.src = (TWIST.imagePath.imagePath || imagePath) + 'card/cards.png';
+        cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
         var bg = new createjs.Bitmap(cards);
         bg.sourceRect = $.extend({}, Card.size);
         if (value !== -1) {
