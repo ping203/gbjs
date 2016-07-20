@@ -844,7 +844,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/card/cards.png';
+    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'card/cards.png';
 
     function Card(position) {
         if (typeof position !== 'number' || position < 0 || position > 51)
@@ -1331,7 +1331,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
     var imagePath, CONFIG;
-    var imagePath = location.origin + location.pathname + 'images/';
+    var imagePath = TWIST.imagePath || (location.origin + location.pathname + 'images/');
 
     function Desk(gameType) {
         this.initialize(gameType);
@@ -1673,7 +1673,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/player/';
+    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'player/';
     var _animationTime = 300;
 
 

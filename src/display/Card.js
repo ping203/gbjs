@@ -3,7 +3,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/card/cards.png';
+    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'card/cards.png';
 
     function Card(position) {
         if (typeof position !== 'number' || position < 0 || position > 51)

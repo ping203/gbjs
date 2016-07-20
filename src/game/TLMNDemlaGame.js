@@ -13,7 +13,6 @@ this.TWIST = this.TWIST || {};
         this.options = options || {};
         $.extend(this.options, initOptions);
         this.wrapper = $(wrapper);
-        console.log(this);
         this.initTLMNDemlaGame();
     }
 

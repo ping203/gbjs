@@ -8,6 +8,7 @@ and open the template in the editor.
     Author     : TungTD
 */
 
+
 @keyframes error-remove { 
     0%{
         opacity: 1;
@@ -22,12 +23,12 @@ and open the template in the editor.
         font-size:3px;
     }
 }
-.wrapper{
+.twist .wrapper{
   -webkit-touch-callout: none;
   -webkit-user-select : none;
   font-family: Roboto;
 }
-.error-item {
+.twist .error-item {
     margin: 20px auto 0;
     animation-name : error-remove;
     animation-duration : 3s;
@@ -37,14 +38,14 @@ and open the template in the editor.
     color: #ffea02;
     font-style: italic;
 }
-.button-bar{
+.twist .button-bar{
     position: absolute;
     left:  0;
     width: 100%;
     bottom: 80px;
     text-align: center;
 }
-.button{
+.twist .button{
     display: inline-block;
     border : 1px solid;
     border-radius : 5px;
@@ -62,59 +63,59 @@ and open the template in the editor.
     position: absolute;
     bottom: 0;
 }
-.button.fist{
+.twist .button.fist{
     right: 100px;
 }
-.button.second{
+.twist .button.second{
     right: 235px;
 }
-.button.third{
+.twist .button.third{
     right: 370px;
 }
-.button.fourth{
+.twist .button.fourth{
     right: 505px;
 }
-.button.red{
+.twist .button.red{
     color:  rgba(255,118,118,0.5);
     border-color:  rgb(255,118,118);
     background-image: linear-gradient(rgba(255,118,118,0.1),transparent,rgba(255,118,118,0.1));
     text-shadow : 0 0 20px rgba(255,255,255,0.5), 0 0 20px rgba(255,118,118,0.5);
 }
-.button.red:active{
+.twist .button.red:active{
     color : rgba(255,255,255,0.5);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5), 
         0 0 35px rgba(255,118,118,0.5), 0 0 40px rgba(255,118,118,0.5), 0 0 50px rgba(255,118,118,0.5), 0 0 75px rgba(255,118,118,0.5);
 }
-.button.blue{
+.twist .button.blue{
     color:  rgba(32,187,252,0.5);
     border-color:  rgba(32,187,252,0.5);
     background-image: linear-gradient(rgba(32,187,252,0.1),transparent,rgba(32,187,252,0.1));
     text-shadow : 0 0 20px rgba(32,187,252,0.5), 0 0 20px rgba(32,187,252,0.5);
 }
-.button.blue:active{
+.twist .button.blue:active{
     color : rgba(255,255,255,0.5);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5), 
         0 0 35px rgba(32,187,252,0.5), 0 0 40px rgba(32,187,252,0.5), 0 0 50px rgba(32,187,252,0.5), 0 0 75px rgba(32,187,252,0.5);
 }
-.button.yellow{
+.twist .button.yellow{
     color:  rgba(254,206,47,0.5);
     border-color:  rgba(254,206,47,0.5);
     background-image: linear-gradient(rgba(254,206,47,0.1),transparent,rgba(254,206,47,0.1));
     text-shadow : 0 0 20px rgba(254,206,47,0.5), 0 0 20px rgba(254,206,47,0.5);
     margin-left: 0;
 }
-.button.yellow:active{
+.twist .button.yellow:active{
     color : rgba(255,255,255,0.5);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5), 
         0 0 35px rgba(254,206,47,0.5), 0 0 40px rgba(254,206,47,0.5), 0 0 50px rgba(254,206,47,0.5), 0 0 75px rgba(254,206,47,0.5);
 }
-.button.green{
+.twist .button.green{
     color:  rgba(20,210,50,0.5);
     border-color:  rgba(20,210,50,0.5);
     background-image: linear-gradient(rgba(20,210,50,0.1),transparent,rgba(20,210,50,0.1));
     text-shadow : 0 0 20px rgba(20,210,50,0.5), 0 0 20px rgba(20,210,50,0.5);
 }
-.button.green:active{
+.twist .button.green:active{
     color : rgba(255,255,255,0.5);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), 
         0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);

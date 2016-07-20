@@ -3,7 +3,7 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/player/';
+    var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'player/';
     var _animationTime = 300;
 
 

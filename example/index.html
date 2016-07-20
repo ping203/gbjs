@@ -22,10 +22,22 @@
         
         <!--md5-->
         <script src="../libs/md5.js"></script>
-        
-        <script src="../dist/gbjs.min.js"></script>
+        <script src="../libs/Global.js"></script>
+
+        <!--gbjs-->
+        <script src="../src/events/Observer.js"></script>
+        <script src="../src/logic/TLMNLogic.js"></script>
+        <script src="../src/display/Card.js"></script>
+        <script src="../src/display/CardTL.js"></script>
+        <script src="../src/display/CardPhom.js"></script>
+        <script src="../src/display/Desk.js"></script>
+        <script src="../src/display/Timer.js"></script>
+        <script src="../src/display/Player.js"></script>
+        <script src="../src/game/BaseGame.js"></script>
+        <script src="../src/game/InRoomGame.js"></script>
+        <script src="../src/game/TLMNDemlaGame.js"></script>
     </head>
-    <body style="background: url(../src/images/bg.png) center no-repeat; background-size: cover">
+    <body style="background: url(../src/images/bg.png) center no-repeat; background-size: cover" class='twist'>
         <div class="wrapper" style="text-align: center;position : absolute">
             <canvas id="testCanvas" width="1000" height="580" style="border : 1px solid red; background: url(../src/images/Desk-bg.png) 143px 55px no-repeat"  ></canvas>
             <div class="error-panel" style="position: absolute;left: 200px; top : 200px; text-align: center; width: 600px"></div>
