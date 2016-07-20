@@ -3,6 +3,13 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var Server = require('karma').Server;
 var config = require('./config');
+gulp.task('build.dev', function () {
+  var target = gulp.src(config.source.concat([
+    '!src/**/*.spec.js'
+  ]));
+  return target.pipe(concat('gbjs.js'))
+    .pipe(gulp.dest('./dist'));
+});
 
 
 
@@ -15,11 +22,6 @@ gulp.task('build', function () {
     .pipe(gulp.dest('./dist'));
 });
 
-
-
-
-
-
 /**
  * Run test once and exit
  */
@@ -28,4 +30,8 @@ gulp.task('test', function (done) {
     configFile: __dirname + '/karma.conf.js',
     singleRun: false
   }, done).start();
+});
+
+gulp.task('watch', function () {
+    gulp.watch(config.source, ['build.dev']);
 });
