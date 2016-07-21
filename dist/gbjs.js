@@ -3397,6 +3397,7 @@ this.TWIST = this.TWIST || {};
     p.addPlayer = function (data) {
 
         var userPosition =  this.userInfo.indexPosition;
+        console.log(userPosition);
         var playerPosition = data.indexPosition - userPosition;
         if(playerPosition < 0) playerPosition += this.options.maxPlayers;
         var config = this.desk.config;
@@ -3427,7 +3428,7 @@ this.TWIST = this.TWIST || {};
                 $.extend(_self.userInfo, item);
             }
         });
-
+        console.log(_self.userInfo,userPosition);
         players.sort(function (a, b) {
             var fistPosition = a.indexPosition - userPosition;
             if (fistPosition < 0) {
