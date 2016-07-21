@@ -127,7 +127,7 @@ this.TWIST = this.TWIST || {};
 
         var currenConfig = {};
         for (var pro in config) {
-            currenConfig[pro] = config[pro][playerIndex];
+            currenConfig[pro] = config[pro][userPosition];
         }
         data.config = currenConfig;
 
