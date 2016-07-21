@@ -3304,29 +3304,6 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.addPlayer = function (data) {
-
-        var userPosition =  this.userInfo.indexPosition;
-        var playerPosition = data.indexPosition - userPosition;
-        if(playerPosition < 0) playerPosition += this.options.maxPlayers;
-        var config = this.desk.config;
-
-        var currenConfig = {};
-        for (var pro in config) {
-            currenConfig[pro] = config[pro][playerPosition];
-        }
-        data.config = currenConfig;
-
-        var playerPositions = this.desk.config.playerPositions;
-        
-        $.extend(data, playerPositions[playerPosition]);
-        data.position = playerPosition;
-        this.model.players.push(data);
-        if (this.playersContainer.children.length < this.options.maxPlayers) {
-            this.drawPlayer(data);
-        }
-    };
-
     p.removePlayer = function (data) {
         var player = this.getPlayerByUuid(data.uuid);
         if (player) {
@@ -3417,6 +3394,29 @@ this.TWIST = this.TWIST || {};
 
     };
 
+    p.addPlayer = function (data) {
+
+        var userPosition =  this.userInfo.indexPosition;
+        var playerPosition = data.indexPosition - userPosition;
+        if(playerPosition < 0) playerPosition += this.options.maxPlayers;
+        var config = this.desk.config;
+
+        var currenConfig = {};
+        for (var pro in config) {
+            currenConfig[pro] = config[pro][playerPosition];
+        }
+        data.config = currenConfig;
+
+        var playerPositions = this.desk.config.playerPositions;
+        
+        $.extend(data, playerPositions[playerPosition]);
+        data.position = playerPosition;
+        this.model.players.push(data);
+        if (this.playersContainer.children.length < this.options.maxPlayers) {
+            this.drawPlayer(data);
+        }
+    };
+    
     p.drawPlayers = function () {
         var players = this.model.players || [];
         var _self = this;
@@ -3424,7 +3424,6 @@ this.TWIST = this.TWIST || {};
         players.forEach(function (item, index) {
             if (item.uuid === _self.userInfo.uuid) {
                 userPosition = item.indexPosition;
-                item.position = 0;
                 $.extend(_self.userInfo, item);
             }
         });
@@ -3443,16 +3442,16 @@ this.TWIST = this.TWIST || {};
 
         var config = this.desk.config;
         players.forEach(function (item, index) {
-            $.extend(item, config.playerPositions[index]);
             var currenConfig = {};
-            for (var pro in config) {
-                currenConfig[pro] = config[pro][index];
-            }
             item.position = item.indexPosition - userPosition;
             if (item.position < 0) {
                 item.position += _self.options.maxPlayers;
             }
+            for (var pro in config) {
+                currenConfig[pro] = config[pro][item.position];
+            }
             item.config = currenConfig;
+            $.extend(item, config.playerPositions[item.position]);
             _self.drawPlayer(item);
         });
     };

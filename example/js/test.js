@@ -27,21 +27,21 @@
                         uuid: 1,
                         username: "User Index 1",
                         money: "1000",
-                        indexPosition: 3,
+                        indexPosition: 1,
                         isRoomMaster: true,
                         numberCardsInHand : 8
                     }, {
                         uuid: 2,
                         username: "User Index 2",
                         money: "2000",
-                        indexPosition: 2,
+                        indexPosition: 0,
                         isRoomMaster: false,
                         numberCardsInHand : 8
                     }, {
                         uuid: 3,
                         username: "User Index 5555555555555555555",
                         money: "3000",
-                        indexPosition: 1,
+                        indexPosition: 2,
                         isRoomMaster: false,
                         numberCardsInHand : 8
                     }],
@@ -53,28 +53,32 @@
                 lastDraftCards : [10,11,12]
             },
             nextTime: 100
-        }, {
+        }
+        , {
             event: "userJoin",
             data: {
                 uuid: 4,
                 username: "User Index 4",
                 money: "11000",
-                indexPosition: 0
+                indexPosition: 3
             },
-            nextTime: 100
-        }, {
+            nextTime: 1000
+        }
+        , {
             event: "changeStatus",
             data: {
                 newStatus: 2
             },
             nextTime: 100
-        }, {
-            event: "dealCards",
-            data: {
-                cardList : [5,6,7,8,1,2,3,4]
-            },
-            nextTime: 100
-        }, {
+        }
+//        , {
+//            event: "dealCards",
+//            data: {
+//                cardList : [5,6,7,8,1,2,3,4]
+//            },
+//            nextTime: 100
+//        }
+        , {
             event: "error",
             data: {
                 code: 0
