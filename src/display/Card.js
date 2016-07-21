@@ -14,7 +14,7 @@ this.TWIST = this.TWIST || {};
     Card.size = {width: 88, height: 115};
     Card.userCard = {width: 53, height: 69, seperator: 59, cardDraggable: true, selectedHeight: 20, scale: 0.6};
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
-    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.6};
+    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
 
@@ -218,9 +218,10 @@ this.TWIST = this.TWIST || {};
 //            console.log(draftCards);
     }
 
-    p.openCard = function (cardValue, callback) {
+    p.openCard = function (cardValue, cardType) {
         var oldX = this.x;
         var _self = this;
+        cardType = cardType || Card.userCard;
         return createjs.Tween.get(this)
                 .to({scaleX: 0.1, x: oldX + this.width / 2}, 150)
 //                        .set({sourceRect: Card.cropImage(cardValue)})
@@ -229,11 +230,8 @@ this.TWIST = this.TWIST || {};
                     this.cardValue = cardValue;
                     //this.updateCache();
                 })
-                .to({scaleX: Card.userCard.scale, x: oldX}, 150).call(function () {
+                .to({scaleX: cardType.scale,scaleY: cardType.scale, x: oldX}, 150).call(function () {
             this.setInPhom(this.isInPhom);
-            if (typeof callback == "function") {
-                callback();
-            }
             //this.updateCache();
         });
     };

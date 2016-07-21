@@ -71,22 +71,83 @@ this.TWIST = this.TWIST || {};
     };
 
     p.STATUS_PLAYING = function () {
+        this.buttonBar.show();
         this.startButton.hide();
+        var players = this.model.players || [];
+        players.forEach(function (item, index) {
+            item.status = "STATUS_PLAYING";
+        });
+    };
+
+    p.drawPlayingState = function (data) {
+        var players = data.players || [];
+        var _self = this;
+
+        var playingPlayer = data.playingPlayer;
+        var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
+        if (PlayingPlayer) {
+            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime);
+            if (PlayingPlayer.uuid === this.userInfo.uuid) {
+                this.hitButton.show();
+                this.foldTurnButton.show();
+            }
+        }
+        
+        if(data.lastDraftCards){
+            this.desk.createLastDraftCards(data.lastDraftCards);
+        }
+        
+        players.forEach(function (item, index) {
+            var handCards = [];
+            
+            if (item.uuid === _self.userInfo.uuid) {
+                handCards = data.userListCard || [];
+                handCards.sort(function (a, b) {
+                    return a - b;
+                });
+                if (handCards.length > 0) {
+                    _self.sortCardButton.show();
+                }
+            } else {
+                handCards.length = item.numberCardsInHand;
+            }
+            var Player = _self.getPlayerByUuid(item.uuid);
+            if (Player) {
+                Player.handCards.cardList = handCards;
+                Player.renderCards({
+                    showPlayerCard: true,
+                    dragable: true
+                });
+            }
+        });
+
     };
 
     p.dealCards = function (data) {
-        var players = data.players;
-        var numberPlayer = players.length;
+        var cardList = data.cardList;
+        var players = this.model.players;
+        var numberPlayer = 0;
+        players.forEach(function (item, index) {
+            if (item.status === "STATUS_PLAYING") {
+                numberPlayer++;
+            }
+        });
         var numberCards = numberPlayer * this.options.numberCardsInHand;
         var _self = this;
 
         this.desk.generateCards(numberCards);
 
         players.forEach(function (item, index) {
-            var handCards = item.handCards;
-            handCards.sort(function (a, b) {
-                return a - b;
-            });
+            var handCards = [];
+            if (item.status !== "STATUS_PLAYING")
+                return;
+            if (item.uuid === _self.userInfo.uuid) {
+                handCards = cardList;
+                handCards.sort(function (a, b) {
+                    return a - b;
+                });
+            }
+            
             var Player = _self.getPlayerByUuid(item.uuid);
             if (Player) {
                 handCards.length = handCards.length || _self.options.numberCardsInHand;
@@ -115,13 +176,13 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.setPlayerTurn = function (uuid) {
+    p.setPlayerTurn = function (uuid, remainingTime) {
         var players = this.playersContainer.children;
         for (var i = 0, length = players.length; i < length; i++) {
             var player = players[i];
             if (player) {
                 if (player.uuid === uuid) {
-                    player.setRemainingTime();
+                    player.setRemainingTime(remainingTime);
                 } else {
                     player.clearTimer();
                 }
@@ -236,7 +297,7 @@ this.TWIST = this.TWIST || {};
                 resultData.winTypeString = "Thắng !";
                 break;
         }
-        
+
         resultData.listPlayers = data.listPlayers;
         for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
             var player = resultData.listPlayers[i]
@@ -267,7 +328,7 @@ this.TWIST = this.TWIST || {};
         }
 
         setTimeout(function () {
-            _self.emit("showResult",resultData);
+            _self.emit("showResult", resultData);
         }, 2000);
     };
 

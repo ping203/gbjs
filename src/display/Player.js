@@ -183,7 +183,7 @@ this.TWIST = this.TWIST || {};
         this.status.addChild(statusBg, statusText);
     };
 
-    p.render = function (player) {
+    p.render = function () {
         this.setPlayerName(this.username);
         this.setMoney(this.money);
         this.setRoomMaster(this.isRoomMaster);
@@ -544,7 +544,7 @@ this.TWIST = this.TWIST || {};
             scaleY: bai.scale
         }, _animationTime * 1 / 2).call(function () {
             if (_self.position !== 0) {
-                this.openCard(this.cardValue);
+                this.openCard(this.cardValue,bai);
             } else if (options.reSort) {
                 this.setInPhom(false);
                 _self.sortCard();

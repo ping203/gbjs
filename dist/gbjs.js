@@ -855,7 +855,7 @@ this.TWIST = this.TWIST || {};
     Card.size = {width: 88, height: 115};
     Card.userCard = {width: 53, height: 69, seperator: 59, cardDraggable: true, selectedHeight: 20, scale: 0.6};
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
-    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.6};
+    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
 
@@ -1059,9 +1059,10 @@ this.TWIST = this.TWIST || {};
 //            console.log(draftCards);
     }
 
-    p.openCard = function (cardValue, callback) {
+    p.openCard = function (cardValue, cardType) {
         var oldX = this.x;
         var _self = this;
+        cardType = cardType || Card.userCard;
         return createjs.Tween.get(this)
                 .to({scaleX: 0.1, x: oldX + this.width / 2}, 150)
 //                        .set({sourceRect: Card.cropImage(cardValue)})
@@ -1070,11 +1071,8 @@ this.TWIST = this.TWIST || {};
                     this.cardValue = cardValue;
                     //this.updateCache();
                 })
-                .to({scaleX: Card.userCard.scale, x: oldX}, 150).call(function () {
+                .to({scaleX: cardType.scale,scaleY: cardType.scale, x: oldX}, 150).call(function () {
             this.setInPhom(this.isInPhom);
-            if (typeof callback == "function") {
-                callback();
-            }
             //this.updateCache();
         });
     };
@@ -1352,7 +1350,6 @@ this.TWIST = this.TWIST || {};
     };
 
     Desk.draftPositions = {
-        
     };
 
     var p = Desk.prototype = new createjs.Container();
@@ -1363,9 +1360,9 @@ this.TWIST = this.TWIST || {};
     Desk.height = 580;
 
     // vi tri gua ban
-    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) /2 , y: (Desk.height - TWIST.Card.playerCard.height)/2};
+    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
 
-    Desk.draftPosition = {x: Desk.width/2, y: Desk.height/5, rotateDeg: 0};
+    Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
     p.initialize = function (gameType) {
         this.container_initialize();
@@ -1434,8 +1431,8 @@ this.TWIST = this.TWIST || {};
             playerPosition[i] = {x: 0, y: 0};
             draftPosition[i] = {x: 50, y: 50};
             handPosition[i] = {
-                x: 110,
-                y: 10,
+                x: 90,
+                y: 20,
                 align: 'left'
             };
         }
@@ -1443,7 +1440,7 @@ this.TWIST = this.TWIST || {};
         if (maxUser === 4) {
             playerPosition = Desk.playerPositions[maxUser];
             handPosition[0] = {x: 150, y: -50, align: 'center'};
-            handPosition[1] = {x: -50, y: 20, align: 'right'};
+            handPosition[1] = {x: -30, y: 20, align: 'right'};
         }
 
         this.config.playerPositions = playerPosition;
@@ -1465,18 +1462,20 @@ this.TWIST = this.TWIST || {};
         this.deckCard.visible = true;
     };
 
-    p.generateDealCards = function (numberCards) {
-        numberCards = numberCards || 0;
-//        con
-        for (var i = 0; i < numberCards; i++) {
-            var cardImage = new TWIST.Card();
-            cardImage.set({
-                scaleX: 0.5,
-                scaleY: 0.5
+
+    p.createLastDraftCards = function (cardList) {
+        var draftCards = this.draftCards;
+        var cardType = TWIST.Card.draftCard;
+        cardList.forEach(function (item, index) {
+            var card = new TWIST.Card(item);
+            card.set({
+                x: (index - cardList.length * 0.5) * cardType.seperator,
+                rotation: (Math.random() - 0.5) * 30,
+                scaleX: cardType.scale,
+                scaleY: cardType.scale
             });
-            this.deckCard.addChild(cardImage);
-        }
-        this.deckCard.visible = true;
+            draftCards.addChild(card);
+        });
     };
 
     p.scaleDeckCard = function (numberPlayer) {
@@ -1510,7 +1509,9 @@ this.TWIST = this.TWIST || {};
     p.getCard = function () {
         var card;
         card = this.deckCard.children.pop();
-        card.set({x: this.deckCard.x, y: this.deckCard.y});
+        if (card)
+            card.set({x: this.deckCard.x, y: this.deckCard.y});
+
         return card;
     };
 
@@ -1853,7 +1854,7 @@ this.TWIST = this.TWIST || {};
         this.status.addChild(statusBg, statusText);
     };
 
-    p.render = function (player) {
+    p.render = function () {
         this.setPlayerName(this.username);
         this.setMoney(this.money);
         this.setRoomMaster(this.isRoomMaster);
@@ -2214,7 +2215,7 @@ this.TWIST = this.TWIST || {};
             scaleY: bai.scale
         }, _animationTime * 1 / 2).call(function () {
             if (_self.position !== 0) {
-                this.openCard(this.cardValue);
+                this.openCard(this.cardValue,bai);
             } else if (options.reSort) {
                 this.setInPhom(false);
                 _self.sortCard();
@@ -3191,11 +3192,11 @@ this.TWIST = this.TWIST || {};
     function InRoomGame() {}
 
     InRoomGame.statusList = {
-        '1': 'STATUS_WAITING_FOR_PLAYER',
-        '2': 'STATUS_WAITING_FOR_READY',
-        '3': 'STATUS_WAITING_FOR_START',
-        '4': 'STATUS_PLAYING',
-        '5': 'STATUS_ENDING',
+        '0': 'STATUS_WAITING_FOR_PLAYER',
+        '1': 'STATUS_WAITING_FOR_START',
+        '2': 'STATUS_PLAYING',
+        '3': 'STATUS_ENDING',
+        '4': 'STATUS_WAITING_FOR_READY',
         '6': 'STATUS_WAITING_FOR_DEALING',
         '7': 'STATUS_DEALING',
         '8': 'STATUS_SHAKE_DISK',
@@ -3218,6 +3219,8 @@ this.TWIST = this.TWIST || {};
         this.initErrotPanel();
         this.initButtonBar();
         this.userInfo = {};
+        this.status = InRoomGame.statusList['0'];
+        this.model = this.model || {};
     };
 
     p.initErrotPanel = function () {
@@ -3225,7 +3228,6 @@ this.TWIST = this.TWIST || {};
         this.errorList = this.errorList || {};
         $.extend(this.errorList, {
             0: "Lỗi hệ thống !",
-            1: "Lỗi game !",
             1470: "Chưa chọn cây bài !"
         });
     };
@@ -3261,15 +3263,21 @@ this.TWIST = this.TWIST || {};
 
         this.on("changeStatus", this.changeStatus);
 
+        this.on("updateInfo", this.updateInfo);
+
 //        gameplayer Event
 
         this.on("dealCards", this.dealCards);
+
+        this.on("setDealCards", this.setDealCards);
 
         this.on("hitTurn", this.onHitTurn);
 
         this.on("draftCards", this.onDraftCards);
 
         this.on("endTurn", this.onEndTurn);
+
+        this.on("foldTurn", this.foldTurn);
 
         this.on("endGame", this.endGame);
 
@@ -3280,6 +3288,7 @@ this.TWIST = this.TWIST || {};
 
     p.setUserInfo = function (data) {
         this.userInfo = data || {};
+        this.userInfo.uuid = data.uuid || data.id;
     };
 
     p.drawGameInfo = function (data) {
@@ -3289,14 +3298,29 @@ this.TWIST = this.TWIST || {};
 
         this.drawPlayers();
 
-        if (data.gameState === 'STATUS_PLAYING') {
+        if (this.status === 'STATUS_PLAYING') {
             this.drawPlayingState(data);
         }
     };
 
     p.addPlayer = function (data) {
+
+        var userPosition =  this.userInfo.position;
+        var playerIndex = data.position - userPosition;
+        if(playerIndex < 0) playerIndex += this.options.maxPlayers;
+        var config = this.desk.config;
+
+        var currenConfig = {};
+        for (var pro in config) {
+            currenConfig[pro] = config[pro][playerIndex];
+        }
+        data.config = currenConfig;
+
         var playerPositions = this.desk.config.playerPositions;
-        $.extend(data, playerPositions[data.position]);
+        var playerIndex = data.position - this.userInfo.position;
+        if (playerIndex < 0)
+            playerIndex += this.options.maxPlayers;
+        $.extend(data, playerPositions[playerIndex]);
         this.model.players.push(data);
         if (this.playersContainer.children.length < this.options.maxPlayers) {
             this.drawPlayer(data);
@@ -3313,6 +3337,7 @@ this.TWIST = this.TWIST || {};
 
     p.showError = function (data) {
         var message = this.errorList[data.code];
+        message = message || data.message;
         var errorItem = $('<div class="error-item">' + message + '</div>');
         $(errorItem).css({margin: "0 auto", display: "inline-block"});
         this.errorPanel.empty();
@@ -3343,6 +3368,17 @@ this.TWIST = this.TWIST || {};
         }
     };
 
+    p.updateInfo = function (data) {
+        var player = this.getPlayerDataByUuid(this.userInfo.uuid);
+        $.extend(player, data);
+        var Player = this.getPlayerByUuid(this.userInfo.uuid);
+        var _self = this;
+        if (Player) {
+            $.extend(Player, data);
+            Player.render();
+        }
+    };
+
     p.isolateUpdateMoney = function (data) {
         var players = data.players;
         var _self = this;
@@ -3365,8 +3401,8 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (data) {
-        var newStatus = InRoomGame.statusList[data.newStatus];
-        var func = this[newStatus];
+        this.status = InRoomGame.statusList[data.newStatus];
+        var func = this[this.status];
         if (typeof func === "function") {
             func.call(this);
         }
@@ -3384,9 +3420,24 @@ this.TWIST = this.TWIST || {};
     p.drawPlayers = function () {
         var players = this.model.players || [];
         var _self = this;
+        var userPosition = 0;
+        players.forEach(function (item, index) {
+            if (item.uuid === _self.userInfo.uuid) {
+                userPosition = item.position;
+                $.extend(_self.userInfo, item);
+            }
+        });
 
         players.sort(function (a, b) {
-            return a.position - b.position;
+            var fistPosition = a.position - userPosition;
+            if (fistPosition < 0) {
+                fistPosition += _self.options.maxPlayers;
+            }
+            var seconPosition = b.position - userPosition;
+            if (seconPosition < 0) {
+                seconPosition += _self.options.maxPlayers;
+            }
+            return fistPosition - seconPosition;
         });
 
         var config = this.desk.config;
@@ -3544,22 +3595,83 @@ this.TWIST = this.TWIST || {};
     };
 
     p.STATUS_PLAYING = function () {
+        this.buttonBar.show();
         this.startButton.hide();
+        var players = this.model.players || [];
+        players.forEach(function (item, index) {
+            item.status = "STATUS_PLAYING";
+        });
+    };
+
+    p.drawPlayingState = function (data) {
+        var players = data.players || [];
+        var _self = this;
+
+        var playingPlayer = data.playingPlayer;
+        var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
+        if (PlayingPlayer) {
+            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime);
+            if (PlayingPlayer.uuid === this.userInfo.uuid) {
+                this.hitButton.show();
+                this.foldTurnButton.show();
+            }
+        }
+        
+        if(data.lastDraftCards){
+            this.desk.createLastDraftCards(data.lastDraftCards);
+        }
+        
+        players.forEach(function (item, index) {
+            var handCards = [];
+            
+            if (item.uuid === _self.userInfo.uuid) {
+                handCards = data.userListCard || [];
+                handCards.sort(function (a, b) {
+                    return a - b;
+                });
+                if (handCards.length > 0) {
+                    _self.sortCardButton.show();
+                }
+            } else {
+                handCards.length = item.numberCardsInHand;
+            }
+            var Player = _self.getPlayerByUuid(item.uuid);
+            if (Player) {
+                Player.handCards.cardList = handCards;
+                Player.renderCards({
+                    showPlayerCard: true,
+                    dragable: true
+                });
+            }
+        });
+
     };
 
     p.dealCards = function (data) {
-        var players = data.players;
-        var numberPlayer = players.length;
+        var cardList = data.cardList;
+        var players = this.model.players;
+        var numberPlayer = 0;
+        players.forEach(function (item, index) {
+            if (item.status === "STATUS_PLAYING") {
+                numberPlayer++;
+            }
+        });
         var numberCards = numberPlayer * this.options.numberCardsInHand;
         var _self = this;
 
         this.desk.generateCards(numberCards);
 
         players.forEach(function (item, index) {
-            var handCards = item.handCards;
-            handCards.sort(function (a, b) {
-                return a - b;
-            });
+            var handCards = [];
+            if (item.status !== "STATUS_PLAYING")
+                return;
+            if (item.uuid === _self.userInfo.uuid) {
+                handCards = cardList;
+                handCards.sort(function (a, b) {
+                    return a - b;
+                });
+            }
+            
             var Player = _self.getPlayerByUuid(item.uuid);
             if (Player) {
                 handCards.length = handCards.length || _self.options.numberCardsInHand;
@@ -3588,13 +3700,13 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.setPlayerTurn = function (uuid) {
+    p.setPlayerTurn = function (uuid, remainingTime) {
         var players = this.playersContainer.children;
         for (var i = 0, length = players.length; i < length; i++) {
             var player = players[i];
             if (player) {
                 if (player.uuid === uuid) {
-                    player.setRemainingTime();
+                    player.setRemainingTime(remainingTime);
                 } else {
                     player.clearTimer();
                 }
@@ -3709,7 +3821,7 @@ this.TWIST = this.TWIST || {};
                 resultData.winTypeString = "Thắng !";
                 break;
         }
-        
+
         resultData.listPlayers = data.listPlayers;
         for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
             var player = resultData.listPlayers[i]
@@ -3740,7 +3852,7 @@ this.TWIST = this.TWIST || {};
         }
 
         setTimeout(function () {
-            _self.emit("showResult",resultData);
+            _self.emit("showResult", resultData);
         }, 2000);
     };
 

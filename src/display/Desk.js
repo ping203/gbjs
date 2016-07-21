@@ -24,7 +24,6 @@ this.TWIST = this.TWIST || {};
     };
 
     Desk.draftPositions = {
-        
     };
 
     var p = Desk.prototype = new createjs.Container();
@@ -35,9 +34,9 @@ this.TWIST = this.TWIST || {};
     Desk.height = 580;
 
     // vi tri gua ban
-    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) /2 , y: (Desk.height - TWIST.Card.playerCard.height)/2};
+    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
 
-    Desk.draftPosition = {x: Desk.width/2, y: Desk.height/5, rotateDeg: 0};
+    Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
     p.initialize = function (gameType) {
         this.container_initialize();
@@ -106,8 +105,8 @@ this.TWIST = this.TWIST || {};
             playerPosition[i] = {x: 0, y: 0};
             draftPosition[i] = {x: 50, y: 50};
             handPosition[i] = {
-                x: 110,
-                y: 10,
+                x: 90,
+                y: 20,
                 align: 'left'
             };
         }
@@ -115,7 +114,7 @@ this.TWIST = this.TWIST || {};
         if (maxUser === 4) {
             playerPosition = Desk.playerPositions[maxUser];
             handPosition[0] = {x: 150, y: -50, align: 'center'};
-            handPosition[1] = {x: -50, y: 20, align: 'right'};
+            handPosition[1] = {x: -30, y: 20, align: 'right'};
         }
 
         this.config.playerPositions = playerPosition;
@@ -137,18 +136,20 @@ this.TWIST = this.TWIST || {};
         this.deckCard.visible = true;
     };
 
-    p.generateDealCards = function (numberCards) {
-        numberCards = numberCards || 0;
-//        con
-        for (var i = 0; i < numberCards; i++) {
-            var cardImage = new TWIST.Card();
-            cardImage.set({
-                scaleX: 0.5,
-                scaleY: 0.5
+
+    p.createLastDraftCards = function (cardList) {
+        var draftCards = this.draftCards;
+        var cardType = TWIST.Card.draftCard;
+        cardList.forEach(function (item, index) {
+            var card = new TWIST.Card(item);
+            card.set({
+                x: (index - cardList.length * 0.5) * cardType.seperator,
+                rotation: (Math.random() - 0.5) * 30,
+                scaleX: cardType.scale,
+                scaleY: cardType.scale
             });
-            this.deckCard.addChild(cardImage);
-        }
-        this.deckCard.visible = true;
+            draftCards.addChild(card);
+        });
     };
 
     p.scaleDeckCard = function (numberPlayer) {
@@ -182,7 +183,9 @@ this.TWIST = this.TWIST || {};
     p.getCard = function () {
         var card;
         card = this.deckCard.children.pop();
-        card.set({x: this.deckCard.x, y: this.deckCard.y});
+        if (card)
+            card.set({x: this.deckCard.x, y: this.deckCard.y});
+
         return card;
     };
 

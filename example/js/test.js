@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    TWIST.imagePath = location.origin + location.pathname + "/../src/images/";
+    TWIST.imagePath = location.origin + location.pathname + "../src/images/";
     var TLMNDemlaGame = new TWIST.TLMNDemlaGame('.wrapper');
 
     var mockupData = [{
@@ -15,6 +15,12 @@
             },
             nextTime: 100
         }, {
+            event: "changeStatus",
+            data: {
+                newStatus: 1
+            },
+            nextTime: 100
+        }, {
             event: "gameInfo",
             data: {
                 players: [{
@@ -22,20 +28,29 @@
                         username: "User Index 1",
                         money: "1000",
                         position: 0,
-                        isRoomMaster: true
+                        isRoomMaster: true,
+                        numberCardsInHand : 8
                     }, {
                         uuid: 2,
                         username: "User Index 2",
                         money: "2000",
                         position: 2,
-                        isRoomMaster: false
+                        isRoomMaster: false,
+                        numberCardsInHand : 8
                     }, {
                         uuid: 3,
                         username: "User Index 5555555555555555555",
                         money: "3000",
                         position: 1,
-                        isRoomMaster: false
-                    }]
+                        isRoomMaster: false,
+                        numberCardsInHand : 8
+                    }],
+                playingPlayer: {
+                    uuid: 1,
+                    remainingTime: 10000
+                },
+                userListCard : [5,6,7,8,1,2,3,4],
+                lastDraftCards : [10,11,12]
             },
             nextTime: 100
         }, {
@@ -48,9 +63,15 @@
             },
             nextTime: 100
         }, {
-            event: "userQuit",
+            event: "changeStatus",
             data: {
-                uuid: 2
+                newStatus: 2
+            },
+            nextTime: 100
+        }, {
+            event: "dealCards",
+            data: {
+                cardList : [5,6,7,8,1,2,3,4]
             },
             nextTime: 100
         }, {
@@ -62,7 +83,7 @@
         }, {
             event: "changeMaster",
             data: {
-                uuid: 1
+                uuid: 2
             },
             nextTime: 100
         }, {
@@ -78,41 +99,11 @@
             },
             nextTime: 100
         }, {
-            event: "changeStatus",
-            data: {
-                newStatus: 1
-            },
-            nextTime: 100
-        }, {
-            event: "changeStatus",
-            data: {
-                newStatus: 3
-            },
-            nextTime: 100
-        }, {
-            event: "changeStatus",
-            data: {
-                newStatus: 4
-            },
-            nextTime: 1000
-        }, {
-            event: "dealCards",
-            data: {
-                players: [{
-                        uuid: 3,
-                        handCards: []
-                    }, {
-                        uuid: 1,
-                        handCards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 40, 41, 42, 43]
-                    }]
-            },
-            nextTime: 100
-        }, {
             event: "hitTurn",
             data: {
-                uuid: 1
+                uuid: 3
             },
-            nextTime: 100
+            nextTime: 2000
         }, {
             event: "draftCards",
             data: {
@@ -120,12 +111,6 @@
                 cardList: [1, 2, 3, 4, 5]
             },
             nextTime: 1000
-        }, {
-            event: "hitTurn",
-            data: {
-                uuid: 3
-            },
-            nextTime: 100
         }, {
             event: "draftCards",
             data: {
@@ -154,7 +139,7 @@
                         remainCards: [1, 2, 3],
                         changeMoney: 1000,
                         money: 5000,
-                        uuid : 1
+                        uuid: 1
                     }]
             },
             nextTime: 1000
