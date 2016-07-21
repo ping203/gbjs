@@ -30,21 +30,23 @@
                         indexPosition: 1,
                         isRoomMaster: true,
                         numberCardsInHand : 8
-                    }, {
-                        uuid: 2,
-                        username: "User Index 2",
-                        money: "2000",
-                        indexPosition: 0,
-                        isRoomMaster: false,
-                        numberCardsInHand : 8
-                    }, {
-                        uuid: 3,
-                        username: "User Index 5555555555555555555",
-                        money: "3000",
-                        indexPosition: 2,
-                        isRoomMaster: false,
-                        numberCardsInHand : 8
-                    }],
+                    }
+//                    , {
+//                        uuid: 2,
+//                        username: "User Index 2",
+//                        money: "2000",
+//                        indexPosition: 0,
+//                        isRoomMaster: false,
+//                        numberCardsInHand : 8
+//                    }, {
+//                        uuid: 3,
+//                        username: "User Index 5555555555555555555",
+//                        money: "3000",
+//                        indexPosition: 2,
+//                        isRoomMaster: false,
+//                        numberCardsInHand : 8
+//                    }
+                ],
                 playingPlayer: {
                     uuid: 1,
                     remainingTime: 10000
@@ -60,7 +62,7 @@
                 uuid: 4,
                 username: "User Index 4",
                 money: "11000",
-                indexPosition: 3
+                indexPosition: 0
             },
             nextTime: 1000
         }

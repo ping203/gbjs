@@ -3293,9 +3293,14 @@ this.TWIST = this.TWIST || {};
     };
 
     p.drawGameInfo = function (data) {
-        var model = this.model || {};
-        this.model = model;
-        $.extend(model, data);
+        this.model = this.model || {};
+        $.extend(this.model, data);
+        var playerList = this.model.players;
+        for (var i = 0, length = playerList.length; i < length; i++) {
+            if (playerList[i].username === this.userInfo.username) {
+                this.userInfo.uuid = playerList[i].uuid;
+            }
+        }
 
         this.drawPlayers();
 
@@ -3397,7 +3402,6 @@ this.TWIST = this.TWIST || {};
     p.addPlayer = function (data) {
 
         var userPosition =  this.userInfo.indexPosition;
-        console.log(userPosition);
         var playerPosition = data.indexPosition - userPosition;
         if(playerPosition < 0) playerPosition += this.options.maxPlayers;
         var config = this.desk.config;
@@ -3428,7 +3432,6 @@ this.TWIST = this.TWIST || {};
                 $.extend(_self.userInfo, item);
             }
         });
-        console.log(_self.userInfo,userPosition);
         players.sort(function (a, b) {
             var fistPosition = a.indexPosition - userPosition;
             if (fistPosition < 0) {
