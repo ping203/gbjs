@@ -27,21 +27,21 @@
                         uuid: 1,
                         username: "User Index 1",
                         money: "1000",
-                        position: 0,
+                        indexPosition: 3,
                         isRoomMaster: true,
                         numberCardsInHand : 8
                     }, {
                         uuid: 2,
                         username: "User Index 2",
                         money: "2000",
-                        position: 2,
+                        indexPosition: 2,
                         isRoomMaster: false,
                         numberCardsInHand : 8
                     }, {
                         uuid: 3,
                         username: "User Index 5555555555555555555",
                         money: "3000",
-                        position: 1,
+                        indexPosition: 1,
                         isRoomMaster: false,
                         numberCardsInHand : 8
                     }],
@@ -59,7 +59,7 @@
                 uuid: 4,
                 username: "User Index 4",
                 money: "11000",
-                position: 3
+                indexPosition: 0
             },
             nextTime: 100
         }, {

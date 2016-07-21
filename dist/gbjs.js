@@ -1350,6 +1350,7 @@ this.TWIST = this.TWIST || {};
     };
 
     Desk.draftPositions = {
+        
     };
 
     var p = Desk.prototype = new createjs.Container();
@@ -3305,9 +3306,9 @@ this.TWIST = this.TWIST || {};
 
     p.addPlayer = function (data) {
 
-        var userPosition =  this.userInfo.position;
-        var playerIndex = data.position - userPosition;
-        if(playerIndex < 0) playerIndex += this.options.maxPlayers;
+        var userPosition =  this.userInfo.indexPosition;
+        var playerPosition = data.indexPosition - userPosition;
+        if(playerPosition < 0) playerPosition += this.options.maxPlayers;
         var config = this.desk.config;
 
         var currenConfig = {};
@@ -3317,10 +3318,9 @@ this.TWIST = this.TWIST || {};
         data.config = currenConfig;
 
         var playerPositions = this.desk.config.playerPositions;
-        var playerIndex = data.position - this.userInfo.position;
-        if (playerIndex < 0)
-            playerIndex += this.options.maxPlayers;
-        $.extend(data, playerPositions[playerIndex]);
+        
+        $.extend(data, playerPositions[playerPosition]);
+        data.position = playerPosition;
         this.model.players.push(data);
         if (this.playersContainer.children.length < this.options.maxPlayers) {
             this.drawPlayer(data);
@@ -3423,17 +3423,18 @@ this.TWIST = this.TWIST || {};
         var userPosition = 0;
         players.forEach(function (item, index) {
             if (item.uuid === _self.userInfo.uuid) {
-                userPosition = item.position;
+                userPosition = item.indexPosition;
+                item.position = 0;
                 $.extend(_self.userInfo, item);
             }
         });
 
         players.sort(function (a, b) {
-            var fistPosition = a.position - userPosition;
+            var fistPosition = a.indexPosition - userPosition;
             if (fistPosition < 0) {
                 fistPosition += _self.options.maxPlayers;
             }
-            var seconPosition = b.position - userPosition;
+            var seconPosition = b.indexPosition - userPosition;
             if (seconPosition < 0) {
                 seconPosition += _self.options.maxPlayers;
             }
@@ -3446,6 +3447,10 @@ this.TWIST = this.TWIST || {};
             var currenConfig = {};
             for (var pro in config) {
                 currenConfig[pro] = config[pro][index];
+            }
+            item.position = item.indexPosition - userPosition;
+            if (item.position < 0) {
+                item.position += _self.options.maxPlayers;
             }
             item.config = currenConfig;
             _self.drawPlayer(item);

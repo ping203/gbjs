@@ -24,6 +24,7 @@ this.TWIST = this.TWIST || {};
     };
 
     Desk.draftPositions = {
+        
     };
 
     var p = Desk.prototype = new createjs.Container();
