@@ -190,6 +190,13 @@ this.TWIST = this.TWIST || {};
             }
         }
     };
+    
+    p.foldTurn = function (data){
+        var Player = this.getPlayerByUuid(data.uuid);
+        if(Player){
+            Player.clearTimer();
+        }
+    };
 
     p.onDraftCards = function (data) {
         var cards = data.cardList;
@@ -268,7 +275,7 @@ this.TWIST = this.TWIST || {};
         this.desk.lastDraftCards = undefined;
         this.setPlayerTurn();
     };
-
+    
     p.endGame = function (data) {
         var _self = this;
         var resultData = {};
