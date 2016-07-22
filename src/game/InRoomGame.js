@@ -120,6 +120,11 @@ this.TWIST = this.TWIST || {};
 
         if (this.status === 'STATUS_PLAYING') {
             this.drawPlayingState(data);
+        } else if (this.status === 'STATUS_WAITING_FOR_START') {
+            var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
+            if (playerData && playerData.isRoomMaster) {
+                this.startButton.show();
+            }
         }
     };
 
@@ -215,9 +220,10 @@ this.TWIST = this.TWIST || {};
 
     p.addPlayer = function (data) {
 
-        var userPosition =  this.userInfo.indexPosition;
+        var userPosition = this.userInfo.indexPosition;
         var playerPosition = data.indexPosition - userPosition;
-        if(playerPosition < 0) playerPosition += this.options.maxPlayers;
+        if (playerPosition < 0)
+            playerPosition += this.options.maxPlayers;
         var config = this.desk.config;
 
         var currenConfig = {};
@@ -227,7 +233,7 @@ this.TWIST = this.TWIST || {};
         data.config = currenConfig;
 
         var playerPositions = this.desk.config.playerPositions;
-        
+
         $.extend(data, playerPositions[playerPosition]);
         data.position = playerPosition;
         this.model.players.push(data);
@@ -235,7 +241,7 @@ this.TWIST = this.TWIST || {};
             this.drawPlayer(data);
         }
     };
-    
+
     p.drawPlayers = function () {
         var players = this.model.players || [];
         var _self = this;
