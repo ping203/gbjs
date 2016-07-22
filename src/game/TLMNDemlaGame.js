@@ -204,7 +204,7 @@ this.TWIST = this.TWIST || {};
         this.desk.lastDraftCards = data.cardList;
         var Player = this.getPlayerByUuid(userID);
         if (!Player) {
-            this.showError({code: 1});
+            this.showError({code: 0});
             return;
         }
         if (userID === this.userInfo.uuid) {
