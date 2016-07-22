@@ -1893,7 +1893,7 @@ this.TWIST = this.TWIST || {};
 
     p.setMoney = function (money) {
         var usernameContainer = this.usernameContainer;
-        this.money = money;
+        this.money = parseInt(money);
         var moneyText = usernameContainer.getChildAt(2);
         moneyText.text = Global.numberWithDot(money);
     };
