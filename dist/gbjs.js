@@ -1864,7 +1864,9 @@ this.TWIST = this.TWIST || {};
 
     p.setRemainingTime = function (remainingTime, totalTime) {
         remainingTime = remainingTime || 20000;
+        if(remainingTime < 50) remainingTime *= 1000;
         totalTime = totalTime || 20000;
+        if(totalTime < 50) totalTime *= 1000;
         this.timer.startTimer(totalTime, remainingTime);
     };
     
