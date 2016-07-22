@@ -557,7 +557,6 @@ this.TWIST = this.TWIST || {};
         if (this.getRank(cardFire) > this.rank) {
             return [];
         }
-        ;
         return this._getTuQuy();
     }
 
@@ -588,7 +587,7 @@ this.TWIST = this.TWIST || {};
     p._getTuQuy = function () {
         var self = this;
         var results = _.filter(self.handCards, function (card) {
-            return (this.getRank(card.getValue()) == self.rank);
+            return (self.getRank(card.getValue()) == self.rank);
         });
         if (results.length < 4) {
             results = [];
@@ -702,8 +701,9 @@ this.TWIST = this.TWIST || {};
      * @return {gbjs.Card}
      */
     p.getCartByRank = function (rank) {
+        var _self = this;
         return _.find(this.handCards, function (card) {
-            return (this.getRank(card.getValue()) == rank);
+            return (_self.getRank(card.getValue()) == rank);
         });
     }
 
