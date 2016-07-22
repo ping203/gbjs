@@ -3709,12 +3709,13 @@ this.TWIST = this.TWIST || {};
     };
 
     p.setPlayerTurn = function (uuid, remainingTime) {
+        var totalTime = this.model.totalTime;
         var players = this.playersContainer.children;
         for (var i = 0, length = players.length; i < length; i++) {
             var player = players[i];
             if (player) {
                 if (player.uuid === uuid) {
-                    player.setRemainingTime(remainingTime);
+                    player.setRemainingTime(remainingTime,totalTime);
                 } else {
                     player.clearTimer();
                 }
