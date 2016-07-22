@@ -36,8 +36,10 @@ this.TWIST = this.TWIST || {};
     };
     p.clearTimer = function () {
         if (this.tween) {
+            this.tween.pause();
             this.tween.removeAllEventListeners();
         }
+        createjs.Tween.get(this.timerLine, {override : true});
         this.timerLine.graphics.clear();
         this.totalTime = 0;
         this.remainingTime = 0;
@@ -60,7 +62,7 @@ this.TWIST = this.TWIST || {};
         this.clearTimer();
         this.setCounter(totalTime, remainingTime);
         var _self = this;
-        this.tween = createjs.Tween.get(this.timerLine)
+        this.tween = createjs.Tween.get(this.timerLine, {override : true})
                 .to({}, remainingTime)
                 .call(function () {
                     _self.clearTimer();

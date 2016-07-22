@@ -279,9 +279,12 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
+        console.log("end Game");
+        this.buttonBar.hide();
+        this.errorPanel.empty();
         var _self = this;
         var resultData = {};
-        switch (data.winType) {
+        switch (parseInt(data.winType)) {
             case 0:
                 resultData.winTypeString = "Tứ quý 3";
                 break;
@@ -300,7 +303,7 @@ this.TWIST = this.TWIST || {};
             case 5:
                 resultData.winTypeString = "Sảnh rồng";
                 break;
-            case 99:
+            case 16:
                 resultData.winTypeString = "Thắng !";
                 break;
             default:
@@ -310,13 +313,13 @@ this.TWIST = this.TWIST || {};
 
         resultData.listPlayers = data.listPlayers;
         for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i]
+            var player = resultData.listPlayers[i];
             var cardList = player.remainCards;
             cardList.sort(function (a, b) {
                 return a - b
             });
             if (parseInt(player.changeMoney) < 0) {
-                if (data.winType == 99) {
+                if (data.winType == 16) {
                     if (cardList.length == this.options.numberCardsInHand) {
                         player.gameResultString = "Thua cóng";
                     } else
