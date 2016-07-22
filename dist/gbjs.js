@@ -3792,7 +3792,7 @@ this.TWIST = this.TWIST || {};
         this.foldTurnButton = this.wrapper.find('#fold-turn');
         this.foldTurnButton.unbind('click');
         this.foldTurnButton.click(function () {
-            _self.emit('foldTurn');
+            _self.emit('userFold');
         });
     };
 
