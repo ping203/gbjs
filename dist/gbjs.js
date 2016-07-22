@@ -3637,6 +3637,7 @@ this.TWIST = this.TWIST || {};
         }
 
         if (data.lastDraftCards) {
+            this.desk.lastDraftCards = data.lastDraftCards;
             this.desk.createLastDraftCards(data.lastDraftCards);
         }
 
@@ -3770,7 +3771,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.onEndTurn = function (data) {
-        this.desk.lastDraftCard = undefined;
+        this.desk.lastDraftCards = undefined;
         this.desk.clear();
         this.hitButton.hide();
         this.foldTurnButton.hide();
@@ -3878,6 +3879,7 @@ this.TWIST = this.TWIST || {};
 
             var Player = this.getPlayerByUuid(player.uuid);
             if (Player) {
+                Player.clearTimer();
                 Player.setMoney(player.money);
                 Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
             }
