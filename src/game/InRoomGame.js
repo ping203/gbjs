@@ -186,7 +186,7 @@ this.TWIST = this.TWIST || {};
         players.forEach(function (item, index) {
             var playerData = _self.getPlayerDataByUuid(item.uuid);
             if (playerData) {
-                playerData.money = parseInt(playerData.money) + item.changeMoney;
+                playerData.money = parseInt(playerData.money) + isolateUpdateMoney
                 var Player = _self.getPlayerByUuid(item.uuid);
                 if (Player) {
                     Player.setMoney(playerData.money);
