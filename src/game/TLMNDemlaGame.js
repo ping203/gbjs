@@ -86,7 +86,7 @@ this.TWIST = this.TWIST || {};
         var playingPlayer = data.playingPlayer;
         var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
         if (PlayingPlayer) {
-            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime);
+            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
             if (PlayingPlayer.uuid === this.userInfo.uuid) {
                 this.hitButton.show();
                 this.foldTurnButton.show();

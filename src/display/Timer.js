@@ -56,6 +56,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.startTimer = function (totalTime, remainingTime) {
+        if(remainingTime > totalTime) remainingTime = totalTime;
         this.clearTimer();
         this.setCounter(totalTime, remainingTime);
         var _self = this;

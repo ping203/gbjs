@@ -1654,6 +1654,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.startTimer = function (totalTime, remainingTime) {
+        if(remainingTime > totalTime) remainingTime = totalTime;
         this.clearTimer();
         this.setCounter(totalTime, remainingTime);
         var _self = this;
@@ -3620,7 +3621,7 @@ this.TWIST = this.TWIST || {};
         var playingPlayer = data.playingPlayer;
         var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
         if (PlayingPlayer) {
-            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime);
+            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
             if (PlayingPlayer.uuid === this.userInfo.uuid) {
                 this.hitButton.show();
                 this.foldTurnButton.show();
