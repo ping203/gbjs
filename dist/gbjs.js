@@ -3613,7 +3613,7 @@ this.TWIST = this.TWIST || {};
 
     p.STATUS_PLAYING = function () {
         this.buttonBar.show();
-        this.startButton.hide();
+        this.buttonBar.find('.button').hide();
         var players = this.model.players || [];
         players.forEach(function (item, index) {
             item.status = "STATUS_PLAYING";
