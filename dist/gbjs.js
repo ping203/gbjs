@@ -3633,14 +3633,14 @@ this.TWIST = this.TWIST || {};
                 this.foldTurnButton.show();
             }
         }
-        
-        if(data.lastDraftCards){
+
+        if (data.lastDraftCards) {
             this.desk.createLastDraftCards(data.lastDraftCards);
         }
-        
+
         players.forEach(function (item, index) {
             var handCards = [];
-            
+
             if (item.uuid === _self.userInfo.uuid) {
                 handCards = data.userListCard || [];
                 handCards.sort(function (a, b) {
@@ -3688,7 +3688,7 @@ this.TWIST = this.TWIST || {};
                     return a - b;
                 });
             }
-            
+
             var Player = _self.getPlayerByUuid(item.uuid);
             if (Player) {
                 handCards.length = handCards.length || _self.options.numberCardsInHand;
@@ -3724,17 +3724,17 @@ this.TWIST = this.TWIST || {};
             var player = players[i];
             if (player) {
                 if (player.uuid === uuid) {
-                    player.setRemainingTime(remainingTime,totalTime);
+                    player.setRemainingTime(remainingTime, totalTime);
                 } else {
                     player.clearTimer();
                 }
             }
         }
     };
-    
-    p.foldTurn = function (data){
+
+    p.foldTurn = function (data) {
         var Player = this.getPlayerByUuid(data.uuid);
-        if(Player){
+        if (Player) {
             Player.clearTimer();
         }
     };
@@ -3770,6 +3770,8 @@ this.TWIST = this.TWIST || {};
     p.onEndTurn = function (data) {
         this.desk.lastDraftCard = undefined;
         this.desk.clear();
+        this.hitButton.hide();
+        this.foldTurnButton.hide();
         this.onHitTurn(data);
     };
 
@@ -3816,7 +3818,7 @@ this.TWIST = this.TWIST || {};
         this.desk.lastDraftCards = undefined;
         this.setPlayerTurn();
     };
-    
+
     p.endGame = function (data) {
         var _self = this;
         var resultData = {};
