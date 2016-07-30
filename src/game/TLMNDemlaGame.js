@@ -196,6 +196,10 @@ this.TWIST = this.TWIST || {};
         var Player = this.getPlayerByUuid(data.uuid);
         if (Player) {
             Player.clearTimer();
+            if (data.uuid === this.userInfo.uuid) {
+                this.hitButton.hide();
+                this.foldTurnButton.hide();
+            }
         }
     };
 
@@ -239,7 +243,7 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         this.startButton.unbind('click');
         this.startButton.click(function () {
-            _self.emit("start",_self.model.players);
+            _self.emit("start", _self.model.players);
         });
 
         this.hitButton = this.wrapper.find('#hit-card');
