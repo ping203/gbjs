@@ -54,6 +54,8 @@ this.TWIST = this.TWIST || {};
     };
 
     p.drawRoom = function () {
+        var canvas = this.wrapper.find('canvas')[0];
+        canvas.css("background-image","url("+TWIST.imagePath+"Desk-bg.png)")
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.canvas.addChild(this.playersContainer, this.desk);
