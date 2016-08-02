@@ -11,7 +11,7 @@ this.TWIST = this.TWIST || {};
 
     Desk.playerPositions = {
         4: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 450, y: 17}, {x: 110, y: 160}],
-        2: [{x: 12, y: 410}, {x: 583, y: 17}],
+        2: [{x: 12, y: 410}, {x: 450, y: 17}],
         5: [{x: 12, y: 410}, {x: 1110, y: 184}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 193}],
         9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
         6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
@@ -112,11 +112,13 @@ this.TWIST = this.TWIST || {};
             };
         }
 
+        playerPosition = Desk.playerPositions[maxUser];
+        handPosition[0] = {x: 150, y: -50, align: 'center'};
+        
         if (maxUser === 4) {
-            playerPosition = Desk.playerPositions[maxUser];
-            handPosition[0] = {x: 150, y: -50, align: 'center'};
             handPosition[1] = {x: -30, y: 20, align: 'right'};
         }
+        
 
         this.config.playerPositions = playerPosition;
         this.config.handPositions = handPosition;
