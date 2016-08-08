@@ -45,14 +45,14 @@ this.TWIST = this.TWIST || {};
     };
 
     p.onInviteSam = function () {
-        this.desk.setRemainningTime(15);
+        this.desk.setRemainingTime(15);
         this.callSamButton.show();
         this.foldSamButton.show();
         this.userCallSam = null;
     };
 
     p.onEndInviteSam = function () {
-        this.desk.setRemainningTime(0);
+        this.desk.setRemainingTime(0);
         this.callSamButton.hide();
         this.foldSamButton.hide();
         var players = this.playersContainer.children;
