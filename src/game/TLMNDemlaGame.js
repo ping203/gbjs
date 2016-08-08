@@ -10,8 +10,8 @@ this.TWIST = this.TWIST || {};
     };
 
     function TLMNDemlaGame(wrapper, options) {
-        this.options = options || {};
-        $.extend(this.options, initOptions);
+        this.options = {};
+        $.extend(this.options, initOptions, options);
         this.wrapper = $(wrapper);
         this.initTLMNDemlaGame();
     }

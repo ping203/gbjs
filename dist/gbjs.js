@@ -1422,13 +1422,13 @@ this.TWIST = this.TWIST || {};
     };
 
     p.initPosition = function (gameType) {
-        var maxUser = gameType.maxUser || 4;
+        var maxPlayers = gameType.maxPlayers || 4;
 
-        var playerPosition = new Array(maxUser);
-        var handPosition = new Array(maxUser);
-        var draftPosition = new Array(maxUser);
+        var playerPosition = new Array(maxPlayers);
+        var handPosition = new Array(maxPlayers);
+        var draftPosition = new Array(maxPlayers);
 
-        for (var i = 0; i < maxUser; i++) {
+        for (var i = 0; i < maxPlayers; i++) {
             playerPosition[i] = {x: 0, y: 0};
             draftPosition[i] = {x: 50, y: 50};
             handPosition[i] = {
@@ -1438,10 +1438,10 @@ this.TWIST = this.TWIST || {};
             };
         }
 
-        playerPosition = Desk.playerPositions[maxUser];
+        playerPosition = Desk.playerPositions[maxPlayers];
         handPosition[0] = {x: 150, y: -50, align: 'center'};
         
-        if (maxUser === 4) {
+        if (maxPlayers === 4) {
             handPosition[1] = {x: -30, y: 20, align: 'right'};
         }
         
@@ -3557,8 +3557,8 @@ this.TWIST = this.TWIST || {};
     };
 
     function TLMNDemlaGame(wrapper, options) {
-        this.options = options || {};
-        $.extend(this.options, initOptions);
+        this.options = {};
+        $.extend(this.options, initOptions, options);
         this.wrapper = $(wrapper);
         this.initTLMNDemlaGame();
     }
