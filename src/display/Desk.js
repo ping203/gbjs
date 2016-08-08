@@ -68,7 +68,7 @@ this.TWIST = this.TWIST || {};
         this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
         this.remainingTime.set({
             x: Desk.position.x - 10,
-            y: Desk.position.y + 40,
+            y: Desk.position.y - 40,
             visible: false,
             textAlign: "center"
         });

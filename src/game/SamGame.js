@@ -8,7 +8,6 @@ this.TWIST = this.TWIST || {};
         numberCardsInHand: 10,
         turnTime: 20000
     };
-    console.log("sam game");
     function SamGame(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
@@ -65,12 +64,12 @@ this.TWIST = this.TWIST || {};
     };
 
     p.onFoldSam = function (data) {
-        var player = this.getPlayerbyUuid(data.uuid);
+        var player = this.getPlayerByUuid(data.uuid);
         player.setPlayerStatus("Hủy sâm !");
     };
 
     p.onCallSam = function (data) {
-        var player = this.getPlayerbyUuid(data.uuid);
+        var player = this.getPlayerByUuid(data.uuid);
         player.setPlayerStatus("Báo sâm !", {
             color: "red"
         });
