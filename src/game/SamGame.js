@@ -5,23 +5,79 @@ this.TWIST = this.TWIST || {};
 
     var initOptions = {
         maxPlayers: 4,
-        numberCardsInHand: 13,
+        numberCardsInHand: 10,
         turnTime: 20000
     };
-
-    function TLMNDemlaGame(wrapper, options) {
+    console.log("sam game");
+    function SamGame(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
-        this.initTLMNDemlaGame();
+        this.initSamGame();
     }
-    var p = TLMNDemlaGame.prototype = new TWIST.BaseDemlaGame();
+    var p = SamGame.prototype = new TWIST.BaseDemlaGame();
 
-    p.initTLMNDemlaGame = function (wrapper) { 
+    p.initSamGame = function (wrapper) {
         this.initBaseDemlaGame();
+        this.pushSamGameEvent();
+        this.bindSamButton();
     };
-    
+
+    p.pushSamGameEvent = function () {
+        this.on("inviteSam", this.onInviteSam);
+        this.on("endInviteSam", this.onEndInviteSam);
+        this.on("foldSam", this.onFoldSam);
+        this.on("callSam", this.onCallSam);
+    };
+
+    p.bindSamButton = function () {
+        var _self = this;
+        this.callSamButton = this.wrapper.find('#call-sam');
+        this.callSamButton.unbind('click');
+        this.callSamButton.click(function () {
+            _self.emit("call-sam");
+        });
+
+        this.foldSamButton = this.wrapper.find('#call-sam');
+        this.foldSamButton.unbind('click');
+        this.foldSamButton.click(function () {
+            _self.emit("fold-sam");
+        });
+    };
+
+    p.onInviteSam = function () {
+        this.desk.setRemainningTime(15);
+        this.callSamButton.show();
+        this.foldSamButton.show();
+        this.userCallSam = null;
+    };
+
+    p.onEndInviteSam = function () {
+        this.desk.setRemainningTime(0);
+        this.callSamButton.hide();
+        this.foldSamButton.hide();
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player && player.uuid !== this.userCallSam) {
+                player.setPlayerStatus("");
+            }
+        }
+    };
+
+    p.onFoldSam = function (data) {
+        var player = this.getPlayerbyUuid(data.uuid);
+        player.setPlayerStatus("Hủy sâm !");
+    };
+
+    p.onCallSam = function (data) {
+        var player = this.getPlayerbyUuid(data.uuid);
+        player.setPlayerStatus("Báo sâm !", {
+            color: "red"
+        });
+        this.userCallSam = data.uuid;
+    };
+
     p.endGame = function (data) {
-        console.log("end Game");
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;
@@ -88,6 +144,6 @@ this.TWIST = this.TWIST || {};
         }, 2000);
     };
 
-    TWIST.TLMNDemlaGame = TLMNDemlaGame;
+    TWIST.SamGame = SamGame;
 
 })();

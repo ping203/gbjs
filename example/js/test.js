@@ -3,7 +3,7 @@
 (function () {
     "use strict";
     TWIST.imagePath = location.origin + location.pathname + "../src/images/";
-    var TLMNDemlaGame = new TWIST.TLMNDemlaGame('.wrapper');
+    var TLMNDemlaGame = new TWIST.SamGame('.wrapper');
 
     var mockupData = [{
             event: "userInfo",
@@ -73,13 +73,13 @@
             },
             nextTime: 100
         }
-//        , {
-//            event: "dealCards",
-//            data: {
-//                cardList : [5,6,7,8,1,2,3,4]
-//            },
-//            nextTime: 100
-//        }
+        , {
+            event: "dealCards",
+            data: {
+                cardList : [5,6,7,8,1,2,3,4]
+            },
+            nextTime: 100
+        }
         , {
             event: "error",
             data: {
