@@ -4025,7 +4025,7 @@ this.TWIST = this.TWIST || {};
             _self.emit("call-sam");
         });
 
-        this.foldSamButton = this.wrapper.find('#call-sam');
+        this.foldSamButton = this.wrapper.find('#fold-sam');
         this.foldSamButton.unbind('click');
         this.foldSamButton.click(function () {
             _self.emit("fold-sam");
