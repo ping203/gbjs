@@ -3321,6 +3321,9 @@ this.TWIST = this.TWIST || {};
                 this.startButton.show();
             }
         }
+        if(data.remainingTime) {
+            this.desk.setRemainingTime(data.remainingTime);
+        }
     };
 
     p.removePlayer = function (data) {
@@ -4029,8 +4032,8 @@ this.TWIST = this.TWIST || {};
         });
     };
 
-    p.onInviteSam = function () {
-        this.desk.setRemainingTime(15);
+    p.onInviteSam = function (data) {
+        this.desk.setRemainingTime(parseInt(data.remainingTime));
         this.callSamButton.show();
         this.foldSamButton.show();
         this.userCallSam = null;

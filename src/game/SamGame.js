@@ -44,8 +44,8 @@ this.TWIST = this.TWIST || {};
         });
     };
 
-    p.onInviteSam = function () {
-        this.desk.setRemainingTime(15);
+    p.onInviteSam = function (data) {
+        this.desk.setRemainingTime(parseInt(data.remainingTime));
         this.callSamButton.show();
         this.foldSamButton.show();
         this.userCallSam = null;

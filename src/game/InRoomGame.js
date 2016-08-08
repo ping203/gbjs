@@ -128,6 +128,9 @@ this.TWIST = this.TWIST || {};
                 this.startButton.show();
             }
         }
+        if(data.remainingTime) {
+            this.desk.setRemainingTime(data.remainingTime);
+        }
     };
 
     p.removePlayer = function (data) {
