@@ -21,7 +21,7 @@ this.TWIST = this.TWIST || {};
     };
     
     p.endGame = function (data) {
-        console.log("end Game");
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;

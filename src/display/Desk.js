@@ -67,8 +67,8 @@ this.TWIST = this.TWIST || {};
     p.createRemainingTime = function () {
         this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
         this.remainingTime.set({
-            x: Desk.position.x - 10,
-            y: Desk.position.y - 40,
+            x: Desk.width /2,
+            y: Desk.height/2,
             visible: false,
             textAlign: "center"
         });
@@ -209,7 +209,8 @@ this.TWIST = this.TWIST || {};
                     });
             this.remainingTimeTween.addEventListener("change", function () {
                 var currentTime = new Date().getTime();
-                miliseconTimeText.text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
+                var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
+                miliseconTimeText.text = text > 0 ? text : "";
             });
         } else if (this.remainingTimeTween) {
             this.remainingTimeTween.removeAllEventListeners();

@@ -43,6 +43,9 @@ this.TWIST = this.TWIST || {};
         this.errorList = this.errorList || {};
         $.extend(this.errorList, {
             0: "Lỗi hệ thống !",
+            
+            //sam Error
+            34 : "Không được để 2 cuối !",
             1470: "Chưa chọn cây bài !"
         });
     };
@@ -101,6 +104,8 @@ this.TWIST = this.TWIST || {};
         this.on("reconnect", this.reconnect);
 
         this.on("updateUuid", this.updateUuid);
+
+        this.on("notifyOne", this.onNotifyOne);
     };
 
     p.setUserInfo = function (data) {
@@ -207,6 +212,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (data) {
+        this.desk.setRemainingTime(parseInt(data.remainingTime));
         this.status = InRoomGame.statusList[data.newStatus];
         var func = this[this.status];
         if (typeof func === "function") {

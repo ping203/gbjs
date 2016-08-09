@@ -166,6 +166,12 @@ this.TWIST = this.TWIST || {};
         }
     };
 
+    p.onNotifyOne = function (data) {
+        var currentUuid = data.uuid;
+        var currentPlayer = this.getCurrentPlayer();
+        currentPlayer.setPlayerStatus("Báo 1 !");
+    };
+
     p.setPlayerTurn = function (uuid, remainingTime) {
         var totalTime = this.model.turningTime;
         var players = this.playersContainer.children;
@@ -273,7 +279,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
-        console.log("end Game");
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;

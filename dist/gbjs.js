@@ -1393,8 +1393,8 @@ this.TWIST = this.TWIST || {};
     p.createRemainingTime = function () {
         this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
         this.remainingTime.set({
-            x: Desk.position.x - 10,
-            y: Desk.position.y - 40,
+            x: Desk.width /2,
+            y: Desk.height/2,
             visible: false,
             textAlign: "center"
         });
@@ -1535,7 +1535,8 @@ this.TWIST = this.TWIST || {};
                     });
             this.remainingTimeTween.addEventListener("change", function () {
                 var currentTime = new Date().getTime();
-                miliseconTimeText.text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
+                var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
+                miliseconTimeText.text = text > 0 ? text : "";
             });
         } else if (this.remainingTimeTween) {
             this.remainingTimeTween.removeAllEventListeners();
@@ -3236,6 +3237,9 @@ this.TWIST = this.TWIST || {};
         this.errorList = this.errorList || {};
         $.extend(this.errorList, {
             0: "Lỗi hệ thống !",
+            
+            //sam Error
+            34 : "Không được để 2 cuối !",
             1470: "Chưa chọn cây bài !"
         });
     };
@@ -3294,6 +3298,8 @@ this.TWIST = this.TWIST || {};
         this.on("reconnect", this.reconnect);
 
         this.on("updateUuid", this.updateUuid);
+
+        this.on("notifyOne", this.onNotifyOne);
     };
 
     p.setUserInfo = function (data) {
@@ -3400,6 +3406,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (data) {
+        this.desk.setRemainingTime(parseInt(data.remainingTime));
         this.status = InRoomGame.statusList[data.newStatus];
         var func = this[this.status];
         if (typeof func === "function") {
@@ -3716,6 +3723,12 @@ this.TWIST = this.TWIST || {};
         }
     };
 
+    p.onNotifyOne = function (data) {
+        var currentUuid = data.uuid;
+        var currentPlayer = this.getCurrentPlayer();
+        currentPlayer.setPlayerStatus("Báo 1 !");
+    };
+
     p.setPlayerTurn = function (uuid, remainingTime) {
         var totalTime = this.model.turningTime;
         var players = this.playersContainer.children;
@@ -3823,7 +3836,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
-        console.log("end Game");
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;
@@ -3916,7 +3929,7 @@ this.TWIST = this.TWIST || {};
     };
     
     p.endGame = function (data) {
-        console.log("end Game");
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;
@@ -4065,6 +4078,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;

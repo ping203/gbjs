@@ -77,6 +77,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
+        this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();
         var _self = this;
