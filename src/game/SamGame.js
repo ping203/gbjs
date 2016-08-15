@@ -80,70 +80,16 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endGame = function (data) {
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-        var _self = this;
-        var resultData = {};
-        switch (parseInt(data.winType)) {
-            case 2:
-                resultData.winTypeString = "Ăn Sâm";
-                break;
-            case 3:
-                resultData.winTypeString = "Bắt Sâm";
-                break;
-            case 4:
-                resultData.winTypeString = "Thắng !";
-                break;
-            case 9:
-                resultData.winTypeString = "Bị bắt Sâm";
-                break;
-            case 11:
-                resultData.winTypeString = "Phạt Báo 1";
-                break;
-            default:
-                resultData.winTypeString = "Thắng !";
-                break;
-        }
-
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
-            });
-            if (parseInt(player.changeMoney) < 0) {
-                if (data.winType === 4) {
-                    if (cardList.length === this.options.numberCardsInHand) {
-                        player.gameResultString = "Thua cóng";
-                    } else
-                        player.gameResultString = "Thua " + cardList.length + " lá!";
-                } else {
-                    player.gameResultString = "Thua !";
-                }
-            } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = resultData.winTypeString;
-                player.isWinner = true;
-                if(player.uuid === this.userInfo.uuid){
-                    resultData.isWinner = true;
-                }
-            } else {
-                player.gameResultString = "Hòa";
-            }
-
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
-            }
-        }
-
-        setTimeout(function () {
-            _self.showResult(resultData);
-//            _self.emit("showResult", resultData);
-        }, 2000);
+        this.endIngameEvent();
+        var winTypeMap = {
+           2 : "Ăn Sâm",
+           3 : "Bắt Sâm",
+           4 : "Thắng !",
+           9 : "Bị bắt Sâm",
+           11 : "Phạt Báo 1",
+           0 : "Thắng "
+        };
+        this.endDemlaGame(data,winTypeMap,0);
     };
 
     TWIST.SamGame = SamGame;

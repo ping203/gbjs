@@ -4,13 +4,15 @@
 		"src/utils/utils.js",
                 "src/utils/md5.js",
                 
-                "src/events/Observer.js",
+                "src/events/Init.js",
                 "src/events/*.js",
                 
                 "src/logic/TLMNLogic.js",
                 "src/logic/*.js",
                 
                 "src/display/Card.js",
+                "src/display/CSS.js",
+                "src/display/htmlTemplate.js",
                 "src/display/Desk.js",
                 "src/display/Timer.js",
                 "src/display/Player.js",
@@ -19,7 +21,6 @@
                 "src/game/BaseGame.js",
                 "src/game/InRoomGame.js",
                 "src/game/BaseDemlaGame.js",
-                "src/game/TLMNDemlaGame.js",
                 "src/game/*.js",
                 
 		"src/**/*.js"

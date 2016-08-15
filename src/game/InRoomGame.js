@@ -361,9 +361,10 @@ this.TWIST = this.TWIST || {};
         this.wrapper.append(this.resultPanel);
 
         var resultPanelCotainer = this.resultPanel.find('.container')[0];
-        this.resultPanel.find('.container').css("max-height", "400px");
+        this.resultPanel.find('.container').css("height", "320px");
         this.resultPanel.hide();
         this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
+        this.resultPanelScroll.refresh();
         
         var closeButton = this.resultPanel.find('.close-popup');
         var popupMask = this.resultPanel.find('.global-mask');
@@ -377,22 +378,7 @@ this.TWIST = this.TWIST || {};
 
     p.showResult = function (resultData) {
         var _self = this;
-
-        resultData = {
-            isWinner: false,
-            listPlayers: [{
-                    remainCards: [1, 2, 3, 5],
-                    gameResultString: "Thắng đẹp trai",
-                    changeMoney: 1900,
-                    isWinner: true
-                }, {
-                    remainCards: [10, 34, 45, 47],
-                    gameResultString: "Thua toàn tập",
-                    changeMoney: -2000
-                }]
-        };
         this.resultPanel.show();
-
         var resultIcon = this.resultPanel.find('.popup-icon');
         if (resultData.isWinner) {
             resultIcon.removeClass('lose');
@@ -400,14 +386,37 @@ this.TWIST = this.TWIST || {};
             resultIcon.addClass('lose');
         }
         
-        var container = this.resultPanel.find('.container')[0];
+        var container = this.resultPanel.find('.container>div');
         
-//        resultData.listPlayers.forEach(function (item, index) {
-//            var resultItem = $(TWIST.HTMLTemplate.resultPanel.user);
-//            resultItem.
-//            container.append(resultItem);
-//        });
-
+        resultData.listPlayers.forEach(function (item, index) {
+            var cardList = "";
+            var cardListIndex = item.remainCards;
+            cardListIndex.forEach(function(item,index){
+                var template = _.template(TWIST.HTMLTemplate.resultPanel.card);
+                var resultTemplate = template({
+                    id : item
+                });
+                cardList += resultTemplate;
+            });
+            
+            var compiled = _.template(TWIST.HTMLTemplate.resultPanel.user);
+            var resultText = compiled({
+                username : item.username,
+                moneyChange : Global.numberWithDot(item.changeMoney),
+                resultText : item.gameResultString,
+                cardList : cardList,
+                isWinnerClass : item.isWinner ? "winner" : ""
+            });
+            
+            container.append($(resultText));
+        });
+        this.resultPanelScroll.refresh();
+    };
+    
+    p.endIngameEvent = function (){
+        this.desk.setRemainingTime(0);
+        this.buttonBar.hide();
+        this.errorPanel.empty();
     };
 
     p.updateUuid = function (data) {

@@ -7,7 +7,7 @@
 this.TWIST = this.TWIST || {};
         (function () {
         "use strict";
-                TWIST.CSS = "@keyframes error-remove {\n\
+                var CSS = "@keyframes error-remove {\n\
     0%{\n\
         opacity: 1;\n\
     }\n\
@@ -21,7 +21,7 @@ this.TWIST = this.TWIST || {};
         font-size:3px;\n\
     }\n\
 }\n\
-.twist .wrapper{\n\
+.twist .wrapper,.twist.wrapper{\n\
   -webkit-touch-callout: none;\n\
   -webkit-user-select : none;\n\
   font-family: Roboto;\n\
@@ -136,6 +136,7 @@ this.TWIST = this.TWIST || {};
     background-color: rgba(0,0,0,0.5);\n\
 }\n\
 .twist .game-result-popup {\n\
+    position: relative;\n\
     width: 80%;\n\
     margin: 0 auto;\n\
     margin-top: 10%;\n\
@@ -144,9 +145,13 @@ this.TWIST = this.TWIST || {};
     border-radius: 10px;\n\
     box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;\n\
 }\n\
+.twist .game-result-popup .container{\n\
+    overflow: hidden;\n\
+    margin: 10px;\n\
+}\n\
 .twist .popup-header {\n\
     position: relative;\n\
-    min-height: 50px;\n\
+    min-height: 40px;\n\
 }\n\
 .twist .popup-icon {\n\
     position: absolute;\n\
@@ -168,6 +173,123 @@ this.TWIST = this.TWIST || {};
     right: 5px;\n\
     top: 5px;\n\
     font-size: 20px;\n\
-}";
-                var css = $("<style>" + TWIST.CSS + "</style>").appendTo("head");
+}\n\
+.twist .result-item {\n\
+    height: 60px;\n\
+    width: 90%;\n\
+    border-bottom: 1px solid #1d384f;\n\
+    text-align: left;\n\
+    white-space: nowrap;\n\
+    font-size: 16px;\n\
+    color: white;\n\
+    font-weight: bold;\n\
+    margin: 0 auto;\n\
+    padding: 10px 0;\n\
+}\n\
+.twist .result-item:last-child{\n\
+    border-bottom: none;\n\
+}\n\
+.twist .result-item-info {\n\
+    display: inline-block;\n\
+    width: 40%;\n\
+    line-height: 30px;\n\
+}\n\
+.twist .result-item-username {\n\
+    width: 40%;\n\
+    display: inline-block;\n\
+    overflow: hidden;\n\
+    text-overflow: ellipsis;\n\
+    vertical-align: top;\n\
+}\n\
+.twist .result-item-result-info {\n\
+    display: inline-block;\n\
+    vertical-align: top;\n\
+    width: calc(60% - 4px);\n\
+}\n\
+.twist span.result-item-money {\n\
+    font-size: 20px;\n\
+    text-shadow: 0 0 15px rgba(20,118,251,1);\n\
+}\n\
+.twist .user-result-string {\n\
+    color: #93c6fd;\n\
+}\n\
+.twist .winner .result-item-username,.winner .user-result-string {\n\
+    color : #fedc32;\n\
+}\n\
+.twist .winner span.result-item-money{\n\
+    text-shadow: 0 0 15px #fec52e;\n\
+}\n\
+.twist .result-card-list-container {\n\
+    display: inline-block;\n\
+    width: calc(60% - 4px);\n\
+    vertical-align: top;\n\
+    height: 60px;\n\
+    text-align: right;\n\
+}\n\
+.twist .card{\n\
+    width: 45.91px;\n\
+    height: 60px;\n\
+    vertical-align: top;\n\
+    display: inline-block;\n\
+    margin-left: -10px;\n\
+    background-size: cover;\n\
+}\n\
+.twist .card0{background-image: url(http://localhost/gbjs/src/inner/images/card/8.png)}\n\
+.twist .card1{background-image: url(http://localhost/gbjs/src/inner/images/card/9.png)}\n\
+.twist .card2{background-image: url(http://localhost/gbjs/src/inner/images/card/10.png)}\n\
+.twist .card3{background-image: url(http://localhost/gbjs/src/inner/images/card/11.png)}\n\
+.twist .card4{background-image: url(http://localhost/gbjs/src/inner/images/card/12.png)}\n\
+.twist .card5{background-image: url(http://localhost/gbjs/src/inner/images/card/13.png)}\n\
+.twist .card6{background-image: url(http://localhost/gbjs/src/inner/images/card/14.png)}\n\
+.twist .card7{background-image: url(http://localhost/gbjs/src/inner/images/card/15.png)}\n\
+.twist .card8{background-image: url(http://localhost/gbjs/src/inner/images/card/16.png)}\n\
+.twist .card9{background-image: url(http://localhost/gbjs/src/inner/images/card/17.png)}\n\
+.twist .card10{background-image: url(http://localhost/gbjs/src/inner/images/card/18.png)}\n\
+.twist .card11{background-image: url(http://localhost/gbjs/src/inner/images/card/19.png)}\n\
+.twist .card12{background-image: url(http://localhost/gbjs/src/inner/images/card/20.png)}\n\
+.twist .card13{background-image: url(http://localhost/gbjs/src/inner/images/card/21.png)}\n\
+.twist .card14{background-image: url(http://localhost/gbjs/src/inner/images/card/22.png)}\n\
+.twist .card15{background-image: url(http://localhost/gbjs/src/inner/images/card/23.png)}\n\
+.twist .card16{background-image: url(http://localhost/gbjs/src/inner/images/card/24.png)}\n\
+.twist .card17{background-image: url(http://localhost/gbjs/src/inner/images/card/25.png)}\n\
+.twist .card18{background-image: url(http://localhost/gbjs/src/inner/images/card/26.png)}\n\
+.twist .card19{background-image: url(http://localhost/gbjs/src/inner/images/card/27.png)}\n\
+.twist .card20{background-image: url(http://localhost/gbjs/src/inner/images/card/28.png)}\n\
+.twist .card21{background-image: url(http://localhost/gbjs/src/inner/images/card/29.png)}\n\
+.twist .card22{background-image: url(http://localhost/gbjs/src/inner/images/card/30.png)}\n\
+.twist .card23{background-image: url(http://localhost/gbjs/src/inner/images/card/31.png)}\n\
+.twist .card24{background-image: url(http://localhost/gbjs/src/inner/images/card/32.png)}\n\
+.twist .card25{background-image: url(http://localhost/gbjs/src/inner/images/card/33.png)}\n\
+.twist .card26{background-image: url(http://localhost/gbjs/src/inner/images/card/34.png)}\n\
+.twist .card27{background-image: url(http://localhost/gbjs/src/inner/images/card/35.png)}\n\
+.twist .card28{background-image: url(http://localhost/gbjs/src/inner/images/card/36.png)}\n\
+.twist .card29{background-image: url(http://localhost/gbjs/src/inner/images/card/37.png)}\n\
+.twist .card30{background-image: url(http://localhost/gbjs/src/inner/images/card/38.png)}\n\
+.twist .card31{background-image: url(http://localhost/gbjs/src/inner/images/card/39.png)}\n\
+.twist .card32{background-image: url(http://localhost/gbjs/src/inner/images/card/40.png)}\n\
+.twist .card33{background-image: url(http://localhost/gbjs/src/inner/images/card/41.png)}\n\
+.twist .card34{background-image: url(http://localhost/gbjs/src/inner/images/card/42.png)}\n\
+.twist .card35{background-image: url(http://localhost/gbjs/src/inner/images/card/43.png)}\n\
+.twist .card36{background-image: url(http://localhost/gbjs/src/inner/images/card/44.png)}\n\
+.twist .card37{background-image: url(http://localhost/gbjs/src/inner/images/card/45.png)}\n\
+.twist .card38{background-image: url(http://localhost/gbjs/src/inner/images/card/46.png)}\n\
+.twist .card39{background-image: url(http://localhost/gbjs/src/inner/images/card/47.png)}\n\
+.twist .card40{background-image: url(http://localhost/gbjs/src/inner/images/card/48.png)}\n\
+.twist .card41{background-image: url(http://localhost/gbjs/src/inner/images/card/49.png)}\n\
+.twist .card42{background-image: url(http://localhost/gbjs/src/inner/images/card/50.png)}\n\
+.twist .card43{background-image: url(http://localhost/gbjs/src/inner/images/card/51.png)}\n\
+.twist .card44{background-image: url(http://localhost/gbjs/src/inner/images/card/0.png)}\n\
+.twist .card45{background-image: url(http://localhost/gbjs/src/inner/images/card/1.png)}\n\
+.twist .card46{background-image: url(http://localhost/gbjs/src/inner/images/card/2.png)}\n\
+.twist .card47{background-image: url(http://localhost/gbjs/src/inner/images/card/3.png)}\n\
+.twist .card48{background-image: url(http://localhost/gbjs/src/inner/images/card/4.png)}\n\
+.twist .card49{background-image: url(http://localhost/gbjs/src/inner/images/card/5.png)}\n\
+.twist .card50{background-image: url(http://localhost/gbjs/src/inner/images/card/6.png)}\n\
+.twist .card51{background-image: url(http://localhost/gbjs/src/inner/images/card/7.png)}";
+        TWIST.initCSS = function(){
+            var re = /http:\/\/localhost\/gbjs\/src\/inner\/images\//g;
+            var res = CSS.replace(re, TWIST.imagePath);
+            $("<style>" + res + "</style>").appendTo("head");
+        }
+                
         })();

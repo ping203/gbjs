@@ -2,7 +2,7 @@ this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    
+
     function BaseDemlaGame(wrapper, options) {}
 
     var p = BaseDemlaGame.prototype = new TWIST.InRoomGame();
@@ -15,7 +15,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.pushTLMNDemlaEvent = function () {
-        
+
     };
 
     p.STATUS_WAITING_FOR_PLAYER = function () {
@@ -221,12 +221,12 @@ this.TWIST = this.TWIST || {};
 
     p.bindButton = function () {
         var _self = this;
-        
+
         this.startButton.unbind('click');
         this.startButton.click(function () {
             _self.emit("start", _self.model.players);
         });
-        
+
         this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
         this.buttonBar.append(this.hitButton);
         this.hitButton.unbind('click');
@@ -267,49 +267,22 @@ this.TWIST = this.TWIST || {};
         this.setPlayerTurn();
     };
 
-    p.endGame = function (data) {
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
+    p.endDemlaGame = function (data, winTypeMap, nomalWinType) {
         var _self = this;
-        var resultData = {};
-        switch (parseInt(data.winType)) {
-            case 0:
-                resultData.winTypeString = "Tứ quý 3";
-                break;
-            case 1:
-                resultData.winTypeString = "3 đôi thông chứa 3 bích";
-                break;
-            case 2:
-                resultData.winTypeString = "Tứ quý 2";
-                break;
-            case 3:
-                resultData.winTypeString = "6 Đôi";
-                break;
-            case 4:
-                resultData.winTypeString = "5 Đôi thông";
-                break;
-            case 5:
-                resultData.winTypeString = "Sảnh rồng";
-                break;
-            case 16:
-                resultData.winTypeString = "Thắng !";
-                break;
-            default:
-                resultData.winTypeString = "Thắng !";
-                break;
-        }
-
+        var resultData = {
+            isWinner: false,
+            listPlayers: []
+        };
         resultData.listPlayers = data.listPlayers;
         for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
             var player = resultData.listPlayers[i];
             var cardList = player.remainCards;
             cardList.sort(function (a, b) {
-                return a - b
+                return a - b;
             });
             if (parseInt(player.changeMoney) < 0) {
-                if (data.winType == 16) {
-                    if (cardList.length == this.options.numberCardsInHand) {
+                if (data.winType === nomalWinType) {
+                    if (cardList.length === this.options.numberCardsInHand) {
                         player.gameResultString = "Thua cóng";
                     } else
                         player.gameResultString = "Thua " + cardList.length + " lá!";
@@ -317,9 +290,13 @@ this.TWIST = this.TWIST || {};
                     player.gameResultString = "Thua !";
                 }
             } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = resultData.winTypeString;
+                player.gameResultString = winTypeMap[data.winType];
+                player.isWinner = true;
+                if (player.uuid === this.userInfo.uuid) {
+                    resultData.isWinner = true;
+                }
             } else {
-                player.gameResultString = "";
+                player.gameResultString = "Hòa";
             }
 
             var Player = this.getPlayerByUuid(player.uuid);
@@ -329,9 +306,8 @@ this.TWIST = this.TWIST || {};
                 Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
             }
         }
-
         setTimeout(function () {
-            _self.emit("showResult", resultData);
+            _self.showResult(resultData);
         }, 2000);
     };
 

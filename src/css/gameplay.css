@@ -23,10 +23,10 @@ and open the template in the editor.
         font-size:3px;
     }
 }
-.twist .wrapper{
-  -webkit-touch-callout: none;
-  -webkit-user-select : none;
-  font-family: Roboto;
+.twist .wrapper,.twist.wrapper{
+    -webkit-touch-callout: none;
+    -webkit-user-select : none;
+    font-family: Roboto;
 }
 .twist .error-item {
     margin: 20px auto 0;
@@ -140,6 +140,7 @@ and open the template in the editor.
 }
 
 .twist .game-result-popup {
+    position: relative;
     width: 80%;
     margin: 0 auto;
     margin-top: 10%;
@@ -148,10 +149,14 @@ and open the template in the editor.
     border-radius: 10px;
     box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;
 }
+.twist .game-result-popup .container{
+    overflow: hidden;
+    margin: 10px;
+}
 
 .twist .popup-header {
     position: relative;
-    min-height: 50px;
+    height: 40px;
 }
 
 .twist .popup-icon {
@@ -175,3 +180,115 @@ and open the template in the editor.
     top: 5px;
     font-size: 20px;
 }
+.twist .result-item {
+    height: 60px;
+    width: 90%;
+    border-bottom: 1px solid #1d384f;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.twist .result-item:last-child{
+    border-bottom: none;
+}
+.twist .result-item-info {
+    display: inline-block;
+    width: 40%;
+    line-height: 30px;
+}
+.twist .result-item-username {
+    width: 40%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+.twist .result-item-result-info {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(60% - 4px);
+}
+.twist span.result-item-money {
+    font-size: 20px;
+    text-shadow: 0 0 15px rgba(20,118,251,1);
+}
+.twist .user-result-string {
+    color: #93c6fd;
+}
+.twist .winner .result-item-username,.winner .user-result-string {
+    color : #fedc32;
+}
+.twist .winner span.result-item-money{
+    text-shadow: 0 0 15px #fec52e;
+}
+.twist .result-card-list-container {
+    display: inline-block;
+    width: calc(60% - 4px);
+    vertical-align: top;
+    height: 60px;
+    text-align: right;
+}
+.twist .card{
+    width: 45.91px;
+    height: 60px;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: -10px;
+    background-size: cover;
+}
+.twist .card0{background-image: url(http://localhost/gbjs/src/inner/images/card/8.png)}
+.twist .card1{background-image: url(http://localhost/gbjs/src/inner/images/card/9.png)}
+.twist .card2{background-image: url(http://localhost/gbjs/src/inner/images/card/10.png)}
+.twist .card3{background-image: url(http://localhost/gbjs/src/inner/images/card/11.png)}
+.twist .card4{background-image: url(http://localhost/gbjs/src/inner/images/card/12.png)}
+.twist .card5{background-image: url(http://localhost/gbjs/src/inner/images/card/13.png)}
+.twist .card6{background-image: url(http://localhost/gbjs/src/inner/images/card/14.png)}
+.twist .card7{background-image: url(http://localhost/gbjs/src/inner/images/card/15.png)}
+.twist .card8{background-image: url(http://localhost/gbjs/src/inner/images/card/16.png)}
+.twist .card9{background-image: url(http://localhost/gbjs/src/inner/images/card/17.png)}
+.twist .card10{background-image: url(http://localhost/gbjs/src/inner/images/card/18.png)}
+.twist .card11{background-image: url(http://localhost/gbjs/src/inner/images/card/19.png)}
+.twist .card12{background-image: url(http://localhost/gbjs/src/inner/images/card/20.png)}
+.twist .card13{background-image: url(http://localhost/gbjs/src/inner/images/card/21.png)}
+.twist .card14{background-image: url(http://localhost/gbjs/src/inner/images/card/22.png)}
+.twist .card15{background-image: url(http://localhost/gbjs/src/inner/images/card/23.png)}
+.twist .card16{background-image: url(http://localhost/gbjs/src/inner/images/card/24.png)}
+.twist .card17{background-image: url(http://localhost/gbjs/src/inner/images/card/25.png)}
+.twist .card18{background-image: url(http://localhost/gbjs/src/inner/images/card/26.png)}
+.twist .card19{background-image: url(http://localhost/gbjs/src/inner/images/card/27.png)}
+.twist .card20{background-image: url(http://localhost/gbjs/src/inner/images/card/28.png)}
+.twist .card21{background-image: url(http://localhost/gbjs/src/inner/images/card/29.png)}
+.twist .card22{background-image: url(http://localhost/gbjs/src/inner/images/card/30.png)}
+.twist .card23{background-image: url(http://localhost/gbjs/src/inner/images/card/31.png)}
+.twist .card24{background-image: url(http://localhost/gbjs/src/inner/images/card/32.png)}
+.twist .card25{background-image: url(http://localhost/gbjs/src/inner/images/card/33.png)}
+.twist .card26{background-image: url(http://localhost/gbjs/src/inner/images/card/34.png)}
+.twist .card27{background-image: url(http://localhost/gbjs/src/inner/images/card/35.png)}
+.twist .card28{background-image: url(http://localhost/gbjs/src/inner/images/card/36.png)}
+.twist .card29{background-image: url(http://localhost/gbjs/src/inner/images/card/37.png)}
+.twist .card30{background-image: url(http://localhost/gbjs/src/inner/images/card/38.png)}
+.twist .card31{background-image: url(http://localhost/gbjs/src/inner/images/card/39.png)}
+.twist .card32{background-image: url(http://localhost/gbjs/src/inner/images/card/40.png)}
+.twist .card33{background-image: url(http://localhost/gbjs/src/inner/images/card/41.png)}
+.twist .card34{background-image: url(http://localhost/gbjs/src/inner/images/card/42.png)}
+.twist .card35{background-image: url(http://localhost/gbjs/src/inner/images/card/43.png)}
+.twist .card36{background-image: url(http://localhost/gbjs/src/inner/images/card/44.png)}
+.twist .card37{background-image: url(http://localhost/gbjs/src/inner/images/card/45.png)}
+.twist .card38{background-image: url(http://localhost/gbjs/src/inner/images/card/46.png)}
+.twist .card39{background-image: url(http://localhost/gbjs/src/inner/images/card/47.png)}
+.twist .card40{background-image: url(http://localhost/gbjs/src/inner/images/card/48.png)}
+.twist .card41{background-image: url(http://localhost/gbjs/src/inner/images/card/49.png)}
+.twist .card42{background-image: url(http://localhost/gbjs/src/inner/images/card/50.png)}
+.twist .card43{background-image: url(http://localhost/gbjs/src/inner/images/card/51.png)}
+.twist .card44{background-image: url(http://localhost/gbjs/src/inner/images/card/0.png)}
+.twist .card45{background-image: url(http://localhost/gbjs/src/inner/images/card/1.png)}
+.twist .card46{background-image: url(http://localhost/gbjs/src/inner/images/card/2.png)}
+.twist .card47{background-image: url(http://localhost/gbjs/src/inner/images/card/3.png)}
+.twist .card48{background-image: url(http://localhost/gbjs/src/inner/images/card/4.png)}
+.twist .card49{background-image: url(http://localhost/gbjs/src/inner/images/card/5.png)}
+.twist .card50{background-image: url(http://localhost/gbjs/src/inner/images/card/6.png)}
+.twist .card51{background-image: url(http://localhost/gbjs/src/inner/images/card/7.png)}

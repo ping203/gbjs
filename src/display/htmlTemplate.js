@@ -20,27 +20,24 @@ this.TWIST = this.TWIST || {};
                         <div class="popup-content">\n\
                             <div class="container">\n\
                                 <div>\n\
-                                    <div class="result-item">\n\
-                                                \n\
-                                    </div>\n\
                                 </div>\n\
                             </div>\n\
                         </div>\n\
                     </div>\n\
                 </div>',
-            user: '<div class="result-item">\n\
-                    \n\
+            user: '<div class="result-item <%- isWinnerClass %>">\n\
+                        <div class="result-item-info"> \n\
+                                <div class="result-item-username"><%- username %> </div>\n\
+                                <div class="result-item-result-info">\n\
+                                    <span class="result-item-money"><%- moneyChange %></span>\n\
+                                    <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'"><%- resultText %></div>\n\
+                                </div>\n\
+                        </div>\n\
+                        <div class="result-card-list-container">\n\
+                            <%= cardList %>\n\
+                        </div>\n\
                     </div>',
-            info: '<div class="result-item-info"> </div>',
-            username: '<div class="result-item-username"></div>',
-            resultInfo: '<div class="result-item-result-info"></div>',
-            moneyChange : '<span class="result-item-money"></span>',
-            resultText : ' <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'"> </div>',
-            cardList: '<div class="result-card-list-container">\n\
-                            <div class="result-item-card-list">\n\
-                            </div>\n\
-                        </div>',
-            card: '<div class="card"></div>'
+            card: '<div class="card card<%- id %>"></div>'
         },
         buttonBar: {
             wrapper: '<div class="button-bar"></div>',

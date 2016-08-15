@@ -3,6 +3,7 @@
 (function () {
     "use strict";
 //    TWIST.imagePath = location.origin + location.pathname + "../src/images/";
+    TWIST.initCSS();
     var TLMNDemlaGame = new TWIST.SamGame('.wrapper');
 
     var mockupData = [{
@@ -56,55 +57,56 @@
             },
             nextTime: 100
         }
-        , {
-            event: "userJoin",
-            data: {
-                uuid: 4,
-                username: "User Index 4",
-                money: "11000",
-                indexPosition: 0
-            },
-            nextTime: 1000
-        }
-        , {
-            event: "changeStatus",
-            data: {
-                newStatus: 2
-            },
-            nextTime: 100
-        }
-        , {
-            event: "dealCards",
-            data: {
-                cardList : [5,6,7,8,1,2,3,4]
-            },
-            nextTime: 100
-        }
-        , {
-            event: "error",
-            data: {
-                code: 0
-            },
-            nextTime: 100
-        }, {
-            event: "changeMaster",
-            data: {
-                uuid: 2
-            },
-            nextTime: 100
-        }, {
-            event: "isolateUpdateoney",
-            data: {
-                players: [{
-                        uuid: 3,
-                        changeMoney: 1000
-                    }, {
-                        uuid: 1,
-                        changeMoney: -1000
-                    }]
-            },
-            nextTime: 100
-        }, 
+//        , {
+//            event: "userJoin",
+//            data: {
+//                uuid: 4,
+//                username: "User Index 4",
+//                money: "11000",
+//                indexPosition: 0
+//            },
+//            nextTime: 1000
+//        }
+//        , {
+//            event: "changeStatus",
+//            data: {
+//                newStatus: 2
+//            },
+//            nextTime: 100
+//        }
+//        , {
+//            event: "dealCards",
+//            data: {
+//                cardList : [5,6,7,8,1,2,3,4]
+//            },
+//            nextTime: 100
+//        }
+//        , {
+//            event: "error",
+//            data: {
+//                code: 0
+//            },
+//            nextTime: 100
+//        }, {
+//            event: "changeMaster",
+//            data: {
+//                uuid: 2
+//            },
+//            nextTime: 100
+//        }, {
+//            event: "isolateUpdateoney",
+//            data: {
+//                players: [{
+//                        uuid: 3,
+//                        changeMoney: 1000
+//                    }, {
+//                        uuid: 1,
+//                        changeMoney: -1000
+//                    }]
+//            },
+//            nextTime: 100
+//        }
+        , 
 //        {
 //            event: "hitTurn",
 //            data: {
@@ -147,7 +149,8 @@
                         remainCards: [1, 2, 3],
                         changeMoney: 1000,
                         money: 5000,
-                        uuid: 1
+                        uuid: 1,
+                        username : "Hahaha"
                     }]
             },
             nextTime: 1000

@@ -390,23 +390,12 @@ this.Global = this.Global || {};
 }(this))
 this.TWIST = this.TWIST || {};
 
-(function() {
-	"use strict";
-        
-//        var instanceServer;
-//        
-//	function Observer(cardsFire, card) {
-//              if(instanceServer) return instanceServer; 
-//              this.init();
-//	}
-//        
-//        var p = Observer.prototype = new EventEmitter();
-//        
-//        p.init = function(){
-//            instanceServer = this;
-//        };
+(function () {
+    "use strict";
 
-        TWIST.Observer = new EventEmitter();
+    TWIST.Observer = new EventEmitter();
+    TWIST.imagePath = '../src/inner/images/';
+    
 })();
 /**
  * @module Info
@@ -1324,6 +1313,357 @@ this.TWIST = this.TWIST || {};
 
     TWIST.Card = Card;
 })();
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+this.TWIST = this.TWIST || {};
+        (function () {
+        "use strict";
+                var CSS = "@keyframes error-remove {\n\
+    0%{\n\
+        opacity: 1;\n\
+    }\n\
+\n\
+    80%{\n\
+        opacity:0.3;\n\
+        font-size:40px;\n\
+    }\n\
+    100%{\n\
+        opacity:0;\n\
+        font-size:3px;\n\
+    }\n\
+}\n\
+.twist .wrapper,.twist.wrapper{\n\
+  -webkit-touch-callout: none;\n\
+  -webkit-user-select : none;\n\
+  font-family: Roboto;\n\
+}\n\
+.twist .error-item {\n\
+    margin: 20px auto 0;\n\
+    animation-name : error-remove;\n\
+    animation-duration : 3s;\n\
+    animation-timing-function : linear;\n\
+    animation-iteration-count : 1;\n\
+    font-size: 40px;\n\
+    color: #ffea02;\n\
+    font-style: italic;\n\
+}\n\
+.twist .button-bar{\n\
+    position: absolute;\n\
+    left:  0;\n\
+    width: 100%;\n\
+    bottom: 80px;\n\
+    text-align: center;\n\
+    color: white;\n\
+    top: 0;\n\
+}\n\
+.twist .button{\n\
+    display: inline-block;\n\
+    border : 1px solid;\n\
+    border-radius : 5px;\n\
+    line-height: 38px;\n\
+    font-size: 16px;\n\
+    vertical-align: middle;\n\
+    text-align: center;\n\
+    width: 118px;\n\
+    margin-right: 8px;\n\
+    font-weight: bold;\n\
+    cursor: pointer;\n\
+    color: white;\n\
+    transition: text-shadow 0.3s linear,color 0.3s linear;\n\
+    text-transform: uppercase;\n\
+    position: absolute;\n\
+    bottom: 0;\n\
+}\n\
+.twist .button.fist{\n\
+    right: 100px;\n\
+}\n\
+.twist .button.second{\n\
+    right: 235px;\n\
+}\n\
+.twist .button.third{\n\
+    right: 370px;\n\
+}\n\
+.twist .button.fourth{\n\
+    right: 505px;\n\
+}\n\
+.twist .button.red{\n\
+    color:  rgba(255,118,118,0.5);\n\
+    border-color:  rgb(255,118,118);\n\
+    background-image: linear-gradient(rgba(255,118,118,0.1),transparent,rgba(255,118,118,0.1));\n\
+    text-shadow : 0 0 20px rgba(255,255,255,0.5), 0 0 20px rgba(255,118,118,0.5);\n\
+}\n\
+.twist .button.red:active{\n\
+    color : rgba(255,255,255,0.5);\n\
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5), \n\
+        0 0 35px rgba(255,118,118,0.5), 0 0 40px rgba(255,118,118,0.5), 0 0 50px rgba(255,118,118,0.5), 0 0 75px rgba(255,118,118,0.5);\n\
+}\n\
+.twist .button.blue{\n\
+    color:  rgba(32,187,252,0.5);\n\
+    border-color:  rgba(32,187,252,0.5);\n\
+    background-image: linear-gradient(rgba(32,187,252,0.1),transparent,rgba(32,187,252,0.1));\n\
+    text-shadow : 0 0 20px rgba(32,187,252,0.5), 0 0 20px rgba(32,187,252,0.5);\n\
+}\n\
+.twist .button.blue:active{\n\
+    color : rgba(255,255,255,0.5);\n\
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5), \n\
+        0 0 35px rgba(32,187,252,0.5), 0 0 40px rgba(32,187,252,0.5), 0 0 50px rgba(32,187,252,0.5), 0 0 75px rgba(32,187,252,0.5);\n\
+}\n\
+.twist .button.yellow{\n\
+    color:  rgba(254,206,47,0.5);\n\
+    border-color:  rgba(254,206,47,0.5);\n\
+    background-image: linear-gradient(rgba(254,206,47,0.1),transparent,rgba(254,206,47,0.1));\n\
+    text-shadow : 0 0 20px rgba(254,206,47,0.5), 0 0 20px rgba(254,206,47,0.5);\n\
+    margin-left: 0;\n\
+}\n\
+.twist .button.yellow:active{\n\
+    color : rgba(255,255,255,0.5);\n\
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5), \n\
+        0 0 35px rgba(254,206,47,0.5), 0 0 40px rgba(254,206,47,0.5), 0 0 50px rgba(254,206,47,0.5), 0 0 75px rgba(254,206,47,0.5);\n\
+}\n\
+.twist .button.green{\n\
+    color:  rgba(20,210,50,0.5);\n\
+    border-color:  rgba(20,210,50,0.5);\n\
+    background-image: linear-gradient(rgba(20,210,50,0.1),transparent,rgba(20,210,50,0.1));\n\
+    text-shadow : 0 0 20px rgba(20,210,50,0.5), 0 0 20px rgba(20,210,50,0.5);\n\
+}\n\
+.twist .button.green:active{\n\
+    color : rgba(255,255,255,0.5);\n\
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), \n\
+        0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);\n\
+}\n\
+.twist .game-result {\n\
+    position: absolute;\n\
+    top: 0;\n\
+    left: 0;\n\
+    width: 100%;\n\
+    height: 100%;\n\
+}\n\
+.twist .global-mask {\n\
+    position: absolute;\n\
+    top: 0;\n\
+    left: 0;\n\
+    right: 0;\n\
+    bottom: 0;\n\
+    background-color: rgba(0,0,0,0.5);\n\
+}\n\
+.twist .game-result-popup {\n\
+    position: relative;\n\
+    width: 80%;\n\
+    margin: 0 auto;\n\
+    margin-top: 10%;\n\
+    min-height: 200px;\n\
+    background-color: #131E28;\n\
+    border-radius: 10px;\n\
+    box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;\n\
+}\n\
+.twist .game-result-popup .container{\n\
+    overflow: hidden;\n\
+    margin: 10px;\n\
+}\n\
+.twist .popup-header {\n\
+    position: relative;\n\
+    min-height: 40px;\n\
+}\n\
+.twist .popup-icon {\n\
+    position: absolute;\n\
+    left: calc(50% - 90px);\n\
+    top: -60px;\n\
+    width: 180px;\n\
+    height: 120px;\n\
+    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/win.png);\n\
+}\n\
+.twist .popup-icon.lose {\n\
+    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/lose.png);\n\
+}\n\
+.twist .close-popup {\n\
+    position: absolute;\n\
+    line-height: 30px;\n\
+    width: 30px;\n\
+    color: #c4e1ff;\n\
+    cursor: pointer;\n\
+    right: 5px;\n\
+    top: 5px;\n\
+    font-size: 20px;\n\
+}\n\
+.twist .result-item {\n\
+    height: 60px;\n\
+    width: 90%;\n\
+    border-bottom: 1px solid #1d384f;\n\
+    text-align: left;\n\
+    white-space: nowrap;\n\
+    font-size: 16px;\n\
+    color: white;\n\
+    font-weight: bold;\n\
+    margin: 0 auto;\n\
+    padding: 10px 0;\n\
+}\n\
+.twist .result-item:last-child{\n\
+    border-bottom: none;\n\
+}\n\
+.twist .result-item-info {\n\
+    display: inline-block;\n\
+    width: 40%;\n\
+    line-height: 30px;\n\
+}\n\
+.twist .result-item-username {\n\
+    width: 40%;\n\
+    display: inline-block;\n\
+    overflow: hidden;\n\
+    text-overflow: ellipsis;\n\
+    vertical-align: top;\n\
+}\n\
+.twist .result-item-result-info {\n\
+    display: inline-block;\n\
+    vertical-align: top;\n\
+    width: calc(60% - 4px);\n\
+}\n\
+.twist span.result-item-money {\n\
+    font-size: 20px;\n\
+    text-shadow: 0 0 15px rgba(20,118,251,1);\n\
+}\n\
+.twist .user-result-string {\n\
+    color: #93c6fd;\n\
+}\n\
+.twist .winner .result-item-username,.winner .user-result-string {\n\
+    color : #fedc32;\n\
+}\n\
+.twist .winner span.result-item-money{\n\
+    text-shadow: 0 0 15px #fec52e;\n\
+}\n\
+.twist .result-card-list-container {\n\
+    display: inline-block;\n\
+    width: calc(60% - 4px);\n\
+    vertical-align: top;\n\
+    height: 60px;\n\
+    text-align: right;\n\
+}\n\
+.twist .card{\n\
+    width: 45.91px;\n\
+    height: 60px;\n\
+    vertical-align: top;\n\
+    display: inline-block;\n\
+    margin-left: -10px;\n\
+    background-size: cover;\n\
+}\n\
+.twist .card0{background-image: url(http://localhost/gbjs/src/inner/images/card/8.png)}\n\
+.twist .card1{background-image: url(http://localhost/gbjs/src/inner/images/card/9.png)}\n\
+.twist .card2{background-image: url(http://localhost/gbjs/src/inner/images/card/10.png)}\n\
+.twist .card3{background-image: url(http://localhost/gbjs/src/inner/images/card/11.png)}\n\
+.twist .card4{background-image: url(http://localhost/gbjs/src/inner/images/card/12.png)}\n\
+.twist .card5{background-image: url(http://localhost/gbjs/src/inner/images/card/13.png)}\n\
+.twist .card6{background-image: url(http://localhost/gbjs/src/inner/images/card/14.png)}\n\
+.twist .card7{background-image: url(http://localhost/gbjs/src/inner/images/card/15.png)}\n\
+.twist .card8{background-image: url(http://localhost/gbjs/src/inner/images/card/16.png)}\n\
+.twist .card9{background-image: url(http://localhost/gbjs/src/inner/images/card/17.png)}\n\
+.twist .card10{background-image: url(http://localhost/gbjs/src/inner/images/card/18.png)}\n\
+.twist .card11{background-image: url(http://localhost/gbjs/src/inner/images/card/19.png)}\n\
+.twist .card12{background-image: url(http://localhost/gbjs/src/inner/images/card/20.png)}\n\
+.twist .card13{background-image: url(http://localhost/gbjs/src/inner/images/card/21.png)}\n\
+.twist .card14{background-image: url(http://localhost/gbjs/src/inner/images/card/22.png)}\n\
+.twist .card15{background-image: url(http://localhost/gbjs/src/inner/images/card/23.png)}\n\
+.twist .card16{background-image: url(http://localhost/gbjs/src/inner/images/card/24.png)}\n\
+.twist .card17{background-image: url(http://localhost/gbjs/src/inner/images/card/25.png)}\n\
+.twist .card18{background-image: url(http://localhost/gbjs/src/inner/images/card/26.png)}\n\
+.twist .card19{background-image: url(http://localhost/gbjs/src/inner/images/card/27.png)}\n\
+.twist .card20{background-image: url(http://localhost/gbjs/src/inner/images/card/28.png)}\n\
+.twist .card21{background-image: url(http://localhost/gbjs/src/inner/images/card/29.png)}\n\
+.twist .card22{background-image: url(http://localhost/gbjs/src/inner/images/card/30.png)}\n\
+.twist .card23{background-image: url(http://localhost/gbjs/src/inner/images/card/31.png)}\n\
+.twist .card24{background-image: url(http://localhost/gbjs/src/inner/images/card/32.png)}\n\
+.twist .card25{background-image: url(http://localhost/gbjs/src/inner/images/card/33.png)}\n\
+.twist .card26{background-image: url(http://localhost/gbjs/src/inner/images/card/34.png)}\n\
+.twist .card27{background-image: url(http://localhost/gbjs/src/inner/images/card/35.png)}\n\
+.twist .card28{background-image: url(http://localhost/gbjs/src/inner/images/card/36.png)}\n\
+.twist .card29{background-image: url(http://localhost/gbjs/src/inner/images/card/37.png)}\n\
+.twist .card30{background-image: url(http://localhost/gbjs/src/inner/images/card/38.png)}\n\
+.twist .card31{background-image: url(http://localhost/gbjs/src/inner/images/card/39.png)}\n\
+.twist .card32{background-image: url(http://localhost/gbjs/src/inner/images/card/40.png)}\n\
+.twist .card33{background-image: url(http://localhost/gbjs/src/inner/images/card/41.png)}\n\
+.twist .card34{background-image: url(http://localhost/gbjs/src/inner/images/card/42.png)}\n\
+.twist .card35{background-image: url(http://localhost/gbjs/src/inner/images/card/43.png)}\n\
+.twist .card36{background-image: url(http://localhost/gbjs/src/inner/images/card/44.png)}\n\
+.twist .card37{background-image: url(http://localhost/gbjs/src/inner/images/card/45.png)}\n\
+.twist .card38{background-image: url(http://localhost/gbjs/src/inner/images/card/46.png)}\n\
+.twist .card39{background-image: url(http://localhost/gbjs/src/inner/images/card/47.png)}\n\
+.twist .card40{background-image: url(http://localhost/gbjs/src/inner/images/card/48.png)}\n\
+.twist .card41{background-image: url(http://localhost/gbjs/src/inner/images/card/49.png)}\n\
+.twist .card42{background-image: url(http://localhost/gbjs/src/inner/images/card/50.png)}\n\
+.twist .card43{background-image: url(http://localhost/gbjs/src/inner/images/card/51.png)}\n\
+.twist .card44{background-image: url(http://localhost/gbjs/src/inner/images/card/0.png)}\n\
+.twist .card45{background-image: url(http://localhost/gbjs/src/inner/images/card/1.png)}\n\
+.twist .card46{background-image: url(http://localhost/gbjs/src/inner/images/card/2.png)}\n\
+.twist .card47{background-image: url(http://localhost/gbjs/src/inner/images/card/3.png)}\n\
+.twist .card48{background-image: url(http://localhost/gbjs/src/inner/images/card/4.png)}\n\
+.twist .card49{background-image: url(http://localhost/gbjs/src/inner/images/card/5.png)}\n\
+.twist .card50{background-image: url(http://localhost/gbjs/src/inner/images/card/6.png)}\n\
+.twist .card51{background-image: url(http://localhost/gbjs/src/inner/images/card/7.png)}";
+        TWIST.initCSS = function(){
+            var re = /http:\/\/localhost\/gbjs\/src\/inner\/images\//g;
+            var res = CSS.replace(re, TWIST.imagePath);
+            $("<style>" + res + "</style>").appendTo("head");
+        }
+                
+        })();
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+this.TWIST = this.TWIST || {};
+(function () {
+    "use strict";
+    var HTMLTemplate = {
+        canvas: '<canvas id="testCanvas" width="1000" height="580" ></canvas>',
+        resultPanel: {
+            wrapper: '<div class="game-result">\n\
+                    <div class="global-mask"></div>\n\
+                    <div class="game-result-popup">\n\
+                        <div class="popup-header">\n\
+                            <div class="popup-icon"></div> \n\
+                            <div class="close-popup">X</div>\n\
+                        </div>\n\
+                        <div class="popup-content">\n\
+                            <div class="container">\n\
+                                <div>\n\
+                                </div>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>',
+            user: '<div class="result-item <%- isWinnerClass %>">\n\
+                        <div class="result-item-info"> \n\
+                                <div class="result-item-username"><%- username %> </div>\n\
+                                <div class="result-item-result-info">\n\
+                                    <span class="result-item-money"><%- moneyChange %></span>\n\
+                                    <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'"><%- resultText %></div>\n\
+                                </div>\n\
+                        </div>\n\
+                        <div class="result-card-list-container">\n\
+                            <%= cardList %>\n\
+                        </div>\n\
+                    </div>',
+            card: '<div class="card card<%- id %>"></div>'
+        },
+        buttonBar: {
+            wrapper: '<div class="button-bar"></div>',
+            startButton: '<div class="button fist green" id="start-button">Bắt đầu</div>',
+            hitButton: '<div class="button second yellow" id="hit-card">Đánh bài</div>',
+            sortCardButton: '<div class="button third blue" id="sort-card">Xắp xếp</div>',
+            foldTurnButton: '<div class="button fourth red" id="fold-turn">Bỏ lượt</div>',
+            callSamButton: '<div class="button fourth red" id="call-sam">Báo sâm</div>',
+            foldSamButton: '<div class="button third blue" id="fold-sam">Bỏ sâm</div>'
+        },
+        errorPanel: '<div class="error-panel" style="position: absolute;left: 200px; top : 200px; text-align: center; width: 600px"></div>'
+    };
+    TWIST.HTMLTemplate = HTMLTemplate;
+})();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -2899,66 +3239,6 @@ this.TWIST = this.TWIST || {};
     TWIST.Player = Player;
 
 })();
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-this.TWIST = this.TWIST || {};
-(function () {
-    "use strict";
-    var HTMLTemplate = {
-        resultPanel: {
-            wrapper: '<div id="result-panel">\n\
-                <div class="game-result">\n\
-                    <div class="global-mask"></div>\n\
-                    <div class="game-result-popup">\n\
-                        <div class="popup-inner">\n\
-                            <div class="popup-header">\n\
-                                <div class="popup-header-inner"> \n\
-                                    Tổng kết ván đánh \n\
-                                    <div ng-click="closeResult()" class="close-popup"></div>\n\
-                                </div>\n\
-                            </div>\n\
-                            <div class="popup-content" ng-init="userList = gameResult.data.listPlayers">\n\
-                                <div class="iscroll-on">\n\
-                                    <div class="iscroll-wrapper" iscroll style="height:412px; color: #777">\n\
-                                        <div class="iscroll-scroller">\n\
-                                        </div><!--.iscroll-scroller-->\n\
-                                    </div>\n\
-                                </div>\n\
-                            </div>\n\
-                        </div>\n\
-                    </div>\n\
-                </div>\n\
-            </div>',
-            user: '<div class="result-item" ng-repeat="user in gameResult.data.listPlayers">\n\
-                                                \n\
-                                                \n\
-                                            </div>',
-            info: '<div class="result-item-info">\n\
-                                                    <div class="result-item-info-left">{{user.userName}}</div>\n\
-                                                    <div class="result-item-info-right">\n\
-                                                        <span >{{user.gameResultString}}</span>\n\
-                                                        <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'">\n\
-                                                            {{user.subMoney|goldWithDot2}}\n\
-                                                        </div>\n\
-                                                    </div>\n\
-                                                </div>',
-            cardList: '<div class="result-card-list-container">\n\
-                                                    <div ng-if="roomInfo.game.code != \'Phom\'" class="result-item-card-list" ng-init="cardList = user.remainCards">\n\
-                                                    </div>\n\
-                                                </div>',
-            card: '<div class="card card{{card}}" ng-repeat="card in cardList">\n\
-                                                            <div class="card-dummy"></div>\n\
-                                                            <div class="card-image"></div>\n\
-                                                        </div>'
-        }
-    };
-    TWIST.HTMLTemplate = HTMLTemplate;
-})();
-
 /**
  * @module Sortable
  */
@@ -3200,30 +3480,35 @@ this.TWIST = this.TWIST || {};
 
     function BaseGame() {}
 
+    var initOptions = {
+        width: 1000,
+        height: 580
+    };
     var p = BaseGame.prototype = new EventEmitter();
 
     p.initBaseGame = function () {
 
         //Event List
         this.events = {
-            info: "drawInfo"
+//            info: "drawInfo"
         };
 
-        //Player List
-        this.player = [];
-        
+        this.initEvent();
         this.initCanvas();
-        this.initCss();
     };
 
     p.initCanvas = function () {
-        var canvas = this.wrapper.find('canvas')[0];
-        if (!canvas)
-            return;
+        var canvas = $(TWIST.HTMLTemplate.canvas);
+        canvas.attr({
+            width: this.options.width || initOptions.width,
+            height: this.options.height || initOptions.height
+        });
+
+        this.wrapper.prepend(canvas);
 
         var _self = this;
 
-        var stage = new createjs.Stage(canvas);
+        var stage = new createjs.Stage(canvas[0]);
         stage.enableMouseOver(20);
         var context = stage.canvas.getContext("2d");
         context.mozImageSmoothingEnabled = true;
@@ -3248,10 +3533,6 @@ this.TWIST = this.TWIST || {};
         for (var pro in events) {
             this.on(pro, this[events[pro]]);
         }
-    };
-
-    p.initCss = function () {
-        console.log("init Css");
     };
 
     TWIST.BaseGame = BaseGame;
@@ -3293,47 +3574,42 @@ this.TWIST = this.TWIST || {};
         this.initErrotPanel();
         this.initButtonBar();
         this.initResultPanel();
+        this.observerEvent();
         this.userInfo = {};
         this.status = InRoomGame.statusList['0'];
         this.model = this.model || {};
     };
 
     p.initErrotPanel = function () {
-        this.errorPanel = this.wrapper.find('.error-panel');
+        this.errorPanel = $(TWIST.HTMLTemplate.errorPanel);
+        this.wrapper.append(this.errorPanel);
         this.errorList = this.errorList || {};
         $.extend(this.errorList, {
             0: "Lỗi hệ thống !",
-            
             //sam Error
-            34 : "Không được để 2 cuối !",
+            34: "Không được để 2 cuối !",
             1470: "Chưa chọn cây bài !"
         });
     };
 
     p.initButtonBar = function () {
-        this.buttonBar = this.wrapper.find('.button-bar');
+        this.buttonBar = $(TWIST.HTMLTemplate.buttonBar.wrapper);
+        this.wrapper.append(this.buttonBar);
+        this.startButton = $(TWIST.HTMLTemplate.buttonBar.startButton);
+        this.buttonBar.append(this.startButton);
         this.buttonBar.hide();
-        this.startButton = this.buttonBar.find('#start-button');
-    };
-
-    p.initResultPanel = function () {
-        this.resultPanel = this.wrapper.find('#result-panel');
-        if(this.resultPanel.length === 0){
-            var resultPanel = $('<div id="#result-panel">\n\
-                \n\
-                </div>');
-            this.resultPanel = resultPanel.appendTo(this.wrapper);
-        }
-        this.buttonBar.hide();
-        this.startButton = this.buttonBar.find('#start-button');
     };
 
     p.drawRoom = function () {
         var canvas = this.wrapper.find('canvas');
-        canvas.css("background-image","url("+TWIST.imagePath+"Desk-bg.png)")
+        canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.canvas.addChild(this.playersContainer, this.desk);
+        this.wrapper.css({
+            width: canvas.width(),
+            height: canvas.height()
+        });
     };
 
     p.pushInRoomGameEvent = function () {
@@ -3385,6 +3661,13 @@ this.TWIST = this.TWIST || {};
         this.userInfo.uuid = data.uuid || data.id;
     };
 
+    p.observerEvent = function () {
+        var _self = this;
+        TWIST.Observer.on("cardSelected", function (card) {
+            _self.handCardSelected(card);
+        });
+    };
+
     p.drawGameInfo = function (data) {
         this.model = this.model || {};
         $.extend(this.model, data);
@@ -3405,7 +3688,7 @@ this.TWIST = this.TWIST || {};
                 this.startButton.show();
             }
         }
-        if(data.remainingTime) {
+        if (data.remainingTime) {
             this.desk.setRemainingTime(data.remainingTime);
         }
     };
@@ -3611,24 +3894,69 @@ this.TWIST = this.TWIST || {};
         players.splice(index, 1);
     };
 
+    p.initResultPanel = function () {
+        var _self = this;
+        
+        this.resultPanel = $(TWIST.HTMLTemplate.resultPanel.wrapper);
+        this.wrapper.append(this.resultPanel);
+
+        var resultPanelCotainer = this.resultPanel.find('.container')[0];
+        this.resultPanel.find('.container').css("height", "320px");
+        this.resultPanel.hide();
+        this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
+        this.resultPanelScroll.refresh();
+        
+        var closeButton = this.resultPanel.find('.close-popup');
+        var popupMask = this.resultPanel.find('.global-mask');
+        closeButton.on('click', function(){
+            _self.resultPanel.hide();
+        });
+        popupMask.on('click', function(){
+            _self.resultPanel.hide();
+        });
+    };
+
     p.showResult = function (resultData) {
-        resultData = {
-            listPlayers : [{
-                remainCards : [],
-                gameResultString : "",
-                changeMoney : 0
-            }]
-        };
-        var players = this.model.players || [];
-        var index = players.length;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player.uuid === uuid) {
-                index = i;
-                break;
-            }
+        var _self = this;
+        this.resultPanel.show();
+        var resultIcon = this.resultPanel.find('.popup-icon');
+        if (resultData.isWinner) {
+            resultIcon.removeClass('lose');
+        } else {
+            resultIcon.addClass('lose');
         }
-        players.splice(index, 1);
+        
+        var container = this.resultPanel.find('.container>div');
+        
+        resultData.listPlayers.forEach(function (item, index) {
+            var cardList = "";
+            var cardListIndex = item.remainCards;
+            cardListIndex.forEach(function(item,index){
+                var template = _.template(TWIST.HTMLTemplate.resultPanel.card);
+                var resultTemplate = template({
+                    id : item
+                });
+                cardList += resultTemplate;
+            });
+            
+            var compiled = _.template(TWIST.HTMLTemplate.resultPanel.user);
+            var resultText = compiled({
+                username : item.username,
+                moneyChange : Global.numberWithDot(item.changeMoney),
+                resultText : item.gameResultString,
+                cardList : cardList,
+                isWinnerClass : item.isWinner ? "winner" : ""
+            });
+            
+            container.append($(resultText));
+        });
+        this.resultPanelScroll.refresh();
+    };
+    
+    p.endIngameEvent = function (){
+        this.desk.setRemainingTime(0);
+        this.buttonBar.hide();
+        this.errorPanel.empty();
     };
 
     p.updateUuid = function (data) {
@@ -3656,7 +3984,7 @@ this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    
+
     function BaseDemlaGame(wrapper, options) {}
 
     var p = BaseDemlaGame.prototype = new TWIST.InRoomGame();
@@ -3665,14 +3993,11 @@ this.TWIST = this.TWIST || {};
         TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
         this.initInRoomGame();
         this.pushTLMNDemlaEvent();
-        this.initResultPanel();
-        this.initEvent();
         this.bindButton();
-        this.observerEvent();
     };
 
     p.pushTLMNDemlaEvent = function () {
-        this.on("gameInfo", this.drawGameInfo);
+
     };
 
     p.STATUS_WAITING_FOR_PLAYER = function () {
@@ -3687,18 +4012,6 @@ this.TWIST = this.TWIST || {};
         if (playerData && playerData.isRoomMaster) {
             this.startButton.show();
         }
-    };
-
-    p.initResultPanel = function () {
-        this.resultPanel = this.wrapper.find('#result-panel');
-        this.resultPanel.hide();
-    };
-
-    p.observerEvent = function () {
-        var _self = this;
-        TWIST.Observer.on("cardSelected", function (card) {
-            _self.handCardSelected(card);
-        });
     };
 
     p.handCardSelected = function (card) {
@@ -3890,12 +4203,14 @@ this.TWIST = this.TWIST || {};
 
     p.bindButton = function () {
         var _self = this;
+
         this.startButton.unbind('click');
         this.startButton.click(function () {
             _self.emit("start", _self.model.players);
         });
 
-        this.hitButton = this.wrapper.find('#hit-card');
+        this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
+        this.buttonBar.append(this.hitButton);
         this.hitButton.unbind('click');
         this.hitButton.click(function () {
             var Player = _self.getCurrentPlayer();
@@ -3911,14 +4226,16 @@ this.TWIST = this.TWIST || {};
             });
         });
 
-        this.sortCardButton = this.wrapper.find('#sort-card');
+        this.sortCardButton = $(TWIST.HTMLTemplate.buttonBar.sortCardButton);
+        this.buttonBar.append(this.sortCardButton);
         this.sortCardButton.unbind('click');
         this.sortCardButton.click(function () {
             var Player = _self.getCurrentPlayer();
             Player.sortTL();
         });
 
-        this.foldTurnButton = this.wrapper.find('#fold-turn');
+        this.foldTurnButton = $(TWIST.HTMLTemplate.buttonBar.foldTurnButton);
+        this.buttonBar.append(this.foldTurnButton);
         this.foldTurnButton.unbind('click');
         this.foldTurnButton.click(function () {
             _self.emit('userFold');
@@ -3932,49 +4249,22 @@ this.TWIST = this.TWIST || {};
         this.setPlayerTurn();
     };
 
-    p.endGame = function (data) {
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
+    p.endDemlaGame = function (data, winTypeMap, nomalWinType) {
         var _self = this;
-        var resultData = {};
-        switch (parseInt(data.winType)) {
-            case 0:
-                resultData.winTypeString = "Tứ quý 3";
-                break;
-            case 1:
-                resultData.winTypeString = "3 đôi thông chứa 3 bích";
-                break;
-            case 2:
-                resultData.winTypeString = "Tứ quý 2";
-                break;
-            case 3:
-                resultData.winTypeString = "6 Đôi";
-                break;
-            case 4:
-                resultData.winTypeString = "5 Đôi thông";
-                break;
-            case 5:
-                resultData.winTypeString = "Sảnh rồng";
-                break;
-            case 16:
-                resultData.winTypeString = "Thắng !";
-                break;
-            default:
-                resultData.winTypeString = "Thắng !";
-                break;
-        }
-
+        var resultData = {
+            isWinner: false,
+            listPlayers: []
+        };
         resultData.listPlayers = data.listPlayers;
         for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
             var player = resultData.listPlayers[i];
             var cardList = player.remainCards;
             cardList.sort(function (a, b) {
-                return a - b
+                return a - b;
             });
             if (parseInt(player.changeMoney) < 0) {
-                if (data.winType == 16) {
-                    if (cardList.length == this.options.numberCardsInHand) {
+                if (data.winType === nomalWinType) {
+                    if (cardList.length === this.options.numberCardsInHand) {
                         player.gameResultString = "Thua cóng";
                     } else
                         player.gameResultString = "Thua " + cardList.length + " lá!";
@@ -3982,9 +4272,13 @@ this.TWIST = this.TWIST || {};
                     player.gameResultString = "Thua !";
                 }
             } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = resultData.winTypeString;
+                player.gameResultString = winTypeMap[data.winType];
+                player.isWinner = true;
+                if (player.uuid === this.userInfo.uuid) {
+                    resultData.isWinner = true;
+                }
             } else {
-                player.gameResultString = "";
+                player.gameResultString = "Hòa";
             }
 
             var Player = this.getPlayerByUuid(player.uuid);
@@ -3994,9 +4288,8 @@ this.TWIST = this.TWIST || {};
                 Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
             }
         }
-
         setTimeout(function () {
-            _self.emit("showResult", resultData);
+            _self.showResult(resultData);
         }, 2000);
     };
 
@@ -4009,109 +4302,16 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     var initOptions = {
-        maxPlayers: 4,
-        numberCardsInHand: 13,
-        turnTime: 20000
-    };
-
-    function TLMNDemlaGame(wrapper, options) {
-        this.wrapper = $(wrapper);
-        this.options = $.extend(initOptions, options);
-        this.initTLMNDemlaGame();
-    }
-    var p = TLMNDemlaGame.prototype = new TWIST.BaseDemlaGame();
-
-    p.initTLMNDemlaGame = function (wrapper) { 
-        this.initBaseDemlaGame();
-    };
-    
-    p.endGame = function (data) {
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-        var _self = this;
-        var resultData = {};
-        switch (parseInt(data.winType)) {
-            case 0:
-                resultData.winTypeString = "Tứ quý 3";
-                break;
-            case 1:
-                resultData.winTypeString = "3 đôi thông chứa 3 bích";
-                break;
-            case 2:
-                resultData.winTypeString = "Tứ quý 2";
-                break;
-            case 3:
-                resultData.winTypeString = "6 Đôi";
-                break;
-            case 4:
-                resultData.winTypeString = "5 Đôi thông";
-                break;
-            case 5:
-                resultData.winTypeString = "Sảnh rồng";
-                break;
-            case 16:
-                resultData.winTypeString = "Thắng !";
-                break;
-            default:
-                resultData.winTypeString = "Thắng !";
-                break;
-        }
-
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b
-            });
-            if (parseInt(player.changeMoney) < 0) {
-                if (data.winType == 16) {
-                    if (cardList.length == this.options.numberCardsInHand) {
-                        player.gameResultString = "Thua cóng";
-                    } else
-                        player.gameResultString = "Thua " + cardList.length + " lá!";
-                } else {
-                    player.gameResultString = "Thua !";
-                }
-            } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = resultData.winTypeString;
-            } else {
-                player.gameResultString = "";
-            }
-
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
-            }
-        }
-
-        setTimeout(function () {
-            _self.emit("showResult", resultData);
-        }, 2000);
-    };
-
-    TWIST.TLMNDemlaGame = TLMNDemlaGame;
-
-})();
-this.TWIST = this.TWIST || {};
-
-(function () {
-    "use strict";
-
-    var initOptions = {
         maxPlayers: 5,
         numberCardsInHand: 10,
         turnTime: 20000
     };
-    function SamGame(wrapper, options) {
+    function MiniPoker(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
-        this.initSamGame();
+        this.initMiniPoker();
     }
-    var p = SamGame.prototype = new TWIST.BaseDemlaGame();
+    var p = MiniPoker.prototype = new TWIST.BaseGame();
 
     p.initSamGame = function (wrapper) {
         this.initBaseDemlaGame();
@@ -4128,13 +4328,16 @@ this.TWIST = this.TWIST || {};
 
     p.bindSamButton = function () {
         var _self = this;
-        this.callSamButton = this.wrapper.find('#call-sam');
+
+        this.callSamButton = $(TWIST.HTMLTemplate.buttonBar.callSamButton);
+        this.buttonBar.append(this.callSamButton);
         this.callSamButton.unbind('click');
         this.callSamButton.click(function () {
             _self.emit("call-sam");
         });
 
-        this.foldSamButton = this.wrapper.find('#fold-sam');
+        this.foldSamButton = $(TWIST.HTMLTemplate.buttonBar.foldSamButton);
+        this.buttonBar.append(this.foldSamButton);
         this.foldSamButton.unbind('click');
         this.foldSamButton.click(function () {
             _self.emit("fold-sam");
@@ -4181,26 +4384,20 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         var resultData = {};
         switch (parseInt(data.winType)) {
-            case 0:
-                resultData.winTypeString = "Tứ quý 3";
-                break;
-            case 1:
-                resultData.winTypeString = "3 đôi thông chứa 3 bích";
-                break;
             case 2:
-                resultData.winTypeString = "Tứ quý 2";
+                resultData.winTypeString = "Ăn Sâm";
                 break;
             case 3:
-                resultData.winTypeString = "6 Đôi";
+                resultData.winTypeString = "Bắt Sâm";
                 break;
             case 4:
-                resultData.winTypeString = "5 Đôi thông";
-                break;
-            case 5:
-                resultData.winTypeString = "Sảnh rồng";
-                break;
-            case 16:
                 resultData.winTypeString = "Thắng !";
+                break;
+            case 9:
+                resultData.winTypeString = "Bị bắt Sâm";
+                break;
+            case 11:
+                resultData.winTypeString = "Phạt Báo 1";
                 break;
             default:
                 resultData.winTypeString = "Thắng !";
@@ -4212,11 +4409,11 @@ this.TWIST = this.TWIST || {};
             var player = resultData.listPlayers[i];
             var cardList = player.remainCards;
             cardList.sort(function (a, b) {
-                return a - b
+                return a - b;
             });
             if (parseInt(player.changeMoney) < 0) {
-                if (data.winType == 16) {
-                    if (cardList.length == this.options.numberCardsInHand) {
+                if (data.winType === 4) {
+                    if (cardList.length === this.options.numberCardsInHand) {
                         player.gameResultString = "Thua cóng";
                     } else
                         player.gameResultString = "Thua " + cardList.length + " lá!";
@@ -4225,8 +4422,12 @@ this.TWIST = this.TWIST || {};
                 }
             } else if (parseInt(player.changeMoney) > 0) {
                 player.gameResultString = resultData.winTypeString;
+                player.isWinner = true;
+                if(player.uuid === this.userInfo.uuid){
+                    resultData.isWinner = true;
+                }
             } else {
-                player.gameResultString = "";
+                player.gameResultString = "Hòa";
             }
 
             var Player = this.getPlayerByUuid(player.uuid);
@@ -4239,11 +4440,147 @@ this.TWIST = this.TWIST || {};
 
         setTimeout(function () {
             _self.showResult(resultData);
-            _self.emit("showResult", resultData);
+//            _self.emit("showResult", resultData);
         }, 2000);
     };
 
+    TWIST.MiniPoker = MiniPoker;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
+    "use strict";
+
+    var initOptions = {
+        maxPlayers: 5,
+        numberCardsInHand: 10,
+        turnTime: 20000
+    };
+    function SamGame(wrapper, options) {
+        this.wrapper = $(wrapper);
+        this.options = $.extend(initOptions, options);
+        this.initSamGame();
+    }
+    var p = SamGame.prototype = new TWIST.BaseDemlaGame();
+
+    p.initSamGame = function (wrapper) {
+        this.initBaseDemlaGame();
+        this.pushSamGameEvent();
+        this.bindSamButton();
+    };
+
+    p.pushSamGameEvent = function () {
+        this.on("inviteSam", this.onInviteSam);
+        this.on("endInviteSam", this.onEndInviteSam);
+        this.on("foldSam", this.onFoldSam);
+        this.on("callSam", this.onCallSam);
+    };
+
+    p.bindSamButton = function () {
+        var _self = this;
+
+        this.callSamButton = $(TWIST.HTMLTemplate.buttonBar.callSamButton);
+        this.buttonBar.append(this.callSamButton);
+        this.callSamButton.unbind('click');
+        this.callSamButton.click(function () {
+            _self.emit("call-sam");
+        });
+
+        this.foldSamButton = $(TWIST.HTMLTemplate.buttonBar.foldSamButton);
+        this.buttonBar.append(this.foldSamButton);
+        this.foldSamButton.unbind('click');
+        this.foldSamButton.click(function () {
+            _self.emit("fold-sam");
+        });
+    };
+
+    p.onInviteSam = function (data) {
+        this.desk.setRemainingTime(parseInt(data.remainingTime));
+        this.callSamButton.show();
+        this.foldSamButton.show();
+        this.userCallSam = null;
+    };
+
+    p.onEndInviteSam = function () {
+        this.desk.setRemainingTime(0);
+        this.callSamButton.hide();
+        this.foldSamButton.hide();
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player && player.uuid !== this.userCallSam) {
+                player.setPlayerStatus("");
+            }
+        }
+    };
+
+    p.onFoldSam = function (data) {
+        var player = this.getPlayerByUuid(data.uuid);
+        player.setPlayerStatus("Hủy sâm !");
+    };
+
+    p.onCallSam = function (data) {
+        var player = this.getPlayerByUuid(data.uuid);
+        player.setPlayerStatus("Báo sâm !", {
+            color: "red"
+        });
+        this.userCallSam = data.uuid;
+    };
+
+    p.endGame = function (data) {
+        this.endIngameEvent();
+        var winTypeMap = {
+           2 : "Ăn Sâm",
+           3 : "Bắt Sâm",
+           4 : "Thắng !",
+           9 : "Bị bắt Sâm",
+           11 : "Phạt Báo 1",
+           0 : "Thắng "
+        };
+        this.endDemlaGame(data,winTypeMap,0);
+    };
+
     TWIST.SamGame = SamGame;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
+    "use strict";
+
+    var initOptions = {
+        maxPlayers: 4,
+        numberCardsInHand: 13,
+        turnTime: 20000
+    };
+
+    function TLMNDemlaGame(wrapper, options) {
+        this.wrapper = $(wrapper);
+        this.options = $.extend(initOptions, options);
+        this.initTLMNDemlaGame();
+    }
+    var p = TLMNDemlaGame.prototype = new TWIST.BaseDemlaGame();
+
+    p.initTLMNDemlaGame = function (wrapper) { 
+        this.initBaseDemlaGame();
+    };
+    
+    p.endGame = function (data) {
+        this.endIngameEvent();
+        var winTypeMap = {
+           0 : "Tứ quý 3",
+           1 : "3 đôi thông chứa 3 bích",
+           2 : "Tứ quý 2",
+           3 : "6 Đôi",
+           4 : "5 Đôi thông",
+           5 : "Sảnh rồng",
+           16 : "Thắng !"
+        };
+        this.endDemlaGame(data,winTypeMap,16);
+    };
+
+    TWIST.TLMNDemlaGame = TLMNDemlaGame;
 
 })();
 /**
