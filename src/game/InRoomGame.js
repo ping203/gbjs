@@ -33,35 +33,43 @@ this.TWIST = this.TWIST || {};
         this.pushInRoomGameEvent();
         this.initErrotPanel();
         this.initButtonBar();
+        this.initResultPanel();
+        this.observerEvent();
         this.userInfo = {};
         this.status = InRoomGame.statusList['0'];
         this.model = this.model || {};
     };
 
     p.initErrotPanel = function () {
-        this.errorPanel = this.wrapper.find('.error-panel');
+        this.errorPanel = $(TWIST.HTMLTemplate.errorPanel);
+        this.wrapper.append(this.errorPanel);
         this.errorList = this.errorList || {};
         $.extend(this.errorList, {
             0: "Lỗi hệ thống !",
-            
             //sam Error
-            34 : "Không được để 2 cuối !",
+            34: "Không được để 2 cuối !",
             1470: "Chưa chọn cây bài !"
         });
     };
 
     p.initButtonBar = function () {
-        this.buttonBar = this.wrapper.find('.button-bar');
+        this.buttonBar = $(TWIST.HTMLTemplate.buttonBar.wrapper);
+        this.wrapper.append(this.buttonBar);
+        this.startButton = $(TWIST.HTMLTemplate.buttonBar.startButton);
+        this.buttonBar.append(this.startButton);
         this.buttonBar.hide();
-        this.startButton = this.buttonBar.find('#start-button');
     };
 
     p.drawRoom = function () {
         var canvas = this.wrapper.find('canvas');
-        canvas.css("background-image","url("+TWIST.imagePath+"Desk-bg.png)")
+        canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.canvas.addChild(this.playersContainer, this.desk);
+        this.wrapper.css({
+            width: canvas.width(),
+            height: canvas.height()
+        });
     };
 
     p.pushInRoomGameEvent = function () {
@@ -113,6 +121,13 @@ this.TWIST = this.TWIST || {};
         this.userInfo.uuid = data.uuid || data.id;
     };
 
+    p.observerEvent = function () {
+        var _self = this;
+        TWIST.Observer.on("cardSelected", function (card) {
+            _self.handCardSelected(card);
+        });
+    };
+
     p.drawGameInfo = function (data) {
         this.model = this.model || {};
         $.extend(this.model, data);
@@ -133,7 +148,7 @@ this.TWIST = this.TWIST || {};
                 this.startButton.show();
             }
         }
-        if(data.remainingTime) {
+        if (data.remainingTime) {
             this.desk.setRemainingTime(data.remainingTime);
         }
     };
@@ -339,6 +354,62 @@ this.TWIST = this.TWIST || {};
         players.splice(index, 1);
     };
 
+    p.initResultPanel = function () {
+        var _self = this;
+        
+        this.resultPanel = $(TWIST.HTMLTemplate.resultPanel.wrapper);
+        this.wrapper.append(this.resultPanel);
+
+        var resultPanelCotainer = this.resultPanel.find('.container')[0];
+        this.resultPanel.find('.container').css("max-height", "400px");
+        this.resultPanel.hide();
+        this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
+        
+        var closeButton = this.resultPanel.find('.close-popup');
+        var popupMask = this.resultPanel.find('.global-mask');
+        closeButton.on('click', function(){
+            _self.resultPanel.hide();
+        });
+        popupMask.on('click', function(){
+            _self.resultPanel.hide();
+        });
+    };
+
+    p.showResult = function (resultData) {
+        var _self = this;
+
+        resultData = {
+            isWinner: false,
+            listPlayers: [{
+                    remainCards: [1, 2, 3, 5],
+                    gameResultString: "Thắng đẹp trai",
+                    changeMoney: 1900,
+                    isWinner: true
+                }, {
+                    remainCards: [10, 34, 45, 47],
+                    gameResultString: "Thua toàn tập",
+                    changeMoney: -2000
+                }]
+        };
+        this.resultPanel.show();
+
+        var resultIcon = this.resultPanel.find('.popup-icon');
+        if (resultData.isWinner) {
+            resultIcon.removeClass('lose');
+        } else {
+            resultIcon.addClass('lose');
+        }
+        
+        var container = this.resultPanel.find('.container')[0];
+        
+//        resultData.listPlayers.forEach(function (item, index) {
+//            var resultItem = $(TWIST.HTMLTemplate.resultPanel.user);
+//            resultItem.
+//            container.append(resultItem);
+//        });
+
+    };
+
     p.updateUuid = function (data) {
         var username = data.username;
         if (!this.model || !this.model.players)
@@ -355,7 +426,6 @@ this.TWIST = this.TWIST || {};
                 PlayerList[i].uuid = data.uuid;
             }
         }
-        ;
     };
 
     TWIST.InRoomGame = InRoomGame;

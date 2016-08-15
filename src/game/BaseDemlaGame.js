@@ -11,14 +11,11 @@ this.TWIST = this.TWIST || {};
         TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
         this.initInRoomGame();
         this.pushTLMNDemlaEvent();
-        this.initResultPanel();
-        this.initEvent();
         this.bindButton();
-        this.observerEvent();
     };
 
     p.pushTLMNDemlaEvent = function () {
-        this.on("gameInfo", this.drawGameInfo);
+        
     };
 
     p.STATUS_WAITING_FOR_PLAYER = function () {
@@ -33,18 +30,6 @@ this.TWIST = this.TWIST || {};
         if (playerData && playerData.isRoomMaster) {
             this.startButton.show();
         }
-    };
-
-    p.initResultPanel = function () {
-        this.resultPanel = this.wrapper.find('#result-panel');
-        this.resultPanel.hide();
-    };
-
-    p.observerEvent = function () {
-        var _self = this;
-        TWIST.Observer.on("cardSelected", function (card) {
-            _self.handCardSelected(card);
-        });
     };
 
     p.handCardSelected = function (card) {
@@ -236,12 +221,14 @@ this.TWIST = this.TWIST || {};
 
     p.bindButton = function () {
         var _self = this;
+        
         this.startButton.unbind('click');
         this.startButton.click(function () {
             _self.emit("start", _self.model.players);
         });
-
-        this.hitButton = this.wrapper.find('#hit-card');
+        
+        this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
+        this.buttonBar.append(this.hitButton);
         this.hitButton.unbind('click');
         this.hitButton.click(function () {
             var Player = _self.getCurrentPlayer();
@@ -257,14 +244,16 @@ this.TWIST = this.TWIST || {};
             });
         });
 
-        this.sortCardButton = this.wrapper.find('#sort-card');
+        this.sortCardButton = $(TWIST.HTMLTemplate.buttonBar.sortCardButton);
+        this.buttonBar.append(this.sortCardButton);
         this.sortCardButton.unbind('click');
         this.sortCardButton.click(function () {
             var Player = _self.getCurrentPlayer();
             Player.sortTL();
         });
 
-        this.foldTurnButton = this.wrapper.find('#fold-turn');
+        this.foldTurnButton = $(TWIST.HTMLTemplate.buttonBar.foldTurnButton);
+        this.buttonBar.append(this.foldTurnButton);
         this.foldTurnButton.unbind('click');
         this.foldTurnButton.click(function () {
             _self.emit('userFold');

@@ -44,6 +44,8 @@ and open the template in the editor.
     width: 100%;
     bottom: 80px;
     text-align: center;
+    color: white;
+    top: 0;
 }
 .twist .button{
     display: inline-block;
@@ -119,4 +121,57 @@ and open the template in the editor.
     color : rgba(255,255,255,0.5);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), 
         0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);
+}
+.twist .game-result {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.twist .global-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.twist .game-result-popup {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10%;
+    min-height: 200px;
+    background-color: #131E28;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;
+}
+
+.twist .popup-header {
+    position: relative;
+    min-height: 50px;
+}
+
+.twist .popup-icon {
+    position: absolute;
+    left: calc(50% - 90px);
+    top: -60px;
+    width: 180px;
+    height: 120px;
+    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/win.png);
+}
+.twist .popup-icon.lose {
+    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/lose.png);
+}
+.twist .close-popup {
+    position: absolute;
+    line-height: 30px;
+    width: 30px;
+    color: #c4e1ff;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
+    font-size: 20px;
 }

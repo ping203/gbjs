@@ -19,6 +19,7 @@
     "TweenJS": "^0.6.2",
     "SoundJS": "^0.6.2",
     "eventEmitter": "^5.1.0",
-    "jquery": "^2.1.0"
+    "jquery": "^2.1.0",
+    "iscroll": "^5.2.0"
   }
 }

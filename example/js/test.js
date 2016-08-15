@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    TWIST.imagePath = location.origin + location.pathname + "../src/images/";
+//    TWIST.imagePath = location.origin + location.pathname + "../src/images/";
     var TLMNDemlaGame = new TWIST.SamGame('.wrapper');
 
     var mockupData = [{
@@ -104,40 +104,42 @@
                     }]
             },
             nextTime: 100
-        }, {
-            event: "hitTurn",
-            data: {
-                uuid: 3
-            },
-            nextTime: 2000
-        }, {
-            event: "draftCards",
-            data: {
-                uuid: 1,
-                cardList: [1, 2, 3, 4, 5]
-            },
-            nextTime: 1000
-        }, {
-            event: "draftCards",
-            data: {
-                uuid: 3,
-                cardList: [24, 25]
-            },
-            nextTime: 1000
-        }, {
-            event: "updateUuid",
-            data: {
-                uuid: 6,
-                username: "User Index 4"
-            },
-            nextTime: 1000
-        }, {
-            event: "changeStatus",
-            data: {
-                newStatus: 5
-            },
-            nextTime: 1000
-        }, {
+        }, 
+//        {
+//            event: "hitTurn",
+//            data: {
+//                uuid: 3
+//            },
+//            nextTime: 2000
+//        }, {
+//            event: "draftCards",
+//            data: {
+//                uuid: 1,
+//                cardList: [1, 2, 3, 4, 5]
+//            },
+//            nextTime: 1000
+//        }, {
+//            event: "draftCards",
+//            data: {
+//                uuid: 3,
+//                cardList: [24, 25]
+//            },
+//            nextTime: 1000
+//        }, {
+//            event: "updateUuid",
+//            data: {
+//                uuid: 6,
+//                username: "User Index 4"
+//            },
+//            nextTime: 1000
+//        }, {
+//            event: "changeStatus",
+//            data: {
+//                newStatus: 5
+//            },
+//            nextTime: 1000
+//        }, 
+        {
             event: "endGame",
             data: {
                 winType: 1,

@@ -6,29 +6,35 @@ this.TWIST = this.TWIST || {};
 
     function BaseGame() {}
 
+    var initOptions = {
+        width: 1000,
+        height: 580
+    };
     var p = BaseGame.prototype = new EventEmitter();
 
     p.initBaseGame = function () {
 
         //Event List
         this.events = {
-            info: "drawInfo"
+//            info: "drawInfo"
         };
 
-        //Player List
-        this.player = [];
-        
+        this.initEvent();
         this.initCanvas();
     };
 
     p.initCanvas = function () {
-        var canvas = this.wrapper.find('canvas')[0];
-        if (!canvas)
-            return;
+        var canvas = $(TWIST.HTMLTemplate.canvas);
+        canvas.attr({
+            width: this.options.width || initOptions.width,
+            height: this.options.height || initOptions.height
+        });
+
+        this.wrapper.prepend(canvas);
 
         var _self = this;
 
-        var stage = new createjs.Stage(canvas);
+        var stage = new createjs.Stage(canvas[0]);
         stage.enableMouseOver(20);
         var context = stage.canvas.getContext("2d");
         context.mozImageSmoothingEnabled = true;

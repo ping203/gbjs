@@ -2899,6 +2899,66 @@ this.TWIST = this.TWIST || {};
     TWIST.Player = Player;
 
 })();
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+this.TWIST = this.TWIST || {};
+(function () {
+    "use strict";
+    var HTMLTemplate = {
+        resultPanel: {
+            wrapper: '<div id="result-panel">\n\
+                <div class="game-result">\n\
+                    <div class="global-mask"></div>\n\
+                    <div class="game-result-popup">\n\
+                        <div class="popup-inner">\n\
+                            <div class="popup-header">\n\
+                                <div class="popup-header-inner"> \n\
+                                    Tổng kết ván đánh \n\
+                                    <div ng-click="closeResult()" class="close-popup"></div>\n\
+                                </div>\n\
+                            </div>\n\
+                            <div class="popup-content" ng-init="userList = gameResult.data.listPlayers">\n\
+                                <div class="iscroll-on">\n\
+                                    <div class="iscroll-wrapper" iscroll style="height:412px; color: #777">\n\
+                                        <div class="iscroll-scroller">\n\
+                                        </div><!--.iscroll-scroller-->\n\
+                                    </div>\n\
+                                </div>\n\
+                            </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>\n\
+            </div>',
+            user: '<div class="result-item" ng-repeat="user in gameResult.data.listPlayers">\n\
+                                                \n\
+                                                \n\
+                                            </div>',
+            info: '<div class="result-item-info">\n\
+                                                    <div class="result-item-info-left">{{user.userName}}</div>\n\
+                                                    <div class="result-item-info-right">\n\
+                                                        <span >{{user.gameResultString}}</span>\n\
+                                                        <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'">\n\
+                                                            {{user.subMoney|goldWithDot2}}\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                </div>',
+            cardList: '<div class="result-card-list-container">\n\
+                                                    <div ng-if="roomInfo.game.code != \'Phom\'" class="result-item-card-list" ng-init="cardList = user.remainCards">\n\
+                                                    </div>\n\
+                                                </div>',
+            card: '<div class="card card{{card}}" ng-repeat="card in cardList">\n\
+                                                            <div class="card-dummy"></div>\n\
+                                                            <div class="card-image"></div>\n\
+                                                        </div>'
+        }
+    };
+    TWIST.HTMLTemplate = HTMLTemplate;
+})();
+
 /**
  * @module Sortable
  */
@@ -3153,6 +3213,7 @@ this.TWIST = this.TWIST || {};
         this.player = [];
         
         this.initCanvas();
+        this.initCss();
     };
 
     p.initCanvas = function () {
@@ -3187,6 +3248,10 @@ this.TWIST = this.TWIST || {};
         for (var pro in events) {
             this.on(pro, this[events[pro]]);
         }
+    };
+
+    p.initCss = function () {
+        console.log("init Css");
     };
 
     TWIST.BaseGame = BaseGame;
@@ -3227,6 +3292,7 @@ this.TWIST = this.TWIST || {};
         this.pushInRoomGameEvent();
         this.initErrotPanel();
         this.initButtonBar();
+        this.initResultPanel();
         this.userInfo = {};
         this.status = InRoomGame.statusList['0'];
         this.model = this.model || {};
@@ -3246,6 +3312,18 @@ this.TWIST = this.TWIST || {};
 
     p.initButtonBar = function () {
         this.buttonBar = this.wrapper.find('.button-bar');
+        this.buttonBar.hide();
+        this.startButton = this.buttonBar.find('#start-button');
+    };
+
+    p.initResultPanel = function () {
+        this.resultPanel = this.wrapper.find('#result-panel');
+        if(this.resultPanel.length === 0){
+            var resultPanel = $('<div id="#result-panel">\n\
+                \n\
+                </div>');
+            this.resultPanel = resultPanel.appendTo(this.wrapper);
+        }
         this.buttonBar.hide();
         this.startButton = this.buttonBar.find('#start-button');
     };
@@ -3533,6 +3611,26 @@ this.TWIST = this.TWIST || {};
         players.splice(index, 1);
     };
 
+    p.showResult = function (resultData) {
+        resultData = {
+            listPlayers : [{
+                remainCards : [],
+                gameResultString : "",
+                changeMoney : 0
+            }]
+        };
+        var players = this.model.players || [];
+        var index = players.length;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player.uuid === uuid) {
+                index = i;
+                break;
+            }
+        }
+        players.splice(index, 1);
+    };
+
     p.updateUuid = function (data) {
         var username = data.username;
         if (!this.model || !this.model.players)
@@ -3549,7 +3647,6 @@ this.TWIST = this.TWIST || {};
                 PlayerList[i].uuid = data.uuid;
             }
         }
-        ;
     };
 
     TWIST.InRoomGame = InRoomGame;
@@ -4005,7 +4102,7 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     var initOptions = {
-        maxPlayers: 4,
+        maxPlayers: 5,
         numberCardsInHand: 10,
         turnTime: 20000
     };
@@ -4141,6 +4238,7 @@ this.TWIST = this.TWIST || {};
         }
 
         setTimeout(function () {
+            _self.showResult(resultData);
             _self.emit("showResult", resultData);
         }, 2000);
     };
