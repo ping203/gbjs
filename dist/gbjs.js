@@ -1463,6 +1463,7 @@ this.TWIST = this.TWIST || {};
 .twist .game-result-popup .container{\n\
     overflow: hidden;\n\
     margin: 10px;\n\
+    width: calc(100% - 20px);\n\
 }\n\
 .twist .popup-header {\n\
     position: relative;\n\
@@ -1490,7 +1491,7 @@ this.TWIST = this.TWIST || {};
     font-size: 20px;\n\
 }\n\
 .twist .result-item {\n\
-    height: 60px;\n\
+//    height: 60px;\n\
     width: 90%;\n\
     border-bottom: 1px solid #1d384f;\n\
     text-align: left;\n\

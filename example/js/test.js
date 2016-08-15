@@ -146,7 +146,7 @@
             data: {
                 winType: 1,
                 listPlayers: [{
-                        remainCards: [1, 2, 3],
+                        remainCards: [1, 2, 3,1, 2, 3,1, 2, 31, 2, 3,1,23],
                         changeMoney: 1000,
                         money: 5000,
                         uuid: 1,

@@ -152,6 +152,7 @@ and open the template in the editor.
 .twist .game-result-popup .container{
     overflow: hidden;
     margin: 10px;
+    width: calc(100% - 20px);
 }
 
 .twist .popup-header {
@@ -181,7 +182,7 @@ and open the template in the editor.
     font-size: 20px;
 }
 .twist .result-item {
-    height: 60px;
+    /*height: 60px;*/
     width: 90%;
     border-bottom: 1px solid #1d384f;
     text-align: left;
