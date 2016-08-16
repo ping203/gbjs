@@ -1,0 +1,1 @@
+(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'tpl/index.html':'Demo\n'})();

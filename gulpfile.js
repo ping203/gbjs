@@ -3,6 +3,15 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var Server = require('karma').Server;
 var config = require('./config');
+var templateCache = require('gulp-angular-templatecache');
+var sass = require('gulp-sass'),
+	path = require('path'),
+	args = require('minimist')(process.argv.slice(2));
+
+var theme    = args.theme || 'gb-web';
+
+
+
 gulp.task('build.dev', function () {
   var target = gulp.src(config.source.concat([
     '!src/**/*.spec.js'
@@ -11,6 +20,22 @@ gulp.task('build.dev', function () {
     .pipe(gulp.dest('./dist'));
 });
 
+
+gulp.task('build.tpl', function() {
+  return gulp.src('src/themes/'+theme+'/**/*.html')
+   .pipe(templateCache({
+     templateHeader: "(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {",
+     templateBody: "\'<%= url %>\':\'<%= contents %>\'",
+     templateFooter: "})();",
+   }))
+   .pipe(gulp.dest('dist/themes/' + theme));
+});
+
+gulp.task('build.scss', function() {
+  return gulp.src('src/themes/'+theme+'/sass/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('dist/themes/'+theme));
+});
 
 
 gulp.task('build', function () {
@@ -34,4 +59,5 @@ gulp.task('test', function (done) {
 
 gulp.task('watch', function () {
     gulp.watch(config.source, ['build.dev']);
+    gulp.watch('src/themes/**/*.html', ['build.tpl']);
 });
