@@ -4532,14 +4532,50 @@ this.TWIST = this.TWIST || {};
     p.endGame = function (data) {
         this.endIngameEvent();
         var winTypeMap = {
-           2 : "Ăn Sâm",
-           3 : "Bắt Sâm",
-           4 : "Thắng !",
-           9 : "Bị bắt Sâm",
-           11 : "Phạt Báo 1",
-           0 : "Thắng "
+           0 : "Năm đôi",
+           1 : "3 sám cô",
+           2 : "Đồng màu",
+           3 : "Tứ 2",
+           4 : "Sảnh rồng",
+           15 : "Hòa",
+           16 : "Bị ăn sâm",
+           17 : "Bị bắt sâm",
+           18 : "Phạt báo 1",
+           19 : "Bị thua trắng",
+           20 : "Thua",
+           21 : "Bắt sâm"
         };
-        this.endDemlaGame(data,winTypeMap,0);
+        
+        var _self = this;
+        var resultData = {
+            isWinner: false,
+            listPlayers: []
+        };
+        resultData.listPlayers = data.listPlayers;
+        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
+            var player = resultData.listPlayers[i];
+            var cardList = player.remainCards;
+            cardList.sort(function (a, b) {
+                return a - b;
+            });
+            player.gameResultString = winTypeMap[data.winType];
+            if (parseInt(player.changeMoney) > 0) {
+                player.isWinner = true;
+                if (player.uuid === this.userInfo.uuid) {
+                    resultData.isWinner = true;
+                }
+            } 
+
+            var Player = this.getPlayerByUuid(player.uuid);
+            if (Player) {
+                Player.clearTimer();
+                Player.setMoney(player.money);
+                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+            }
+        }
+        setTimeout(function () {
+            _self.showResult(resultData);
+        }, 2000);
     };
 
     TWIST.SamGame = SamGame;
