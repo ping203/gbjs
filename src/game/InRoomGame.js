@@ -65,7 +65,7 @@ this.TWIST = this.TWIST || {};
         canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
-        this.canvas.addChild(this.playersContainer, this.desk);
+        this.stage.addChild(this.playersContainer, this.desk);
         this.wrapper.css({
             width: canvas.width(),
             height: canvas.height()

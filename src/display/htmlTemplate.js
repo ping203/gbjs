@@ -48,7 +48,8 @@ this.TWIST = this.TWIST || {};
             callSamButton: '<div class="button fourth red" id="call-sam">Báo sâm</div>',
             foldSamButton: '<div class="button third blue" id="fold-sam">Bỏ sâm</div>'
         },
-        errorPanel: '<div class="error-panel" style="position: absolute;left: 200px; top : 200px; text-align: center; width: 600px"></div>'
+        errorPanel: '<div class="error-panel" style="position: absolute;left: 200px; top : 200px; text-align: center; width: 600px"></div>',
+        miniPokerTemplate : '<div class="mini-poker-wrapper"></div>'
     };
     TWIST.HTMLTemplate = HTMLTemplate;
 })();

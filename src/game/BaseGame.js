@@ -15,12 +15,13 @@ this.TWIST = this.TWIST || {};
     p.initBaseGame = function () {
 
         //Event List
-        this.events = {
-//            info: "drawInfo"
-        };
+//        this.events = {
+////            info: "drawInfo"
+//        };
 
         this.initEvent();
         this.initCanvas();
+        this.initStage();
     };
 
     p.initCanvas = function () {
@@ -29,12 +30,16 @@ this.TWIST = this.TWIST || {};
             width: this.options.width || initOptions.width,
             height: this.options.height || initOptions.height
         });
-
-        this.wrapper.prepend(canvas);
+        this.canvas = canvas;
+        return canvas;
+    };
+    
+    p.initStage = function() {
+        this.wrapper.append(this.canvas);
 
         var _self = this;
 
-        var stage = new createjs.Stage(canvas[0]);
+        var stage = new createjs.Stage(this.canvas[0]);
         stage.enableMouseOver(20);
         var context = stage.canvas.getContext("2d");
         context.mozImageSmoothingEnabled = true;
@@ -47,12 +52,12 @@ this.TWIST = this.TWIST || {};
             createjs.Ticker.removeEventListener("tick", onUpdateStage);
             _self.removeAllListeners();
         });
-        this.canvas = stage;
+        this.stage = stage;
 
         function onUpdateStage() {
             stage.update();
         }
-    };
+    }
 
     p.initEvent = function () {
         var events = this.events;

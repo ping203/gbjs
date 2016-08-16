@@ -4,7 +4,7 @@
     "use strict";
 //    TWIST.imagePath = location.origin + location.pathname + "../src/images/";
     TWIST.initCSS();
-    var TLMNDemlaGame = new TWIST.SamGame('.wrapper');
+    var MiniPoker = new TWIST.MiniPoker('.wrapper');
 
     var mockupData = [{
             event: "userInfo",
@@ -164,15 +164,13 @@
         startTime += nextTime;
 
         setTimeout(function () {
-            TLMNDemlaGame.emit(item.event, item.data);
+//            TLMNDemlaGame.emit(item.event, item.data);
         }, startTime);
 
 
     });
 
-    TLMNDemlaGame.on("start", function () {
-        console.log("start");
-    });
+
 
 
 })();
