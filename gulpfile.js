@@ -38,7 +38,7 @@ gulp.task('build.scss', function() {
 });
 
 
-gulp.task('build', function () {
+gulp.task('build.js', function () {
   var target = gulp.src(config.source.concat([
     '!src/**/*.spec.js'
   ]));
@@ -46,6 +46,27 @@ gulp.task('build', function () {
     .pipe(uglify({preserveComments: 'some'}))
     .pipe(gulp.dest('./dist'));
 });
+
+gulp.task('copy.scss', function() {
+  return gulp.src('src/themes/'+theme+'/sass/**/**.scss')
+    .pipe(gulp.dest('dist/themes/'+theme+'/sass/'));
+});
+
+
+gulp.task('copy.images', function() {
+  return gulp.src('src/themes/'+theme+'/images/**/*')
+    .pipe(gulp.dest('dist/themes/'+theme+'/images/'));
+});
+
+
+
+gulp.task('build', [
+	'build.scss',
+	'build.tpl',
+	'copy.scss',
+	'copy.images',
+	'build.js',
+]);
 
 /**
  * Run test once and exit
@@ -60,4 +81,5 @@ gulp.task('test', function (done) {
 gulp.task('watch', function () {
     gulp.watch(config.source, ['build.dev']);
     gulp.watch('src/themes/**/*.html', ['build.tpl']);
+		gulp.watch('src/themes/**/*.scss', ['build.scss']);
 });
