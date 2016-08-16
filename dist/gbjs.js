@@ -1358,7 +1358,6 @@ this.TWIST = this.TWIST || {};
     bottom: 80px;\n\
     text-align: center;\n\
     color: white;\n\
-    top: 0;\n\
 }\n\
 .twist .button{\n\
     display: inline-block;\n\
