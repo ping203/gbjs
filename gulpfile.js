@@ -22,11 +22,14 @@ gulp.task('build.dev', function () {
 
 
 gulp.task('build.tpl', function() {
-  return gulp.src('src/themes/'+theme+'/**/*.html')
+  return gulp.src('src/themes/'+theme+'/tpl/**/*.html')
    .pipe(templateCache({
      templateHeader: "(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {",
-     templateBody: "\'<%= url %>\':\'<%= contents %>\'",
-     templateFooter: "})();",
+     templateBody: "\'<%= url %>\':\'<%= contents %>\',",
+     templateFooter: "}})();",
+     transformUrl: function(url) {
+        return url.replace(/.html$/, '');
+    }
    }))
    .pipe(gulp.dest('dist/themes/' + theme));
 });

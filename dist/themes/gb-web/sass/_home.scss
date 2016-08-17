@@ -1,0 +1,226 @@
+
+$twistImagePath : "images/"; 
+
+@keyframes error-remove { 
+    0%{
+        opacity: 1;
+    }
+
+    80%{
+        opacity:0.3;
+        font-size:40px;
+    }
+    100%{
+        opacity:0;
+        font-size:3px;
+    }
+}
+.wrapper,.twist.wrapper{
+    -webkit-touch-callout: none;
+    -webkit-user-select : none;
+    font-family: Roboto;
+}
+.error-item {
+    margin: 20px auto 0;
+    animation-name : error-remove;
+    animation-duration : 3s;
+    animation-timing-function : linear;
+    animation-iteration-count : 1;
+    font-size: 40px;
+    color: #ffea02;
+    font-style: italic;
+}
+.button-bar{
+    position: absolute;
+    left:  0;
+    width: 100%;
+    bottom: 80px;
+    text-align: center;
+    color: white;
+}
+.button{
+    display: inline-block;
+    border : 1px solid;
+    border-radius : 5px;
+    line-height: 38px;
+    font-size: 16px;
+    vertical-align: middle;
+    text-align: center;
+    width: 118px;
+    margin-right: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: text-shadow 0.3s linear,color 0.3s linear;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0;
+}
+.button.fist{
+    right: 100px;
+}
+.button.second{
+    right: 235px;
+}
+.button.third{
+    right: 370px;
+}
+.button.fourth{
+    right: 505px;
+}
+.button.red{
+    color:  rgba(255,118,118,0.5);
+    border-color:  rgb(255,118,118);
+    background-image: linear-gradient(rgba(255,118,118,0.1),transparent,rgba(255,118,118,0.1));
+    text-shadow : 0 0 20px rgba(255,255,255,0.5), 0 0 20px rgba(255,118,118,0.5);
+}
+.button.red:active{
+    color : rgba(255,255,255,0.5);
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5), 
+        0 0 35px rgba(255,118,118,0.5), 0 0 40px rgba(255,118,118,0.5), 0 0 50px rgba(255,118,118,0.5), 0 0 75px rgba(255,118,118,0.5);
+}
+.button.blue{
+    color:  rgba(32,187,252,0.5);
+    border-color:  rgba(32,187,252,0.5);
+    background-image: linear-gradient(rgba(32,187,252,0.1),transparent,rgba(32,187,252,0.1));
+    text-shadow : 0 0 20px rgba(32,187,252,0.5), 0 0 20px rgba(32,187,252,0.5);
+}
+.button.blue:active{
+    color : rgba(255,255,255,0.5);
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5), 
+        0 0 35px rgba(32,187,252,0.5), 0 0 40px rgba(32,187,252,0.5), 0 0 50px rgba(32,187,252,0.5), 0 0 75px rgba(32,187,252,0.5);
+}
+.button.yellow{
+    color:  rgba(254,206,47,0.5);
+    border-color:  rgba(254,206,47,0.5);
+    background-image: linear-gradient(rgba(254,206,47,0.1),transparent,rgba(254,206,47,0.1));
+    text-shadow : 0 0 20px rgba(254,206,47,0.5), 0 0 20px rgba(254,206,47,0.5);
+    margin-left: 0;
+}
+.button.yellow:active{
+    color : rgba(255,255,255,0.5);
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5), 
+        0 0 35px rgba(254,206,47,0.5), 0 0 40px rgba(254,206,47,0.5), 0 0 50px rgba(254,206,47,0.5), 0 0 75px rgba(254,206,47,0.5);
+}
+.button.green{
+    color:  rgba(20,210,50,0.5);
+    border-color:  rgba(20,210,50,0.5);
+    background-image: linear-gradient(rgba(20,210,50,0.1),transparent,rgba(20,210,50,0.1));
+    text-shadow : 0 0 20px rgba(20,210,50,0.5), 0 0 20px rgba(20,210,50,0.5);
+}
+.button.green:active{
+    color : rgba(255,255,255,0.5);
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), 
+        0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);
+}
+.game-result {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.global-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.game-result-popup {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10%;
+    min-height: 200px;
+    background-color: #131E28;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;
+}
+.game-result-popup .container{
+    overflow: hidden;
+    margin: 10px;
+    width: calc(100% - 20px);
+}
+
+.popup-header {
+    position: relative;
+    height: 40px;
+}
+
+.popup-icon {
+    position: absolute;
+    left: calc(50% - 90px);
+    top: -60px;
+    width: 180px;
+    height: 120px;
+    background-image: url('#{$twistImagePath}resultPanel/win.png');
+}
+.popup-icon.lose {
+    background-image: url('#{$twistImagePath}resultPanel/lose.png');
+}
+.close-popup {
+    position: absolute;
+    line-height: 30px;
+    width: 30px;
+    color: #c4e1ff;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
+    font-size: 20px;
+}
+.result-item {
+    /*height: 60px;*/
+    width: 90%;
+    border-bottom: 1px solid #1d384f;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.result-item:last-child{
+    border-bottom: none;
+}
+.result-item-info {
+    display: inline-block;
+    width: 40%;
+    line-height: 30px;
+}
+.result-item-username {
+    width: 40%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+.result-item-result-info {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(60% - 4px);
+}
+span.result-item-money {
+    font-size: 20px;
+    text-shadow: 0 0 15px rgba(20,118,251,1);
+}
+.user-result-string {
+    color: #93c6fd;
+}
+.winner .result-item-username,.winner .user-result-string {
+    color : #fedc32;
+}
+.winner span.result-item-money{
+    text-shadow: 0 0 15px #fec52e;
+}
+.result-card-list-container {
+    display: inline-block;
+    width: calc(60% - 4px);
+    vertical-align: top;
+    height: 60px;
+    text-align: right;
+}

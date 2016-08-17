@@ -1,2 +1,545 @@
-body {
-  font-size: 11px; }
+@keyframes error-remove {
+  0% {
+    opacity: 1; }
+  80% {
+    opacity: 0.3;
+    font-size: 40px; }
+  100% {
+    opacity: 0;
+    font-size: 3px; } }
+
+.twist .wrapper, .twist .twist.wrapper {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  font-family: Roboto; }
+
+.twist .error-item {
+  margin: 20px auto 0;
+  animation-name: error-remove;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  font-size: 40px;
+  color: #ffea02;
+  font-style: italic; }
+
+.twist .button-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 80px;
+  text-align: center;
+  color: white; }
+
+.twist .button {
+  display: inline-block;
+  border: 1px solid;
+  border-radius: 5px;
+  line-height: 38px;
+  font-size: 16px;
+  vertical-align: middle;
+  text-align: center;
+  width: 118px;
+  margin-right: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: text-shadow 0.3s linear,color 0.3s linear;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 0; }
+
+.twist .button.fist {
+  right: 100px; }
+
+.twist .button.second {
+  right: 235px; }
+
+.twist .button.third {
+  right: 370px; }
+
+.twist .button.fourth {
+  right: 505px; }
+
+.twist .button.red {
+  color: rgba(255, 118, 118, 0.5);
+  border-color: #ff7676;
+  background-image: linear-gradient(rgba(255, 118, 118, 0.1), transparent, rgba(255, 118, 118, 0.1));
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 118, 118, 0.5); }
+
+.twist .button.red:active {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255, 118, 118, 0.5), 0 0 35px rgba(255, 118, 118, 0.5), 0 0 40px rgba(255, 118, 118, 0.5), 0 0 50px rgba(255, 118, 118, 0.5), 0 0 75px rgba(255, 118, 118, 0.5); }
+
+.twist .button.blue {
+  color: rgba(32, 187, 252, 0.5);
+  border-color: rgba(32, 187, 252, 0.5);
+  background-image: linear-gradient(rgba(32, 187, 252, 0.1), transparent, rgba(32, 187, 252, 0.1));
+  text-shadow: 0 0 20px rgba(32, 187, 252, 0.5), 0 0 20px rgba(32, 187, 252, 0.5); }
+
+.twist .button.blue:active {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32, 187, 252, 0.5), 0 0 35px rgba(32, 187, 252, 0.5), 0 0 40px rgba(32, 187, 252, 0.5), 0 0 50px rgba(32, 187, 252, 0.5), 0 0 75px rgba(32, 187, 252, 0.5); }
+
+.twist .button.yellow {
+  color: rgba(254, 206, 47, 0.5);
+  border-color: rgba(254, 206, 47, 0.5);
+  background-image: linear-gradient(rgba(254, 206, 47, 0.1), transparent, rgba(254, 206, 47, 0.1));
+  text-shadow: 0 0 20px rgba(254, 206, 47, 0.5), 0 0 20px rgba(254, 206, 47, 0.5);
+  margin-left: 0; }
+
+.twist .button.yellow:active {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254, 206, 47, 0.5), 0 0 35px rgba(254, 206, 47, 0.5), 0 0 40px rgba(254, 206, 47, 0.5), 0 0 50px rgba(254, 206, 47, 0.5), 0 0 75px rgba(254, 206, 47, 0.5); }
+
+.twist .button.green {
+  color: rgba(20, 210, 50, 0.5);
+  border-color: rgba(20, 210, 50, 0.5);
+  background-image: linear-gradient(rgba(20, 210, 50, 0.1), transparent, rgba(20, 210, 50, 0.1));
+  text-shadow: 0 0 20px rgba(20, 210, 50, 0.5), 0 0 20px rgba(20, 210, 50, 0.5); }
+
+.twist .button.green:active {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20, 210, 50, 0.5), 0 0 35px rgba(20, 210, 50, 0.5), 0 0 40px rgba(20, 210, 50, 0.5), 0 0 50px rgba(20, 210, 50, 0.5), 0 0 rgba(20, 210, 50, 0.5); }
+
+.twist .game-result {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.twist .global-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); }
+
+.twist .game-result-popup {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 10%;
+  min-height: 200px;
+  background-color: #131E28;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb; }
+
+.twist .game-result-popup .container {
+  overflow: hidden;
+  margin: 10px;
+  width: calc(100% - 20px); }
+
+.twist .popup-header {
+  position: relative;
+  height: 40px; }
+
+.twist .popup-icon {
+  position: absolute;
+  left: calc(50% - 90px);
+  top: -60px;
+  width: 180px;
+  height: 120px;
+  background-image: url("images/resultPanel/win.png"); }
+
+.twist .popup-icon.lose {
+  background-image: url("images/resultPanel/lose.png"); }
+
+.twist .close-popup {
+  position: absolute;
+  line-height: 30px;
+  width: 30px;
+  color: #c4e1ff;
+  cursor: pointer;
+  right: 5px;
+  top: 5px;
+  font-size: 20px; }
+
+.twist .result-item {
+  /*height: 60px;*/
+  width: 90%;
+  border-bottom: 1px solid #1d384f;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px 0; }
+
+.twist .result-item:last-child {
+  border-bottom: none; }
+
+.twist .result-item-info {
+  display: inline-block;
+  width: 40%;
+  line-height: 30px; }
+
+.twist .result-item-username {
+  width: 40%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top; }
+
+.twist .result-item-result-info {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(60% - 4px); }
+
+.twist span.result-item-money {
+  font-size: 20px;
+  text-shadow: 0 0 15px #1476fb; }
+
+.twist .user-result-string {
+  color: #93c6fd; }
+
+.twist .winner .result-item-username, .twist .winner .user-result-string {
+  color: #fedc32; }
+
+.twist .winner span.result-item-money {
+  text-shadow: 0 0 15px #fec52e; }
+
+.twist .result-card-list-container {
+  display: inline-block;
+  width: calc(60% - 4px);
+  vertical-align: top;
+  height: 60px;
+  text-align: right; }
+
+.twist .card {
+  width: 45.91px;
+  height: 60px;
+  vertical-align: top;
+  display: inline-block;
+  margin-left: -10px;
+  background-size: cover; }
+
+.twist .card0 {
+  background-image: url("images/card/8.png"); }
+
+.twist .card1 {
+  background-image: url("images/card/9.png"); }
+
+.twist .card2 {
+  background-image: url("images/card/10.png"); }
+
+.twist .card3 {
+  background-image: url("images/card/11.png"); }
+
+.twist .card4 {
+  background-image: url("images/card/12.png"); }
+
+.twist .card5 {
+  background-image: url("images/card/13.png"); }
+
+.twist .card6 {
+  background-image: url("images/card/14.png"); }
+
+.twist .card7 {
+  background-image: url("images/card/15.png"); }
+
+.twist .card8 {
+  background-image: url("images/card/16.png"); }
+
+.twist .card9 {
+  background-image: url("images/card/17.png"); }
+
+.twist .card10 {
+  background-image: url("images/card/18.png"); }
+
+.twist .card11 {
+  background-image: url("images/card/19.png"); }
+
+.twist .card12 {
+  background-image: url("images/card/20.png"); }
+
+.twist .card13 {
+  background-image: url("images/card/21.png"); }
+
+.twist .card14 {
+  background-image: url("images/card/22.png"); }
+
+.twist .card15 {
+  background-image: url("images/card/23.png"); }
+
+.twist .card16 {
+  background-image: url("images/card/24.png"); }
+
+.twist .card17 {
+  background-image: url("images/card/25.png"); }
+
+.twist .card18 {
+  background-image: url("images/card/26.png"); }
+
+.twist .card19 {
+  background-image: url("images/card/27.png"); }
+
+.twist .card20 {
+  background-image: url("images/card/28.png"); }
+
+.twist .card21 {
+  background-image: url("images/card/29.png"); }
+
+.twist .card22 {
+  background-image: url("images/card/30.png"); }
+
+.twist .card23 {
+  background-image: url("images/card/31.png"); }
+
+.twist .card24 {
+  background-image: url("images/card/32.png"); }
+
+.twist .card25 {
+  background-image: url("images/card/33.png"); }
+
+.twist .card26 {
+  background-image: url("images/card/34.png"); }
+
+.twist .card27 {
+  background-image: url("images/card/35.png"); }
+
+.twist .card28 {
+  background-image: url("images/card/36.png"); }
+
+.twist .card29 {
+  background-image: url("images/card/37.png"); }
+
+.twist .card30 {
+  background-image: url("images/card/38.png"); }
+
+.twist .card31 {
+  background-image: url("images/card/39.png"); }
+
+.twist .card32 {
+  background-image: url("images/card/40.png"); }
+
+.twist .card33 {
+  background-image: url("images/card/41.png"); }
+
+.twist .card34 {
+  background-image: url("images/card/42.png"); }
+
+.twist .card35 {
+  background-image: url("images/card/43.png"); }
+
+.twist .card36 {
+  background-image: url("images/card/44.png"); }
+
+.twist .card37 {
+  background-image: url("images/card/45.png"); }
+
+.twist .card38 {
+  background-image: url("images/card/46.png"); }
+
+.twist .card39 {
+  background-image: url("images/card/47.png"); }
+
+.twist .card40 {
+  background-image: url("images/card/48.png"); }
+
+.twist .card41 {
+  background-image: url("images/card/49.png"); }
+
+.twist .card42 {
+  background-image: url("images/card/50.png"); }
+
+.twist .card43 {
+  background-image: url("images/card/51.png"); }
+
+.twist .card44 {
+  background-image: url("images/card/0.png"); }
+
+.twist .card45 {
+  background-image: url("images/card/1.png"); }
+
+.twist .card46 {
+  background-image: url("images/card/2.png"); }
+
+.twist .card47 {
+  background-image: url("images/card/3.png"); }
+
+.twist .card48 {
+  background-image: url("images/card/4.png"); }
+
+.twist .card49 {
+  background-image: url("images/card/5.png"); }
+
+.twist .card50 {
+  background-image: url("images/card/6.png"); }
+
+.twist .card51 {
+  background-image: url("images/card/7.png"); }
+
+.twist .mini-poker-bg {
+  background-image: url("images/miniPoker/background.png");
+  width: 919px;
+  height: 455px;
+  background-repeat: none;
+  position: relative; }
+  .twist .mini-poker-bg canvas {
+    position: absolute;
+    left: calc(50% - 400px);
+    top: 73px; }
+  .twist .mini-poker-bg .result-text {
+    position: absolute;
+    line-height: 45px;
+    font-size: 24px;
+    width: 280px;
+    left: calc(50% - 140px);
+    color: #ffcc00;
+    top: 16px;
+    font-weight: bold;
+    text-align: center; }
+  .twist .mini-poker-bg .pot {
+    width: 300px;
+    position: absolute;
+    top: 313px;
+    left: 40px;
+    text-align: center;
+    color: white;
+    font-size: 24px; }
+    .twist .mini-poker-bg .pot .pot-value {
+      font-weight: bold;
+      font-size: 40px;
+      background-color: #cb7e11;
+      background-image: -webkit-linear-gradient(bottom, #cb7e11, #faff6c);
+      background-image: linear-gradient(to top,#cb7e11, #faff6c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent; }
+  .twist .mini-poker-bg .button-spin {
+    background-image: url("images/miniPoker/button-spin.png");
+    width: 189px;
+    height: 189px;
+    position: absolute;
+    left: calc(50% - 94.5px);
+    top: 270px;
+    cursor: pointer; }
+    .twist .mini-poker-bg .button-spin:active {
+      transform: scale(0.98); }
+    .twist .mini-poker-bg .button-spin.disabled {
+      background-image: url("images/miniPoker/button-spin-disabled.png"); }
+      .twist .mini-poker-bg .button-spin.disabled:active {
+        transform: none; }
+  .twist .mini-poker-bg .autospin {
+    position: absolute;
+    left: 500px;
+    top: 346px;
+    font-size: 36.5px;
+    color: white;
+    text-align: center;
+    text-indent: 70px; }
+    .twist .mini-poker-bg .autospin input {
+      display: none; }
+      .twist .mini-poker-bg .autospin input:checked + label:after {
+        content: "";
+        box-sizing: border-box;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+        position: absolute;
+        left: 37.5%;
+        top: 17.5%;
+        width: 25%;
+        height: 50%;
+        border-width: 3px;
+        border-style: solid;
+        border-top: 0;
+        border-left: 0;
+        content: '';
+        border-color: #e4a001; }
+    .twist .mini-poker-bg .autospin label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      vertical-align: middle;
+      border: 2px solid #e4a001;
+      position: relative;
+      cursor: pointer; }
+  .twist .mini-poker-bg .chip-group {
+    position: absolute;
+    top: 600px;
+    text-align: center;
+    width: 100%; }
+    .twist .mini-poker-bg .chip-group .chip {
+      position: absolute;
+      bottom: 0;
+      width: 106.3629px;
+      height: 97.57258px;
+      line-height: 97.57258px;
+      border-radius: 50% 50%;
+      background-image: url("images/miniPoker/chipBlue_small.png");
+      background-size: cover;
+      color: #004e79;
+      transition: all 0.1s linear;
+      font-size: 27px;
+      cursor: pointer; }
+      .twist .mini-poker-bg .chip-group .chip:after {
+        content: "";
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        bottom: 0%;
+        right: 0%;
+        border-radius: 50%;
+        border: 0px solid #ffde00;
+        box-shadow: 0 0 00px transparent;
+        transition: all 0.1s linear; }
+      .twist .mini-poker-bg .chip-group .chip:first-child {
+        right: 600px; }
+      .twist .mini-poker-bg .chip-group .chip:nth-child(2) {
+        right: 400px; }
+      .twist .mini-poker-bg .chip-group .chip:nth-child(3) {
+        right: 200px; }
+      .twist .mini-poker-bg .chip-group .chip.violet {
+        background-image: url("images/miniPoker/chipViolet_small.png");
+        color: #7c0567; }
+      .twist .mini-poker-bg .chip-group .chip.green {
+        background-image: url("images/miniPoker/chipGreen_small.png");
+        color: #004e79; }
+      .twist .mini-poker-bg .chip-group .chip.pink {
+        background-image: url("images/miniPoker/chipPink_small.png");
+        color: #3d5311; }
+      .twist .mini-poker-bg .chip-group .chip.red {
+        background-image: url("images/miniPoker/chipRed_small.png"); }
+      .twist .mini-poker-bg .chip-group .chip.active {
+        width: 121px;
+        height: 111px;
+        font-size: 30px;
+        line-height: 111px; }
+        .twist .mini-poker-bg .chip-group .chip.active:after {
+          border: 5px solid #ffde00;
+          box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
+  .twist .mini-poker-bg .error-panel {
+    width: 700px;
+    position: absolute;
+    text-align: center;
+    top: 140px;
+    font-size: 25px;
+    font-weight: 700;
+    color: #f5f5f5;
+    line-height: 70px;
+    left: calc(50% - 350px);
+    min-height: 70px;
+    background-color: transparent;
+    background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
+    background-image: linear-gradient(to right,transparent, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
+    transition: opacity 0.2s linear; }
+    .twist .mini-poker-bg .error-panel:after, .twist .mini-poker-bg .error-panel:before {
+      position: absolute;
+      left: 0;
+      content: "";
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      background-image: -webkit-linear-gradient(left, transparent, white, transparent);
+      background-image: linear-gradient(to right,transparent, white, transparent); }
+    .twist .mini-poker-bg .error-panel:before {
+      bottom: 0; }

@@ -9,27 +9,23 @@ this.TWIST = this.TWIST || {};
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
             timeOutList, fistLog;
 
-    colorList = ['#7d4627', '#9ad3de', '#935347', '#9068be', '#856046', '#e62739', '#fae596', '#3fb0ac', '#173e43', '#e6cf8b',
-        '#b56969', '#22264b', '#98dafc', '#daad86', '#312c32', '#5a5c51', '#ba9077', '#729f98', '#283018', '#aa863a'];
-    //http://www.awwwards.com/trendy-web-color-palettes-and-material-design-color-schemes-tools.html
-
     statusList = ["pause", "running", "ending", "effecting"];
 
     endingPhase = -1;
 
     stepValue = 1;
 
-    itemSize = {width: 150, height: 205, padding: 10};
+    itemSize = {width: 160, height: 205, padding: 10};
 
-    gameSize = {width: itemSize.width * 5, height: itemSize.height};
+    gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 
     distance = itemSize.height;
 
     columns = [];
 
-    speed = 2;//default 2
+    speed = 1;//default 2
 
-    numberCard = 12;
+    numberCard = 52;
 
     spinAreaConf = {x: 100, y: 100};
 
@@ -44,7 +40,7 @@ this.TWIST = this.TWIST || {};
     numberEffectCompleted = 0;
 
     timeOutList = [];
-    
+
     var initOptions = {
     };
 
@@ -57,13 +53,13 @@ this.TWIST = this.TWIST || {};
     var p = MiniPoker.prototype = new TWIST.BaseGame();
 
     p.initMiniPoker = function () {
-        $.extend(this.options,gameSize);
-        this.initTemplate();
-        this.initBaseGame();
+        $.extend(this.options, gameSize);
         this.info = {};
+        this.initCanvas();
+        this.initTemplate();
+        this.initButton();
         this.draw();
-//        this.initButtons();
-//        this.pushEventListener();
+        this.pushEventListener();
     };
 
     p.draw = function () {
@@ -74,100 +70,103 @@ this.TWIST = this.TWIST || {};
 
         for (var i = 0; i < gameSize.x; i++) {
             columns[i] = new createjs.Container();
-            columns[i].set({x: i * columnSize.width, y: 0});
+            columns[i].set({x: i * itemSize.width, y: 0});
             var columnItems = new createjs.Container();
             columns[i].addChild(columnItems);
-            
-            var item = new TWIST.Card(this.mapData[i]);
+
+            var value = this.mapData[i];
+            var item = this.createSlotItem(this.mapData[i], 0);
             columnItems.addChild(item);
-            
+
             spinArea.addChild(columns[i]);
         }
 
-        this.canvas.addChild(spinArea);
+        this.stage.addChild(spinArea);
     };
 
     p.initTemplate = function () {
-        this.wrapperTemplate  = $(TWIST.HTMLTemplate.miniPokerTemplate);
-        console.log(this.wrapperTemplate);
+        this.wrapperTemplate = $(TWIST.HTMLTemplate['miniPoker/wrapper']);
         this.wrapper.append(this.wrapperTemplate);
+
+        this.wrapperTemplate.append(this.canvas);
+        this.initStage();
+
+        this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
+        this.wrapperTemplate.append(this.resultText);
+
+        this.pot = _.template(TWIST.HTMLTemplate['miniPoker/pot']);
+        this.wrapperTemplate.append(this.pot({value: 0}));
+
+        this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
+        this.wrapperTemplate.append(this.buttonSpin);
+
+        this.autoSpin = $(TWIST.HTMLTemplate['miniPoker/autospin']);
+        this.wrapperTemplate.append(this.autoSpin);
+
+        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+        this.wrapperTemplate.append(this.chipWrapper);
+
+        this.chipButtons = this.chipWrapper.find('.chip');
+
+        this.errorPanel = $(TWIST.HTMLTemplate['errorPanel']);
+        this.wrapperTemplate.append(this.errorPanel);
+        this.errorPanel.hide();
+    };
+
+    p.initButton = function () {
+        var _self = this;
+        this.chipButtons.on('click', function (event) {
+            _self.chipButtons.removeClass('active');
+            $(event.target).addClass("active");
+        });
+
+        this.buttonSpin.on('click', function (event) {
+            _self.emit("start");
+        });
+
+        $('.button.plus-bet:not(.disabled)').on("click", function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("plusBet");
+        });
+
+        $('.button.decrease-bet:not(.disabled)').on("click", function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("decreaseBet");
+        });
+
+        $('#spinButton').click(function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("spin");
+        });
     };
 
     p.pushEventListener = function () {
         var _self = this;
-        this.on("spin", function () {
-            _self.startSpin();
-        });
 
-        $('#spinButton').click(function () {
-            if (_self.status != 'pause' && _self.status != 'effecting')
-                return;
-            _self.changeStatus("pause");
-            _self.emit("spin");
+        this.on("start", function () {
+            console.log("start");
+            if (this.checkStart()) {
+                _self.changeStatus("pause");
+                _self.emit("spin");
+            }
         });
 
         this.on("endSpin", function (data) {
             _self.endSpin(data);
         });
 
-        this.on("bindLine", function () {
-            _self.bindLine(arguments[0], arguments[1]);
-        });
-
         this.on("info", function () {
             _self.renderData(arguments[0]);
         });
 
-        $('.button.plus-lines:not(.disabled)').on("click", function () {
-            if (_self.status != 'pause' && _self.status != 'effecting')
-                return;
-            _self.changeStatus("pause");
-            _self.emit("plusLine");
-        });
-
-        $('.button.decrease-lines:not(.disabled)').on("click", function () {
-            if (_self.status != 'pause' && _self.status != 'effecting')
-                return;
-            _self.changeStatus("pause");
-            _self.emit("decreaseLine");
-        });
-
-        $('.button.plus-bet:not(.disabled)').on("click", function () {
-            if (_self.status != 'pause' && _self.status != 'effecting')
-                return;
-            _self.changeStatus("pause");
-            _self.emit("plusBet");
-        });
-
-        $('.button.info:not(.disabled)').on("click", function () {
-            $('.pay-table').toggle();
-        });
-
-        $('.pay-table').on("click", function () {
-            $('.pay-table').toggle();
-        });
-
-        $('.button.decrease-bet:not(.disabled)').on("click", function () {
-            if (_self.status != 'pause' && _self.status != 'effecting')
-                return;
-            _self.changeStatus("pause");
-            _self.emit("decreaseBet");
-        });
-
-        this.on("plusLine", function () {
-            _self.plusLine();
-        });
-
-        this.on("decreaseLine", function () {
-            _self.decreaseLine();
-        });
-
-        this.on("plusBet", function () {
-            _self.plusBet();
-        });
-
-        this.on("decreaseBet", function () {
-            _self.decreaseBet();
+        this.on("spin", function () {
+            _self.startSpin();
         });
 
         this.on("bindBet", function (newBet) {
@@ -181,33 +180,10 @@ this.TWIST = this.TWIST || {};
         this.on("endEffect", function () {
             _self.endEffect();
         });
-
-        this.on("toggleLines", function () {
-            _self.toggleLines(arguments[0]);
-        });
     };
 
-    p.plusLine = function () {
-        var lineList = isLine9 ? lineList9 : lineList20;
-        for (var i = 0; i < lineList.length; i++) {
-            var index = activeLines.indexOf(i);
-            if (index === -1) {
-                this.emit('bindLine', i, true);
-                break;
-            }
-        }
-    };
-
-    p.decreaseLine = function () {
-
-        var lineList = isLine9 ? lineList9 : lineList20;
-        for (var i = lineList.length; i > 0; i--) {
-            var index = activeLines.indexOf(i);
-            if (index > -1) {
-                this.emit('bindLine', i, false);
-                break;
-            }
-        }
+    p.checkStart = function () {
+        return true;
     };
 
     p.plusBet = function () {
@@ -228,18 +204,6 @@ this.TWIST = this.TWIST || {};
 
     p.renderData = function (data) {
         $.extend(this.info, data);
-        $('#top .jack-pot').text(this.info.potData[0]);
-        $('#top .money').text(this.info.money);
-
-        this.info.betting = data.bets[0];
-        $('.number.bet').text(data.bets[0]);
-        for (var i = 0; i < 9; i++) {
-            this.emit("bindLine", i, true);
-        }
-        this.emit("toggleLines", false);
-
-        $('.number.win').text(0);
-        this.status = "pause";
     };
 
     p.bindLine = function (lineName, active) {
@@ -301,22 +265,22 @@ this.TWIST = this.TWIST || {};
                 return;
             for (var i = 0; i < effectArray.length; i++) {
                 effectArray[i].endEffect();
-            };
+            }
+            ;
             effectQueue = [];
             currentEffectTurn = 0;
         }
         if (status == "running") {
-            $('.number.win').text(0);
-            this.effectContainer.removeAllChildren();
+//            $('.number.win').text(0);
+//            this.effectContainer.removeAllChildren();
         }
     };
-    
+
     p.startSpin = function () {
         endingPhase = -1;
         var _self = this;
         var firstColumn = columns[0].getChildAt(0);
         this.changeStatus("running");
-        this.emit("toggleLines", false);
         createjs.Tween.get(firstColumn)
                 .to({y: -50}, 150)
                 .call(function () {})
@@ -340,14 +304,14 @@ this.TWIST = this.TWIST || {};
         if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
             if (endingPhase % 1 == 0) {
                 isNewEndingPhase = true;
-                beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y - 2);
+                beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y);
             }
         }
         var _self = this;
         var newItem;
         var itemsContainer = columns[columnIndex].getChildAt(0);
         if (isNewEndingPhase) {
-            newItem = this.createSlotItem(this.mapData[columnIndex][gameSize.y - 1 - endingPhase % gameSize.y], -1);
+            newItem = this.createSlotItem(this.mapData[columnIndex], -1);
         } else {
             newItem = this.createSlotItem(Math.floor(Math.random() * numberCard), -1);
         }
@@ -358,7 +322,6 @@ this.TWIST = this.TWIST || {};
                 .to({y: distance}, timeAnimation, easeType)
                 .call(function () {
                     var columnIndex = this.parent.parent.getChildIndex(this.parent);
-
                     this.set({y: 0});
                     var slotItems = this.children;
                     slotItems.forEach(function (item, index) {
@@ -409,7 +372,6 @@ this.TWIST = this.TWIST || {};
     p.effecting = function () {
         this.status = "effecting";
         var result = this.result;
-        console.log(result);
         effectQueue = [];
         if (result.totalWin > 0) {
             var effectArray = [];
@@ -417,7 +379,7 @@ this.TWIST = this.TWIST || {};
             var changeTotalMoneyEffect = this.changeNumberEffect('#top .money', result.newMoney, {duration: moneyFallingEffectTime});
             var moneyFallingEffect = this.moneyFallingEffect();
             effectArray.push(changeWinMoneyEffect, moneyFallingEffect, changeTotalMoneyEffect);
-            if(result.explodePot){
+            if (result.explodePot) {
                 var explodePotEffect = this.explodePotEffect();
                 effectArray.push(explodePotEffect);
             }
@@ -477,9 +439,15 @@ this.TWIST = this.TWIST || {};
 
     p.createSlotItem = function (value, state) {
         var _self = this;
-        var slotItem = new createjs.Container(value);
-        var bg = new createjs.Bitmap("images/" + value + ".png");
-        bg.set({x: itemSize.padding, y: itemSize.padding});
+        var slotItem = new createjs.Container();
+
+        var bg = new TWIST.Card(value);
+        bg.set({
+            scaleX: TWIST.Card.miniPoker.scale,
+            scaleY: TWIST.Card.miniPoker.scale,
+            x: (itemSize.width - TWIST.Card.miniPoker.width) / 2,
+            y: (itemSize.height - TWIST.Card.miniPoker.scale * TWIST.Card.size.height) / 2
+        });
         slotItem.addChild(bg);
         slotItem.set({
             x: 0,
@@ -568,10 +536,10 @@ this.TWIST = this.TWIST || {};
                     itemHeight = itemSize.height,
                     oldX = x * itemSize.width + 15 + spinAreaConf.x,
                     oldY = y * itemSize.height + 8 + spinAreaConf.y
-            itemEffect.set({x: oldX, y: oldY, name: "itemEffect", counter : 0});
+            itemEffect.set({x: oldX, y: oldY, name: "itemEffect", counter: 0});
             this.addChild(itemEffect);
             createjs.Tween.get(itemEffect, {loop: true, onChange: this.productStar})
-                    .to({x: oldX + itemWidth  - 30}, 300)
+                    .to({x: oldX + itemWidth - 30}, 300)
                     .to({y: oldY + itemHeight - 16}, 300)
                     .to({x: oldX}, 300)
                     .to({y: oldY}, 300)
@@ -583,30 +551,31 @@ this.TWIST = this.TWIST || {};
         item.productStar = function (event) {
             var container = event.target.target;
             container.counter++;
-            if(container.counter%1 != 0) return;
+            if (container.counter % 1 != 0)
+                return;
             var start = new createjs.Bitmap(starBg);
             var startX = container.x, startY = container.y;
             container.parent.addChild(start);
-            start.set({x: startX ,y : startY,scaleX: 0.01, scaleY: 0.01, width: 35, height: 35});
-            var scale = start.width/18;
+            start.set({x: startX, y: startY, scaleX: 0.01, scaleY: 0.01, width: 35, height: 35});
+            var scale = start.width / 18;
             createjs.Tween.get(start)
                     .to({
-                        x: startX - scale*9 + (Math.random() - 0.5) * 2,
-                        y: startY - scale*9 + (Math.random() - 0.5) * 2,
-                        scaleX : scale,
-                        scaleY : scale
+                        x: startX - scale * 9 + (Math.random() - 0.5) * 2,
+                        y: startY - scale * 9 + (Math.random() - 0.5) * 2,
+                        scaleX: scale,
+                        scaleY: scale
                     }, 100, createjs.Ease.getElasticOut(5, 5))
                     .to({
-                        x : startX - scale*4.5,
-                        y : startY - scale*4.5,
-                        scaleX : scale/2,
-                        scaleY : scale/2
+                        x: startX - scale * 4.5,
+                        y: startY - scale * 4.5,
+                        scaleX: scale / 2,
+                        scaleY: scale / 2
                     }, 100, createjs.Ease.getElasticIn(5, 5))
                     .to({
-                        x : startX,
-                        y : startY,
-                        scaleX : 0.01,
-                        scaleY : 0.01
+                        x: startX,
+                        y: startY,
+                        scaleX: 0.01,
+                        scaleY: 0.01
                     }, 700)
                     .call(function () {
                         this.parent.removeChild(this);
@@ -650,7 +619,7 @@ this.TWIST = this.TWIST || {};
         jElement.runEffect = function () {
             this.show();
         };
-        jElement.click(function (){
+        jElement.click(function () {
             jElement.endEffect();
         });
         jElement.endEffect = function () {
@@ -660,7 +629,7 @@ this.TWIST = this.TWIST || {};
 
         return jElement;
     };
-    
+
     TWIST.MiniPoker = MiniPoker;
 
 })();

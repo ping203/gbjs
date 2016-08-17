@@ -11,25 +11,25 @@ this.TWIST = this.TWIST || {};
         this.initialize(position);
     }
 
-    Card.size = {width: 88, height: 115};
-    Card.userCard = {width: 53, height: 69, seperator: 59, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.size = {width: 90, height: 123};
+    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.userCard.scale = Card.userCard.width/Card.size.width;
+    
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+    Card.playerCard.scale = Card.playerCard.width/Card.size.width;
+    
     Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
+    Card.draftCard.scale = Card.draftCard.width/Card.size.width;
+    
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
+    Card.threeCards.scale = Card.threeCards.width/Card.size.width;
+    
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
-
-    Card.image = {width: 67 * 1.2, height: 91 * 1.2};
-    Card.bai = {width: 67, height: 91, seperator: 70, baiDraggable: true, selectedHeight: 30};
-    Card.bacay = {width: 67, height: 91, seperator: 72, baiDraggable: true, selectedHeight: 30};
-    Card.bacayOther = {width: 35, height: 45, seperator: 39, baiDraggable: false};
-    Card.chinesePoker = {width: 67 * 0.8, height: 91 * 0.8, seperator: 60, baiDraggable: true, selectedHeight: 30};
-    Card.chinesePokerOther = {width: 35, height: 45, seperator: 39, baiDraggable: false};
-    Card.baiOther = {width: 35, height: 45, seperator: 0, baiDraggable: false};
-    Card.baiLoc = {width: 18, height: 24, seperator: 0.2, baiDraggable: false, defaultValue: 52};
-    Card.baiDraft = {width: 35, height: 45, seperator: 21, baiDraggable: false};
-    Card.baiDown = {width: 54, height: 72, seperator: 21, baiDraggable: false, selectedHeight: 30};
-    Card.newImage = {width: 43.2 * 0.7, height: 57.6 * 0.7, seperator: 21, baiDraggable: false, selectedHeight: 30};
-
+    Card.threeCardsBanker.scale = Card.threeCardsBanker.width/Card.size.width;
+    
+    Card.miniPoker = {width: 130, height: 180, scale: 1.6};
+    Card.miniPoker.scale = Card.miniPoker.width/Card.size.width;
+    
     Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
 
     Card.Suite = {

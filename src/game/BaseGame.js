@@ -21,6 +21,7 @@ this.TWIST = this.TWIST || {};
 
         this.initEvent();
         this.initCanvas();
+        this.wrapper.append(this.canvas);
         this.initStage();
     };
 
@@ -35,18 +36,15 @@ this.TWIST = this.TWIST || {};
     };
     
     p.initStage = function() {
-        this.wrapper.append(this.canvas);
-
         var _self = this;
-
         var stage = new createjs.Stage(this.canvas[0]);
         stage.enableMouseOver(20);
         var context = stage.canvas.getContext("2d");
         context.mozImageSmoothingEnabled = true;
         createjs.Touch.enable(stage);
         createjs.Ticker.setFPS(60);
-        stage.width = canvas.width;
-        stage.height = canvas.height;
+        stage.width = this.canvas.width;
+        stage.height = this.canvas.height;
         createjs.Ticker.addEventListener("tick", onUpdateStage);
         this.on('destroy', function () {
             createjs.Ticker.removeEventListener("tick", onUpdateStage);

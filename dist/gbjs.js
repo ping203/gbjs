@@ -394,7 +394,7 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     TWIST.Observer = new EventEmitter();
-    TWIST.imagePath = '../src/inner/images/';
+    TWIST.imagePath = '../src/themes/gb-web/images/';
     
 })();
 /**
@@ -808,6 +808,33 @@ this.TWIST = this.TWIST || {};
 
     TWIST.TLMNLogic = TLMNLogic;
 })();
+this.TWIST = this.TWIST || {};
+
+(function () {
+
+    var numberCard, lineList20, lineList9, prizeList, cardList, bets, potPercent;
+
+    numberCard = 52;
+
+    bets = [100, 1000, 10000, 100000];
+
+    var MiniPokerLogic = new EventEmitter();
+
+    var p = MiniPokerLogic;
+
+    p.generateMap = function (options) {
+        var map = [];
+        for (var x = 0; x < 5; x++) {
+            map[x] = options ? options[x] : Math.floor(Math.random() * numberCard);
+        }
+        return map;
+    };
+    
+    TWIST.MiniPokerLogic = MiniPokerLogic;
+})();
+
+
+
 this.FATE = this.FATE || {};
 
 (function() {
@@ -841,25 +868,25 @@ this.TWIST = this.TWIST || {};
         this.initialize(position);
     }
 
-    Card.size = {width: 88, height: 115};
-    Card.userCard = {width: 53, height: 69, seperator: 59, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.size = {width: 90, height: 123};
+    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.userCard.scale = Card.userCard.width/Card.size.width;
+    
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+    Card.playerCard.scale = Card.playerCard.width/Card.size.width;
+    
     Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
+    Card.draftCard.scale = Card.draftCard.width/Card.size.width;
+    
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
+    Card.threeCards.scale = Card.threeCards.width/Card.size.width;
+    
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
-
-    Card.image = {width: 67 * 1.2, height: 91 * 1.2};
-    Card.bai = {width: 67, height: 91, seperator: 70, baiDraggable: true, selectedHeight: 30};
-    Card.bacay = {width: 67, height: 91, seperator: 72, baiDraggable: true, selectedHeight: 30};
-    Card.bacayOther = {width: 35, height: 45, seperator: 39, baiDraggable: false};
-    Card.chinesePoker = {width: 67 * 0.8, height: 91 * 0.8, seperator: 60, baiDraggable: true, selectedHeight: 30};
-    Card.chinesePokerOther = {width: 35, height: 45, seperator: 39, baiDraggable: false};
-    Card.baiOther = {width: 35, height: 45, seperator: 0, baiDraggable: false};
-    Card.baiLoc = {width: 18, height: 24, seperator: 0.2, baiDraggable: false, defaultValue: 52};
-    Card.baiDraft = {width: 35, height: 45, seperator: 21, baiDraggable: false};
-    Card.baiDown = {width: 54, height: 72, seperator: 21, baiDraggable: false, selectedHeight: 30};
-    Card.newImage = {width: 43.2 * 0.7, height: 57.6 * 0.7, seperator: 21, baiDraggable: false, selectedHeight: 30};
-
+    Card.threeCardsBanker.scale = Card.threeCardsBanker.width/Card.size.width;
+    
+    Card.miniPoker = {width: 130, height: 180, scale: 1.6};
+    Card.miniPoker.scale = Card.miniPoker.width/Card.size.width;
+    
     Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
 
     Card.Suite = {
@@ -1313,357 +1340,6 @@ this.TWIST = this.TWIST || {};
 
     TWIST.Card = Card;
 })();
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-this.TWIST = this.TWIST || {};
-        (function () {
-        "use strict";
-                var CSS = "@keyframes error-remove {\n\
-    0%{\n\
-        opacity: 1;\n\
-    }\n\
-\n\
-    80%{\n\
-        opacity:0.3;\n\
-        font-size:40px;\n\
-    }\n\
-    100%{\n\
-        opacity:0;\n\
-        font-size:3px;\n\
-    }\n\
-}\n\
-.twist .wrapper,.twist.wrapper{\n\
-  -webkit-touch-callout: none;\n\
-  -webkit-user-select : none;\n\
-  font-family: Roboto;\n\
-}\n\
-.twist .error-item {\n\
-    margin: 20px auto 0;\n\
-    animation-name : error-remove;\n\
-    animation-duration : 3s;\n\
-    animation-timing-function : linear;\n\
-    animation-iteration-count : 1;\n\
-    font-size: 40px;\n\
-    color: #ffea02;\n\
-    font-style: italic;\n\
-}\n\
-.twist .button-bar{\n\
-    position: absolute;\n\
-    left:  0;\n\
-    width: 100%;\n\
-    bottom: 80px;\n\
-    text-align: center;\n\
-    color: white;\n\
-}\n\
-.twist .button{\n\
-    display: inline-block;\n\
-    border : 1px solid;\n\
-    border-radius : 5px;\n\
-    line-height: 38px;\n\
-    font-size: 16px;\n\
-    vertical-align: middle;\n\
-    text-align: center;\n\
-    width: 118px;\n\
-    margin-right: 8px;\n\
-    font-weight: bold;\n\
-    cursor: pointer;\n\
-    color: white;\n\
-    transition: text-shadow 0.3s linear,color 0.3s linear;\n\
-    text-transform: uppercase;\n\
-    position: absolute;\n\
-    bottom: 0;\n\
-}\n\
-.twist .button.fist{\n\
-    right: 100px;\n\
-}\n\
-.twist .button.second{\n\
-    right: 235px;\n\
-}\n\
-.twist .button.third{\n\
-    right: 370px;\n\
-}\n\
-.twist .button.fourth{\n\
-    right: 505px;\n\
-}\n\
-.twist .button.red{\n\
-    color:  rgba(255,118,118,0.5);\n\
-    border-color:  rgb(255,118,118);\n\
-    background-image: linear-gradient(rgba(255,118,118,0.1),transparent,rgba(255,118,118,0.1));\n\
-    text-shadow : 0 0 20px rgba(255,255,255,0.5), 0 0 20px rgba(255,118,118,0.5);\n\
-}\n\
-.twist .button.red:active{\n\
-    color : rgba(255,255,255,0.5);\n\
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5), \n\
-        0 0 35px rgba(255,118,118,0.5), 0 0 40px rgba(255,118,118,0.5), 0 0 50px rgba(255,118,118,0.5), 0 0 75px rgba(255,118,118,0.5);\n\
-}\n\
-.twist .button.blue{\n\
-    color:  rgba(32,187,252,0.5);\n\
-    border-color:  rgba(32,187,252,0.5);\n\
-    background-image: linear-gradient(rgba(32,187,252,0.1),transparent,rgba(32,187,252,0.1));\n\
-    text-shadow : 0 0 20px rgba(32,187,252,0.5), 0 0 20px rgba(32,187,252,0.5);\n\
-}\n\
-.twist .button.blue:active{\n\
-    color : rgba(255,255,255,0.5);\n\
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5), \n\
-        0 0 35px rgba(32,187,252,0.5), 0 0 40px rgba(32,187,252,0.5), 0 0 50px rgba(32,187,252,0.5), 0 0 75px rgba(32,187,252,0.5);\n\
-}\n\
-.twist .button.yellow{\n\
-    color:  rgba(254,206,47,0.5);\n\
-    border-color:  rgba(254,206,47,0.5);\n\
-    background-image: linear-gradient(rgba(254,206,47,0.1),transparent,rgba(254,206,47,0.1));\n\
-    text-shadow : 0 0 20px rgba(254,206,47,0.5), 0 0 20px rgba(254,206,47,0.5);\n\
-    margin-left: 0;\n\
-}\n\
-.twist .button.yellow:active{\n\
-    color : rgba(255,255,255,0.5);\n\
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5), \n\
-        0 0 35px rgba(254,206,47,0.5), 0 0 40px rgba(254,206,47,0.5), 0 0 50px rgba(254,206,47,0.5), 0 0 75px rgba(254,206,47,0.5);\n\
-}\n\
-.twist .button.green{\n\
-    color:  rgba(20,210,50,0.5);\n\
-    border-color:  rgba(20,210,50,0.5);\n\
-    background-image: linear-gradient(rgba(20,210,50,0.1),transparent,rgba(20,210,50,0.1));\n\
-    text-shadow : 0 0 20px rgba(20,210,50,0.5), 0 0 20px rgba(20,210,50,0.5);\n\
-}\n\
-.twist .button.green:active{\n\
-    color : rgba(255,255,255,0.5);\n\
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), \n\
-        0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);\n\
-}\n\
-.twist .game-result {\n\
-    position: absolute;\n\
-    top: 0;\n\
-    left: 0;\n\
-    width: 100%;\n\
-    height: 100%;\n\
-}\n\
-.twist .global-mask {\n\
-    position: absolute;\n\
-    top: 0;\n\
-    left: 0;\n\
-    right: 0;\n\
-    bottom: 0;\n\
-    background-color: rgba(0,0,0,0.5);\n\
-}\n\
-.twist .game-result-popup {\n\
-    position: relative;\n\
-    width: 80%;\n\
-    margin: 0 auto;\n\
-    margin-top: 10%;\n\
-    min-height: 200px;\n\
-    background-color: #131E28;\n\
-    border-radius: 10px;\n\
-    box-shadow: 1px 1px 5px #1476fb,-1px 1px 5px #1476fb,1px -1px 5px #1476fb,-1px -1px 5px #1476fb;\n\
-}\n\
-.twist .game-result-popup .container{\n\
-    overflow: hidden;\n\
-    margin: 10px;\n\
-    width: calc(100% - 20px);\n\
-}\n\
-.twist .popup-header {\n\
-    position: relative;\n\
-    min-height: 40px;\n\
-}\n\
-.twist .popup-icon {\n\
-    position: absolute;\n\
-    left: calc(50% - 90px);\n\
-    top: -60px;\n\
-    width: 180px;\n\
-    height: 120px;\n\
-    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/win.png);\n\
-}\n\
-.twist .popup-icon.lose {\n\
-    background-image: url(http://localhost/gbjs/src/inner/images/resultPanel/lose.png);\n\
-}\n\
-.twist .close-popup {\n\
-    position: absolute;\n\
-    line-height: 30px;\n\
-    width: 30px;\n\
-    color: #c4e1ff;\n\
-    cursor: pointer;\n\
-    right: 5px;\n\
-    top: 5px;\n\
-    font-size: 20px;\n\
-}\n\
-.twist .result-item {\n\
-//    height: 60px;\n\
-    width: 90%;\n\
-    border-bottom: 1px solid #1d384f;\n\
-    text-align: left;\n\
-    white-space: nowrap;\n\
-    font-size: 16px;\n\
-    color: white;\n\
-    font-weight: bold;\n\
-    margin: 0 auto;\n\
-    padding: 10px 0;\n\
-}\n\
-.twist .result-item:last-child{\n\
-    border-bottom: none;\n\
-}\n\
-.twist .result-item-info {\n\
-    display: inline-block;\n\
-    width: 40%;\n\
-    line-height: 30px;\n\
-}\n\
-.twist .result-item-username {\n\
-    width: 40%;\n\
-    display: inline-block;\n\
-    overflow: hidden;\n\
-    text-overflow: ellipsis;\n\
-    vertical-align: top;\n\
-}\n\
-.twist .result-item-result-info {\n\
-    display: inline-block;\n\
-    vertical-align: top;\n\
-    width: calc(60% - 4px);\n\
-}\n\
-.twist span.result-item-money {\n\
-    font-size: 20px;\n\
-    text-shadow: 0 0 15px rgba(20,118,251,1);\n\
-}\n\
-.twist .user-result-string {\n\
-    color: #93c6fd;\n\
-}\n\
-.twist .winner .result-item-username,.winner .user-result-string {\n\
-    color : #fedc32;\n\
-}\n\
-.twist .winner span.result-item-money{\n\
-    text-shadow: 0 0 15px #fec52e;\n\
-}\n\
-.twist .result-card-list-container {\n\
-    display: inline-block;\n\
-    width: calc(60% - 4px);\n\
-    vertical-align: top;\n\
-    height: 60px;\n\
-    text-align: right;\n\
-}\n\
-.twist .card{\n\
-    width: 45.91px;\n\
-    height: 60px;\n\
-    vertical-align: top;\n\
-    display: inline-block;\n\
-    margin-left: -10px;\n\
-    background-size: cover;\n\
-}\n\
-.twist .card0{background-image: url(http://localhost/gbjs/src/inner/images/card/8.png)}\n\
-.twist .card1{background-image: url(http://localhost/gbjs/src/inner/images/card/9.png)}\n\
-.twist .card2{background-image: url(http://localhost/gbjs/src/inner/images/card/10.png)}\n\
-.twist .card3{background-image: url(http://localhost/gbjs/src/inner/images/card/11.png)}\n\
-.twist .card4{background-image: url(http://localhost/gbjs/src/inner/images/card/12.png)}\n\
-.twist .card5{background-image: url(http://localhost/gbjs/src/inner/images/card/13.png)}\n\
-.twist .card6{background-image: url(http://localhost/gbjs/src/inner/images/card/14.png)}\n\
-.twist .card7{background-image: url(http://localhost/gbjs/src/inner/images/card/15.png)}\n\
-.twist .card8{background-image: url(http://localhost/gbjs/src/inner/images/card/16.png)}\n\
-.twist .card9{background-image: url(http://localhost/gbjs/src/inner/images/card/17.png)}\n\
-.twist .card10{background-image: url(http://localhost/gbjs/src/inner/images/card/18.png)}\n\
-.twist .card11{background-image: url(http://localhost/gbjs/src/inner/images/card/19.png)}\n\
-.twist .card12{background-image: url(http://localhost/gbjs/src/inner/images/card/20.png)}\n\
-.twist .card13{background-image: url(http://localhost/gbjs/src/inner/images/card/21.png)}\n\
-.twist .card14{background-image: url(http://localhost/gbjs/src/inner/images/card/22.png)}\n\
-.twist .card15{background-image: url(http://localhost/gbjs/src/inner/images/card/23.png)}\n\
-.twist .card16{background-image: url(http://localhost/gbjs/src/inner/images/card/24.png)}\n\
-.twist .card17{background-image: url(http://localhost/gbjs/src/inner/images/card/25.png)}\n\
-.twist .card18{background-image: url(http://localhost/gbjs/src/inner/images/card/26.png)}\n\
-.twist .card19{background-image: url(http://localhost/gbjs/src/inner/images/card/27.png)}\n\
-.twist .card20{background-image: url(http://localhost/gbjs/src/inner/images/card/28.png)}\n\
-.twist .card21{background-image: url(http://localhost/gbjs/src/inner/images/card/29.png)}\n\
-.twist .card22{background-image: url(http://localhost/gbjs/src/inner/images/card/30.png)}\n\
-.twist .card23{background-image: url(http://localhost/gbjs/src/inner/images/card/31.png)}\n\
-.twist .card24{background-image: url(http://localhost/gbjs/src/inner/images/card/32.png)}\n\
-.twist .card25{background-image: url(http://localhost/gbjs/src/inner/images/card/33.png)}\n\
-.twist .card26{background-image: url(http://localhost/gbjs/src/inner/images/card/34.png)}\n\
-.twist .card27{background-image: url(http://localhost/gbjs/src/inner/images/card/35.png)}\n\
-.twist .card28{background-image: url(http://localhost/gbjs/src/inner/images/card/36.png)}\n\
-.twist .card29{background-image: url(http://localhost/gbjs/src/inner/images/card/37.png)}\n\
-.twist .card30{background-image: url(http://localhost/gbjs/src/inner/images/card/38.png)}\n\
-.twist .card31{background-image: url(http://localhost/gbjs/src/inner/images/card/39.png)}\n\
-.twist .card32{background-image: url(http://localhost/gbjs/src/inner/images/card/40.png)}\n\
-.twist .card33{background-image: url(http://localhost/gbjs/src/inner/images/card/41.png)}\n\
-.twist .card34{background-image: url(http://localhost/gbjs/src/inner/images/card/42.png)}\n\
-.twist .card35{background-image: url(http://localhost/gbjs/src/inner/images/card/43.png)}\n\
-.twist .card36{background-image: url(http://localhost/gbjs/src/inner/images/card/44.png)}\n\
-.twist .card37{background-image: url(http://localhost/gbjs/src/inner/images/card/45.png)}\n\
-.twist .card38{background-image: url(http://localhost/gbjs/src/inner/images/card/46.png)}\n\
-.twist .card39{background-image: url(http://localhost/gbjs/src/inner/images/card/47.png)}\n\
-.twist .card40{background-image: url(http://localhost/gbjs/src/inner/images/card/48.png)}\n\
-.twist .card41{background-image: url(http://localhost/gbjs/src/inner/images/card/49.png)}\n\
-.twist .card42{background-image: url(http://localhost/gbjs/src/inner/images/card/50.png)}\n\
-.twist .card43{background-image: url(http://localhost/gbjs/src/inner/images/card/51.png)}\n\
-.twist .card44{background-image: url(http://localhost/gbjs/src/inner/images/card/0.png)}\n\
-.twist .card45{background-image: url(http://localhost/gbjs/src/inner/images/card/1.png)}\n\
-.twist .card46{background-image: url(http://localhost/gbjs/src/inner/images/card/2.png)}\n\
-.twist .card47{background-image: url(http://localhost/gbjs/src/inner/images/card/3.png)}\n\
-.twist .card48{background-image: url(http://localhost/gbjs/src/inner/images/card/4.png)}\n\
-.twist .card49{background-image: url(http://localhost/gbjs/src/inner/images/card/5.png)}\n\
-.twist .card50{background-image: url(http://localhost/gbjs/src/inner/images/card/6.png)}\n\
-.twist .card51{background-image: url(http://localhost/gbjs/src/inner/images/card/7.png)}";
-        TWIST.initCSS = function(){
-            var re = /http:\/\/localhost\/gbjs\/src\/inner\/images\//g;
-            var res = CSS.replace(re, TWIST.imagePath);
-            $("<style>" + res + "</style>").appendTo("head");
-        }
-                
-        })();
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-this.TWIST = this.TWIST || {};
-(function () {
-    "use strict";
-    var HTMLTemplate = {
-        canvas: '<canvas id="testCanvas" width="1000" height="580" ></canvas>',
-        resultPanel: {
-            wrapper: '<div class="game-result">\n\
-                    <div class="global-mask"></div>\n\
-                    <div class="game-result-popup">\n\
-                        <div class="popup-header">\n\
-                            <div class="popup-icon"></div> \n\
-                            <div class="close-popup">X</div>\n\
-                        </div>\n\
-                        <div class="popup-content">\n\
-                            <div class="container">\n\
-                                <div>\n\
-                                </div>\n\
-                            </div>\n\
-                        </div>\n\
-                    </div>\n\
-                </div>',
-            user: '<div class="result-item <%- isWinnerClass %>">\n\
-                        <div class="result-item-info"> \n\
-                                <div class="result-item-username"><%- username %> </div>\n\
-                                <div class="result-item-result-info">\n\
-                                    <span class="result-item-money"><%- moneyChange %></span>\n\
-                                    <div class="user-result-string" ng-class="user.subMoney < 0 ? \'red-color\' : \'green - color\'"><%- resultText %></div>\n\
-                                </div>\n\
-                        </div>\n\
-                        <div class="result-card-list-container">\n\
-                            <%= cardList %>\n\
-                        </div>\n\
-                    </div>',
-            card: '<div class="card card<%- id %>"></div>'
-        },
-        buttonBar: {
-            wrapper: '<div class="button-bar"></div>',
-            startButton: '<div class="button fist green" id="start-button">Bắt đầu</div>',
-            hitButton: '<div class="button second yellow" id="hit-card">Đánh bài</div>',
-            sortCardButton: '<div class="button third blue" id="sort-card">Xắp xếp</div>',
-            foldTurnButton: '<div class="button fourth red" id="fold-turn">Bỏ lượt</div>',
-            callSamButton: '<div class="button fourth red" id="call-sam">Báo sâm</div>',
-            foldSamButton: '<div class="button third blue" id="fold-sam">Bỏ sâm</div>'
-        },
-        errorPanel: '<div class="error-panel" style="position: absolute;left: 200px; top : 200px; text-align: center; width: 600px"></div>'
-    };
-    TWIST.HTMLTemplate = HTMLTemplate;
-})();
-
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -3489,12 +3165,14 @@ this.TWIST = this.TWIST || {};
     p.initBaseGame = function () {
 
         //Event List
-        this.events = {
-//            info: "drawInfo"
-        };
+//        this.events = {
+////            info: "drawInfo"
+//        };
 
         this.initEvent();
         this.initCanvas();
+        this.wrapper.append(this.canvas);
+        this.initStage();
     };
 
     p.initCanvas = function () {
@@ -3503,30 +3181,31 @@ this.TWIST = this.TWIST || {};
             width: this.options.width || initOptions.width,
             height: this.options.height || initOptions.height
         });
-
-        this.wrapper.prepend(canvas);
-
+        this.canvas = canvas;
+        return canvas;
+    };
+    
+    p.initStage = function() {
         var _self = this;
-
-        var stage = new createjs.Stage(canvas[0]);
+        var stage = new createjs.Stage(this.canvas[0]);
         stage.enableMouseOver(20);
         var context = stage.canvas.getContext("2d");
         context.mozImageSmoothingEnabled = true;
         createjs.Touch.enable(stage);
         createjs.Ticker.setFPS(60);
-        stage.width = canvas.width;
-        stage.height = canvas.height;
+        stage.width = this.canvas.width;
+        stage.height = this.canvas.height;
         createjs.Ticker.addEventListener("tick", onUpdateStage);
         this.on('destroy', function () {
             createjs.Ticker.removeEventListener("tick", onUpdateStage);
             _self.removeAllListeners();
         });
-        this.canvas = stage;
+        this.stage = stage;
 
         function onUpdateStage() {
             stage.update();
         }
-    };
+    }
 
     p.initEvent = function () {
         var events = this.events;
@@ -3605,7 +3284,7 @@ this.TWIST = this.TWIST || {};
         canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
-        this.canvas.addChild(this.playersContainer, this.desk);
+        this.stage.addChild(this.playersContainer, this.desk);
         this.wrapper.css({
             width: canvas.width(),
             height: canvas.height()
@@ -4301,147 +3980,631 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
+    var gameSize, columnSize, itemSize, distance, columns, speed, effectArray,
+            statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
+            lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
+            line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
+            timeOutList, fistLog;
+
+    statusList = ["pause", "running", "ending", "effecting"];
+
+    endingPhase = -1;
+
+    stepValue = 1;
+
+    itemSize = {width: 160, height: 205, padding: 10};
+
+    gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
+
+    distance = itemSize.height;
+
+    columns = [];
+
+    speed = 1;//default 2
+
+    numberCard = 52;
+
+    spinAreaConf = {x: 100, y: 100};
+
+    effectQueue = [];
+
+    bets = [100, 1000, 10000, 100000];
+
+    moneyFallingEffectTime = 3000;
+
+    currentEffectTurn = 0;
+
+    numberEffectCompleted = 0;
+
+    timeOutList = [];
+
     var initOptions = {
-        maxPlayers: 5,
-        numberCardsInHand: 10,
-        turnTime: 20000
     };
+
     function MiniPoker(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
         this.initMiniPoker();
     }
+
     var p = MiniPoker.prototype = new TWIST.BaseGame();
 
-    p.initSamGame = function (wrapper) {
-        this.initBaseDemlaGame();
-        this.pushSamGameEvent();
-        this.bindSamButton();
+    p.initMiniPoker = function () {
+        $.extend(this.options, gameSize);
+        this.info = {};
+        this.initCanvas();
+        this.initTemplate();
+        this.initButton();
+        this.draw();
+        this.pushEventListener();
     };
 
-    p.pushSamGameEvent = function () {
-        this.on("inviteSam", this.onInviteSam);
-        this.on("endInviteSam", this.onEndInviteSam);
-        this.on("foldSam", this.onFoldSam);
-        this.on("callSam", this.onCallSam);
+    p.draw = function () {
+        var _self = this;
+        this.mapData = TWIST.MiniPokerLogic.generateMap();
+        var spinArea = new createjs.Container();
+        this.spinArea = spinArea;
+
+        for (var i = 0; i < gameSize.x; i++) {
+            columns[i] = new createjs.Container();
+            columns[i].set({x: i * itemSize.width, y: 0});
+            var columnItems = new createjs.Container();
+            columns[i].addChild(columnItems);
+
+            var value = this.mapData[i];
+            var item = this.createSlotItem(this.mapData[i], 0);
+            columnItems.addChild(item);
+
+            spinArea.addChild(columns[i]);
+        }
+
+        this.stage.addChild(spinArea);
     };
 
-    p.bindSamButton = function () {
+    p.initTemplate = function () {
+        this.wrapperTemplate = $(TWIST.HTMLTemplate['miniPoker/wrapper']);
+        this.wrapper.append(this.wrapperTemplate);
+
+        this.wrapperTemplate.append(this.canvas);
+        this.initStage();
+
+        this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
+        this.wrapperTemplate.append(this.resultText);
+
+        this.pot = _.template(TWIST.HTMLTemplate['miniPoker/pot']);
+        this.wrapperTemplate.append(this.pot({value: 0}));
+
+        this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
+        this.wrapperTemplate.append(this.buttonSpin);
+
+        this.autoSpin = $(TWIST.HTMLTemplate['miniPoker/autospin']);
+        this.wrapperTemplate.append(this.autoSpin);
+
+        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+        this.wrapperTemplate.append(this.chipWrapper);
+
+        this.chipButtons = this.chipWrapper.find('.chip');
+
+        this.errorPanel = $(TWIST.HTMLTemplate['errorPanel']);
+        this.wrapperTemplate.append(this.errorPanel);
+        this.errorPanel.hide();
+    };
+
+    p.initButton = function () {
+        var _self = this;
+        this.chipButtons.on('click', function (event) {
+            _self.chipButtons.removeClass('active');
+            $(event.target).addClass("active");
+        });
+
+        this.buttonSpin.on('click', function (event) {
+            _self.emit("start");
+        });
+
+        $('.button.plus-bet:not(.disabled)').on("click", function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("plusBet");
+        });
+
+        $('.button.decrease-bet:not(.disabled)').on("click", function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("decreaseBet");
+        });
+
+        $('#spinButton').click(function () {
+            if (_self.status !== 'pause' && _self.status !== 'effecting')
+                return;
+            _self.changeStatus("pause");
+            _self.emit("spin");
+        });
+    };
+
+    p.pushEventListener = function () {
         var _self = this;
 
-        this.callSamButton = $(TWIST.HTMLTemplate.buttonBar.callSamButton);
-        this.buttonBar.append(this.callSamButton);
-        this.callSamButton.unbind('click');
-        this.callSamButton.click(function () {
-            _self.emit("call-sam");
-        });
-
-        this.foldSamButton = $(TWIST.HTMLTemplate.buttonBar.foldSamButton);
-        this.buttonBar.append(this.foldSamButton);
-        this.foldSamButton.unbind('click');
-        this.foldSamButton.click(function () {
-            _self.emit("fold-sam");
-        });
-    };
-
-    p.onInviteSam = function (data) {
-        this.desk.setRemainingTime(parseInt(data.remainingTime));
-        this.callSamButton.show();
-        this.foldSamButton.show();
-        this.userCallSam = null;
-    };
-
-    p.onEndInviteSam = function () {
-        this.desk.setRemainingTime(0);
-        this.callSamButton.hide();
-        this.foldSamButton.hide();
-        var players = this.playersContainer.children;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player && player.uuid !== this.userCallSam) {
-                player.setPlayerStatus("");
+        this.on("start", function () {
+            console.log("start");
+            if (this.checkStart()) {
+                _self.changeStatus("pause");
+                _self.emit("spin");
             }
-        }
-    };
-
-    p.onFoldSam = function (data) {
-        var player = this.getPlayerByUuid(data.uuid);
-        player.setPlayerStatus("Hủy sâm !");
-    };
-
-    p.onCallSam = function (data) {
-        var player = this.getPlayerByUuid(data.uuid);
-        player.setPlayerStatus("Báo sâm !", {
-            color: "red"
         });
-        this.userCallSam = data.uuid;
+
+        this.on("endSpin", function (data) {
+            _self.endSpin(data);
+        });
+
+        this.on("info", function () {
+            _self.renderData(arguments[0]);
+        });
+
+        this.on("spin", function () {
+            _self.startSpin();
+        });
+
+        this.on("bindBet", function (newBet) {
+            _self.bindBet(newBet);
+        });
+
+        this.on("spinCompleted", function () {
+            _self.effecting();
+        });
+
+        this.on("endEffect", function () {
+            _self.endEffect();
+        });
     };
 
-    p.endGame = function (data) {
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-        var _self = this;
-        var resultData = {};
-        switch (parseInt(data.winType)) {
-            case 2:
-                resultData.winTypeString = "Ăn Sâm";
-                break;
-            case 3:
-                resultData.winTypeString = "Bắt Sâm";
-                break;
-            case 4:
-                resultData.winTypeString = "Thắng !";
-                break;
-            case 9:
-                resultData.winTypeString = "Bị bắt Sâm";
-                break;
-            case 11:
-                resultData.winTypeString = "Phạt Báo 1";
-                break;
-            default:
-                resultData.winTypeString = "Thắng !";
-                break;
+    p.checkStart = function () {
+        return true;
+    };
+
+    p.plusBet = function () {
+        var index = this.info.bets.indexOf(this.info.betting);
+        var newValue = this.info.bets[index + 1];
+        if (newValue) {
+            this.emit("bindBet", newValue);
+        }
+    };
+
+    p.decreaseBet = function () {
+        var index = this.info.bets.indexOf(this.info.betting);
+        var newValue = this.info.bets[index - 1];
+        if (newValue) {
+            this.emit("bindBet", newValue);
+        }
+    };
+
+    p.renderData = function (data) {
+        $.extend(this.info, data);
+    };
+
+    p.bindLine = function (lineName, active) {
+        if (activeLines.length == 1 && !active)
+            return;
+        var linesContainer = this.wrapper.getChildByName("linesContainer");
+        var lineItem = linesContainer.getChildByName("line" + (lineName + 1));
+        if (!lineItem)
+            return;
+        lineItem.visible = active;
+        var className = '.line-button.button' + (lineName + 1);
+        if (active) {
+            $(className).addClass("active");
+        } else {
+            $(className).removeClass("active");
         }
 
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
-            });
-            if (parseInt(player.changeMoney) < 0) {
-                if (data.winType === 4) {
-                    if (cardList.length === this.options.numberCardsInHand) {
-                        player.gameResultString = "Thua cóng";
-                    } else
-                        player.gameResultString = "Thua " + cardList.length + " lá!";
-                } else {
-                    player.gameResultString = "Thua !";
-                }
-            } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = resultData.winTypeString;
-                player.isWinner = true;
-                if(player.uuid === this.userInfo.uuid){
-                    resultData.isWinner = true;
-                }
+        var indexLine = activeLines.indexOf(lineName);
+        if (active && indexLine == -1) {
+            activeLines.push(lineName);
+        } else if (!active && indexLine > -1) {
+            activeLines.splice(indexLine, 1);
+        }
+        $('.number.lines').text(activeLines.length);
+        this.emit("toggleLines", true);
+        this.changeNumberEffect('.number.total-bet', this.info.betting * activeLines.length, {duration: 200}).runEffect();
+    };
+
+    p.toggleLines = function (show) {
+        var lines = this.wrapper.getChildByName("linesContainer").children;
+        lines.forEach(function (item, index) {
+            if (activeLines.indexOf(line9Left[index] - 1) > -1 && show) {
+                item.visible = true;
             } else {
-                player.gameResultString = "Hòa";
+                item.visible = false;
             }
+        });
+    };
 
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+    p.bindBet = function (newBet) {
+        this.info.betting = newBet;
+//        $('.number.bet').text(newBet);
+//        $('.number.total-bet').text(this.info.betting * activeLines.length);
+
+        this.changeNumberEffect('#top .jack-pot', this.info.potData[bets.indexOf(newBet)], {duration: 200}).runEffect();
+        this.changeNumberEffect('.number.bet', newBet, {duration: 200}).runEffect();
+        this.changeNumberEffect('.number.total-bet', this.info.betting * activeLines.length, {duration: 200}).runEffect();
+    };
+
+    p.changeStatus = function (status) {
+        this.status = status;
+        timeOutList.forEach(function (item) {
+            clearTimeout(item);
+        });
+        timeOutList = [];
+        if (status == 'pause') {
+            var effectArray = effectQueue[currentEffectTurn];
+            if (!effectArray || !effectArray.length)
+                return;
+            for (var i = 0; i < effectArray.length; i++) {
+                effectArray[i].endEffect();
+            }
+            ;
+            effectQueue = [];
+            currentEffectTurn = 0;
+        }
+        if (status == "running") {
+//            $('.number.win').text(0);
+//            this.effectContainer.removeAllChildren();
+        }
+    };
+
+    p.startSpin = function () {
+        endingPhase = -1;
+        var _self = this;
+        var firstColumn = columns[0].getChildAt(0);
+        this.changeStatus("running");
+        createjs.Tween.get(firstColumn)
+                .to({y: -50}, 150)
+                .call(function () {})
+                .to({y: 0}, 150)
+                .call(function () {
+                    _self.spinAllColumns();
+                });
+
+    };
+
+    p.spinAllColumns = function () {
+        var _self = this;
+        for (var i = 0; i < gameSize.x; i++) {
+            _self.spinColumn(i);
+        }
+    };
+
+    p.spinColumn = function (columnIndex) {
+        var isNewEndingPhase = false;
+        var beforeLastRow = false;
+        if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
+            if (endingPhase % 1 == 0) {
+                isNewEndingPhase = true;
+                beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y);
             }
         }
+        var _self = this;
+        var newItem;
+        var itemsContainer = columns[columnIndex].getChildAt(0);
+        if (isNewEndingPhase) {
+            newItem = this.createSlotItem(this.mapData[columnIndex], -1);
+        } else {
+            newItem = this.createSlotItem(Math.floor(Math.random() * numberCard), -1);
+        }
+        itemsContainer.addChild(newItem);
+        var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
+        var timeAnimation = beforeLastRow ? 2 * distance / speed : distance / speed;
+        createjs.Tween.get(itemsContainer)
+                .to({y: distance}, timeAnimation, easeType)
+                .call(function () {
+                    var columnIndex = this.parent.parent.getChildIndex(this.parent);
+                    this.set({y: 0});
+                    var slotItems = this.children;
+                    slotItems.forEach(function (item, index) {
+                        item.state++;
+                        item.goNextStep();
+                    });
+                    this.removeChild(slotItems.find(function (item) {
+                        return item.state == gameSize.y
+                    }));
 
-        setTimeout(function () {
-            _self.showResult(resultData);
-//            _self.emit("showResult", resultData);
-        }, 2000);
+                    if (endingPhase > -1) {
+
+                        var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
+                        if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
+                            var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
+                            if (isLastRow) {
+                                stepValue = 1 / 5;
+                            } else if ((endingPhase % gameSize.y) == 0) {
+                                stepValue = 1;
+                            }
+                            endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                            if (!isLastRow) {
+                                _self.spinColumn(columnIndex);
+                            } else {
+                                endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                            }
+                        } else {
+                            _self.spinColumn(columnIndex);
+                        }
+                        if (endingPhase > (gameSize.x * gameSize.y) - 1) {
+                            _self.emit("spinCompleted");
+                        }
+                    } else {
+                        _self.spinColumn(columnIndex);
+                    }
+
+                });
+    };
+
+    p.endSpin = function (data) {
+        this.status = "ending";
+        this.result = data;
+        this.mapData = data.map;
+        endingPhase = -0.8;
+        stepValue = 0.2;
+    };
+
+    p.effecting = function () {
+        this.status = "effecting";
+        var result = this.result;
+        effectQueue = [];
+        if (result.totalWin > 0) {
+            var effectArray = [];
+            var changeWinMoneyEffect = this.changeNumberEffect('.number.win', result.totalWin, {duration: moneyFallingEffectTime});
+            var changeTotalMoneyEffect = this.changeNumberEffect('#top .money', result.newMoney, {duration: moneyFallingEffectTime});
+            var moneyFallingEffect = this.moneyFallingEffect();
+            effectArray.push(changeWinMoneyEffect, moneyFallingEffect, changeTotalMoneyEffect);
+            if (result.explodePot) {
+                var explodePotEffect = this.explodePotEffect();
+                effectArray.push(explodePotEffect);
+            }
+            effectArray.oneTime = true;
+            effectQueue.push(effectArray);
+
+            for (var i = 0; i < result.pzires.length; i++) {
+                var pzire = result.pzires[i]
+                var effectArray = [];
+                var hightLightItemEffect = this.hightLightEffect(pzire.line, pzire.prize.length);
+                effectArray.push(hightLightItemEffect);
+                effectQueue.push(effectArray);
+            }
+
+        }
+        this.runNextEffect();
+    };
+
+    p.runNextEffect = function () {
+        var effectArray = effectQueue[currentEffectTurn];
+        if (!effectArray || !effectArray.length)
+            return;
+        function _runEffect() {
+            numberEffectCompleted = 0;
+            for (var i = 0; i < effectArray.length; i++) {
+                effectArray[i].runEffect();
+            }
+        }
+        if (effectArray.oneTime) {
+            if (effectArray.done) {
+                currentEffectTurn++;
+                if (currentEffectTurn == effectQueue.length)
+                    currentEffectTurn = 0;
+                this.runNextEffect();
+            } else {
+                _runEffect();
+            }
+        } else {
+            var timeOut = setTimeout(_runEffect, 300);
+            timeOutList.push(timeOut);
+        }
+    };
+
+    p.endEffect = function () {
+        numberEffectCompleted++;
+        if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
+            if (effectQueue[currentEffectTurn].oneTime)
+                effectQueue[currentEffectTurn].done = true;
+            currentEffectTurn++;
+            if (currentEffectTurn == effectQueue.length)
+                currentEffectTurn = 0;
+            if (this.status == "effecting") {
+                this.runNextEffect();
+            }
+        }
+    };
+
+    p.createSlotItem = function (value, state) {
+        var _self = this;
+        var slotItem = new createjs.Container();
+
+        var bg = new TWIST.Card(value);
+        bg.set({
+            scaleX: TWIST.Card.miniPoker.scale,
+            scaleY: TWIST.Card.miniPoker.scale,
+            x: (itemSize.width - TWIST.Card.miniPoker.width) / 2,
+            y: (itemSize.height - TWIST.Card.miniPoker.scale * TWIST.Card.size.height) / 2
+        });
+        slotItem.addChild(bg);
+        slotItem.set({
+            x: 0,
+            y: itemSize.height * state,
+            state: state
+        });
+
+        slotItem.goNextStep = function () {
+            var newY = itemSize.height * this.state;
+            this.set({y: newY});
+        };
+        return slotItem;
+    };
+
+    p.changeNumberEffect = function (el, newValue, options) {
+
+        var jElement = $(el);
+        var _self = this;
+
+        jElement.newValue = newValue;
+        jElement.options = options;
+
+        jElement.runEffect = function () {
+            var oldValue = this.text();
+            var _jElement = this;
+            var newOptions = {
+                duration: 1000,
+                step: function (now) {
+                    _jElement.text(Math.ceil(now));
+                },
+                done: function () {
+                    _jElement.endEffect();
+                }
+            };
+            $.extend(newOptions, this.options);
+            if (isNaN(parseInt(oldValue)))
+                oldValue = 0;
+            this.prop('Counter', oldValue).animate({
+                Counter: this.newValue
+            }, newOptions);
+        };
+
+        jElement.endEffect = function () {
+            this.stop(true, true);
+            _self.emit("endEffect");
+        };
+
+        return jElement;
+    };
+
+    p.hightLightEffect = function (line, length) {
+        var _self = this;
+        var item = new createjs.Container();
+        var linesContainer = this.wrapper.getChildByName("linesContainer");
+        var lineItem = linesContainer.getChildByName("line" + (line + 1));
+        var lineList = lineList9[line];
+
+        var starBg = new Image();
+        starBg.src = "images/star-mini.png";
+
+        item.runEffect = function () {
+            clearTimeout(this.timeOut);
+            if (this.isInited) {
+                this.set({visible: true});
+            } else {
+                this.init();
+            }
+
+            lineItem.set({visible: true});
+            this.timeOut = setTimeout(function () {
+                item.endEffect();
+            }, 3000);
+        };
+
+        item.init = function () {
+            for (var i = 0; i < length; i++) {
+                this.createItemEffect(i, lineList[i]);
+            }
+            _self.effectContainer.addChild(this);
+            this.isInited = true;
+        };
+
+        item.createItemEffect = function (x, y) {
+            var itemEffect = new createjs.Container();
+            var itemWidth = itemSize.width,
+                    itemHeight = itemSize.height,
+                    oldX = x * itemSize.width + 15 + spinAreaConf.x,
+                    oldY = y * itemSize.height + 8 + spinAreaConf.y
+            itemEffect.set({x: oldX, y: oldY, name: "itemEffect", counter: 0});
+            this.addChild(itemEffect);
+            createjs.Tween.get(itemEffect, {loop: true, onChange: this.productStar})
+                    .to({x: oldX + itemWidth - 30}, 300)
+                    .to({y: oldY + itemHeight - 16}, 300)
+                    .to({x: oldX}, 300)
+                    .to({y: oldY}, 300)
+                    .call(function () {
+
+                    });
+        };
+
+        item.productStar = function (event) {
+            var container = event.target.target;
+            container.counter++;
+            if (container.counter % 1 != 0)
+                return;
+            var start = new createjs.Bitmap(starBg);
+            var startX = container.x, startY = container.y;
+            container.parent.addChild(start);
+            start.set({x: startX, y: startY, scaleX: 0.01, scaleY: 0.01, width: 35, height: 35});
+            var scale = start.width / 18;
+            createjs.Tween.get(start)
+                    .to({
+                        x: startX - scale * 9 + (Math.random() - 0.5) * 2,
+                        y: startY - scale * 9 + (Math.random() - 0.5) * 2,
+                        scaleX: scale,
+                        scaleY: scale
+                    }, 100, createjs.Ease.getElasticOut(5, 5))
+                    .to({
+                        x: startX - scale * 4.5,
+                        y: startY - scale * 4.5,
+                        scaleX: scale / 2,
+                        scaleY: scale / 2
+                    }, 100, createjs.Ease.getElasticIn(5, 5))
+                    .to({
+                        x: startX,
+                        y: startY,
+                        scaleX: 0.01,
+                        scaleY: 0.01
+                    }, 700)
+                    .call(function () {
+                        this.parent.removeChild(this);
+                    });
+        };
+
+        item.endEffect = function () {
+            clearTimeout(this.timeOut);
+            _self.emit('toggleLines', false);
+            this.set({visible: false});
+            _self.emit("endEffect");
+        };
+
+        return item;
+    };
+
+    p.moneyFallingEffect = function (time) {
+        var _self = this;
+        var jElement = $('#effect .money-falling');
+        var firstTime = new Date();
+        jElement.runEffect = function () {
+            clearTimeout(this.timeOut);
+            this.show();
+            this.timeOut = setTimeout(function () {
+                jElement.endEffect();
+            }, moneyFallingEffectTime);
+        };
+        jElement.endEffect = function () {
+            clearTimeout(this.timeOut);
+            this.hide();
+            _self.emit("endEffect");
+        };
+
+        return jElement;
+    };
+
+    p.explodePotEffect = function () {
+        var _self = this;
+        var jElement = $('#effect .explorer-pot');
+        var firstTime = new Date();
+        jElement.runEffect = function () {
+            this.show();
+        };
+        jElement.click(function () {
+            jElement.endEffect();
+        });
+        jElement.endEffect = function () {
+            this.hide();
+            _self.emit("endEffect");
+        };
+
+        return jElement;
     };
 
     TWIST.MiniPoker = MiniPoker;
