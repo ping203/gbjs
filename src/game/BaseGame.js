@@ -31,6 +31,7 @@ this.TWIST = this.TWIST || {};
             width: this.options.width || initOptions.width,
             height: this.options.height || initOptions.height
         });
+        canvas.addClass('twist');
         this.canvas = canvas;
         return canvas;
     };

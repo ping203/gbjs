@@ -3181,6 +3181,7 @@ this.TWIST = this.TWIST || {};
             width: this.options.width || initOptions.width,
             height: this.options.height || initOptions.height
         });
+        canvas.addClass('twist');
         this.canvas = canvas;
         return canvas;
     };
@@ -4000,7 +4001,7 @@ this.TWIST = this.TWIST || {};
 
     columns = [];
 
-    speed = 1;//default 2
+    speed = 2.5;//default 2
 
     numberCard = 52;
 
@@ -4276,6 +4277,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.spinColumn = function (columnIndex) {
+        var currentSpeed = this.options.speed || speed;
         var isNewEndingPhase = false;
         var beforeLastRow = false;
         if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
@@ -4294,7 +4296,7 @@ this.TWIST = this.TWIST || {};
         }
         itemsContainer.addChild(newItem);
         var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
-        var timeAnimation = beforeLastRow ? 2 * distance / speed : distance / speed;
+        var timeAnimation = beforeLastRow ? 2 * distance / currentSpeed : distance / currentSpeed;
         createjs.Tween.get(itemsContainer)
                 .to({y: distance}, timeAnimation, easeType)
                 .call(function () {
