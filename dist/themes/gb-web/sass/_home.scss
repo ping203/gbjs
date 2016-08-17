@@ -1,7 +1,7 @@
 
-$twistImagePath : "images/"; 
+$twistImagePath :   "images/" !default; 
 
-@keyframes error-remove { 
+@keyframes error-remove {
     0%{
         opacity: 1;
     }
@@ -76,7 +76,7 @@ $twistImagePath : "images/";
 }
 .button.red:active{
     color : rgba(255,255,255,0.5);
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5), 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(255,118,118,0.5),
         0 0 35px rgba(255,118,118,0.5), 0 0 40px rgba(255,118,118,0.5), 0 0 50px rgba(255,118,118,0.5), 0 0 75px rgba(255,118,118,0.5);
 }
 .button.blue{
@@ -87,7 +87,7 @@ $twistImagePath : "images/";
 }
 .button.blue:active{
     color : rgba(255,255,255,0.5);
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5), 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(32,187,252,0.5),
         0 0 35px rgba(32,187,252,0.5), 0 0 40px rgba(32,187,252,0.5), 0 0 50px rgba(32,187,252,0.5), 0 0 75px rgba(32,187,252,0.5);
 }
 .button.yellow{
@@ -99,7 +99,7 @@ $twistImagePath : "images/";
 }
 .button.yellow:active{
     color : rgba(255,255,255,0.5);
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5), 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(254,206,47,0.5),
         0 0 35px rgba(254,206,47,0.5), 0 0 40px rgba(254,206,47,0.5), 0 0 50px rgba(254,206,47,0.5), 0 0 75px rgba(254,206,47,0.5);
 }
 .button.green{
@@ -110,7 +110,7 @@ $twistImagePath : "images/";
 }
 .button.green:active{
     color : rgba(255,255,255,0.5);
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5), 
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgba(20,210,50,0.5),
         0 0 35px rgba(20,210,50,0.5), 0 0 40px rgba(20,210,50,0.5), 0 0 50px rgba(20,210,50,0.5), 0 0 rgba(20,210,50,0.5);
 }
 .game-result {
