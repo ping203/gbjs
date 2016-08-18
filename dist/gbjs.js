@@ -4033,6 +4033,7 @@ this.TWIST = this.TWIST || {};
     p.initMiniPoker = function () {
         $.extend(this.options, gameSize);
         this.info = {};
+        this.userInfo = {};
         this.initCanvas();
         this.initTemplate();
         this.initButton();
@@ -4139,8 +4140,8 @@ this.TWIST = this.TWIST || {};
             _self.endSpin(data);
         });
 
-        this.on("info", function () {
-            _self.renderData(arguments[0]);
+        this.on("userInfo", function () {
+            _self.renderUserInfo(arguments[0]);
         });
 
         this.on("spin", function () {
@@ -4157,6 +4158,10 @@ this.TWIST = this.TWIST || {};
 
         this.on("endEffect", function () {
             _self.endEffect();
+        });
+
+        this.on("updateMoney", function () {
+            _self.waitAnimationForUpdateMoney();
         });
     };
 
@@ -4180,8 +4185,8 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.renderData = function (data) {
-        $.extend(this.info, data);
+    p.renderUserInfo = function (data) {
+        $.extend(this.userInfo, data);
     };
 
     p.bindLine = function (lineName, active) {
