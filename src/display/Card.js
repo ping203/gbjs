@@ -105,8 +105,8 @@ this.TWIST = this.TWIST || {};
 
         this.border = new createjs.Bitmap(cards);
         this.border.sourceRect = {
-            width: Card.size.width,
-            height: Card.size.height,
+            width: Card.size.width+4,
+            height: Card.size.height+3,
             x: Card.size.width * 2,
             y: Card.size.height * Card.SuitNameMap.length
         };
@@ -115,8 +115,7 @@ this.TWIST = this.TWIST || {};
             y: -1.5
         });
         this.border.visible = this.showBorder;
-
-        this.addChild(bg);
+        this.addChild(bg,this.border);
     };
 
     p.getValue = function () {
@@ -453,7 +452,7 @@ this.TWIST = this.TWIST || {};
     p.Overlay = function () {
         this.isOverlay = true;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
-        this.cache(0, 0, 90, 122);
+        this.cache(0, 0, Card.size.width, Card.size.height);
         //this.updateCache();
     };
 
@@ -479,6 +478,12 @@ this.TWIST = this.TWIST || {};
 //                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
         this.showBorder = true;
         this.border.visible = true;
+    }
+
+    p.unHightLight = function () {
+//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
+        this.showBorder = false;
+        this.border.visible = false;
     }
 
     TWIST.Card = Card;

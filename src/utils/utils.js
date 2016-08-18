@@ -86,6 +86,10 @@ this.Global = this.Global || {};
             }
             return dataConverted;
         },
+        md5Avatar: function (username) {
+            var avatarHash = md5(username);
+            return parseInt((avatarHash.match(/\d+/)[0] || 1)[0]);
+        },
         convertBettingToChip: function (betting, unit) {
             if (isNaN(betting) || isNaN(unit))
                 return [1];

@@ -77,8 +77,9 @@ this.TWIST = this.TWIST || {};
         $.extend(avatarContainer, avatarConfig);
 
         var avatarImage = new Image();
-        var avatarHash = md5(this.username);
-        var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
+//        var avatarHash = md5(this.username);
+//        var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
+        var avatarNumber = Global.md5Avatar(this.username) || 10;
         avatarImage.src = (TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png';
         var avatarBitmap = new createjs.Bitmap(avatarImage);
         avatarImage.onload = function () {

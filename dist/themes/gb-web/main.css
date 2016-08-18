@@ -378,7 +378,10 @@
   width: 919px;
   height: 455px;
   background-repeat: none;
-  position: relative; }
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 335px; }
   .twist .mini-poker-bg canvas {
     position: absolute;
     left: calc(50% - 400px);
@@ -473,14 +476,15 @@
       bottom: 0;
       width: 106.3629px;
       height: 97.57258px;
-      line-height: 97.57258px;
+      line-height: 91.41935px;
       border-radius: 50% 50%;
       background-image: url("images/miniPoker/chipBlue_small.png");
       background-size: cover;
       color: #004e79;
       transition: all 0.1s linear;
       font-size: 27px;
-      cursor: pointer; }
+      cursor: pointer;
+      font-weight: bold; }
       .twist .mini-poker-bg .chip-group .chip:after {
         content: "";
         position: absolute;
@@ -513,16 +517,16 @@
         width: 121px;
         height: 111px;
         font-size: 30px;
-        line-height: 111px; }
+        line-height: 104px; }
         .twist .mini-poker-bg .chip-group .chip.active:after {
           border: 5px solid #ffde00;
           box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
-  .twist .mini-poker-bg .error-panel {
+  .twist .mini-poker-bg .error-panel-mini {
     width: 700px;
     position: absolute;
     text-align: center;
     top: 140px;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
     color: #f5f5f5;
     line-height: 70px;
@@ -532,7 +536,7 @@
     background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
     background-image: linear-gradient(to right,transparent, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
     transition: opacity 0.2s linear; }
-    .twist .mini-poker-bg .error-panel:after, .twist .mini-poker-bg .error-panel:before {
+    .twist .mini-poker-bg .error-panel-mini:after, .twist .mini-poker-bg .error-panel-mini:before {
       position: absolute;
       left: 0;
       content: "";
@@ -541,5 +545,163 @@
       background-color: transparent;
       background-image: -webkit-linear-gradient(left, transparent, white, transparent);
       background-image: linear-gradient(to right,transparent, white, transparent); }
-    .twist .mini-poker-bg .error-panel:before {
+    .twist .mini-poker-bg .error-panel-mini:before {
+      top: 0; }
+    .twist .mini-poker-bg .error-panel-mini:position {
       bottom: 0; }
+    .twist .mini-poker-bg .error-panel-mini .error-item-mini {
+      -webkit-animation-name: error-remove-mini;
+      -moz-animation-name: error-remove-mini;
+      animation-name: error-remove-mini;
+      -webkit-animation-duration: 3s;
+      -moz-animation-duration: 3s;
+      animation-duration: 3s;
+      -webkit-animation-timing-function: linear;
+      -moz-animation-timing-function: linear;
+      animation-timing-function: linear;
+      -webkit-animation-iteration-count: 1;
+      -moz-animation-iteration-count: 1;
+      animation-iteration-count: 1; }
+
+@keyframes error-remove-mini {
+  0% {
+    opacity: 1; }
+  80% {
+    opacity: 0.3;
+    font-size: 20px; }
+  100% {
+    opacity: 0;
+    font-size: 3px; } }
+  .twist .mini-poker-bg .result-mini-poker-tab {
+    width: 275px;
+    vertical-align: top;
+    position: absolute;
+    left: -305px;
+    top: 10px; }
+    .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item {
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      position: relative;
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: #ffffab;
+      text-transform: uppercase;
+      text-indent: 40px;
+      line-height: 40px;
+      text-align: left;
+      font-weight: bold; }
+
+@keyframes hightlightResult {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+      .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item.active {
+        -webkit-animation: hightlightResult 3s linear 3;
+        -moz-animation: hightlightResult 3s linear 3;
+        animation: hightlightResult 3s linear 3; }
+      .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item .icon {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: 21px;
+        height: 22px;
+        background-image: url("images/miniPoker/chip-mini.png"); }
+      .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item .value {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        text-align: right;
+        color: #1c92c4; }
+  .twist .mini-poker-bg .profile {
+    position: absolute;
+    left: -300px;
+    top: 510px; }
+    .twist .mini-poker-bg .profile .profile-left {
+      position: absolute;
+      top: 0px;
+      left: 0px; }
+      .twist .mini-poker-bg .profile .profile-left .avatar {
+        width: 87px;
+        height: 88px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center; }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar0 {
+          background-image: url("images/player/avatars/0.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar1 {
+          background-image: url("images/player/avatars/1.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar2 {
+          background-image: url("images/player/avatars/2.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar3 {
+          background-image: url("images/player/avatars/3.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar4 {
+          background-image: url("images/player/avatars/4.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar5 {
+          background-image: url("images/player/avatars/5.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar6 {
+          background-image: url("images/player/avatars/6.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar7 {
+          background-image: url("images/player/avatars/7.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar8 {
+          background-image: url("images/player/avatars/8.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar9 {
+          background-image: url("images/player/avatars/9.png"); }
+        .twist .mini-poker-bg .profile .profile-left .avatar.avatar10 {
+          background-image: url("images/player/avatars/10.png"); }
+    .twist .mini-poker-bg .profile .profile-right {
+      position: absolute;
+      top: 10px;
+      left: 100px;
+      width: 200px;
+      text-align: center;
+      font-size: 20px;
+      line-height: 30px; }
+      .twist .mini-poker-bg .profile .profile-right .username {
+        color: white; }
+      .twist .mini-poker-bg .profile .profile-right .money {
+        color: #ffc200; }
+        .twist .mini-poker-bg .profile .profile-right .money:after {
+          content: " V"; }
+    .twist .mini-poker-bg .profile .win-money {
+      position: absolute;
+      color: #f8ae00;
+      font-size: 34px;
+      text-align: center;
+      width: 300px;
+      left: 0;
+      text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
+      top: 50px;
+      -webkit-animation-name: win-money;
+      -moz-animation-name: win-money;
+      animation-name: win-money;
+      -webkit-animation-duration: 2s;
+      -moz-animation-duration: 2s;
+      animation-duration: 2s;
+      -webkit-animation-timing-function: linear;
+      -moz-animation-timing-function: linear;
+      animation-timing-function: linear;
+      -webkit-animation-iteration-count: 1;
+      -moz-animation-iteration-count: 1;
+      animation-iteration-count: 1; }
+
+@keyframes win-money {
+  to {
+    top: -50px; } }
+      .twist .mini-poker-bg .profile .win-money:before {
+        content: "+"; }
