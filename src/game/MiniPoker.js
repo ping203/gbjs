@@ -830,6 +830,9 @@ this.TWIST = this.TWIST || {};
         var resultText = resultItem.name;
         if ((resultItem.code == 3 || resultItem.code == 7 || resultItem.code == 9) && rankItem) {
             resultText = resultText + " " + rankItem.name;
+            if(resultItem.code == 9){
+                resultText = "Đôi " + rankItem.name;
+            }
         }
         this.resultText.text(resultText);
 
