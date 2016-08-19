@@ -15,6 +15,7 @@
 'miniPoker/resultItem':'<div class="result-mini-item">\n    <span class="icon"></span>\n    <%- name %> \n    <div class="value"><%- value %> </div>\n</div>',
 'miniPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
 'miniPoker/resultText':'<div class="result-text"></div>',
+'miniPoker/sessionId':'<div class="session-id"></div>',
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',

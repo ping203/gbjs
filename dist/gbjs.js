@@ -4201,6 +4201,9 @@ this.TWIST = this.TWIST || {};
         this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
         this.wrapperTemplate.append(this.user);
 
+        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+        this.wrapperTemplate.append(this.user);
+
         this.money = this.user.find('.money');
 
         this.setBetting(this.chipButtons[0]);
@@ -4449,6 +4452,7 @@ this.TWIST = this.TWIST || {};
         this.result = this.result || {};
         $.extend(this.result, data);
         this.mapData = data.map;
+        this.showSessionId(data.sessionId);
         endingPhase = -0.8;
         stepValue = 0.2;
     };
@@ -4778,7 +4782,7 @@ this.TWIST = this.TWIST || {};
 
         cardListTemlate.runEffect = function () {
             cardListTemlate.forEach(function (item, index) {
-                if (item.active) {
+                if (parseInt(item.active)) {
                     item.hightLight();
                 } else {
                     item.Overlay();
@@ -4789,7 +4793,7 @@ this.TWIST = this.TWIST || {};
 
         cardListTemlate.endEffect = function () {
             cardListTemlate.forEach(function (item, index) {
-                if (item.active) {
+                if (parseInt(item.active)) {
                     item.unHightLight();
                 } else {
                     item.UnOverlay();
@@ -4829,6 +4833,10 @@ this.TWIST = this.TWIST || {};
         };
 
         return showResultText;
+    };
+
+    p.showSessionId = function (sessionId) {
+        this.sessionId.text(sessionId);
     };
 
     TWIST.MiniPoker = MiniPoker;
