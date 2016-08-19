@@ -63,14 +63,14 @@
 
     MiniPoker.on("spin", function () {
         setTimeout(function () {
-            console.log("setTime out");
             MiniPoker.emit("updateMoney", {
                 newMoney: 445565 + 1000*count,
                 winMoney: 4554522 + 10000*count,
             });
             MiniPoker.emit("endSpin", {
                 map: TWIST.MiniPokerLogic.generateMap(),
-                cardListRank: 9,
+                cardListRank: parseInt(Math.random() * 10) + 1,
+//                cardListRank: 1,
                 hightLightCards: [1, 1, 0, 1],
                 rankOfVerticalGroup: 2
             });

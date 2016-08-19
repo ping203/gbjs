@@ -4061,7 +4061,7 @@ this.TWIST = this.TWIST || {};
                 value: 150,
                 code: '3'
             }, {
-                name: "Củ lũ",
+                name: "Cù lũ",
                 value: 50,
                 code: '4'
             }, {
@@ -4204,6 +4204,11 @@ this.TWIST = this.TWIST || {};
         this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
         this.wrapperTemplate.append(this.sessionId);
 
+        this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
+        this.wrapperTemplate.append(this.effectWrapper);
+        this.explodePot = $(TWIST.HTMLTemplate['effect/explodePot']);
+        this.effectWrapper.append(this.explodePot);
+
         this.money = this.user.find('.money');
 
         this.setBetting(this.chipButtons[0]);
@@ -4322,6 +4327,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (status) {
+//        console.error("changeStatus",status);
         var _self = this;
         this.status = status;
         timeOutList.forEach(function (item) {
@@ -4330,7 +4336,7 @@ this.TWIST = this.TWIST || {};
         timeOutList = [];
         if (status == 'pause') {
             this.result = {};
-            if(currentEffectTurn >= effectQueue.length)
+            if (currentEffectTurn >= effectQueue.length)
                 currentEffectTurn = 0;
             var effectArray = effectQueue[currentEffectTurn];
             if (effectArray && effectArray.length) {
@@ -4482,11 +4488,14 @@ this.TWIST = this.TWIST || {};
 
         effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank, hightLightWinCards);
 
-        if (result.explodePot) {
+        if (result.cardListRank == 1) {
             var explodePotEffect = this.explodePotEffect();
             effectArray.push(explodePotEffect);
         }
         effectArray.oneTime = true;
+        effectArray.forEach(function (item, index) {
+            item.isTracking = true;
+        });
         effectQueue.push(effectArray);
 
         this.runNextEffect();
@@ -4526,6 +4535,7 @@ this.TWIST = this.TWIST || {};
 
     p.endEffect = function () {
         numberEffectCompleted++;
+        console.error("endEffect",numberEffectCompleted,(effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length));
         if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
             if (effectQueue[currentEffectTurn].oneTime)
                 effectQueue[currentEffectTurn].done = true;
@@ -4577,6 +4587,7 @@ this.TWIST = this.TWIST || {};
         jElement.options = options;
 
         jElement.runEffect = function () {
+            jElement.isDone = false;
             var oldValue = this.text();
             var newOptions = {
                 duration: 1000,
@@ -4599,12 +4610,15 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             jElement.stop(true, true);
             jElement.isDone = true;
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         return jElement;
     };
-    
+
     p.explodePotEffect = function () {
         var _self = this;
         var jElement = $('#effect .explorer-pot');
@@ -4613,12 +4627,16 @@ this.TWIST = this.TWIST || {};
             this.show();
         };
         jElement.click(function () {
+            jElement.isDone = false;
             jElement.endEffect();
         });
         jElement.endEffect = function () {
             this.hide();
             this.isDone = true;
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         return jElement;
@@ -4635,6 +4653,7 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
+            jElement.isDone = false;
             if (value > 0) {
                 _self.user.append(jElement);
             }
@@ -4643,7 +4662,10 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             jElement.remove();
             jElement.isDone = true;
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         return jElement;
@@ -4663,12 +4685,15 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
+            jElement.isDone = false;
             jElement.addClass('active');
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         jElement.endEffect = function () {
-            console.log("end Effect",jElement);
             jElement.removeClass('active');
             jElement.isDone = true;
         };
@@ -4689,6 +4714,7 @@ this.TWIST = this.TWIST || {};
         }
 
         cardListTemlate.runEffect = function () {
+            cardListTemlate.isDone = false;
             cardListTemlate.forEach(function (item, index) {
                 if (parseInt(item.active)) {
                     item.hightLight();
@@ -4696,7 +4722,10 @@ this.TWIST = this.TWIST || {};
                     item.Overlay();
                 }
             });
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         cardListTemlate.endEffect = function () {
@@ -4707,7 +4736,7 @@ this.TWIST = this.TWIST || {};
                     item.UnOverlay();
                 }
             });
-            this.isDone = true;
+            cardListTemlate.isDone = true;
         };
 
         return cardListTemlate;
@@ -4725,7 +4754,7 @@ this.TWIST = this.TWIST || {};
         var resultText = resultItem.name;
         if ((resultItem.code == 3 || resultItem.code == 7 || resultItem.code == 9) && rankItem) {
             resultText = resultText + " " + rankItem.name;
-            if(resultItem.code == 9){
+            if (resultItem.code == 9) {
                 resultText = "Đôi " + rankItem.name;
             }
         }
@@ -4734,16 +4763,43 @@ this.TWIST = this.TWIST || {};
         var showResultText = {};
 
         showResultText.runEffect = function () {
+            showResultText.isDone = false;
             _self.resultText.text(resultText);
-            _self.emit("endEffect");
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
         };
 
         showResultText.endEffect = function () {
             _self.resultText.text("");
-            this.isDone = true;
+            showResultText.isDone = true;
         };
 
         return showResultText;
+    };
+
+    p.explodePotEffect = function () {
+        var _self = this;
+        var jElement = this.explodePot;
+        var firstTime = new Date();
+        jElement.runEffect = function () {
+            this.isDone = false;
+            this.show();
+        };
+        jElement.click(function () {
+            jElement.endEffect();
+        });
+        jElement.endEffect = function () {
+            this.hide();
+            this.isDone = true;
+            if (this.isTracking){
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
+        };
+
+        return jElement;
     };
 
     p.showSessionId = function (sessionId) {
