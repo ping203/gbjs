@@ -4595,8 +4595,8 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            this.stop(true, true);
-            this.isDone = true;
+            jElement.stop(true, true);
+            jElement.isDone = true;
             _self.emit("endEffect");
         };
 
