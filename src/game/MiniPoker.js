@@ -417,7 +417,7 @@ this.TWIST = this.TWIST || {};
         if (isNewEndingPhase) {
             newItem = this.createSlotItem(this.mapData[columnIndex], -1);
         } else {
-            newItem = this.createSlotItem(Math.floor(Math.random() * numberCard), -1);
+            newItem = this.createSlotItem(Math.floor(Math.random() * 4) + 52, -1);
         }
         itemsContainer.addChild(newItem);
         var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
@@ -494,8 +494,8 @@ this.TWIST = this.TWIST || {};
 
 
         var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
-        this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
         effectArray.push(hightLightWinCards);
+        this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
 
         if (result.cardListRank == 1) {
             var explodePotEffect = this.explodePotEffect();
@@ -551,7 +551,6 @@ this.TWIST = this.TWIST || {};
 
     p.endEffect = function () {
         numberEffectCompleted++;
-        console.error("endEffect", numberEffectCompleted, (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length));
         if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
             if (effectQueue[currentEffectTurn].oneTime)
                 effectQueue[currentEffectTurn].done = true;
@@ -574,6 +573,16 @@ this.TWIST = this.TWIST || {};
         var slotItem = new createjs.Container();
 
         var bg = new TWIST.Card(value);
+        if (value > 51) {
+            value -= 52;
+            bg.bg.sourceRect = {
+                width: TWIST.Card.size.width,
+                height: 152,
+                x: TWIST.Card.size.width * (9 + value),
+                y: TWIST.Card.size.height * 4
+            };
+        }
+
         bg.set({
             scaleX: TWIST.Card.miniPoker.scale,
             scaleY: TWIST.Card.miniPoker.scale,

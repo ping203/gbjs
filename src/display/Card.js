@@ -78,6 +78,7 @@ this.TWIST = this.TWIST || {};
         var cards = new Image();
         cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
         var bg = new createjs.Bitmap(cards);
+        this.bg = bg;
         bg.sourceRect = $.extend({}, Card.size);
         if (value !== -1) {
             Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
