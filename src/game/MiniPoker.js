@@ -757,7 +757,7 @@ this.TWIST = this.TWIST || {};
             return item.code == code;
         });
 
-        var jElement = rankItem.template || $('<div></div>');
+        var jElement = rankItem ? rankItem.template : $('<div></div>');
 
         jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
             jElement.endEffect();
