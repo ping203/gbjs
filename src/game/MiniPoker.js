@@ -12,19 +12,19 @@ this.TWIST = this.TWIST || {};
     statusList = ["pause", "running", "ending", "effecting"];
 
     cardRankList = [
-        {value: 0, name: "A"}
-        , {value: 1, name: "2"}
-        , {value: 2, name: "3"}
-        , {value: 3, name: "4"}
-        , {value: 4, name: "5"}
-        , {value: 5, name: "6"}
-        , {value: 6, name: "7"}
-        , {value: 7, name: "8"}
-        , {value: 8, name: "9"}
-        , {value: 9, name: "10"}
-        , {value: 10, name: "J"}
-        , {value: 11, name: "Q"}
-        , {value: 12, name: "K"}
+        {value: 0, name: "2"}
+        , {value: 1, name: "3"}
+        , {value: 2, name: "4"}
+        , {value: 3, name: "5"}
+        , {value: 4, name: "6"}
+        , {value: 5, name: "7"}
+        , {value: 6, name: "8"}
+        , {value: 7, name: "9"}
+        , {value: 8, name: "10"}
+        , {value: 9, name: "J"}
+        , {value: 10, name: "Q"}
+        , {value: 11, name: "K"}
+        , {value: 12, name: "A"}
     ];
 
     endingPhase = -1;
@@ -342,6 +342,8 @@ this.TWIST = this.TWIST || {};
         timeOutList = [];
         if (status == 'pause') {
             this.result = {};
+            if(currentEffectTurn >= effectQueue.length)
+                currentEffectTurn = 0;
             var effectArray = effectQueue[currentEffectTurn];
             if (effectArray && effectArray.length) {
                 for (var i = 0; i < effectArray.length; i++) {
@@ -614,103 +616,7 @@ this.TWIST = this.TWIST || {};
 
         return jElement;
     };
-
-    p.hightLightEffect = function (line, length) {
-        var _self = this;
-        var item = new createjs.Container();
-        var linesContainer = this.wrapper.getChildByName("linesContainer");
-        var lineItem = linesContainer.getChildByName("line" + (line + 1));
-        var lineList = lineList9[line];
-
-        var starBg = new Image();
-        starBg.src = "images/star-mini.png";
-
-        item.runEffect = function () {
-            clearTimeout(this.timeOut);
-            if (this.isInited) {
-                this.set({visible: true});
-            } else {
-                this.init();
-            }
-
-            lineItem.set({visible: true});
-            this.timeOut = setTimeout(function () {
-                item.endEffect();
-            }, 3000);
-        };
-
-        item.init = function () {
-            for (var i = 0; i < length; i++) {
-                this.createItemEffect(i, lineList[i]);
-            }
-            _self.effectContainer.addChild(this);
-            this.isInited = true;
-        };
-
-        item.createItemEffect = function (x, y) {
-            var itemEffect = new createjs.Container();
-            var itemWidth = itemSize.width,
-                    itemHeight = itemSize.height,
-                    oldX = x * itemSize.width + 15 + spinAreaConf.x,
-                    oldY = y * itemSize.height + 8 + spinAreaConf.y
-            itemEffect.set({x: oldX, y: oldY, name: "itemEffect", counter: 0});
-            this.addChild(itemEffect);
-            createjs.Tween.get(itemEffect, {loop: true, onChange: this.productStar})
-                    .to({x: oldX + itemWidth - 30}, 300)
-                    .to({y: oldY + itemHeight - 16}, 300)
-                    .to({x: oldX}, 300)
-                    .to({y: oldY}, 300)
-                    .call(function () {
-
-                    });
-        };
-
-        item.productStar = function (event) {
-            var container = event.target.target;
-            container.counter++;
-            if (container.counter % 1 != 0)
-                return;
-            var start = new createjs.Bitmap(starBg);
-            var startX = container.x, startY = container.y;
-            container.parent.addChild(start);
-            start.set({x: startX, y: startY, scaleX: 0.01, scaleY: 0.01, width: 35, height: 35});
-            var scale = start.width / 18;
-            createjs.Tween.get(start)
-                    .to({
-                        x: startX - scale * 9 + (Math.random() - 0.5) * 2,
-                        y: startY - scale * 9 + (Math.random() - 0.5) * 2,
-                        scaleX: scale,
-                        scaleY: scale
-                    }, 100, createjs.Ease.getElasticOut(5, 5))
-                    .to({
-                        x: startX - scale * 4.5,
-                        y: startY - scale * 4.5,
-                        scaleX: scale / 2,
-                        scaleY: scale / 2
-                    }, 100, createjs.Ease.getElasticIn(5, 5))
-                    .to({
-                        x: startX,
-                        y: startY,
-                        scaleX: 0.01,
-                        scaleY: 0.01
-                    }, 700)
-                    .call(function () {
-                        this.parent.removeChild(this);
-                    });
-        };
-
-        item.endEffect = function () {
-            clearTimeout(this.timeOut);
-            _self.emit('toggleLines', false);
-            this.set({visible: false});
-            this.isDone = true;
-            _self.emit("endEffect");
-        };
-
-        return item;
-    };
-
-
+    
     p.explodePotEffect = function () {
         var _self = this;
         var jElement = $('#effect .explorer-pot');
@@ -774,6 +680,7 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
+            console.log("end Effect",jElement);
             jElement.removeClass('active');
             jElement.isDone = true;
         };
