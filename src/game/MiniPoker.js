@@ -214,7 +214,7 @@ this.TWIST = this.TWIST || {};
         this.wrapperTemplate.append(this.user);
 
         this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
-        this.wrapperTemplate.append(this.user);
+        this.wrapperTemplate.append(this.sessionId);
 
         this.money = this.user.find('.money');
 
