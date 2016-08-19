@@ -249,7 +249,7 @@
                      @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02))}
             }
             &.active{
-                @include animation(hightlightResult 3s linear 3);
+                @include animation(hightlightResult 3s linear infinite);
             }
             .icon{
                 position: absolute;
@@ -338,10 +338,10 @@
         position: absolute;
         right: 10px;
         text-align: right;
-        top : 600px;
+        top : 565px;
         font-size : 22px;
         color : #EEE;
-        &:befor{
+        &:before{
             content: "ID:"
         }
     }

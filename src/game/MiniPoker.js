@@ -311,7 +311,7 @@ this.TWIST = this.TWIST || {};
         } else {
             if (_self.status !== "pause")
                 _self.changeStatus("pause");
-            _self.emit("spin",this.info.betting);
+            _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
         }
     };
@@ -742,7 +742,9 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
-            _self.user.append(jElement);
+            if (value > 0) {
+                _self.user.append(jElement);
+            }
         };
 
         jElement.endEffect = function () {

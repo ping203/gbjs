@@ -609,9 +609,9 @@
     background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
     background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
       .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item.active {
-        -webkit-animation: hightlightResult 3s linear 3;
-        -moz-animation: hightlightResult 3s linear 3;
-        animation: hightlightResult 3s linear 3; }
+        -webkit-animation: hightlightResult 3s linear infinite;
+        -moz-animation: hightlightResult 3s linear infinite;
+        animation: hightlightResult 3s linear infinite; }
       .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item .icon {
         position: absolute;
         left: 10px;
@@ -709,8 +709,8 @@
     position: absolute;
     right: 10px;
     text-align: right;
-    top: 600px;
+    top: 565px;
     font-size: 22px;
     color: #EEE; }
-    .twist .mini-poker-bg .session-id:befor {
+    .twist .mini-poker-bg .session-id:before {
       content: "ID:"; }
