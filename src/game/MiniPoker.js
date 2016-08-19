@@ -97,7 +97,7 @@ this.TWIST = this.TWIST || {};
                 value: 2.5,
                 code: '9'
             }, {
-                name: "Đôi J hoặc cao hơn",
+                name: "Không ăn !",
                 value: 0,
                 code: '10'
             }]
@@ -588,22 +588,21 @@ this.TWIST = this.TWIST || {};
 
         jElement.runEffect = function () {
             var oldValue = this.text();
-            var _jElement = this;
             var newOptions = {
                 duration: 1000,
                 step: function (now) {
-                    _jElement.text(Global.numberWithDot(Math.ceil(now)));
+                    jElement.text(Global.numberWithDot(Math.ceil(now)));
                 },
                 done: function () {
-                    _jElement.endEffect();
+                    jElement.endEffect();
                 }
             };
-            $.extend(newOptions, this.options);
+            $.extend(newOptions, jElement.options);
             oldValue = parseInt(oldValue.replace(".", ""));
             if (isNaN(oldValue))
                 oldValue = 0;
             this.prop('Counter', oldValue).animate({
-                Counter: this.newValue
+                Counter: jElement.newValue
             }, newOptions);
         };
 
@@ -748,8 +747,8 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            this.remove();
-            this.isDone = true;
+            jElement.remove();
+            jElement.isDone = true;
             _self.emit("endEffect");
         };
 
@@ -770,13 +769,13 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
-            this.addClass('active');
+            jElement.addClass('active');
             _self.emit("endEffect");
         };
 
         jElement.endEffect = function () {
-            this.removeClass('active');
-            this.isDone = true;
+            jElement.removeClass('active');
+            jElement.isDone = true;
         };
 
         return jElement;
