@@ -249,8 +249,7 @@
                      @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02))}
             }
             &.active{
-                /*@include animation(hightlightResult 3s linear infinite);*/
-                @include animation(hightlightResult 3s linear 2);
+                @include animation(hightlightResult 3s linear infinite);
             }
             .icon{
                 position: absolute;

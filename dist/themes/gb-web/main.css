@@ -609,10 +609,9 @@
     background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
     background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
       .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item.active {
-        /*@include animation(hightlightResult 3s linear infinite);*/
-        -webkit-animation: hightlightResult 3s linear 2;
-        -moz-animation: hightlightResult 3s linear 2;
-        animation: hightlightResult 3s linear 2; }
+        -webkit-animation: hightlightResult 3s linear infinite;
+        -moz-animation: hightlightResult 3s linear infinite;
+        animation: hightlightResult 3s linear infinite; }
       .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item .icon {
         position: absolute;
         left: 10px;
