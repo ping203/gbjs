@@ -4480,17 +4480,21 @@ this.TWIST = this.TWIST || {};
 
         var effectArray = [];
 
-        var changeWinMoneyEffect = this.winMoneyEffect(result.winMoney);
-        var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
-        var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
+
         var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
         this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
-
-        effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank, hightLightWinCards);
+        effectArray.push(hightLightWinCards);
 
         if (result.cardListRank == 1) {
             var explodePotEffect = this.explodePotEffect();
             effectArray.push(explodePotEffect);
+        }
+
+        if (parseInt(result.winMoney) > 0) {
+            var changeWinMoneyEffect = this.winMoneyEffect(result.winMoney);
+            var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
+            var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
+            effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
         }
         effectArray.oneTime = true;
         effectArray.forEach(function (item, index) {
@@ -4535,7 +4539,7 @@ this.TWIST = this.TWIST || {};
 
     p.endEffect = function () {
         numberEffectCompleted++;
-        console.error("endEffect",numberEffectCompleted,(effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length));
+        console.error("endEffect", numberEffectCompleted, (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length));
         if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
             if (effectQueue[currentEffectTurn].oneTime)
                 effectQueue[currentEffectTurn].done = true;
@@ -4610,7 +4614,7 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             jElement.stop(true, true);
             jElement.isDone = true;
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4633,7 +4637,7 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             this.hide();
             this.isDone = true;
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4662,7 +4666,7 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             jElement.remove();
             jElement.isDone = true;
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4687,7 +4691,7 @@ this.TWIST = this.TWIST || {};
         jElement.runEffect = function () {
             jElement.isDone = false;
             jElement.addClass('active');
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4722,7 +4726,7 @@ this.TWIST = this.TWIST || {};
                     item.Overlay();
                 }
             });
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4765,7 +4769,7 @@ this.TWIST = this.TWIST || {};
         showResultText.runEffect = function () {
             showResultText.isDone = false;
             _self.resultText.text(resultText);
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
@@ -4793,7 +4797,7 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             this.hide();
             this.isDone = true;
-            if (this.isTracking){
+            if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
             }
