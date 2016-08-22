@@ -82,10 +82,11 @@
         setTimeout(function () {
             MiniPoker.emit("endSpin", {
                 map: TWIST.MiniPokerLogic.generateMap(),
-                cardListRank: parseInt(Math.random() * 10) + 1,
+                cardListRank: parseInt(Math.random() * 10),
 //                cardListRank: 1,
                 hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2
+                rankOfVerticalGroup: 2,
+                winMoney: -(45522 + 1000*count)
             });
         }, 1000);
         count++;
@@ -121,7 +122,21 @@
         }, 100);
         count++;
     });
-
+    
+    
+    
+    MiniPoker.on("cardSelect", function (index) {
+        setTimeout(function () {
+            MiniPoker.emit("cardSelectResult", {
+                map: TWIST.MiniPokerLogic.generateMap(),
+//                cardListRank: 1,
+                selectedIndex : index,
+                winMoney : 3000 * count,
+                isNext : false
+            });
+        }, 100);
+        count++;
+    });
 
     mockupData.forEach(function (item, index) {
 

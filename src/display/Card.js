@@ -226,7 +226,6 @@ this.TWIST = this.TWIST || {};
                 .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
 //                        .set({sourceRect: Card.cropImage(cardValue)})
                 .call(function () {
-                    console.log("cardValue", cardValue);
                     this.setValue(cardValue);
                     this.cardValue = cardValue;
                     try {
@@ -236,6 +235,9 @@ this.TWIST = this.TWIST || {};
                     }
                 })
                 .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+            if (this.isTracking) {
+                TWIST.Observer.emit('cardOpened', this);
+            }
             this.setInPhom(this.isInPhom);
             //this.updateCache();
         });

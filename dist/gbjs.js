@@ -1087,7 +1087,6 @@ this.TWIST = this.TWIST || {};
                 .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
 //                        .set({sourceRect: Card.cropImage(cardValue)})
                 .call(function () {
-                    console.log("cardValue", cardValue);
                     this.setValue(cardValue);
                     this.cardValue = cardValue;
                     try {
@@ -1097,6 +1096,9 @@ this.TWIST = this.TWIST || {};
                     }
                 })
                 .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+            if (this.isTracking) {
+                TWIST.Observer.emit('cardOpened', this);
+            }
             this.setInPhom(this.isInPhom);
             //this.updateCache();
         });
@@ -5109,43 +5111,43 @@ this.TWIST = this.TWIST || {};
         resultTab: [{
                 name: "Sảnh rồng(Nỗ hũ)",
                 value: -1,
-                code: '1'
+                code: '0'
             }, {
                 name: "Thùng phá sảnh",
                 value: 50,
-                code: '2'
+                code: '1'
             }, {
                 name: "Tứ quý",
                 value: 25,
-                code: '3'
+                code: '2'
             }, {
                 name: "Cù lũ",
                 value: 9,
-                code: '4'
+                code: '3'
             }, {
                 name: "Thùng",
                 value: 6,
-                code: '5'
+                code: '4'
             }, {
                 name: "Sảnh",
                 value: 4,
-                code: '6'
+                code: '5'
             }, {
                 name: "Ba lá",
                 value: 3,
-                code: '7'
+                code: '6'
             }, {
                 name: "Hai đôi",
                 value: 2,
-                code: '8'
+                code: '7'
             }, {
                 name: "Đôi J hoặc cao hơn",
                 value: 1,
-                code: '9'
+                code: '8'
             }, {
                 name: "Không ăn !",
                 value: 0,
-                code: '10'
+                code: '9'
             }]
     };
 
@@ -5217,10 +5219,12 @@ this.TWIST = this.TWIST || {};
 
         this.doubleButton = $(TWIST.HTMLTemplate['videoPoker/doubleButton']);
         this.wrapperTemplate.append(this.doubleButton);
+        this.doubleButton._disabled = true;
         this.doubleButton.hide();
 
         this.getWinButton = $(TWIST.HTMLTemplate['videoPoker/getWinButton']);
         this.wrapperTemplate.append(this.getWinButton);
+        this.getWinButton._disabled = true;
 
         this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
         this.wrapperTemplate.append(this.chipWrapper);
@@ -5253,7 +5257,7 @@ this.TWIST = this.TWIST || {};
         this.resultItemList = [];
         this.resultItem = _.template(TWIST.HTMLTemplate['miniPoker/resultItem']);
         this.options.resultTab.forEach(function (item, index) {
-            if (item.code === '10')
+            if (item.code === _self.options.resultTab[_self.options.resultTab.length - 1].code)
                 return;
             var resultItem = {
                 code: item.code,
@@ -5308,13 +5312,18 @@ this.TWIST = this.TWIST || {};
                     item._active = !item._active;
                     item.toggleClass("active");
                 } else if (gameTurn == 3) {
-                    _self.emit("cardSelect", index);
+                    if (!currentCardList[index].isOpened) {
+                        _self.emit("cardSelect", index);
+                        gameTurn = -1;
+                    }
                 }
             });
         });
 
         this.getWinButton.on('click', function (event) {
             if (gameTurn != 2 && gameTurn != 3)
+                return;
+            if (_self.getWinButton._disabled)
                 return;
             _self.emit("getWin");
         });
@@ -5390,15 +5399,66 @@ this.TWIST = this.TWIST || {};
             doubleList = data.doubleList;
         });
 
-        this.on("cardSelectResult", function (index) {
-            _self.emit("cardSelect",index);
-            var card = currentCardList[index];
-            if (!card.isOpened) {
-                card.isOpened = true;
-                console.log(doubleList,doubleList[index]);
-                card.openCard(doubleList[index], TWIST.Card.miniPoker);
+        this.on("cardSelectResult", function (data) {
+            _self.setCardSelected(data);
+        });
+    };
+
+    p.setCardSelected = function (data) {
+        var _self = this;
+        var card = currentCardList[data.selectedIndex];
+        card.isTracking = true;
+        doubleList = data.map;
+
+        currentCardList.forEach(function (item, index) {
+            if (index != 0) {
+                item.isTracking = true;
             }
         });
+
+        card.openCard(doubleList[data.selectedIndex], TWIST.Card.miniPoker);
+
+        TWIST.Observer.once('cardOpened', openOtherCard);
+
+        function openOtherCard(cardOpen) {
+            var delay = 0;
+            var item = _self.virtualCardsList[data.selectedIndex]
+            item._active = true;
+            item.addClass('active');
+            currentCardList.forEach(function (item, index) {
+                if (index == 0 || index == data.selectedIndex)
+                    return;
+                createjs.Tween.get(item).wait(delay * 200).to({}, 10).call(function () {
+                    this.Overlay();
+                    this.openCard(doubleList[index], TWIST.Card.miniPoker);
+                });
+                delay++;
+            });
+
+            if (data.isNext) {
+                var changeWinMoneyEffect = _self.changeNumberEffect(_self.resultText, data.winMoney, {duration: 700}).runEffect();
+                var supportTextEffect = _self.setTextEffect(_self.supportText, "Nhân đôi " + data.winMoney + " thành " + (parseInt(data.winMoney) * 2) + "!").runEffect();
+                _self.buttonSpin.hide();
+                _self.doubleButton._disabled = false;
+                _self.doubleButton.removeClass('disabled');
+                _self.doubleButton.show();
+                _self.getWinButton._disabled = false;
+                _self.getWinButton.addClass('active');
+                currentWin = parseInt(data.winMoney);
+                gameTurn = 2;
+            } else {
+                currentWin = 0;
+                var supportTextEffect = _self.setTextEffect(_self.supportText, "Không ăn !").runEffect();
+                var changeWinMoneyEffect = _self.changeNumberEffect(_self.resultText, 0, {duration: 700}).runEffect();
+                gameTurn = 0;
+                _self.buttonSpin.show();
+                _self.doubleButton.hide();
+                _self.doubleButton._disabled = false;
+                _self.doubleButton.addClass('disabled');
+                _self.getWinButton._disabled = true;
+                _self.getWinButton.removeClass('active');
+            }
+        }
     };
 
     p.showError = function (message) {
@@ -5652,14 +5712,6 @@ this.TWIST = this.TWIST || {};
         var result = this.result;
         var effectArray = [];
 
-        result = {
-            isWin: true,
-            hightLightCards: [1, 1, 0, 1],
-            holdCard: [1, 1, 0, 1, 1],
-            winMoney: "2000",
-            cardListRank: Math.floor(Math.random() * 10)
-        };
-
         if (parseInt(result.winMoney) > 0) {
             var changeWinMoneyEffect = this.changeNumberEffect(this.resultText, result.winMoney, {duration: 700});
             var supportTextEffect = this.setTextEffect(this.supportText, "Nhân đôi " + result.winMoney + " thành " + (parseInt(result.winMoney) * 2) + "!");
@@ -5667,7 +5719,10 @@ this.TWIST = this.TWIST || {};
             var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
             effectArray.push(changeWinMoneyEffect, supportTextEffect, hightLightWinCards, hightlightWinRank);
             this.buttonSpin.hide();
+            this.doubleButton._disabled = false;
+            this.doubleButton.removeClass('disabled');
             this.doubleButton.show();
+            this.getWinButton._disabled = false;
             this.getWinButton.addClass('active');
             currentWin = parseInt(result.winMoney);
             gameTurn = 2;
@@ -5718,15 +5773,18 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
-        if (_self.status !== "pause")
-            _self.changeStatus("pause");
+        _self.changeStatus("effecting");
         _self.changeNumberEffect(_self.money, _self.userInfo.money, {duration: 800}).runEffect();
         _self.changeNumberEffect(_self.resultText, 0, {duration: 800}).runEffect();
+        _self.setTextEffect(_self.supportText, "").runEffect();
         _self.moveChipEffect(0).runEffect();
         currentWin = 0;
         gameTurn = 0;
         this.buttonSpin.show();
         this.doubleButton.hide();
+        this.doubleButton._disabled = false;
+        this.doubleButton.addClass('disabled');
+        this.getWinButton._disabled = true;
         this.getWinButton.removeClass('active');
     };
 
@@ -5739,6 +5797,8 @@ this.TWIST = this.TWIST || {};
         var hightlightHoldCards = this.hightlightHoldCards([]).runEffect();
         this.doubleButton._disabled = true;
         this.doubleButton.addClass('disabled');
+        this.getWinButton._disabled = true;
+        this.getWinButton.removeClass('active');
         currentCardList.forEach(function (item, index) {
             item.unHightLight();
             item.UnOverlay();
@@ -5846,7 +5906,7 @@ this.TWIST = this.TWIST || {};
         jElement.options = options;
 
         jElement.runEffect = function () {
-            jElement.isDone = false;
+            jElement.isDone = true;
             var oldValue = this.text();
             var newOptions = {
                 duration: 1000,
@@ -5868,7 +5928,6 @@ this.TWIST = this.TWIST || {};
 
         jElement.endEffect = function () {
             jElement.stop(true, true);
-            jElement.isDone = true;
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
@@ -5906,44 +5965,15 @@ this.TWIST = this.TWIST || {};
         var jElement = $('#effect .explorer-pot');
         var firstTime = new Date();
         jElement.runEffect = function () {
+            jElement.isDone = false;
             this.show();
         };
         jElement.click(function () {
-            jElement.isDone = false;
             jElement.endEffect();
         });
         jElement.endEffect = function () {
             this.hide();
             this.isDone = true;
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
-    };
-
-    p.winMoneyEffect = function (value) {
-        var _self = this;
-
-        var jElement = $(TWIST.HTMLTemplate['miniPoker/winMoney']);
-        jElement.text(Global.numberWithDot(value));
-
-        jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            jElement.endEffect();
-        });
-
-        jElement.runEffect = function () {
-            jElement.isDone = false;
-            if (value > 0) {
-                _self.user.append(jElement);
-            }
-        };
-
-        jElement.endEffect = function () {
-            jElement.remove();
-            jElement.isDone = true;
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
@@ -5961,10 +5991,6 @@ this.TWIST = this.TWIST || {};
         });
 
         var jElement = rankItem ? rankItem.template : $('<div></div>');
-
-        jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            jElement.endEffect();
-        });
 
         jElement.runEffect = function () {
             jElement.isDone = false;
@@ -6027,7 +6053,6 @@ this.TWIST = this.TWIST || {};
     p.showResultText = function (cardListRank, rankOfVerticalGroup) {
         var _self = this;
 
-        console.log(cardListRank);
         var resultItem = this.options.resultTab.find(function (item, index) {
             return item.code == cardListRank;
         });
@@ -6085,15 +6110,12 @@ this.TWIST = this.TWIST || {};
         return jElement;
     };
 
-
-
     p.moveChipEffect = function (plus) {
         var _self = this;
         var jElement = this.moveChip;
         var firstTime = new Date();
         jElement.runEffect = function () {
-//            console.error("runEffect");
-            this.isDone = false;
+            this.isDone = true;
             this.removeClass('plus decrease');
             var className = plus ? "plus" : "decrease";
             this.removeClass('plus decrease');
@@ -6109,7 +6131,6 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            this.isDone = true;
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
