@@ -87,7 +87,7 @@
 //                cardListRank: 1,
                 hightLightCards: [1, 1, 0, 1],
                 rankOfVerticalGroup: 2,
-                winMoney: -(45522 + 1000*count)
+                winMoney: (45522 + 1000*count)
             });
         }, 1000);
         count++;

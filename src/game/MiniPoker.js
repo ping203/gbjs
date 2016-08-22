@@ -478,7 +478,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.updateMoney = function (data) {
-        this.result = this.result || {};
+       this.result = this.result || {};
         $.extend(this.result, data);
         this.userInfo.money = data.newMoney;
     };

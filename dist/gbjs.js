@@ -4503,7 +4503,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.updateMoney = function (data) {
-        this.result = this.result || {};
+       this.result = this.result || {};
         $.extend(this.result, data);
         this.userInfo.money = data.newMoney;
     };
@@ -5331,6 +5331,7 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.doubleButton._disabled)
                 return;
+            console.log("double");
             _self.emit("double");
         });
 
@@ -5565,7 +5566,7 @@ this.TWIST = this.TWIST || {};
                         _self.spinAllColumns();
                     });
         } else {
-            _self.changeStatus("effecting")
+            _self.changeStatus("effecting");
         }
     };
 
@@ -5648,15 +5649,20 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endSpin = function (data) {
-        if (this.status !== 'running')
-            return;
-        this.changeStatus("ending");
-        this.result = this.result || {};
-        $.extend(this.result, data);
-        this.mapData = data.map;
-        this.showSessionId(data.sessionId);
-        endingPhase = -0.8;
-        stepValue = 0.2;
+        if (this.status == 'running') {
+            this.changeStatus("ending");
+            this.result = this.result || {};
+            $.extend(this.result, data);
+            this.mapData = data.map;
+            this.showSessionId(data.sessionId);
+            endingPhase = -0.8;
+            stepValue = 0.2;
+        } else {
+            this.result = this.result || {};
+            $.extend(this.result, data);
+            this.mapData = data.map;
+            this.effecting();
+        }
     };
 
     p.updateMoney = function (data) {
