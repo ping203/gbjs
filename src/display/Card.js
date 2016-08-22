@@ -13,23 +13,23 @@ this.TWIST = this.TWIST || {};
 
     Card.size = {width: 90, height: 123};
     Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
-    Card.userCard.scale = Card.userCard.width/Card.size.width;
-    
+    Card.userCard.scale = Card.userCard.width / Card.size.width;
+
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
-    Card.playerCard.scale = Card.playerCard.width/Card.size.width;
-    
+    Card.playerCard.scale = Card.playerCard.width / Card.size.width;
+
     Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
-    Card.draftCard.scale = Card.draftCard.width/Card.size.width;
-    
+    Card.draftCard.scale = Card.draftCard.width / Card.size.width;
+
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
-    Card.threeCards.scale = Card.threeCards.width/Card.size.width;
-    
+    Card.threeCards.scale = Card.threeCards.width / Card.size.width;
+
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
-    Card.threeCardsBanker.scale = Card.threeCardsBanker.width/Card.size.width;
-    
+    Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
+
     Card.miniPoker = {width: 130, height: 180, scale: 1.6};
-    Card.miniPoker.scale = Card.miniPoker.width/Card.size.width;
-    
+    Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
+
     Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
 
     Card.Suite = {
@@ -106,8 +106,8 @@ this.TWIST = this.TWIST || {};
 
         this.border = new createjs.Bitmap(cards);
         this.border.sourceRect = {
-            width: Card.size.width+4,
-            height: Card.size.height+3,
+            width: Card.size.width + 4,
+            height: Card.size.height + 3,
             x: Card.size.width * 2,
             y: Card.size.height * Card.SuitNameMap.length
         };
@@ -116,7 +116,7 @@ this.TWIST = this.TWIST || {};
             y: -1.5
         });
         this.border.visible = this.showBorder;
-        this.addChild(bg,this.border);
+        this.addChild(bg, this.border);
     };
 
     p.getValue = function () {
@@ -216,23 +216,49 @@ this.TWIST = this.TWIST || {};
         //this.updateCache();
         draftCards.addChild(this);
 //            console.log(draftCards);
-    }
+    };
 
     p.openCard = function (cardValue, cardType) {
         var oldX = this.x;
         var _self = this;
         cardType = cardType || Card.userCard;
         return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: oldX + this.width / 2}, 150)
+                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
 //                        .set({sourceRect: Card.cropImage(cardValue)})
                 .call(function () {
+                    console.log("cardValue", cardValue);
                     this.setValue(cardValue);
                     this.cardValue = cardValue;
-                    //this.updateCache();
+                    try {
+                        this.updateCache();
+                    } catch (e) {
+
+                    }
                 })
-                .to({scaleX: cardType.scale,scaleY: cardType.scale, x: oldX}, 150).call(function () {
+                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
             this.setInPhom(this.isInPhom);
             //this.updateCache();
+        });
+    };
+
+    p.upSideDown = function (cardType) {
+        var oldX = this.x;
+        var _self = this;
+        cardType = cardType || Card.userCard;
+        return createjs.Tween.get(this)
+                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
+                .call(function () {
+                    this.cardValue = -1;
+                    this.setValue(-1);
+                    try {
+                        this.updateCache();
+                    } catch (e) {
+
+                    }
+                })
+                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+
+
         });
     };
 
@@ -454,13 +480,21 @@ this.TWIST = this.TWIST || {};
         this.isOverlay = true;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
         this.cache(0, 0, Card.size.width, Card.size.height);
-        //this.updateCache();
+        try {
+            this.updateCache();
+        } catch (e) {
+
+        }
     };
 
     p.UnOverlay = function () {
         this.isOverlay = false;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
-        this.updateCache();
+        try {
+            this.updateCache();
+        } catch (e) {
+
+        }
     };
 
     p.addMouseMoveEvent = function () {

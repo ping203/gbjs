@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    var MiniPoker = new TWIST.MiniPoker('.wrapper');
+    var MiniPoker = new TWIST.VideoPoker('.wrapper');
 
     var mockupData = [{
             event: "userInfo",
@@ -63,10 +63,10 @@
 
     MiniPoker.on("spin", function () {
         setTimeout(function () {
-            MiniPoker.emit("updateMoney", {
-                newMoney: 445565 + 1000*count,
-                winMoney: 4554522 + 10000*count,
-            });
+//            MiniPoker.emit("updateMoney", {
+//                newMoney: 445565 + 1000*count,
+//                winMoney: 4554522 + 10000*count,
+//            });
             MiniPoker.emit("endSpin", {
                 map: TWIST.MiniPokerLogic.generateMap(),
                 cardListRank: parseInt(Math.random() * 10) + 1,
@@ -77,6 +77,51 @@
         }, 1000);
         count++;
     });
+    
+    MiniPoker.on("seconSpin", function () {
+        setTimeout(function () {
+            MiniPoker.emit("endSpin", {
+                map: TWIST.MiniPokerLogic.generateMap(),
+                cardListRank: parseInt(Math.random() * 10) + 1,
+//                cardListRank: 1,
+                hightLightCards: [1, 1, 0, 1],
+                rankOfVerticalGroup: 2
+            });
+        }, 1000);
+        count++;
+    });
+    
+    
+    
+    MiniPoker.on("getWin", function () {
+        setTimeout(function () {
+            
+            MiniPoker.emit("updateMoney", {
+                newMoney: 445565 + 1000*count,
+                winMoney: 4554522 + 10000*count
+            });
+            MiniPoker.emit("getWinResult", {
+                cardListRank: parseInt(Math.random() * 10) + 1,
+//                cardListRank: 1,
+                hightLightCards: [1, 1, 0, 1],
+                rankOfVerticalGroup: 2
+            });
+        }, 100);
+        count++;
+    });
+    
+    MiniPoker.on("double", function () {
+        setTimeout(function () {
+            MiniPoker.emit("doubleReuslt", {
+                map: TWIST.MiniPokerLogic.generateMap(),
+//                cardListRank: 1,
+                hightLightCards: [1, 1, 0, 1],
+                rankOfVerticalGroup: 2
+            });
+        }, 100);
+        count++;
+    });
+
 
     mockupData.forEach(function (item, index) {
 

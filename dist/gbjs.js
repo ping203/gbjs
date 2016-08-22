@@ -4333,6 +4333,7 @@ this.TWIST = this.TWIST || {};
         if (_self.status !== 'pause' && _self.status !== 'effecting')
             return;
         var _self = this;
+        var flag = false;
         if (this.userInfo.money < this.info.betting) {
             this.emit("error", "Bạn không đủ tiền !");
         } else {
@@ -4340,7 +4341,6 @@ this.TWIST = this.TWIST || {};
                 _self.changeStatus("pause");
             _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
-            _self.changeNumberEffect(_self.resultText, _self.info.betting, {duration: 200}).runEffect();
         }
     };
 
