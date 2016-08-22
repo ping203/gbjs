@@ -72,7 +72,8 @@
                 cardListRank: parseInt(Math.random() * 10) + 1,
 //                cardListRank: 1,
                 hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2
+                rankOfVerticalGroup: 2,
+                holdCards : [1,2,3]  
             });
         }, 1000);
         count++;

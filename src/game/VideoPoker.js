@@ -424,6 +424,10 @@ this.TWIST = this.TWIST || {};
                 _self.doubleButton.addClass('disabled');
                 _self.getWinButton._disabled = true;
                 _self.getWinButton.removeClass('active');
+                this.virtualCardsList.forEach(function (item, index) {
+                    item._active = false;
+                    item.removeClass("active");
+                });
             }
         }
     };
@@ -631,8 +635,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.updateMoney = function (data) {
-        if (this.status !== 'running')
-            return;
         this.result = this.result || {};
         $.extend(this.result, data);
         this.userInfo.money = data.newMoney;
@@ -662,7 +664,7 @@ this.TWIST = this.TWIST || {};
     p.getFistEffectTurn = function () {
         var result = this.result;
         var effectArray = [];
-        
+
         var supportTextEffect = this.setTextEffect(this.supportText, "Chọn quân bài muốn giữ lại");
         var hightlightHoldCards = this.hightlightHoldCards(result.holdCards);
         effectArray.push(supportTextEffect, hightlightHoldCards);
@@ -697,6 +699,10 @@ this.TWIST = this.TWIST || {};
             var hightlightHoldCards = this.hightlightHoldCards([]);
             effectArray.push(changeWinMoneyEffect, supportTextEffect, hightLightWinCards, hightlightHoldCards);
             gameTurn = 0;
+            this.virtualCardsList.forEach(function (item, index) {
+                item._active = false;
+                item.removeClass("active");
+            });
         }
 
         return effectArray;
@@ -749,6 +755,10 @@ this.TWIST = this.TWIST || {};
         this.doubleButton.addClass('disabled');
         this.getWinButton._disabled = true;
         this.getWinButton.removeClass('active');
+        this.virtualCardsList.forEach(function (item, index) {
+            item._active = false;
+            item.removeClass("active");
+        });
     };
 
     p.doubleTurn = function (data) {

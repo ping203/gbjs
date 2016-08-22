@@ -478,8 +478,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.updateMoney = function (data) {
-        if (this.status !== 'running')
-            return;
         this.result = this.result || {};
         $.extend(this.result, data);
         this.userInfo.money = data.newMoney;
