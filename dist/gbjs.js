@@ -5695,11 +5695,7 @@ this.TWIST = this.TWIST || {};
     p.getFistEffectTurn = function () {
         var result = this.result;
         var effectArray = [];
-
-        result = {
-            holdCards: [1, 1, 0, 1, 1],
-            newBet: "2000"
-        };
+        
         var supportTextEffect = this.setTextEffect(this.supportText, "Chọn quân bài muốn giữ lại");
         var hightlightHoldCards = this.hightlightHoldCards(result.holdCards);
         effectArray.push(supportTextEffect, hightlightHoldCards);
