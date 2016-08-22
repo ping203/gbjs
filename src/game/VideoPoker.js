@@ -358,7 +358,7 @@ this.TWIST = this.TWIST || {};
             _self.getWin(data);
         });
 
-        this.on("doubleReuslt", function (data) {
+        this.on("doubleResult", function (data) {
             _self.doubleTurn(data);
         });
 
@@ -376,12 +376,6 @@ this.TWIST = this.TWIST || {};
         var card = currentCardList[data.selectedIndex];
         card.isTracking = true;
         doubleList = data.map;
-
-        currentCardList.forEach(function (item, index) {
-            if (index != 0) {
-                item.isTracking = true;
-            }
-        });
 
         card.openCard(doubleList[data.selectedIndex], TWIST.Card.miniPoker);
 
@@ -424,7 +418,7 @@ this.TWIST = this.TWIST || {};
                 _self.doubleButton.addClass('disabled');
                 _self.getWinButton._disabled = true;
                 _self.getWinButton.removeClass('active');
-                this.virtualCardsList.forEach(function (item, index) {
+                _self.virtualCardsList.forEach(function (item, index) {
                     item._active = false;
                     item.removeClass("active");
                 });
@@ -777,7 +771,7 @@ this.TWIST = this.TWIST || {};
             item.UnOverlay();
             if (index == 0) {
                 item.isOpened = true;
-                item.openCard(doubleList[index], TWIST.Card.miniPoker);
+                item.openCard(data.cardId, TWIST.Card.miniPoker);
             } else {
                 item.upSideDown(TWIST.Card.miniPoker);
             }

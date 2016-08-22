@@ -115,10 +115,7 @@
     MiniPoker.on("double", function () {
         setTimeout(function () {
             MiniPoker.emit("doubleReuslt", {
-                map: TWIST.MiniPokerLogic.generateMap(),
-//                cardListRank: 1,
-                hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2
+                cardId : parseInt(Math.random() * 52)
             });
         }, 100);
         count++;
