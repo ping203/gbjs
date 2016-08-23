@@ -390,7 +390,7 @@ this.TWIST = this.TWIST || {};
                 .to({y: 0}, 150)
                 .call(function () {
                     _self.spinAllColumns();
-                }); 
+                });
 
     };
 
@@ -532,12 +532,12 @@ this.TWIST = this.TWIST || {};
                     if (repeatEffectQueue) {
                         currentEffectTurn = 0;
                     } else {
-                    this.status = "pause";
+//                    this.status = "pause";
 //                        this.changeStatus("pause");
                     }
                 }
                 if (this.status === "effecting") {
-                    this.runNextEffect();
+//                    this.runNextEffect();
                 }
             } else {
                 _runEffect();
@@ -558,12 +558,12 @@ this.TWIST = this.TWIST || {};
                 if (repeatEffectQueue) {
                     currentEffectTurn = 0;
                 } else {
-                    this.status = "pause";
+//                    this.status = "pause";
 //                    this.changeStatus("pause");
                 }
             }
             if (this.status === "effecting") {
-                this.runNextEffect();
+//                this.runNextEffect();
             }
         }
     };
