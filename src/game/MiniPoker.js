@@ -342,7 +342,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (status) {
-//        console.error("changeStatus",status);
+        console.error("changeStatus",status);
         var _self = this;
         this.status = status;
         timeOutList.forEach(function (item) {
