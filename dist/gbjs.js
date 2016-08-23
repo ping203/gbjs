@@ -4083,7 +4083,7 @@ this.TWIST = this.TWIST || {};
 
     timeOutList = [];
 
-    var repeatEffectQueue = true;
+    var repeatEffectQueue = false;
 
     var initOptions = {
         resultTab: [{
