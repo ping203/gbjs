@@ -533,7 +533,7 @@ this.TWIST = this.TWIST || {};
                         currentEffectTurn = 0;
                     } else {
 //                    this.status = "pause";
-//                        this.changeStatus("pause");
+                        this.changeStatus("pause");
                     }
                 }
                 if (this.status === "effecting") {
