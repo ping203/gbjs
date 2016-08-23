@@ -4389,7 +4389,7 @@ this.TWIST = this.TWIST || {};
                 var newSpinTimeOut = setTimeout(function () {
                     _self.checkStart();
                 }, 500);
-                timeOutList.push(newSpinTimeOut);
+                timeOutList.push(newSpinTimeOut); 
             }
         }
 
@@ -4416,7 +4416,7 @@ this.TWIST = this.TWIST || {};
                 .to({y: 0}, 150)
                 .call(function () {
                     _self.spinAllColumns();
-                });
+                }); 
 
     };
 
