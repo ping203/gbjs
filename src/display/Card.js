@@ -482,6 +482,7 @@ this.TWIST = this.TWIST || {};
         this.isOverlay = true;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
         this.cache(0, 0, Card.size.width, Card.size.height);
+        console.log("isOverlay",this.isOverlay)
         try {
             this.updateCache();
         } catch (e) {

@@ -1343,6 +1343,7 @@ this.TWIST = this.TWIST || {};
         this.isOverlay = true;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
         this.cache(0, 0, Card.size.width, Card.size.height);
+        console.log("isOverlay",this.isOverlay)
         try {
             this.updateCache();
         } catch (e) {
@@ -4082,7 +4083,7 @@ this.TWIST = this.TWIST || {};
 
     timeOutList = [];
 
-    var repeatEffectQueue = false;
+    var repeatEffectQueue = true;
 
     var initOptions = {
         resultTab: [{
@@ -4557,7 +4558,7 @@ this.TWIST = this.TWIST || {};
                     if (repeatEffectQueue) {
                         currentEffectTurn = 0;
                     } else {
-                        this.changeStatus("pause");
+//                        this.changeStatus("pause");
                     }
                 }
                 if (this.status === "effecting") {
@@ -4582,7 +4583,7 @@ this.TWIST = this.TWIST || {};
                 if (repeatEffectQueue) {
                     currentEffectTurn = 0;
                 } else {
-                    this.changeStatus("pause");
+//                    this.changeStatus("pause");
                 }
             }
             if (this.status === "effecting") {
@@ -4635,7 +4636,8 @@ this.TWIST = this.TWIST || {};
         jElement.options = options;
 
         jElement.runEffect = function () {
-            jElement.isDone = false;
+            jElement.finish();
+            jElement.isDone = true;
             var oldValue = this.text();
             var newOptions = {
                 duration: 1000,
@@ -4656,8 +4658,7 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            jElement.stop(true, true);
-            jElement.isDone = true;
+            jElement.finish();
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
@@ -4733,7 +4734,7 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
-            jElement.isDone = false;
+            jElement.isDone = true;
             jElement.addClass('active');
             if (this.isTracking) {
                 this.isTracking = false;
@@ -4762,7 +4763,7 @@ this.TWIST = this.TWIST || {};
         }
 
         cardListTemlate.runEffect = function () {
-            cardListTemlate.isDone = false;
+            cardListTemlate.isDone = true;
             cardListTemlate.forEach(function (item, index) {
                 if (parseInt(item.active)) {
                     item.hightLight();
@@ -4777,13 +4778,6 @@ this.TWIST = this.TWIST || {};
         };
 
         cardListTemlate.endEffect = function () {
-            cardListTemlate.forEach(function (item, index) {
-                if (parseInt(item.active)) {
-                    item.unHightLight();
-                } else {
-                    item.UnOverlay();
-                }
-            });
             cardListTemlate.isDone = true;
         };
 
@@ -5910,6 +5904,7 @@ this.TWIST = this.TWIST || {};
         jElement.options = options;
 
         jElement.runEffect = function () {
+            jElement.finish();
             jElement.isDone = true;
             var oldValue = this.text();
             var newOptions = {
@@ -5931,7 +5926,7 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            jElement.stop(true, true);
+            jElement.finish();
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");

@@ -879,6 +879,7 @@ this.TWIST = this.TWIST || {};
         jElement.options = options;
 
         jElement.runEffect = function () {
+            jElement.finish();
             jElement.isDone = true;
             var oldValue = this.text();
             var newOptions = {
@@ -900,7 +901,7 @@ this.TWIST = this.TWIST || {};
         };
 
         jElement.endEffect = function () {
-            jElement.stop(true, true);
+            jElement.finish();
             if (this.isTracking) {
                 this.isTracking = false;
                 _self.emit("endEffect");
