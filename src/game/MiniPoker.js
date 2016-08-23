@@ -512,12 +512,13 @@ this.TWIST = this.TWIST || {};
             item.isTracking = true;
         });
         effectQueue.push(effectArray);
-
+        console.log("this.autoSpin", this.autoSpin);
         if (this.isAutoSpin) {
             var timeOut = setTimeout(3000, function () {
-                _self.changeStatus("pause");
+                _self.status = "pause";
+                _self.checkStart();
             });
-            
+
             timeOutList.push(timeOut);
         }
 
