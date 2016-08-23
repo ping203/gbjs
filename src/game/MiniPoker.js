@@ -532,6 +532,7 @@ this.TWIST = this.TWIST || {};
                     if (repeatEffectQueue) {
                         currentEffectTurn = 0;
                     } else {
+                    this.status = "pause";
 //                        this.changeStatus("pause");
                     }
                 }
@@ -709,7 +710,7 @@ this.TWIST = this.TWIST || {};
         });
 
         jElement.runEffect = function () {
-            jElement.isDone = true;
+            jElement.isDone = false;
             jElement.addClass('active');
             if (this.isTracking) {
                 this.isTracking = false;
