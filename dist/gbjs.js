@@ -4583,6 +4583,7 @@ this.TWIST = this.TWIST || {};
                 if (repeatEffectQueue) {
                     currentEffectTurn = 0;
                 } else {
+                    this.status = "pause";
 //                    this.changeStatus("pause");
                 }
             }
