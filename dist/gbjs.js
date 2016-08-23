@@ -4389,7 +4389,7 @@ this.TWIST = this.TWIST || {};
                 var newSpinTimeOut = setTimeout(function () {
                     _self.checkStart();
                 }, 500);
-                timeOutList.push(newSpinTimeOut); 
+                timeOutList.push(newSpinTimeOut);
             }
         }
 
@@ -4504,12 +4504,13 @@ this.TWIST = this.TWIST || {};
     };
 
     p.updateMoney = function (data) {
-       this.result = this.result || {};
+        this.result = this.result || {};
         $.extend(this.result, data);
         this.userInfo.money = data.newMoney;
     };
 
     p.effecting = function () {
+        var _self = this;
         this.changeStatus("effecting");
         var result = this.result;
         effectQueue = [];
@@ -4537,6 +4538,14 @@ this.TWIST = this.TWIST || {};
             item.isTracking = true;
         });
         effectQueue.push(effectArray);
+
+        if (this.isAutoSpin) {
+            var timeOut = setTimeout(3000, function () {
+                _self.changeStatus("pause");
+            });
+            
+            timeOutList.push(timeOut);
+        }
 
         this.runNextEffect();
     };
