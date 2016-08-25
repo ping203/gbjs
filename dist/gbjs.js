@@ -4743,6 +4743,7 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
+        data.winMoney = (data && data.winMoney) || this.userInfo.money;
         if (data.winMoney > 0) {
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
