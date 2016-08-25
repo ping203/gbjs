@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    var MiniPoker = new TWIST.MiniPoker('.wrapper');
+    var game = new TWIST.HightLowGame('.wrapper');
 
     var mockupData = [{
             event: "userInfo",
@@ -28,113 +28,64 @@
             },
             nextTime: 1000
         }
-//        , {
-//            event: "updateMoney",
-//            data: {
-//                newMoney: "445565",
-//                winMoney: "4554522"
-//            },
-//            nextTime: 3000
-//        }
-//        , {
-//            event: "endSpin",
-//            data: {
-//                map: [1, 2, 3, 4, 5],
-//                cardListRank: 3,
-//                hightLightCards: [1, 1, 0, 1],
-//                rankOfVerticalGroup: 2
-//            },
-//            nextTime: 2000
-//        }
     ];
 
     var startTime = 0;
     var count = 0;
+
+    game.emit("updatePots", {
+        pots: {
+            1000: 445555 + count * 1000,
+            10000: 4554522323 + count * 10000,
+            100000: 121212121 + count * 100000
+        }
+    });
     setInterval(function () {
-        MiniPoker.emit("updatePots", {
+        game.emit("updatePots", {
             pots: {
                 1000: 445555 + count * 1000,
                 10000: 4554522323 + count * 10000,
                 100000: 121212121 + count * 100000
             }
         });
-        count++
+        count++;
     }, 1000);
 
-    MiniPoker.on("spin", function () {
+    game.on("start", function (betting) {
         setTimeout(function () {
-//            MiniPoker.emit("updateMoney", {
-//                newMoney: 445565 + 1000*count,
-//                winMoney: 4554522 + 10000*count,
-//            });
-            MiniPoker.emit("endSpin", {
-                map: TWIST.MiniPokerLogic.generateMap(),
-                cardListRank: parseInt(Math.random() * 10) + 1,
-//                cardListRank: 1,
-                hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2,
-                holdCards : [1,2,3]  
+            game.emit("getFirstCard", {
+                cardId: parseInt(Math.random() * 52),
+                isPotCard: true,
+                lowMoney: betting * Math.random() * 13,
+                hightMoney: betting * Math.random() * 13,
+                currentBetting: betting
             });
-        }, 1000);
+        });
+    });
+
+    game.on("choose", function (isHight) {
+        setTimeout(function () {
+            game.emit("newCard", {
+                cardId: parseInt(Math.random() * 52),
+                isPotCard: Math.random() * 13 < 1,
+                lowMoney: 0,
+                hightMoney: 2000 * Math.random() * 13,
+                currentBetting: 2000 * (Math.random() - 0.5),
+                explorerPot: false
+            });
+        }, 50);
         count++;
     });
-    
-    MiniPoker.on("seconSpin", function () {
+
+    game.on("newTurn", function (isHight) {
         setTimeout(function () {
-            MiniPoker.emit("endSpin", {
-                map: TWIST.MiniPokerLogic.generateMap(),
-                cardListRank: parseInt(Math.random() * 10),
-//                cardListRank: 1,
-                hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2,
-                winMoney: (45522 + 1000*count)
+            game.emit("getWin", {
+                winMoney: 2000 * (Math.random() - 0.5)
             });
-        }, 1000);
+        }, 50);
         count++;
     });
-    
-    
-    
-    MiniPoker.on("getWin", function () {
-        setTimeout(function () {
-            
-            MiniPoker.emit("updateMoney", {
-                newMoney: 445565 + 1000*count,
-                winMoney: 4554522 + 10000*count
-            });
-            MiniPoker.emit("getWinResult", {
-                cardListRank: parseInt(Math.random() * 10) + 1,
-//                cardListRank: 1,
-                hightLightCards: [1, 1, 0, 1],
-                rankOfVerticalGroup: 2
-            });
-        }, 100);
-        count++;
-    });
-    
-    MiniPoker.on("double", function () {
-        setTimeout(function () {
-            MiniPoker.emit("doubleReuslt", {
-                cardId : parseInt(Math.random() * 52)
-            });
-        }, 100);
-        count++;
-    });
-    
-    
-    
-    MiniPoker.on("cardSelect", function (index) {
-        setTimeout(function () {
-            MiniPoker.emit("cardSelectResult", {
-                map: TWIST.MiniPokerLogic.generateMap(),
-//                cardListRank: 1,
-                selectedIndex : index,
-                winMoney : 3000 * count,
-                isNext : false
-            });
-        }, 100);
-        count++;
-    });
+
 
     mockupData.forEach(function (item, index) {
 
@@ -142,7 +93,7 @@
         startTime += nextTime;
 
         setTimeout(function () {
-            MiniPoker.emit(item.event, item.data);
+            game.emit(item.event, item.data);
         }, startTime);
 
 

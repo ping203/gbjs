@@ -315,10 +315,8 @@ this.TWIST = this.TWIST || {};
         if (this.userInfo.money < this.info.betting) {
             this.emit("error", "Bạn không đủ tiền !");
         } else {
-            console.log("checkStart3");
             if (_self.status !== "pause")
                 _self.changeStatus("pause");
-            console.log("checkStart4");
             _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
         }
@@ -342,7 +340,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (status) {
-        console.error("changeStatus",status);
         var _self = this;
         this.status = status;
         timeOutList.forEach(function (item) {
@@ -516,7 +513,6 @@ this.TWIST = this.TWIST || {};
             item.isTracking = true;
         });
         effectQueue.push(effectArray);
-        console.log("this.autoSpin", this.autoSpin);
         if (this.isAutoSpin) {
             var timeOut = setTimeout(3000, function () {
                 _self.status = "pause";

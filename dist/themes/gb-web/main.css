@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @keyframes error-remove {
   0% {
     opacity: 1; }
@@ -208,6 +209,87 @@
   vertical-align: top;
   height: 60px;
   text-align: right; }
+
+.twist .profile {
+  position: absolute;
+  left: -300px;
+  top: 510px; }
+  .twist .profile .profile-left {
+    position: absolute;
+    top: 0px;
+    left: 0px; }
+    .twist .profile .profile-left .avatar {
+      width: 87px;
+      height: 88px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center; }
+      .twist .profile .profile-left .avatar.avatar0 {
+        background-image: url("images/player/avatars/0.png"); }
+      .twist .profile .profile-left .avatar.avatar1 {
+        background-image: url("images/player/avatars/1.png"); }
+      .twist .profile .profile-left .avatar.avatar2 {
+        background-image: url("images/player/avatars/2.png"); }
+      .twist .profile .profile-left .avatar.avatar3 {
+        background-image: url("images/player/avatars/3.png"); }
+      .twist .profile .profile-left .avatar.avatar4 {
+        background-image: url("images/player/avatars/4.png"); }
+      .twist .profile .profile-left .avatar.avatar5 {
+        background-image: url("images/player/avatars/5.png"); }
+      .twist .profile .profile-left .avatar.avatar6 {
+        background-image: url("images/player/avatars/6.png"); }
+      .twist .profile .profile-left .avatar.avatar7 {
+        background-image: url("images/player/avatars/7.png"); }
+      .twist .profile .profile-left .avatar.avatar8 {
+        background-image: url("images/player/avatars/8.png"); }
+      .twist .profile .profile-left .avatar.avatar9 {
+        background-image: url("images/player/avatars/9.png"); }
+      .twist .profile .profile-left .avatar.avatar10 {
+        background-image: url("images/player/avatars/10.png"); }
+  .twist .profile .profile-right {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    width: 200px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 30px; }
+    .twist .profile .profile-right .username {
+      color: white; }
+    .twist .profile .profile-right .money {
+      color: #ffc200; }
+      .twist .profile .profile-right .money:after {
+        content: " V"; }
+  .twist .profile .win-money {
+    position: absolute;
+    color: #f8ae00;
+    font-size: 34px;
+    text-align: center;
+    width: 300px;
+    left: 0;
+    text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
+    top: 50px;
+    -webkit-animation-name: win-money;
+    -moz-animation-name: win-money;
+    animation-name: win-money;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: 1;
+    -moz-animation-iteration-count: 1;
+    animation-iteration-count: 1; }
+
+@keyframes win-money {
+  to {
+    top: -50px; } }
+    .twist .profile .win-money:before {
+      content: "+"; }
 
 .twist .card {
   width: 45.91px;
@@ -798,86 +880,6 @@
   .twist .video-poker .virtualCards .vitualCard5 {
     left: 665px; }
 
-.twist .video-poker .move-chip {
-  position: absolute;
-  left: 190px;
-  top: 45px; }
-  .twist .video-poker .move-chip.plus i {
-    -webkit-animation: chipPlus 700ms 1;
-    -moz-animation: chipPlus 700ms 1;
-    animation: chipPlus 700ms 1; }
-  .twist .video-poker .move-chip.decrease i {
-    -webkit-animation: chipDecrease 700ms 1;
-    -moz-animation: chipDecrease 700ms 1;
-    animation: chipDecrease 700ms 1; }
-  .twist .video-poker .move-chip i {
-    height: 30px;
-    width: 30px;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 6;
-    opacity: 0; }
-    .twist .video-poker .move-chip i.chip1 {
-      -webkit-animation-delay: 0ms;
-      -moz-animation-delay: 0ms;
-      animation-delay: 0ms; }
-    .twist .video-poker .move-chip i.chip2 {
-      -webkit-animation-delay: 100ms;
-      -moz-animation-delay: 100ms;
-      animation-delay: 100ms; }
-    .twist .video-poker .move-chip i.chip3 {
-      -webkit-animation-delay: 200ms;
-      -moz-animation-delay: 200ms;
-      animation-delay: 200ms; }
-    .twist .video-poker .move-chip i.chip4 {
-      -webkit-animation-delay: 300ms;
-      -moz-animation-delay: 300ms;
-      animation-delay: 300ms; }
-    .twist .video-poker .move-chip i.chip5 {
-      -webkit-animation-delay: 400ms;
-      -moz-animation-delay: 400ms;
-      animation-delay: 400ms; }
-    .twist .video-poker .move-chip i.chip6 {
-      -webkit-animation-delay: 500ms;
-      -moz-animation-delay: 500ms;
-      animation-delay: 500ms; }
-    .twist .video-poker .move-chip i.chip7 {
-      -webkit-animation-delay: 600ms;
-      -moz-animation-delay: 600ms;
-      animation-delay: 600ms; }
-    .twist .video-poker .move-chip i.chip8 {
-      -webkit-animation-delay: 700ms;
-      -moz-animation-delay: 700ms;
-      animation-delay: 700ms; }
-    .twist .video-poker .move-chip i:before {
-      content: ' ';
-      display: block;
-      height: 30px;
-      width: 30px;
-      background: url("images/miniPoker/chip-mini.png") no-repeat; }
-
-@keyframes chipPlus {
-  0% {
-    top: 0;
-    left: 0;
-    opacity: 1; }
-  100% {
-    top: -525px;
-    left: 460px;
-    opacity: 1; } }
-
-@keyframes chipDecrease {
-  0% {
-    top: -525px;
-    left: 460px;
-    opacity: 1; }
-  100% {
-    top: 0;
-    left: 0;
-    opacity: 1; } }
-
 .twist .effect {
   position: absolute; }
   .twist .effect .money-falling {
@@ -1030,3 +1032,438 @@
       top: 0;
       left: 140px;
       opacity: 1; }
+
+.twist .move-chip {
+  position: absolute;
+  left: 190px;
+  top: 45px; }
+  .twist .move-chip.plus i {
+    -webkit-animation: chipPlus 700ms 1;
+    -moz-animation: chipPlus 700ms 1;
+    animation: chipPlus 700ms 1; }
+  .twist .move-chip.decrease i {
+    -webkit-animation: chipDecrease 700ms 1;
+    -moz-animation: chipDecrease 700ms 1;
+    animation: chipDecrease 700ms 1; }
+  .twist .move-chip i {
+    height: 30px;
+    width: 30px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    opacity: 0; }
+    .twist .move-chip i.chip1 {
+      -webkit-animation-delay: 0ms;
+      -moz-animation-delay: 0ms;
+      animation-delay: 0ms; }
+    .twist .move-chip i.chip2 {
+      -webkit-animation-delay: 100ms;
+      -moz-animation-delay: 100ms;
+      animation-delay: 100ms; }
+    .twist .move-chip i.chip3 {
+      -webkit-animation-delay: 200ms;
+      -moz-animation-delay: 200ms;
+      animation-delay: 200ms; }
+    .twist .move-chip i.chip4 {
+      -webkit-animation-delay: 300ms;
+      -moz-animation-delay: 300ms;
+      animation-delay: 300ms; }
+    .twist .move-chip i.chip5 {
+      -webkit-animation-delay: 400ms;
+      -moz-animation-delay: 400ms;
+      animation-delay: 400ms; }
+    .twist .move-chip i.chip6 {
+      -webkit-animation-delay: 500ms;
+      -moz-animation-delay: 500ms;
+      animation-delay: 500ms; }
+    .twist .move-chip i.chip7 {
+      -webkit-animation-delay: 600ms;
+      -moz-animation-delay: 600ms;
+      animation-delay: 600ms; }
+    .twist .move-chip i.chip8 {
+      -webkit-animation-delay: 700ms;
+      -moz-animation-delay: 700ms;
+      animation-delay: 700ms; }
+    .twist .move-chip i:before {
+      content: ' ';
+      display: block;
+      height: 30px;
+      width: 30px;
+      background: url("images/miniPoker/chip-mini.png") no-repeat; }
+
+@keyframes chipPlus {
+  0% {
+    top: 0;
+    left: 0;
+    opacity: 1; }
+  100% {
+    top: -525px;
+    left: 460px;
+    opacity: 1; } }
+
+@keyframes chipDecrease {
+  0% {
+    top: -525px;
+    left: 460px;
+    opacity: 1; }
+  100% {
+    top: 0;
+    left: 0;
+    opacity: 1; } }
+
+.twist .hight-low {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  background-image: url("images/hightLow/background.png");
+  background-size: cover;
+  overflow: hidden; }
+  .twist .hight-low .top {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 470px);
+    width: 940px; }
+    .twist .hight-low .top > div {
+      position: absolute;
+      width: 280px;
+      border-radius: 0 0 15px 15px;
+      border: 3px solid #06799b;
+      border-top: none;
+      background-color: #074767;
+      height: 87px;
+      left: 0;
+      box-shadow: 0 0 10px black;
+      font-size: 28px;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      line-height: 40px;
+      text-transform: uppercase; }
+      .twist .hight-low .top > div:nth-child(2) {
+        left: calc(50% - 140px); }
+      .twist .hight-low .top > div:nth-child(3) {
+        left: initial;
+        right: 0; }
+      .twist .hight-low .top > div .pot-value {
+        font-size: 32px;
+        color: #ffc200; }
+      .twist .hight-low .top > div .title {
+        text-shadow: 1px 1px 5px black; }
+      .twist .hight-low .top > div .bank-value {
+        margin: 0 10px;
+        border-radius: 20px;
+        height: 40px;
+        /*border : 1px solid black;*/
+        box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.5);
+        background-color: #ffde59;
+        background-image: -webkit-linear-gradient(top, #ffde59, #d3983c 50%, #ae5e23 51%, #ae5e23 55%, #d3983c 56%, #ffde59);
+        background-image: linear-gradient(to bottom,#ffde59, #d3983c 50%, #ae5e23 51%, #ae5e23 55%, #d3983c 56%, #ffde59);
+        -webkit-background-clip: text;
+        -moz-background-clip: text;
+        color: transparent;
+        font-size: 32px; }
+      .twist .hight-low .top > div .pot-card {
+        margin-top: 8px;
+        display: inline-block;
+        width: 54px;
+        height: 69px;
+        margin-right: 20px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        -webkit-filter: brightness(30%);
+        text-align: left;
+        text-indent: 5px; }
+        .twist .hight-low .top > div .pot-card:last-child {
+          margin-right: 0px; }
+        .twist .hight-low .top > div .pot-card:after {
+          content: "K";
+          font-size: 30px;
+          color: black;
+          line-height: 36px;
+          font-weight: normal; }
+        .twist .hight-low .top > div .pot-card.active {
+          -webkit-filter: brightness(100%); }
+  .twist .hight-low .center {
+    position: absolute;
+    top: 100px;
+    left: calc(50% - 470px);
+    width: 940px;
+    text-align: center;
+    color: white; }
+    .twist .hight-low .center .text-support {
+      font-size: 28px;
+      font-weight: normal;
+      line-height: 40px; }
+      .twist .hight-low .center .text-support .text-animation-item {
+        -webkit-animation-name: show-text-animation;
+        -moz-animation-name: show-text-animation;
+        animation-name: show-text-animation;
+        -webkit-animation-duration: 1s;
+        -moz-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-timing-function: linear;
+        -moz-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-iteration-count: 1;
+        -moz-animation-iteration-count: 1;
+        animation-iteration-count: 1;
+        height: 50px;
+        width: 100%; }
+
+@keyframes show-text-animation {
+  0% {
+    display: inline;
+    width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  99.99% {
+    display: inline;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  100% {
+    display: block;
+    width: auto;
+    overflow: initial;
+    text-overflow: initial;
+    white-space: normal; } }
+    .twist .hight-low .center .remain-time {
+      font-size: 37px;
+      line-height: 50px;
+      font-weight: bold; }
+    .twist .hight-low .center .canvas-wrapper {
+      position: absolute;
+      top: 100px;
+      left: 0;
+      width: 100%;
+      text-align: center; }
+      .twist .hight-low .center .canvas-wrapper canvas {
+        position: absolute;
+        z-index: 1;
+        left: calc(50% - 400px);
+        top: 0px; }
+      .twist .hight-low .center .canvas-wrapper .game-button {
+        position: absolute;
+        z-index: 2;
+        width: 200px;
+        top: 20px;
+        font-size: 28px;
+        color: #ffc200; }
+        .twist .hight-low .center .canvas-wrapper .game-button.left-button {
+          left: 20px; }
+        .twist .hight-low .center .canvas-wrapper .game-button.right-button {
+          right: 20px; }
+        .twist .hight-low .center .canvas-wrapper .game-button > :first-child {
+          width: 200px;
+          height: 180px;
+          background-size: contain;
+          cursor: pointer;
+          font-size: 50px;
+          font-weight: bold;
+          color: #522c00;
+          position: relative;
+          background-repeat: no-repeat;
+          cursor: pointer; }
+          .twist .hight-low .center .canvas-wrapper .game-button > :first-child:not(.disabled):active {
+            transform: scale(0.98); }
+          .twist .hight-low .center .canvas-wrapper .game-button > :first-child.disabled {
+            -webkit-filter: grayscale(100%); }
+          .twist .hight-low .center .canvas-wrapper .game-button > :first-child:after {
+            text-transform: uppercase;
+            width: 80%;
+            left: 10%;
+            position: absolute; }
+          .twist .hight-low .center .canvas-wrapper .game-button > :first-child.hight-button {
+            background-image: url("images/hightLow/hight.png");
+            -webkit-clip-path: polygon(45% 0%, 0% 90%, 0% 100%, 100% 100%, 100% 90%, 55% 0%); }
+            .twist .hight-low .center .canvas-wrapper .game-button > :first-child.hight-button:after {
+              content: "Cao";
+              top: 50%; }
+          .twist .hight-low .center .canvas-wrapper .game-button > :first-child.low-button {
+            background-image: url("images/hightLow/low.png");
+            -webkit-clip-path: polygon(45% 100%, 0% 10%, 0% 0%, 100% 0%, 100% 10%, 55% 100%); }
+            .twist .hight-low .center .canvas-wrapper .game-button > :first-child.low-button:after {
+              content: "Thấp";
+              top: 8%; }
+      .twist .hight-low .center .canvas-wrapper .virtual-card {
+        position: absolute;
+        z-index: 2;
+        height: 244px;
+        width: 190px;
+        left: calc(50% - 95px);
+        top: 0px;
+        cursor: pointer; }
+        .twist .hight-low .center .canvas-wrapper .virtual-card .new-turn-text {
+          position: absolute;
+          z-index: 1;
+          font-size: 36px;
+          width: 200px;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: white;
+          text-align: center;
+          left: calc(50% - 100px);
+          top: 100px; }
+      .twist .hight-low .center .canvas-wrapper:before {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        width: 366px;
+        height: 37px;
+        left: calc(50% - 183px);
+        top: 275px;
+        background-repeat: no-repeat;
+        background-image: url("images/hightLow/description.png"); }
+      .twist .hight-low .center .canvas-wrapper:after {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        width: 740px;
+        height: 70px;
+        left: calc(50% - 377px);
+        top: 340px;
+        background-repeat: no-repeat;
+        border-radius: 30px;
+        background-color: rgba(0, 0, 0, 0.4); }
+  .twist .hight-low .bottom {
+    position: absolute;
+    height: 100px;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%; }
+    .twist .hight-low .bottom:before {
+      content: "";
+      position: absolute;
+      top: -3px;
+      height: 3px;
+      width: 100%;
+      background-color: transparent;
+      background-image: -webkit-linear-gradient(left, transparent, rgba(220, 220, 220, 0.8) 20%, #c1c1c1, rgba(220, 220, 220, 0.8) 80%, transparent);
+      background-image: linear-gradient(to right,transparent, rgba(220, 220, 220, 0.8) 20%, #c1c1c1, rgba(220, 220, 220, 0.8) 80%, transparent); }
+    .twist .hight-low .bottom .profile-hight-low .profile {
+      top: 5px;
+      left: 20px; }
+      .twist .hight-low .bottom .profile-hight-low .profile .profile-right {
+        text-align: left; }
+    .twist .hight-low .bottom .chip-group {
+      position: absolute;
+      top: 100px;
+      right: 000px;
+      text-align: center;
+      width: 100%; }
+      .twist .hight-low .bottom .chip-group .chip {
+        position: absolute;
+        bottom: 0;
+        width: 106.3629px;
+        height: 97.57258px;
+        line-height: 91.41935px;
+        border-radius: 50% 50%;
+        background-image: url("images/miniPoker/chipBlue_small.png");
+        background-size: cover;
+        color: #004e79;
+        transition: all 0.1s linear;
+        font-size: 27px;
+        cursor: pointer;
+        font-weight: bold; }
+        .twist .hight-low .bottom .chip-group .chip:after {
+          content: "";
+          position: absolute;
+          top: 0%;
+          left: 0%;
+          bottom: 0%;
+          right: 0%;
+          border-radius: 50%;
+          border: 0px solid #ffde00;
+          box-shadow: 0 0 00px transparent;
+          transition: all 0.1s linear; }
+        .twist .hight-low .bottom .chip-group .chip:first-child {
+          right: 750px; }
+        .twist .hight-low .bottom .chip-group .chip:nth-child(2) {
+          right: 600px; }
+        .twist .hight-low .bottom .chip-group .chip:nth-child(3) {
+          right: 450px; }
+        .twist .hight-low .bottom .chip-group .chip.violet {
+          background-image: url("images/miniPoker/chipViolet_small.png");
+          color: #7c0567; }
+        .twist .hight-low .bottom .chip-group .chip.green {
+          background-image: url("images/miniPoker/chipGreen_small.png");
+          color: #004e79; }
+        .twist .hight-low .bottom .chip-group .chip.pink {
+          background-image: url("images/miniPoker/chipPink_small.png");
+          color: #3d5311; }
+        .twist .hight-low .bottom .chip-group .chip.red {
+          background-image: url("images/miniPoker/chipRed_small.png"); }
+        .twist .hight-low .bottom .chip-group .chip.active {
+          width: 121px;
+          height: 111px;
+          font-size: 30px;
+          line-height: 104px; }
+          .twist .hight-low .bottom .chip-group .chip.active:after {
+            border: 5px solid #ffde00;
+            box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
+    .twist .hight-low .bottom .new-turn-button {
+      position: absolute;
+      right: 210px;
+      bottom: 15px;
+      width: 164px;
+      font-size: 25px;
+      color: white;
+      background-color: #e50101;
+      line-height: 70px;
+      height: 70px;
+      border: 1px solid #c80607;
+      text-shadow: 0 0 10px #fff600;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer; }
+      .twist .hight-low .bottom .new-turn-button.disabled {
+        -webkit-filter: grayscale(100%); }
+      .twist .hight-low .bottom .new-turn-button:active:not(.disabled) {
+        transform: scale(0.98); }
+  .twist .hight-low > .effect {
+    z-index: 3;
+    /*zoom : 2;*/
+    width: 100%;
+    text-align: center; }
+    .twist .hight-low > .effect .explorer-pot {
+      width: 100%; }
+      .twist .hight-low > .effect .explorer-pot .txt {
+        left: 255px; }
+      .twist .hight-low > .effect .explorer-pot .effect {
+        left: 235px; }
+    .twist .hight-low > .effect .money-falling {
+      left: 80px; }
+  .twist .hight-low .move-chip.plus i {
+    -webkit-animation-name: chipPlusHightLow;
+    -moz-animation-name: chipPlusHightLow;
+    animation-name: chipPlusHightLow; }
+  .twist .hight-low .move-chip.decrease i {
+    -webkit-animation-name: chipDecreaseHightLow;
+    -moz-animation-name: chipDecreaseHightLow;
+    animation-name: chipDecreaseHightLow; }
+
+@keyframes chipPlusHightLow {
+  0% {
+    top: 0;
+    left: 0;
+    opacity: 1; }
+  100% {
+    top: -625px;
+    left: 440px;
+    opacity: 1; } }
+
+@keyframes chipDecreaseHightLow {
+  0% {
+    top: -625px;
+    left: 440px;
+    opacity: 1; }
+  100% {
+    top: 0;
+    left: 0;
+    opacity: 1; } }

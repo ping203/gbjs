@@ -401,6 +401,52 @@ this.TWIST = this.TWIST || {};
     TWIST.imagePath = '../src/themes/gb-web/images/';
     
 })();
+this.TWIST = this.TWIST || {};
+
+(function () {
+    "use strict";
+
+    function Sound() {
+        this._sounds = [
+            {id: "bellopen", src: 'bellopen.ogg'},
+            {id: "call2", src: 'call2.ogg'},
+            {id: "chia_bai", src: 'chia_bai.ogg'},
+            {id: "chuyen_view", src: 'chuyen_view.ogg'},
+            {id: "danh_bai", src: "danh_bai.ogg"},
+            {id: "end_vongquay", src: "end_vongquay.ogg"},
+            {id: "join_room", src: "join_room.ogg"},
+            {id: "losing", src: "losing.ogg"},
+            {id: "lucky_wheel", src: "lucky_wheel.ogg"},
+            {id: "multichip", src: "multichip.ogg"},
+            {id: "open_card", src: "open_card.ogg"},
+            {id: "singlechip", src: "singlechip.ogg"},
+            {id: "winning", src: "winning.ogg"},
+        ];
+
+        this.init = function () {
+            createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
+            createjs.Sound.alternateExtensions = ["mp3"];
+            createjs.Sound.registerSounds(this._sounds, './sound/ogg/');
+        };
+
+        this.play = function (src, timeoutInteger) {
+            // This is fired for each sound that is registered.
+            var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
+            instance.volume = settings.volume;
+            if (timeoutInteger) {
+                $timeout(function () {
+                    instance.stop();
+                }, timeoutInteger);
+            }
+            return instance;
+        };
+    }
+    
+    TWIST.Sound = Sound;
+})()
+
+
+
 /**
  * @module Info
  */
@@ -3233,8 +3279,8 @@ this.TWIST = this.TWIST || {};
         this.canvas = canvas;
         return canvas;
     };
-    
-    p.initStage = function() {
+
+    p.initStage = function () {
         var _self = this;
         var stage = new createjs.Stage(this.canvas[0]);
         stage.enableMouseOver(20);
@@ -3261,6 +3307,150 @@ this.TWIST = this.TWIST || {};
         for (var pro in events) {
             this.on(pro, this[events[pro]]);
         }
+    };
+
+    p.addNumberEffect = function (el) {
+
+        var jElement = el;
+        var _self = this;
+
+        var oldValue = jElement.text();
+        oldValue = parseInt(oldValue.replace(/\./g, ""));
+        if (isNaN(oldValue))
+            oldValue = 0;
+        jElement.prop('_counter', oldValue);
+
+        jElement.runEffect = function (newValue, options) {
+            jElement.finish();
+            jElement.isDone = true;
+            var initOptions = {
+                duration: 1000,
+                step: function (now) {
+                    jElement.text(Global.numberWithDot(Math.ceil(now)));
+                },
+                done: function () {
+                    jElement.endEffect();
+                }
+            };
+            $.extend(initOptions, options);
+            this.animate({
+                _counter: newValue
+            }, initOptions);
+        };
+
+        jElement.endEffect = function () {
+            jElement.finish();
+            if (this.isTracking) {
+                this.isTracking = false;
+                _self.emit("endEffect");
+            }
+        };
+
+        return jElement;
+    };
+
+    p.addRemainTimeEffect = function (el, options) {
+
+        var jElement = el;
+        var _self = this;
+        var remainInterval;
+        var endRemainTime = 0;
+
+        jElement.options = options;
+        function setRemainTime() {
+            var now = endRemainTime - new Date().getTime();
+            if (now > 0) {
+                var minutes = Math.floor(now / 60000);
+                if (minutes < 10)
+                    minutes = "0" + minutes;
+                var secons = Math.floor((now % 60000) / 1000);
+                if (secons < 10)
+                    secons = "0" + secons;
+                jElement.text(minutes + " : " + secons);
+            } else {
+                jElement.endEffect();
+            }
+        }
+
+        jElement.runEffect = function (remainTime) {
+            clearInterval(remainInterval);
+            remainTime = isNaN(parseInt(remainTime)) ? 0 : parseInt(remainTime);
+            endRemainTime = new Date().getTime() + remainTime;
+            setRemainTime();
+            remainInterval = setInterval(setRemainTime, 100);
+        };
+
+        jElement.endEffect = function () {
+            clearInterval(remainInterval);
+            jElement.text("");
+            if (this.isTracking) {
+                this.isTracking = false;
+                _self.emit("timeOut", jElement);
+            }
+        };
+
+        return jElement;
+    };
+
+    p.addDisbaleEffect = function (el, options) {
+
+        var jElement = el;
+        var _self = this;
+
+        jElement.setDisabled = function (flag) {
+            jElement.disabled = flag;
+            if (flag) {
+                jElement.addClass('disabled');
+            } else {
+                jElement.removeClass('disabled');
+            }
+        };
+
+        jElement.runEffect = function () {
+            jElement.setDisabled(true);
+        }
+
+        jElement.endEffect = function () {
+            jElement.setDisabled(false);
+            if (this.isTracking) {
+                this.isTracking = false;
+                _self.emit("timeOut", jElement);
+            }
+        };
+
+        return jElement;
+    };
+
+    p.addChipEffect = function (el) {
+        var _self = this;
+        var jElement = el;
+
+        jElement.runEffect = function (plus) {
+            this.isDone = true;
+            this.removeClass('plus decrease');
+            var className = plus ? "plus" : "decrease";
+            this.show();
+            var length = jElement.find('i').length;
+            var count = 0;
+            jElement.find('i').show();
+            this.addClass(className);
+            jElement.find('i').each(function (index) {
+                var item = this;
+                $(this).one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+                    $(this).hide();
+                    count ++;
+                    if(count == length) jElement.endEffect();
+                });
+            });
+        };
+
+        jElement.endEffect = function () {
+            if (this.isTracking) {
+                this.isTracking = false;
+            }
+        };
+
+        return jElement;
     };
 
     TWIST.BaseGame = BaseGame;
@@ -4029,6 +4219,558 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
+    var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
+            currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer;
+
+    statusList = ["pause", "endding", "running"];
+
+    gameStates = ["getCards", "selectHightLow"];
+
+    cardRankList = [
+        {value: 0, name: "2"}
+        , {value: 1, name: "3"}
+        , {value: 2, name: "4"}
+        , {value: 3, name: "5"}
+        , {value: 4, name: "6"}
+        , {value: 5, name: "7"}
+        , {value: 6, name: "8"}
+        , {value: 7, name: "9"}
+        , {value: 8, name: "10"}
+        , {value: 9, name: "J"}
+        , {value: 10, name: "Q"}
+        , {value: 11, name: "K"}
+        , {value: 12, name: "A"}
+    ];
+
+    speed = 2.5;//default 2
+
+    numberCard = 52;
+
+    effectQueue = [];
+
+    canvasSize = {width: 800, height: 400};
+
+    mainCardSize = {width: 190, height: 244};
+
+    winCardSize = {width: 39, height: 48};
+
+    bets = [1000, 10000, 100000];
+
+    moneyFallingEffectTime = 2000;
+
+    timeOutList = [];
+
+    gameState = 0;
+
+    newCard = {};
+
+    winCardContainer = {width: 740, height: 70, top: 340, left: 50};
+
+    var repeatEffectQueue = false;
+
+    var initOptions = {
+        resultTab: []
+    };
+
+    function HightLowGame(wrapper, options) {
+        this.wrapper = $(wrapper);
+        this.options = $.extend(initOptions, options);
+        this.initHightLowGame();
+    }
+
+    var p = HightLowGame.prototype = new TWIST.BaseGame();
+
+    p.initHightLowGame = function () {
+
+        $.extend(this.options, canvasSize);
+        this.info = {
+            betting: 1000,
+            potData: {
+                1000: 0,
+                10000: 0,
+                100000: 0
+            }
+        };
+        this.userInfo = {};
+        this.initCanvas();
+        this.initTemplate();
+        this.draw();
+        this.pushEventListener();
+        this.status = 'pause';
+    };
+
+    p.initTemplate = function () {
+        var _self = this;
+
+        this.wrapperTemplate = $(TWIST.HTMLTemplate['hightLow/wrapper']);
+        this.wrapper.append(this.wrapperTemplate);
+
+        this.centerTempalte = $(TWIST.HTMLTemplate['hightLow/center']);
+        this.wrapperTemplate.append(this.centerTempalte);
+
+        this.centerTempalte.find('.canvas-wrapper').append(this.canvas);
+        this.initStage();
+
+        this.topTempalte = $(TWIST.HTMLTemplate['hightLow/top']);
+        this.wrapperTemplate.append(this.topTempalte);
+
+        this.bottomTempalte = $(TWIST.HTMLTemplate['hightLow/bottom']);
+        this.wrapperTemplate.append(this.bottomTempalte);
+
+        this._initExplodePot();
+
+        this._initPot();
+
+        this._initCurrentBetting();
+
+        this._initPotCards();
+
+        this._initSupportText();
+
+        this._initRemainTime();
+
+        this._initHightLowButton();
+
+        this._initHightLowBettingText();
+
+        this._initNewTurnText();
+
+        this._initVirtualCard();
+
+        this._initProfile();
+
+        this._initChipsButton();
+
+        this._initNewTurnButton();
+    };
+
+    p._initExplodePot = function () {
+        var _self = this;
+        this.effect = $('<div class="effect">' + TWIST.HTMLTemplate['effect/explodePot'] + '</div>');
+        this.wrapperTemplate.append(this.effect);
+
+        this.effect.explorerPot = _self.effect.find('.explorer-pot');
+        this.effect.moneyFalling = _self.effect.find('.money-falling');
+        this.effect.showEffect = function () {
+            _self.effect.explorerPot.show();
+            _self.effect.moneyFalling.show();
+        };
+        this.effect.hideEffect = function () {
+            _self.effect.explorerPot.hide();
+            _self.effect.moneyFalling.hide();
+        };
+        this.effect.on('click', _self.effect.hideEffect);
+    };
+
+    p._initPot = function () {
+        var _self = this;
+        this.pot = this.topTempalte.find('.pot-value');
+        this.addNumberEffect(this.pot);
+    };
+
+    p._initCurrentBetting = function () {
+        var _self = this;
+        this.currentBetting = this.topTempalte.find('.bank-value');
+        this.addNumberEffect(this.currentBetting);
+    };
+
+    p._initPotCards = function () {
+        var _self = this;
+        this.potCards = [];
+        var potCards = this.topTempalte.find('.pot-card');
+        potCards.each(function (index, item) {
+            _self.potCards.push($(item));
+        });
+        this.potCards.addActiveCard = function () {
+            var potCard = _self.potCards.find(function (item, index) {
+                return !item.active;
+            });
+            if (potCard) {
+                potCard.active = true;
+                potCard.addClass('active');
+            }
+        };
+        this.potCards.removeActiveCard = function () {
+            potCards.removeClass('active');
+        };
+    };
+
+    p._initSupportText = function () {
+        var _self = this;
+        this.supportText = this.centerTempalte.find('.text-support');
+        this.supportText.text("");
+    };
+
+    p._initRemainTime = function () {
+        var _self = this;
+        this.remainTime = this.centerTempalte.find('.remain-time');
+        this.addRemainTimeEffect(this.remainTime);
+    };
+
+    p._initHightLowButton = function () {
+        var _self = this;
+        this.lowButton = this.centerTempalte.find('.low-button');
+        this.addDisbaleEffect(this.lowButton);
+        this.lowButton.runEffect();
+
+        this.hightButton = this.centerTempalte.find('.hight-button');
+        this.addDisbaleEffect(this.hightButton);
+        this.hightButton.runEffect();
+
+        this.lowButton.on('click', function (event) {
+            if (_self.lowButton.disabled)
+                return;
+            _self.emitHightLow(false);
+        });
+
+        this.hightButton.on('click', function (event) {
+            if (_self.hightButton.disabled)
+                return;
+            _self.emitHightLow(true);
+        });
+    };
+
+    p._initHightLowBettingText = function () {
+        var _self = this;
+        this.lowBetting = this.centerTempalte.find('.low-value');
+        this.addNumberEffect(this.lowBetting);
+
+        this.hightBetting = this.centerTempalte.find('.hight-value');
+        this.addNumberEffect(this.hightBetting);
+    };
+
+    p._initVirtualCard = function () {
+        var _self = this;
+        this.virtualCard = this.centerTempalte.find('.virtual-card');
+
+        this.virtualCard.on('click', function (event) {
+            _self.checkStart();
+        });
+
+    };
+
+    p.checkStart = function () {
+        var _self = this;
+        if (_self.status !== 'pause' || gameState !== 0)
+            return;
+        if (this.userInfo.money < this.info.betting) {
+            this.emit("error", "Bạn không đủ tiền !");
+        } else {
+            _self.emit("start", this.info.betting);
+            this.newTurnText.hide();
+            this.changeStatus("running");
+            _self.moneyContainer.runEffect(this.userInfo.money - this.info.betting, {duration: 500});
+            this.moveChip.runEffect(true);
+        }
+    };
+
+    p.emitHightLow = function (isHight) {
+        var _self = this;
+        if (_self.status !== 'pause' || gameState !== 1)
+            return;
+        this.emit("choose", isHight);
+    };
+
+    p._initNewTurnText = function () {
+        var _self = this;
+        this.newTurnText = this.centerTempalte.find('.new-turn-text');
+    };
+
+    p._initProfile = function () {
+        var _self = this;
+        this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+        this.bottomTempalte.find('.profile-hight-low').append(this.user);
+
+        this.moneyContainer = this.user.find('.money');
+        this.addNumberEffect(this.moneyContainer);
+
+        this.user.renderUserInfo = function (data) {
+            $.extend(_self.userInfo, data);
+            var avatarContainer = _self.user.find('.avatar');
+            var usernameContainer = _self.user.find('.username');
+            var moneyContainer = _self.user.find('.money');
+            var avatar = Global.md5Avatar(data.avatar);
+            avatarContainer.addClass('avatar' + avatar);
+            usernameContainer.text(data.username);
+            _self.moneyContainer.runEffect(data.money, {duration: 10});
+        };
+
+        this.moveChip = $(TWIST.HTMLTemplate['videoPoker/moveChip']);
+        this.user.append(this.moveChip);
+        this.addChipEffect(this.moveChip);
+        this.moveChip.hide();
+    };
+
+    p._initChipsButton = function () {
+        var _self = this;
+        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+        this.bottomTempalte.find('.chips-hight-low').append(this.chipWrapper);
+
+        this.chipButtons = [{
+                value: 1000,
+                template: this.chipWrapper.find('.chip.violet')
+            }, {
+                value: 10000,
+                template: this.chipWrapper.find('.chip.green')
+            }, {
+                value: 100000,
+                template: this.chipWrapper.find('.chip.blue')
+            }];
+
+        this.chipButtons.forEach(function (item, index) {
+            item.template.on('click', function (event) {
+                if (_self.status !== 'pause' || gameState !== 0)
+                    return;
+                _self.setBetting(item);
+            });
+        });
+
+        this.setBetting(this.chipButtons[0]);
+    };
+
+    p.setBetting = function (item) {
+        this.chipWrapper.find('.chip').removeClass('active');
+        item.template.addClass("active");
+        this.info.betting = item.value;
+        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 200});
+    };
+
+    p._initNewTurnButton = function () {
+        var _self = this;
+        this.newTurnButton = this.bottomTempalte.find('.new-turn-button');
+        this.addDisbaleEffect(this.newTurnButton);
+        this.newTurnButton.hide();
+
+        this.newTurnButton.on('click', function (event) {
+            if (_self.newTurnButton.disabled)
+                return;
+            _self.emit("newTurn");
+        });
+
+    };
+
+    p.draw = function () {
+        var _self = this;
+        this.mainContainer = new createjs.Container();
+        this.mainContainer.set({
+            x: (canvasSize.width - mainCardSize.width) / 2,
+            y: 0
+        });
+        this.winCardContainer = new createjs.Container();
+        this.winCardContainer.set({
+            x: winCardContainer.left,
+            y: winCardContainer.top
+        });
+
+        this.stage.addChild(this.mainContainer, this.winCardContainer);
+        this.addMainCard(-1);
+    };
+
+    p.addMainCard = function (value) {
+        var _self = this;
+        this.mainContainer.removeAllChildren();
+        var card, scale;
+        if (value > -1) {
+            scale = mainCardSize.width / TWIST.Card.size.width;
+            card = new TWIST.Card(value);
+            card.set({
+                scaleX: scale,
+                scaleY: scale
+            });
+        } else {
+            var img = new Image();
+            img.src = TWIST.imagePath + 'hightLow/card-back.png';
+            var card = new createjs.Bitmap(img);
+        }
+        this.mainContainer.addChild(card);
+    };
+
+    p.storeMainCard = function () {
+        var _self = this;
+        var card = this.mainContainer.children[0];
+        var index = this.winCardContainer.children.length;
+        this.winCardContainer.addChild(card);
+        card.set({
+            x: card.x + this.mainContainer.x - this.winCardContainer.x,
+            y: card.y + this.mainContainer.y - this.winCardContainer.y
+        })
+        createjs.Tween.get(card).to({
+            x: 10 + (winCardSize.width + 10) * index,
+            y: 10,
+            scaleX: winCardSize.width / TWIST.Card.size.width,
+            scaleY: winCardSize.height / TWIST.Card.size.height
+        }, 500).call(function () {
+            _self.emit("_storeComplete");
+        });
+    };
+
+    p.changeStatus = function (status) {
+        var _self = this;
+        this.clear();
+        if (status === 'pause') {
+            this.newTurnButton.setDisabled(false);
+        }
+
+        if (status === "running") {
+            this.playingInterval = setInterval(function () {
+                _self.addMainCard(parseInt(Math.random() * 52));
+            }, 100);
+            timeOutList.push(this.playingInterval);
+            this.hightButton.setDisabled(true);
+            this.lowButton.setDisabled(true);
+            this.newTurnButton.setDisabled(true);
+        }
+    };
+
+    p.changeGameState = function (state) {
+        gameState = state;
+        this.clearGameState();
+        if (gameState == 0) {
+            this.changeStatus('pause');
+            this.addMainCard(-1);
+            this.virtualCard.show();
+            this.newTurnText.show();
+            this.newTurnButton.hide();
+            this.effect.hide();
+        } else if (gameState == 1) {
+            this.newTurnText.hide();
+            this.virtualCard.hide();
+            this.newTurnButton.show();
+        }
+    };
+
+    p.clear = function () {
+        this.supportText.text("");
+        this.remainTime.endEffect();
+        timeOutList.forEach(function (item) {
+            clearTimeout(item);
+        });
+    };
+
+    p.clearGameState = function () {
+        this.clear();
+        this.potCards.removeActiveCard();
+        this.winCardContainer.removeAllChildren();
+        this.currentBetting.runEffect(0);
+    };
+
+    p.setNewCard = function (data) {
+        this.addMainCard(data.cardId);
+        this.hightButton.setDisabled(false);
+        this.lowButton.setDisabled(false);
+        this.hightBetting.runEffect(data.hightMoney);
+        this.lowBetting.runEffect(data.lowMoney);
+        if (data.isPotCard) {
+            this.potCards.addActiveCard();
+        }
+        this.currentBetting.runEffect(data.currentBetting || this.info.betting);
+        if (data.currentBetting > 0) {
+            this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?!");
+            this.remainTime.runEffect(data.remainTime || 120000);
+            this.hightButton.setDisabled(false);
+            this.lowButton.setDisabled(false);
+            if (data.hightMoney == 0) {
+                this.hightButton.setDisabled(true);
+            }
+            if (data.lowMoney == 0) {
+                this.lowButton.setDisabled(true);
+            }
+            if (data.explorerPot) {
+                this.effect.showEffect()
+            }
+        } else {
+            this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
+            this.hightButton.setDisabled(true);
+            this.lowButton.setDisabled(true);
+        }
+    };
+
+    p.pushEventListener = function () {
+        var _self = this;
+
+        this.on("userInfo", function () {
+            _self.user.renderUserInfo(arguments[0]);
+        });
+
+        this.on("getFirstCard", function (data) {
+            _self.getFirstCard(data);
+        });
+
+        this.on("updatePots", function (data) {
+            _self.bindPots(data);
+        });
+
+        this.on("newCard", function (data) {
+            _self.newCard(data);
+        });
+
+        this.on("getWin", function (data) {
+            _self.getWin(data);
+        });
+
+        this.on("updateMoney", function (data) {
+            _self.updateMoney(data);
+        });
+
+        this.on("error", function (message) {
+            _self.showError(message);
+        });
+    };
+
+    p.getFirstCard = function (data) {
+        this.changeGameState(1);
+        this.changeStatus('pause');
+        data.currentBetting = data.currentBetting || this.info.betting;
+        this.setNewCard(data);
+        this.newTurnButton.setDisabled(true);
+    };
+
+    p.bindPots = function (data) {
+        $.extend(this.info.potData, data.pots);
+        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 500});
+    };
+
+    p.newCard = function (data) {
+        var _self = this;
+        this.storeMainCard();
+        this.changeStatus('running');
+
+        this.once("_storeComplete", function () {
+            _self.changeStatus('pause');
+            _self.setNewCard(data);
+        });
+    };
+
+    p.getWin = function (data) {
+        var _self = this;
+        if (data.winMoney > 0) {
+            this.moveChip.isTracking = true;
+            this.moveChip.runEffect();
+            this.moneyContainer.runEffect(data.winMoney, {duration : 500});
+            this.once('endEffect',function(){
+                _self.changeGameState(0);
+            });
+        } else {
+            this.changeGameState(0);
+        }
+    };
+
+    p.updateMoney = function (data) {
+        this.userInfo.money = data.newMoney;
+    };
+
+    p.showError = function (message) {
+        this.supportText.text(message);
+    };
+
+    TWIST.HightLowGame = HightLowGame;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
+    "use strict";
+
     var gameSize, columnSize, itemSize, distance, columns, speed, effectArray,
             statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
@@ -4341,10 +5083,8 @@ this.TWIST = this.TWIST || {};
         if (this.userInfo.money < this.info.betting) {
             this.emit("error", "Bạn không đủ tiền !");
         } else {
-            console.log("checkStart3");
             if (_self.status !== "pause")
                 _self.changeStatus("pause");
-            console.log("checkStart4");
             _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
         }
@@ -4368,7 +5108,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (status) {
-        console.error("changeStatus",status);
         var _self = this;
         this.status = status;
         timeOutList.forEach(function (item) {
@@ -4542,7 +5281,6 @@ this.TWIST = this.TWIST || {};
             item.isTracking = true;
         });
         effectQueue.push(effectArray);
-        console.log("this.autoSpin", this.autoSpin);
         if (this.isAutoSpin) {
             var timeOut = setTimeout(3000, function () {
                 _self.status = "pause";

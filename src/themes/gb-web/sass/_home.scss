@@ -224,3 +224,70 @@ span.result-item-money {
     height: 60px;
     text-align: right;
 }
+
+.profile{
+    position: absolute;
+    left: -300px;
+    top : 510px;
+    .profile-left{
+        position: absolute;
+        top  : 0px;
+        left: 0px;
+        .avatar{
+            width: 87px;
+            height: 88px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border : 2px solid rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            @for $i from 0 through 10{
+                &.avatar#{$i}{
+                    background-image: url('#{$twistImagePath}player/avatars/#{$i}.png');
+                }
+            }
+        }
+    }
+    .profile-right{
+        position: absolute;
+        top  : 10px;
+        left: 100px;
+        width : 200px;
+        text-align: center;
+        font-size : 20px;
+        line-height : 30px;
+        .username{
+            color : white;
+        }
+        .money{
+            color: #ffc200;
+            &:after{
+                content: " V"
+            }
+        }
+    }
+    .win-money{
+        position: absolute;
+        color: #f8ae00;
+        font-size: 34px;
+        text-align: center;
+        width: 300px;
+        left : 0;
+        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000, 
+            1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;  
+        top : 50px;
+        @include animation-name(win-money);
+        @include animation-duration(2s);
+        @include animation-timing-function(linear);
+        @include animation-iteration-count(1);
+        @keyframes win-money { 
+            to {
+                top : -50px;
+            }
+        }
+        &:before{
+            content: "+"
+        }
+    }
+}
