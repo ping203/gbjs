@@ -4,7 +4,7 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
-            currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer;
+            currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer, currentBetting;
 
     statusList = ["pause", "endding", "running"];
 
@@ -49,6 +49,8 @@ this.TWIST = this.TWIST || {};
     newCard = {};
 
     winCardContainer = {width: 740, height: 70, top: 340, left: 50};
+
+    currentBetting = 0;
 
     var repeatEffectQueue = false;
 
@@ -447,6 +449,7 @@ this.TWIST = this.TWIST || {};
         if (data.isPotCard) {
             this.potCards.addActiveCard();
         }
+        currentBetting = data.currentBetting;
         this.currentBetting.runEffect(data.currentBetting || this.info.betting);
         if (data.currentBetting > 0) {
             this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?!");
@@ -527,12 +530,11 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
-        data.winMoney = (data && data.winMoney) || this.userInfo.money;
-        if (data.winMoney > 0) {
+        if (currentBetting > 0) {
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
-            this.moneyContainer.runEffect(data.winMoney, {duration : 500});
-            this.once('endEffect',function(){
+            this.moneyContainer.runEffect(this.userInfo.money, {duration: 500});
+            this.once('endEffect', function () {
                 _self.changeGameState(0);
             });
         } else {
