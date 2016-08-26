@@ -4804,7 +4804,8 @@ this.TWIST = this.TWIST || {};
                button = item
            };
         });
-
+        
+        this.changeGameState(1);
         this.setBetting(button);
         this.addMainCard(data.cardId);
         this.currentBetting.runEffect(data.currentBetting, {duration: 0});
