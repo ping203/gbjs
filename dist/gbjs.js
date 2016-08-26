@@ -4606,6 +4606,25 @@ this.TWIST = this.TWIST || {};
         });
     };
 
+    p.drawListCard = function (listCard) {
+        var _self = this;
+
+        this.winCardContainer.removeAllChildren();
+        listCard.forEach(drawSingleCard);
+
+        function drawSingleCard(id, index) {
+            var card = new TWIST.Card(id);
+            _self.winCardContainer.addChild(card);
+            card.set({
+                x: 10 + (winCardSize.width + 10) * index,
+                y: 10,
+                scaleX: winCardSize.width / TWIST.Card.size.width,
+                scaleY: winCardSize.height / TWIST.Card.size.height
+            })
+        };
+    };
+
+
     p.changeStatus = function (status) {
         var _self = this;
         this.clear();
@@ -4660,13 +4679,13 @@ this.TWIST = this.TWIST || {};
         this.addMainCard(data.cardId);
         this.hightButton.setDisabled(false);
         this.lowButton.setDisabled(false);
-        this.hightBetting.runEffect(data.hightMoney);
-        this.lowBetting.runEffect(data.lowMoney);
+        this.hightBetting.runEffect(data.hightMoney, {duration: 300});
+        this.lowBetting.runEffect(data.lowMoney, {duration: 300});
         if (data.isPotCard) {
             this.potCards.addActiveCard();
         }
         currentBetting = data.currentBetting;
-        this.currentBetting.runEffect(data.currentBetting || this.info.betting);
+        this.currentBetting.runEffect(data.currentBetting || this.info.betting, {duration: 300});
         if (data.currentBetting > 0) {
             this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?!");
             this.remainTime.runEffect(data.remainTime || 120000);
@@ -4718,6 +4737,17 @@ this.TWIST = this.TWIST || {};
         this.on("error", function (message) {
             _self.showError(message);
         });
+
+        this.on("reconnect", function (data) {
+            _self.reconnect(data);
+        });
+
+        this.on("_storeComplete", function (message) {
+            console.log("_on _storeComplete");
+            _self.changeStatus('pause');
+            _self.setNewCard(data);
+        });
+
     };
 
     p.getFirstCard = function (data) {
@@ -4739,6 +4769,7 @@ this.TWIST = this.TWIST || {};
         this.changeStatus('running');
 
         this.once("_storeComplete", function () {
+            console.log("_once _storeComplete");
             _self.changeStatus('pause');
             _self.setNewCard(data);
         });
@@ -4764,6 +4795,19 @@ this.TWIST = this.TWIST || {};
 
     p.showError = function (message) {
         this.supportText.text(message);
+    };
+
+    p.reconnect = function (data) {
+
+        var _self = this;
+
+        this.setBetting(data.bettingId);
+        this.addMainCard(data.cardId);
+        this.currentBetting.runEffect(data.currentBetting, {duration: 0});
+        this.hightBetting.runEffect(data.hightMoney, {duration: 0});
+        this.lowBetting.runEffect(data.lowMoney, {duration: 0});
+        this.remainTime.runEffect(data.remainTime);
+        this.drawListCard(data.listCard);
     };
 
     TWIST.HightLowGame = HightLowGame;
