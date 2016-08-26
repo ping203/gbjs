@@ -474,9 +474,9 @@ this.TWIST = this.TWIST || {};
             this.potCards.addActiveCard();
         }
         currentBetting = data.currentBetting;
-        this.currentBetting.runEffect(data.currentBetting || this.info.betting, {duration: 300});
+        this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
         if (data.currentBetting > 0) {
-            this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?!");
+            this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
             this.remainTime.runEffect(data.remainTime || 120000);
             this.hightButton.setDisabled(false);
             this.lowButton.setDisabled(false);
@@ -529,10 +529,6 @@ this.TWIST = this.TWIST || {};
 
         this.on("reconnect", function (data) {
             _self.reconnect(data);
-        });
-
-        this.on("_storeComplete", function () {
-            console.log("_on _storeComplete");
         });
 
     };
@@ -597,6 +593,11 @@ this.TWIST = this.TWIST || {};
         this.setBetting(button);
         this.setNewCard(data);
         this.drawListCard(data.listCard);
+        if(data.numberPotCards){
+            for(var i = 0; i < data.numberPotCards; i++){
+                this.potCards.addActiveCard()
+            }
+        }
     };
 
     TWIST.HightLowGame = HightLowGame;
