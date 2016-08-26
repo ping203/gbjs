@@ -526,10 +526,8 @@ this.TWIST = this.TWIST || {};
             _self.reconnect(data);
         });
 
-        this.on("_storeComplete", function (message) {
+        this.on("_storeComplete", function () {
             console.log("_on _storeComplete");
-            _self.changeStatus('pause');
-            _self.setNewCard(data);
         });
 
     };
