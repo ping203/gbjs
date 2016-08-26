@@ -405,7 +405,8 @@ this.TWIST = this.TWIST || {};
                 scaleX: winCardSize.width / TWIST.Card.size.width,
                 scaleY: winCardSize.height / TWIST.Card.size.height
             })
-        };
+        }
+        ;
     };
 
 
@@ -583,15 +584,17 @@ this.TWIST = this.TWIST || {};
 
         var _self = this;
         var button;
-        this.chipButtons.forEach(function(item, index){
-           if(item.value == data.betting){
-               button = item
-           };
+        this.chipButtons.forEach(function (item, index) {
+            if (item.value == data.betting) {
+                button = item
+            }
+            ;
         });
-        
+
         this.changeGameState(1);
         this.setBetting(button);
         this.addMainCard(data.cardId);
+        this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?!");
         this.currentBetting.runEffect(data.currentBetting, {duration: 0});
         this.hightBetting.runEffect(data.hightMoney, {duration: 0});
         this.lowBetting.runEffect(data.lowMoney, {duration: 0});
