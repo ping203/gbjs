@@ -437,6 +437,10 @@ this.TWIST = this.TWIST || {};
             this.virtualCard.show();
             this.newTurnText.show();
             this.newTurnButton.hide();
+            this.hightButton.setDisabled(false);
+            this.lowButton.setDisabled(false);
+            this.lowBetting.runEffect(0, {duration: 10});
+            this.hightBetting.runEffect(0, {duration: 10});
             this.effect.hide();
         } else if (gameState == 1) {
             this.newTurnText.hide();
