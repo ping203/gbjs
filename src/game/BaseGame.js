@@ -203,6 +203,7 @@ this.TWIST = this.TWIST || {};
         jElement.endEffect = function () {
             if (this.isTracking) {
                 this.isTracking = false;
+                _self.emit("_moveChipComplete", jElement);
             }
         };
 

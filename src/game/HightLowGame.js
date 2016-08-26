@@ -552,7 +552,6 @@ this.TWIST = this.TWIST || {};
         this.changeStatus('running');
 
         this.once("_storeComplete", function () {
-            console.log("_once _storeComplete");
             _self.changeStatus('pause');
             _self.setNewCard(data);
         });
@@ -564,7 +563,7 @@ this.TWIST = this.TWIST || {};
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
             this.moneyContainer.runEffect(this.userInfo.money, {duration: 500});
-            this.once('endEffect', function () {
+            this.once('_moveChipComplete', function () {
                 _self.changeGameState(0);
             });
         } else {
@@ -596,6 +595,6 @@ this.TWIST = this.TWIST || {};
         this.drawListCard(data.listCard);
     };
 
-    TWIST.HightLowGame = HightLowGame;
+    TWIST.HightLowGame = data;
 
 })();
