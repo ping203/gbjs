@@ -4780,7 +4780,7 @@ this.TWIST = this.TWIST || {};
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
             this.moneyContainer.runEffect(this.userInfo.money, {duration: 500});
-            this.once('_moveChipComplete', function () {
+            this.once('endEffect', function () {
                 _self.changeGameState(0);
             });
         } else {
@@ -4812,7 +4812,7 @@ this.TWIST = this.TWIST || {};
         this.drawListCard(data.listCard);
     };
 
-    TWIST.HightLowGame = data;
+    TWIST.HightLowGame = HightLowGame;
 
 })();
 this.TWIST = this.TWIST || {};
