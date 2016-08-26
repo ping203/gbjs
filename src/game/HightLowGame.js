@@ -582,8 +582,14 @@ this.TWIST = this.TWIST || {};
     p.reconnect = function (data) {
 
         var _self = this;
+        var button;
+        this.chipButtons.forEach(function(item, index){
+           if(item.value == data.betting){
+               button = item
+           };
+        });
 
-        this.setBetting(data.betting);
+        this.setBetting(button);
         this.addMainCard(data.cardId);
         this.currentBetting.runEffect(data.currentBetting, {duration: 0});
         this.hightBetting.runEffect(data.hightMoney, {duration: 0});
