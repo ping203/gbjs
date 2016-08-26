@@ -4799,7 +4799,7 @@ this.TWIST = this.TWIST || {};
 
         var _self = this;
 
-        this.setBetting(data.bettingId);
+        this.setBetting(data.betting);
         this.addMainCard(data.cardId);
         this.currentBetting.runEffect(data.currentBetting, {duration: 0});
         this.hightBetting.runEffect(data.hightMoney, {duration: 0});
