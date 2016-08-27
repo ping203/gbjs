@@ -105,6 +105,7 @@ this.TWIST = this.TWIST || {};
 
     function MiniPoker(wrapper, options) {
         this._ID = Math.random().toFixed(3);
+        console.log("this._ID", this._ID);
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
         this.initMiniPoker();
@@ -405,6 +406,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.spinColumn = function (columnIndex) {
+        console.log("this._ID", this._ID);
         var currentSpeed = this.options.speed || speed;
         var isNewEndingPhase = false;
         var beforeLastRow = false;
