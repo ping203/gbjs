@@ -46,17 +46,13 @@ this.TWIST = this.TWIST || {};
         createjs.Ticker.setFPS(60);
         stage.width = this.canvas.width;
         stage.height = this.canvas.height;
-        console.log("INIT STAGE",createjs.Ticker.prototype.constructor);
-        console.log("INIT STAGE",createjs.Tween.prototype);
         createjs.Ticker.addEventListener("tick", onUpdateStage);
         this.on('destroy', function () {
-            console.log("ON DESTROY");
             createjs.Ticker.removeEventListener("tick", onUpdateStage);
             _self.removeAllListeners();
             _self.timeOutList.forEach(function(item,index){
                 clearTimeout(item);
             });
-            console.log(this.timeOutList);
         });
         this.stage = stage;
 
@@ -66,10 +62,8 @@ this.TWIST = this.TWIST || {};
     }
 
     p.initEvent = function () {
-        console.log("INIT EVENT");
         this.timeOutList = [];
         this.on('destroy', function () {
-            console.log("removeAllTweens");
             createjs.Tween.removeAllTweens();
         });
     };

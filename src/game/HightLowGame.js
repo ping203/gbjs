@@ -6,54 +6,6 @@ this.TWIST = this.TWIST || {};
     var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
             currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer, currentBetting;
 
-    statusList = ["pause", "endding", "running"];
-
-    gameStates = ["getCards", "selectHightLow"];
-
-    cardRankList = [
-        {value: 0, name: "2"}
-        , {value: 1, name: "3"}
-        , {value: 2, name: "4"}
-        , {value: 3, name: "5"}
-        , {value: 4, name: "6"}
-        , {value: 5, name: "7"}
-        , {value: 6, name: "8"}
-        , {value: 7, name: "9"}
-        , {value: 8, name: "10"}
-        , {value: 9, name: "J"}
-        , {value: 10, name: "Q"}
-        , {value: 11, name: "K"}
-        , {value: 12, name: "A"}
-    ];
-
-    speed = 2.5;//default 2
-
-    numberCard = 52;
-
-    effectQueue = [];
-
-    canvasSize = {width: 800, height: 400};
-
-    mainCardSize = {width: 190, height: 244};
-
-    winCardSize = {width: 39, height: 48};
-
-    bets = [1000, 10000, 100000];
-
-    moneyFallingEffectTime = 2000;
-
-    timeOutList = [];
-
-    gameState = 0;
-
-    newCard = {};
-
-    winCardContainer = {width: 740, height: 70, top: 340, left: 50};
-
-    currentBetting = 0;
-
-    var repeatEffectQueue = false;
-
     var initOptions = {
         resultTab: []
     };
@@ -79,10 +31,60 @@ this.TWIST = this.TWIST || {};
         };
         this.userInfo = {};
         this.initCanvas();
+        this.initVariable();
+        this.initEvent();
         this.initTemplate();
         this.draw();
         this.pushEventListener();
         this.status = 'pause';
+    };
+
+    p.initVariable = function () {
+        statusList = ["pause", "endding", "running"];
+
+        gameStates = ["getCards", "selectHightLow"];
+
+        cardRankList = [
+            {value: 0, name: "2"}
+            , {value: 1, name: "3"}
+            , {value: 2, name: "4"}
+            , {value: 3, name: "5"}
+            , {value: 4, name: "6"}
+            , {value: 5, name: "7"}
+            , {value: 6, name: "8"}
+            , {value: 7, name: "9"}
+            , {value: 8, name: "10"}
+            , {value: 9, name: "J"}
+            , {value: 10, name: "Q"}
+            , {value: 11, name: "K"}
+            , {value: 12, name: "A"}
+        ];
+
+        speed = 2.5;//default 2
+
+        numberCard = 52;
+
+        effectQueue = [];
+
+        canvasSize = {width: 800, height: 400};
+
+        mainCardSize = {width: 190, height: 244};
+
+        winCardSize = {width: 39, height: 48};
+
+        bets = [1000, 10000, 100000];
+
+        moneyFallingEffectTime = 2000;
+
+        timeOutList = [];
+
+        gameState = 0;
+
+        newCard = {};
+
+        winCardContainer = {width: 740, height: 70, top: 340, left: 50};
+
+        currentBetting = 0;
     };
 
     p.initTemplate = function () {
@@ -593,8 +595,8 @@ this.TWIST = this.TWIST || {};
         this.setBetting(button);
         this.setNewCard(data);
         this.drawListCard(data.listCard);
-        if(data.numberPotCards){
-            for(var i = 0; i < data.numberPotCards; i++){
+        if (data.numberPotCards) {
+            for (var i = 0; i < data.numberPotCards; i++) {
                 this.potCards.addActiveCard()
             }
         }

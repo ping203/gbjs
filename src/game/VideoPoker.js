@@ -10,114 +10,6 @@ this.TWIST = this.TWIST || {};
             timeOutList, fistLog, cardRankList, gameTurn, currentCardList, gameTurnList, activeColumnIndex, currentWin, doubleList,
             holdCard;
 
-    statusList = ["pause", "running", "ending", "effecting"];
-
-    cardRankList = [
-        {value: 0, name: "2"}
-        , {value: 1, name: "3"}
-        , {value: 2, name: "4"}
-        , {value: 3, name: "5"}
-        , {value: 4, name: "6"}
-        , {value: 5, name: "7"}
-        , {value: 6, name: "8"}
-        , {value: 7, name: "9"}
-        , {value: 8, name: "10"}
-        , {value: 9, name: "J"}
-        , {value: 10, name: "Q"}
-        , {value: 11, name: "K"}
-        , {value: 12, name: "A"}
-    ];
-
-    endingPhase = -1;
-
-    stepValue = 1;
-
-    itemSize = {width: 160, height: 205, padding: 10};
-
-    gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
-
-    distance = itemSize.height;
-
-    columns = [];
-
-    speed = 2.5;//default 2
-
-    numberCard = 52;
-
-    spinAreaConf = {x: 100, y: 100};
-
-    effectQueue = [];
-
-    bets = [1000, 10000, 100000];
-
-    moneyFallingEffectTime = 2000;
-
-    currentEffectTurn = 0;
-
-    numberEffectCompleted = 0;
-
-    timeOutList = [];
-
-    gameTurn = 0;
-
-    gameTurnList = ["selectCard", "selectDouble", "getWin"];
-
-    currentCardList = [];
-
-    activeColumnIndex = [];
-
-    currentWin = 0;
-
-    doubleList = [0, 1, 2, 3, 4];
-
-    var holdList = [];
-
-    var repeatEffectQueue = false;
-
-    var initOptions = {
-        resultTab: [{
-                name: "Sảnh rồng(Nỗ hũ)",
-                value: -1,
-                code: '0'
-            }, {
-                name: "Thùng phá sảnh",
-                value: 50,
-                code: '1'
-            }, {
-                name: "Tứ quý",
-                value: 25,
-                code: '2'
-            }, {
-                name: "Cù lũ",
-                value: 9,
-                code: '3'
-            }, {
-                name: "Thùng",
-                value: 6,
-                code: '4'
-            }, {
-                name: "Sảnh",
-                value: 4,
-                code: '5'
-            }, {
-                name: "Ba lá",
-                value: 3,
-                code: '6'
-            }, {
-                name: "Hai đôi",
-                value: 2,
-                code: '7'
-            }, {
-                name: "Đôi J hoặc cao hơn",
-                value: 1,
-                code: '8'
-            }, {
-                name: "Không ăn !",
-                value: 0,
-                code: '9'
-            }]
-    };
-
     function VideoPoker(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
@@ -139,10 +31,122 @@ this.TWIST = this.TWIST || {};
         this.userInfo = {};
         this.initCanvas();
         this.initTemplate();
+        this.initVariable();
+        this.initEvent();
         this.initButton();
         this.draw();
         this.pushEventListener();
         this.status = 'pause';
+    };
+
+    p.initVariable = function () {
+        statusList = ["pause", "running", "ending", "effecting"];
+
+        cardRankList = [
+            {value: 0, name: "2"}
+            , {value: 1, name: "3"}
+            , {value: 2, name: "4"}
+            , {value: 3, name: "5"}
+            , {value: 4, name: "6"}
+            , {value: 5, name: "7"}
+            , {value: 6, name: "8"}
+            , {value: 7, name: "9"}
+            , {value: 8, name: "10"}
+            , {value: 9, name: "J"}
+            , {value: 10, name: "Q"}
+            , {value: 11, name: "K"}
+            , {value: 12, name: "A"}
+        ];
+
+        endingPhase = -1;
+
+        stepValue = 1;
+
+        itemSize = {width: 160, height: 205, padding: 10};
+
+        gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
+
+        distance = itemSize.height;
+
+        columns = [];
+
+        speed = 2.5;//default 2
+
+        numberCard = 52;
+
+        spinAreaConf = {x: 100, y: 100};
+
+        effectQueue = [];
+
+        bets = [1000, 10000, 100000];
+
+        moneyFallingEffectTime = 2000;
+
+        currentEffectTurn = 0;
+
+        numberEffectCompleted = 0;
+
+        timeOutList = [];
+
+        gameTurn = 0;
+
+        gameTurnList = ["selectCard", "selectDouble", "getWin"];
+
+        currentCardList = [];
+
+        activeColumnIndex = [];
+
+        currentWin = 0;
+
+        doubleList = [0, 1, 2, 3, 4];
+
+        var holdList = [];
+
+        var repeatEffectQueue = false;
+
+        var initOptions = {
+            resultTab: [{
+                    name: "Sảnh rồng(Nỗ hũ)",
+                    value: -1,
+                    code: '0'
+                }, {
+                    name: "Thùng phá sảnh",
+                    value: 50,
+                    code: '1'
+                }, {
+                    name: "Tứ quý",
+                    value: 25,
+                    code: '2'
+                }, {
+                    name: "Cù lũ",
+                    value: 9,
+                    code: '3'
+                }, {
+                    name: "Thùng",
+                    value: 6,
+                    code: '4'
+                }, {
+                    name: "Sảnh",
+                    value: 4,
+                    code: '5'
+                }, {
+                    name: "Ba lá",
+                    value: 3,
+                    code: '6'
+                }, {
+                    name: "Hai đôi",
+                    value: 2,
+                    code: '7'
+                }, {
+                    name: "Đôi J hoặc cao hơn",
+                    value: 1,
+                    code: '8'
+                }, {
+                    name: "Không ăn !",
+                    value: 0,
+                    code: '9'
+                }]
+        };
     };
 
     p.draw = function () {
@@ -274,7 +278,6 @@ this.TWIST = this.TWIST || {};
 
         this.virtualCardsList.forEach(function (item, index) {
             item.on('click', function (event) {
-                console.log(gameTurn, _self.status);
                 if (_self.status == 'effecting' && gameTurn == 1) {
                     item._active = !item._active;
                     item.toggleClass("active");
@@ -300,7 +303,6 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.doubleButton._disabled)
                 return;
-            console.log("double");
             _self.emit("double");
         });
 
@@ -483,7 +485,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.changeStatus = function (status) {
-        console.log("changeStatus", status);
         var _self = this;
         this.status = status;
         timeOutList.forEach(function (item) {
