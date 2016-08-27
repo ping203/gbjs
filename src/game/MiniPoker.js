@@ -342,10 +342,10 @@ this.TWIST = this.TWIST || {};
     p.changeStatus = function (status) {
         var _self = this;
         this.status = status;
-        timeOutList.forEach(function (item) {
+        this.timeOutList.forEach(function (item) {
             clearTimeout(item);
         });
-        timeOutList = [];
+        this.timeOutList = [];
         if (status == 'pause') {
             this.result = {};
             if (currentEffectTurn >= effectQueue.length)
@@ -364,7 +364,7 @@ this.TWIST = this.TWIST || {};
                     _self.status = "pause";
                     _self.checkStart();
                 }, 500);
-                timeOutList.push(newSpinTimeOut);
+                this.timeOutList.push(newSpinTimeOut);
             }
         }
 
@@ -519,7 +519,7 @@ this.TWIST = this.TWIST || {};
                 _self.checkStart();
             });
 
-            timeOutList.push(timeOut);
+            this.timeOutList.push(timeOut);
         }
 
         this.runNextEffect();
@@ -554,7 +554,7 @@ this.TWIST = this.TWIST || {};
             }
         } else {
             var timeOut = setTimeout(_runEffect, 300);
-            timeOutList.push(timeOut);
+            this.timeOutList.push(timeOut);
         }
     };
 

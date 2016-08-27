@@ -3290,10 +3290,16 @@ this.TWIST = this.TWIST || {};
         createjs.Ticker.setFPS(60);
         stage.width = this.canvas.width;
         stage.height = this.canvas.height;
+        console.log(createjs.Ticker.prototype.constructor.prototype)
         createjs.Ticker.addEventListener("tick", onUpdateStage);
         this.on('destroy', function () {
+            console.log("ON DESTROY");
             createjs.Ticker.removeEventListener("tick", onUpdateStage);
             _self.removeAllListeners();
+            this.timeOutList.forEach(function(item,index){
+                clearTimeout(item);
+            });
+            console.log(this.timeOutList);
         });
         this.stage = stage;
 
@@ -3303,10 +3309,7 @@ this.TWIST = this.TWIST || {};
     }
 
     p.initEvent = function () {
-        var events = this.events;
-        for (var pro in events) {
-            this.on(pro, this[events[pro]]);
-        }
+        this.timeOutList = [];
     };
 
     p.addNumberEffect = function (el) {
@@ -5164,10 +5167,10 @@ this.TWIST = this.TWIST || {};
     p.changeStatus = function (status) {
         var _self = this;
         this.status = status;
-        timeOutList.forEach(function (item) {
+        this.timeOutList.forEach(function (item) {
             clearTimeout(item);
         });
-        timeOutList = [];
+        this.timeOutList = [];
         if (status == 'pause') {
             this.result = {};
             if (currentEffectTurn >= effectQueue.length)
@@ -5186,7 +5189,7 @@ this.TWIST = this.TWIST || {};
                     _self.status = "pause";
                     _self.checkStart();
                 }, 500);
-                timeOutList.push(newSpinTimeOut);
+                this.timeOutList.push(newSpinTimeOut);
             }
         }
 
@@ -5341,7 +5344,7 @@ this.TWIST = this.TWIST || {};
                 _self.checkStart();
             });
 
-            timeOutList.push(timeOut);
+            this.timeOutList.push(timeOut);
         }
 
         this.runNextEffect();
@@ -5376,7 +5379,7 @@ this.TWIST = this.TWIST || {};
             }
         } else {
             var timeOut = setTimeout(_runEffect, 300);
-            timeOutList.push(timeOut);
+            this.timeOutList.push(timeOut);
         }
     };
 
