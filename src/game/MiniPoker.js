@@ -123,6 +123,7 @@ this.TWIST = this.TWIST || {};
         };
         this.userInfo = {};
         this.initCanvas();
+        this.initEvent();
         this.initTemplate();
         this.initButton();
         this.draw();

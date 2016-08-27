@@ -3309,6 +3309,7 @@ this.TWIST = this.TWIST || {};
     }
 
     p.initEvent = function () {
+        console.log("INIT EVENT");
         this.timeOutList = [];
     };
 
@@ -4948,6 +4949,7 @@ this.TWIST = this.TWIST || {};
         };
         this.userInfo = {};
         this.initCanvas();
+        this.initEvent();
         this.initTemplate();
         this.initButton();
         this.draw();

@@ -65,6 +65,7 @@ this.TWIST = this.TWIST || {};
     }
 
     p.initEvent = function () {
+        console.log("INIT EVENT");
         this.timeOutList = [];
     };
 
