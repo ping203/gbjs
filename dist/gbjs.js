@@ -4834,7 +4834,51 @@ this.TWIST = this.TWIST || {};
             statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
-            timeOutList, fistLog, cardRankList;
+            timeOutList, fistLog, cardRankList, repeatEffectQueue, initOptions;
+
+    initOptions = {
+        resultTab: [{
+                name: "Sảnh rồng(Nỗ hũ)",
+                value: -1,
+                code: '1'
+            }, {
+                name: "Thùng phá sảnh",
+                value: 1000,
+                code: '2'
+            }, {
+                name: "Tứ quý",
+                value: 150,
+                code: '3'
+            }, {
+                name: "Cù lũ",
+                value: 50,
+                code: '4'
+            }, {
+                name: "Thùng",
+                value: 20,
+                code: '5'
+            }, {
+                name: "Sảnh",
+                value: 13,
+                code: '6'
+            }, {
+                name: "Ba lá",
+                value: 8,
+                code: '7'
+            }, {
+                name: "Hai đôi",
+                value: 5,
+                code: '8'
+            }, {
+                name: "Đôi J hoặc cao hơn",
+                value: 2.5,
+                code: '9'
+            }, {
+                name: "Không ăn !",
+                value: 0,
+                code: '10'
+            }]
+    };
 
     function MiniPoker(wrapper, options) {
         this.wrapper = $(wrapper);
@@ -4893,51 +4937,7 @@ this.TWIST = this.TWIST || {};
 
         timeOutList = [];
 
-        var repeatEffectQueue = false;
-
-        var initOptions = {
-            resultTab: [{
-                    name: "Sảnh rồng(Nỗ hũ)",
-                    value: -1,
-                    code: '1'
-                }, {
-                    name: "Thùng phá sảnh",
-                    value: 1000,
-                    code: '2'
-                }, {
-                    name: "Tứ quý",
-                    value: 150,
-                    code: '3'
-                }, {
-                    name: "Cù lũ",
-                    value: 50,
-                    code: '4'
-                }, {
-                    name: "Thùng",
-                    value: 20,
-                    code: '5'
-                }, {
-                    name: "Sảnh",
-                    value: 13,
-                    code: '6'
-                }, {
-                    name: "Ba lá",
-                    value: 8,
-                    code: '7'
-                }, {
-                    name: "Hai đôi",
-                    value: 5,
-                    code: '8'
-                }, {
-                    name: "Đôi J hoặc cao hơn",
-                    value: 2.5,
-                    code: '9'
-                }, {
-                    name: "Không ăn !",
-                    value: 0,
-                    code: '10'
-                }]
-        };
+        repeatEffectQueue = false;
     };
 
     p.initVariable = function () {
@@ -5876,7 +5876,51 @@ this.TWIST = this.TWIST || {};
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
             timeOutList, fistLog, cardRankList, gameTurn, currentCardList, gameTurnList, activeColumnIndex, currentWin, doubleList,
-            holdCard;
+            holdCard, repeatEffectQueue, initOptions;
+
+    initOptions = {
+        resultTab: [{
+                name: "Sảnh rồng(Nỗ hũ)",
+                value: -1,
+                code: '0'
+            }, {
+                name: "Thùng phá sảnh",
+                value: 50,
+                code: '1'
+            }, {
+                name: "Tứ quý",
+                value: 25,
+                code: '2'
+            }, {
+                name: "Cù lũ",
+                value: 9,
+                code: '3'
+            }, {
+                name: "Thùng",
+                value: 6,
+                code: '4'
+            }, {
+                name: "Sảnh",
+                value: 4,
+                code: '5'
+            }, {
+                name: "Ba lá",
+                value: 3,
+                code: '6'
+            }, {
+                name: "Hai đôi",
+                value: 2,
+                code: '7'
+            }, {
+                name: "Đôi J hoặc cao hơn",
+                value: 1,
+                code: '8'
+            }, {
+                name: "Không ăn !",
+                value: 0,
+                code: '9'
+            }]
+    };
 
     function VideoPoker(wrapper, options) {
         this.wrapper = $(wrapper);
@@ -5968,53 +6012,9 @@ this.TWIST = this.TWIST || {};
 
         doubleList = [0, 1, 2, 3, 4];
 
-        var holdList = [];
+        holdList = [];
 
-        var repeatEffectQueue = false;
-
-        var initOptions = {
-            resultTab: [{
-                    name: "Sảnh rồng(Nỗ hũ)",
-                    value: -1,
-                    code: '0'
-                }, {
-                    name: "Thùng phá sảnh",
-                    value: 50,
-                    code: '1'
-                }, {
-                    name: "Tứ quý",
-                    value: 25,
-                    code: '2'
-                }, {
-                    name: "Cù lũ",
-                    value: 9,
-                    code: '3'
-                }, {
-                    name: "Thùng",
-                    value: 6,
-                    code: '4'
-                }, {
-                    name: "Sảnh",
-                    value: 4,
-                    code: '5'
-                }, {
-                    name: "Ba lá",
-                    value: 3,
-                    code: '6'
-                }, {
-                    name: "Hai đôi",
-                    value: 2,
-                    code: '7'
-                }, {
-                    name: "Đôi J hoặc cao hơn",
-                    value: 1,
-                    code: '8'
-                }, {
-                    name: "Không ăn !",
-                    value: 0,
-                    code: '9'
-                }]
-        };
+        repeatEffectQueue = false;
     };
 
     p.draw = function () {
