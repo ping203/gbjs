@@ -8,7 +8,7 @@ this.TWIST = this.TWIST || {};
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
             timeOutList, fistLog, cardRankList, gameTurn, currentCardList, gameTurnList, activeColumnIndex, currentWin, doubleList,
-            holdCard, repeatEffectQueue, initOptions;
+            holdCard, holdList, repeatEffectQueue, initOptions;
 
     initOptions = {
         resultTab: [{
@@ -63,6 +63,7 @@ this.TWIST = this.TWIST || {};
     var p = VideoPoker.prototype = new TWIST.BaseGame();
 
     p.initVideoPoker = function () {
+        this.initVariable();
         $.extend(this.options, gameSize);
         this.info = {
             betting: 1000,
@@ -75,7 +76,6 @@ this.TWIST = this.TWIST || {};
         this.userInfo = {};
         this.initCanvas();
         this.initTemplate();
-        this.initVariable();
         this.initEvent();
         this.initButton();
         this.draw();

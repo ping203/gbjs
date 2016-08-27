@@ -4239,7 +4239,7 @@ this.TWIST = this.TWIST || {};
     var p = HightLowGame.prototype = new TWIST.BaseGame();
 
     p.initHightLowGame = function () {
-
+        this.initVariable();
         $.extend(this.options, canvasSize);
         this.info = {
             betting: 1000,
@@ -4251,7 +4251,6 @@ this.TWIST = this.TWIST || {};
         };
         this.userInfo = {};
         this.initCanvas();
-        this.initVariable();
         this.initEvent();
         this.initTemplate();
         this.draw();
@@ -4400,6 +4399,10 @@ this.TWIST = this.TWIST || {};
         };
         this.potCards.removeActiveCard = function () {
             potCards.removeClass('active');
+            _self.potCards.forEach(function (item, index) {
+                item.active = false;
+                item.removeClass('active');
+            });
         };
     };
 
@@ -4834,9 +4837,9 @@ this.TWIST = this.TWIST || {};
             statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
-            timeOutList, fistLog, cardRankList, repeatEffectQueue, initOptions;
+            timeOutList, fistLog, cardRankList, repeatEffectQueue;
 
-    initOptions = {
+    var initOptions = {
         resultTab: [{
                 name: "Sảnh rồng(Nỗ hũ)",
                 value: -1,
@@ -4889,6 +4892,29 @@ this.TWIST = this.TWIST || {};
     var p = MiniPoker.prototype = new TWIST.BaseGame();
 
     p.initMiniPoker = function () {
+        this.initVariable();
+        $.extend(this.options, gameSize);
+        this.info = {
+            betting: 1000,
+            potData: {
+                1000: 0,
+                10000: 0,
+                100000: 0
+            }
+        };
+        this.userInfo = {};
+        this.initCanvas();
+        this.initEvent();
+        this.initTemplate();
+        this.initButton();
+        this.draw();
+        this.pushEventListener();
+        this.status = 'pause';
+    };
+
+    p.initVariable = function () {
+
+
         statusList = ["pause", "running", "ending", "effecting"];
 
         cardRankList = [
@@ -4938,54 +4964,6 @@ this.TWIST = this.TWIST || {};
         timeOutList = [];
 
         repeatEffectQueue = false;
-    };
-
-    p.initVariable = function () {
-        statusList = ["pause", "endding", "running"];
-
-        gameStates = ["getCards", "selectHightLow"];
-
-        cardRankList = [
-            {value: 0, name: "2"}
-            , {value: 1, name: "3"}
-            , {value: 2, name: "4"}
-            , {value: 3, name: "5"}
-            , {value: 4, name: "6"}
-            , {value: 5, name: "7"}
-            , {value: 6, name: "8"}
-            , {value: 7, name: "9"}
-            , {value: 8, name: "10"}
-            , {value: 9, name: "J"}
-            , {value: 10, name: "Q"}
-            , {value: 11, name: "K"}
-            , {value: 12, name: "A"}
-        ];
-
-        speed = 2.5;//default 2
-
-        numberCard = 52;
-
-        effectQueue = [];
-
-        canvasSize = {width: 800, height: 400};
-
-        mainCardSize = {width: 190, height: 244};
-
-        winCardSize = {width: 39, height: 48};
-
-        bets = [1000, 10000, 100000];
-
-        moneyFallingEffectTime = 2000;
-
-        timeOutList = [];
-
-        gameState = 0;
-
-        newCard = {};
-
-        winCardContainer = {width: 740, height: 70, top: 340, left: 50};
-
-        currentBetting = 0;
     };
 
     p.draw = function () {
@@ -5298,6 +5276,7 @@ this.TWIST = this.TWIST || {};
 
                         var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
                         if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
+                            console.log("_self._ID", _self._ID, "columnIndex", columnIndex);
                             var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
                             if (isLastRow) {
                                 stepValue = 1 / 5;
@@ -5876,7 +5855,7 @@ this.TWIST = this.TWIST || {};
             lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
             line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
             timeOutList, fistLog, cardRankList, gameTurn, currentCardList, gameTurnList, activeColumnIndex, currentWin, doubleList,
-            holdCard, repeatEffectQueue, initOptions;
+            holdCard, holdList, repeatEffectQueue, initOptions;
 
     initOptions = {
         resultTab: [{
@@ -5931,6 +5910,7 @@ this.TWIST = this.TWIST || {};
     var p = VideoPoker.prototype = new TWIST.BaseGame();
 
     p.initVideoPoker = function () {
+        this.initVariable();
         $.extend(this.options, gameSize);
         this.info = {
             betting: 1000,
@@ -5943,7 +5923,6 @@ this.TWIST = this.TWIST || {};
         this.userInfo = {};
         this.initCanvas();
         this.initTemplate();
-        this.initVariable();
         this.initEvent();
         this.initButton();
         this.draw();

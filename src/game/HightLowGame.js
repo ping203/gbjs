@@ -19,7 +19,7 @@ this.TWIST = this.TWIST || {};
     var p = HightLowGame.prototype = new TWIST.BaseGame();
 
     p.initHightLowGame = function () {
-
+        this.initVariable();
         $.extend(this.options, canvasSize);
         this.info = {
             betting: 1000,
@@ -31,7 +31,6 @@ this.TWIST = this.TWIST || {};
         };
         this.userInfo = {};
         this.initCanvas();
-        this.initVariable();
         this.initEvent();
         this.initTemplate();
         this.draw();
@@ -180,6 +179,10 @@ this.TWIST = this.TWIST || {};
         };
         this.potCards.removeActiveCard = function () {
             potCards.removeClass('active');
+            _self.potCards.forEach(function (item, index) {
+                item.active = false;
+                item.removeClass('active');
+            });
         };
     };
 

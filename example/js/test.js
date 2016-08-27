@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    var game = new TWIST.MiniPoker('.wrapper');
+    var game = new TWIST.HightLowGame('.wrapper');
 
     var mockupData = [{
             event: "userInfo",
