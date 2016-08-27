@@ -46,13 +46,13 @@ this.TWIST = this.TWIST || {};
         createjs.Ticker.setFPS(60);
         stage.width = this.canvas.width;
         stage.height = this.canvas.height;
-        console.log(createjs.Ticker.prototype.constructor.prototype)
+        console.log("INIT STAGE",createjs.Ticker.prototype.constructor);
         createjs.Ticker.addEventListener("tick", onUpdateStage);
         this.on('destroy', function () {
             console.log("ON DESTROY");
             createjs.Ticker.removeEventListener("tick", onUpdateStage);
             _self.removeAllListeners();
-            this.timeOutList.forEach(function(item,index){
+            _self.timeOutList.forEach(function(item,index){
                 clearTimeout(item);
             });
             console.log(this.timeOutList);
