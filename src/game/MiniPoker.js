@@ -446,7 +446,6 @@ this.TWIST = this.TWIST || {};
 
                         var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
                         if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
-                            console.log("_self._ID", _self._ID, "columnIndex", columnIndex);
                             var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
                             if (isLastRow) {
                                 stepValue = 1 / 5;
@@ -565,6 +564,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.endEffect = function () {
+        var _self = this;
         numberEffectCompleted++;
         if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
             if (effectQueue[currentEffectTurn].oneTime)
@@ -575,7 +575,16 @@ this.TWIST = this.TWIST || {};
                     currentEffectTurn = 0;
                 } else {
 //                    this.status = "pause";
-                    this.changeStatus("pause");
+
+                    if (this.isAutoSpin) {
+                        var newSpinTimeOut = setTimeout(function () {
+                            _self.status = "pause";
+                            _self.checkStart();
+                        }, 500);
+                        this.timeOutList.push(newSpinTimeOut);
+                    }else{
+                        _self.status = "pause";
+                    }
                 }
             }
             if (this.status === "effecting") {
