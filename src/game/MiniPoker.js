@@ -519,10 +519,10 @@ this.TWIST = this.TWIST || {};
         });
         effectQueue.push(effectArray);
         if (this.isAutoSpin) {
-            var timeOut = setTimeout(3000, function () {
+            var timeOut = setTimeout(function () {
                 _self.status = "pause";
                 _self.checkStart();
-            });
+            },2000);
 
             this.timeOutList.push(timeOut);
         }
