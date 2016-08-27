@@ -4930,6 +4930,7 @@ this.TWIST = this.TWIST || {};
     };
 
     function MiniPoker(wrapper, options) {
+        this._ID = Math.random().toFixed(3);
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
         this.initMiniPoker();
@@ -5268,6 +5269,7 @@ this.TWIST = this.TWIST || {};
 
                         var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
                         if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
+                            console.log("_self._ID",_self._ID, "columnIndex",columnIndex);
                             var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
                             if (isLastRow) {
                                 stepValue = 1 / 5;
