@@ -282,7 +282,7 @@ this.TWIST = this.TWIST || {};
         });
 
         this.on("endEffect", function () {
-            _self.endEffect();
+//            _self.endEffect();
         });
 
         this.on("updateMoney", function (data) {
