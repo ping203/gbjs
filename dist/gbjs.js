@@ -412,8 +412,6 @@ this.TWIST = this.TWIST || {};
         options = options || {};
         this.settings = options && options.settings;
         var src = (options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/sounds/';
-        createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
-        createjs.Sound.alternateExtensions = ["mp3"];
         createjs.Sound.registerSounds(this._sounds, src);
         this._isInited = true;
     };
