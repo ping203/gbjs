@@ -4834,7 +4834,7 @@ this.TWIST = this.TWIST || {};
             TWIST.Sound.play("minigame/coin_spin");
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
-            this.moneyContainer.runEffect(this.userInfo.money + currentBetting, {duration: 500});
+            this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
             this.currentBetting.runEffect(0, {duration: 500});
             this.once('_moveChipComplete', function () {
                 _self.changeGameState(0);
