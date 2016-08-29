@@ -34,6 +34,20 @@ gulp.task('build.tpl', function() {
    .pipe(gulp.dest('dist/themes/' + theme));
 });
 
+gulp.task('build.sound', function() {
+  return gulp.src('src/themes/'+theme+'/sounds/**/*.ogg')
+   .pipe(templateCache({
+     templateHeader: "p._sounds = [",
+     templateBody: "{id : \'<%= url %>\', src : \'<%= url %>.ogg\'},",
+     templateFooter: "]",
+     transformUrl: function(url) {
+        return url.replace(/.ogg/, '');
+    }
+   }))
+   .pipe(gulp.dest('dist/themes/' + theme))
+   .pipe(concat('sounds.js'));
+});
+
 gulp.task('build.scss', function() {
   return gulp.src('src/themes/'+theme+'/sass/main.scss')
     .pipe(sass().on('error', sass.logError))

@@ -239,6 +239,7 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if (_self.status !== 'pause' && _self.status !== 'effecting')
                     return;
+                TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
@@ -322,6 +323,7 @@ this.TWIST = this.TWIST || {};
         } else {
             if (_self.status !== "pause")
                 _self.changeStatus("pause");
+            this.startSound = TWIST.Sound.play("minigame/bonus_spin");
             _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
         }
@@ -374,12 +376,14 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "running") {
+            this.resultSound  && this.resultSound.stop();
             this.buttonSpin.addClass('disabled');
             this.autoSpin.find('input').attr('disabled', true);
             this.resultText.text("");
         }
 
         if (status == "effecting") {
+            this.startSound && this.startSound.stop();
             this.buttonSpin.removeClass('disabled');
             this.autoSpin.find('input').attr('disabled', false);
         }
@@ -512,6 +516,9 @@ this.TWIST = this.TWIST || {};
             var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
             var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
             effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
+            this.resultSound = TWIST.Sound.play("minigame/NormalWin");
+        }else{
+            this.resultSound = TWIST.Sound.play("minigame/slot_result");
         }
         effectArray.oneTime = true;
         effectArray.forEach(function (item, index) {

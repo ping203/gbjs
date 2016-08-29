@@ -272,6 +272,7 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if ((_self.status !== 'pause' && _self.status !== 'effecting') || gameTurn != 0)
                     return;
+                TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
@@ -279,10 +280,12 @@ this.TWIST = this.TWIST || {};
         this.virtualCardsList.forEach(function (item, index) {
             item.on('click', function (event) {
                 if (_self.status == 'effecting' && gameTurn == 1) {
+                    TWIST.Sound.play("minigame/Common_Click");
                     item._active = !item._active;
                     item.toggleClass("active");
                 } else if (gameTurn == 3) {
                     if (!currentCardList[index].isOpened) {
+                        TWIST.Sound.play("minigame/Common_Click");
                         _self.emit("cardSelect", index);
                         gameTurn = -1;
                     }
@@ -295,6 +298,7 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.getWinButton._disabled)
                 return;
+            TWIST.Sound.play("minigame/Common_Click");
             _self.emit("getWin");
         });
 
@@ -303,6 +307,7 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.doubleButton._disabled)
                 return;
+            TWIST.Sound.play("minigame/Common_Click");
             _self.emit("double");
         });
 
@@ -453,12 +458,14 @@ this.TWIST = this.TWIST || {};
             } else {
                 if (_self.status !== "pause")
                     _self.changeStatus("pause");
+                this.startSound = TWIST.Sound.play("minigame/bonus_spin");
                 _self.emit("spin", this.info.betting);
                 _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 800}).runEffect();
                 _self.changeNumberEffect(_self.resultText, _self.info.betting, {duration: 800}).runEffect();
                 _self.moveChipEffect(1).runEffect();
             }
         } else if (gameTurn == 1) {
+            this.startSound = TWIST.Sound.play("minigame/bonus_spin");
             holdList = [];
             this.virtualCardsList.forEach(function (item, index) {
                 holdList.push(item._active);
@@ -507,6 +514,7 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "running") {
+            this.resultSound && this.resultSound.stop();
             this.buttonSpin.addClass('disabled');
             if (gameTurn == 0) {
                 this.resultText.text("");
@@ -514,6 +522,7 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "effecting") {
+            this.startSound && this.startSound.stop();
             this.buttonSpin.removeClass('disabled');
         }
     };
@@ -679,6 +688,7 @@ this.TWIST = this.TWIST || {};
         var effectArray = [];
 
         if (parseInt(result.winMoney) > 0) {
+            this.resultSound = TWIST.Sound.play("minigame/NormalWin");
             var changeWinMoneyEffect = this.changeNumberEffect(this.resultText, result.winMoney, {duration: 700});
             var supportTextEffect = this.setTextEffect(this.supportText, "Nhân đôi " + result.winMoney + " thành " + (parseInt(result.winMoney) * 2) + "!");
             var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
@@ -693,6 +703,7 @@ this.TWIST = this.TWIST || {};
             currentWin = parseInt(result.winMoney);
             gameTurn = 2;
         } else {
+            this.resultSound = TWIST.Sound.play("minigame/slot_result");
             currentWin = 0;
             var supportTextEffect = this.setTextEffect(this.supportText, "Không ăn !");
             var changeWinMoneyEffect = this.changeNumberEffect(this.resultText, 0, {duration: 700});
@@ -743,6 +754,7 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
+        TWIST.Sound.play("minigame/coin_spin");
         _self.changeStatus("effecting");
         _self.changeNumberEffect(_self.money, _self.userInfo.money, {duration: 800}).runEffect();
         _self.changeNumberEffect(_self.resultText, 0, {duration: 800}).runEffect();

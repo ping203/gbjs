@@ -128,6 +128,8 @@ this.TWIST = this.TWIST || {};
 
         this._initChipsButton();
 
+        this._initSessionId();
+
         this._initNewTurnButton();
     };
 
@@ -247,6 +249,8 @@ this.TWIST = this.TWIST || {};
         if (this.userInfo.money < this.info.betting) {
             this.emit("error", "Bạn không đủ tiền !");
         } else {
+            TWIST.Sound.play("minigame/ButtonClick");
+            TWIST.Sound.play("minigame/coin_spin");
             _self.emit("start", this.info.betting);
             this.newTurnText.hide();
             this.changeStatus("running");
@@ -259,6 +263,7 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         if (_self.status !== 'pause' || gameState !== 1)
             return;
+        TWIST.Sound.play("minigame/ButtonClick");
         this.emit("choose", isHight);
     };
 
@@ -312,11 +317,17 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if (_self.status !== 'pause' || gameState !== 0)
                     return;
+                this.resultSound = TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
 
         this.setBetting(this.chipButtons[0]);
+    };
+    
+    p._initSessionId = function(){
+        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+        this.wrapperTemplate.append(this.sessionId);
     };
 
     p.setBetting = function (item) {
@@ -409,7 +420,7 @@ this.TWIST = this.TWIST || {};
                 y: 10,
                 scaleX: winCardSize.width / TWIST.Card.size.width,
                 scaleY: winCardSize.height / TWIST.Card.size.height
-            })
+            });
         }
         ;
     };
@@ -481,6 +492,9 @@ this.TWIST = this.TWIST || {};
         currentBetting = data.currentBetting;
         this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
         if (data.currentBetting > 0) {
+            if (data.currentBetting != this.info.betting) {
+                TWIST.Sound.play("minigame/NormalWin");
+            }
             this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
             this.remainTime.runEffect(data.remainTime || 120000);
             this.hightButton.setDisabled(false);
@@ -495,6 +509,7 @@ this.TWIST = this.TWIST || {};
                 this.effect.showEffect()
             }
         } else {
+            TWIST.Sound.play("minigame/slot_result");
             this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
             this.hightButton.setDisabled(true);
             this.lowButton.setDisabled(true);
@@ -544,6 +559,7 @@ this.TWIST = this.TWIST || {};
         data.currentBetting = data.currentBetting || this.info.betting;
         this.setNewCard(data);
         this.newTurnButton.setDisabled(true);
+        this.sessionId.text(data.sessionId);
     };
 
     p.bindPots = function (data) {
@@ -564,10 +580,13 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
+        this.sessionId.text("");
         if (currentBetting > 0) {
+            TWIST.Sound.play("minigame/coin_spin");
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
             this.moneyContainer.runEffect(this.userInfo.money + currentBetting, {duration: 500});
+            this.currentBetting.runEffect(0, {duration: 500});
             this.once('_moveChipComplete', function () {
                 _self.changeGameState(0);
             });

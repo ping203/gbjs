@@ -58,7 +58,8 @@
                 isPotCard: true,
                 lowMoney: betting * Math.random() * 13,
                 hightMoney: betting * Math.random() * 13,
-                currentBetting: betting
+                currentBetting: betting,
+                sessionId : 1006436
             });
         });
     });

@@ -59,7 +59,7 @@ this.TWIST = this.TWIST || {};
         function onUpdateStage() {
             stage.update();
         }
-    }
+    };
 
     p.initEvent = function () {
         this.timeOutList = [];
@@ -167,7 +167,7 @@ this.TWIST = this.TWIST || {};
 
         jElement.runEffect = function () {
             jElement.setDisabled(true);
-        }
+        };
 
         jElement.endEffect = function () {
             jElement.setDisabled(false);

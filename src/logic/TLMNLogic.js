@@ -195,7 +195,7 @@ this.TWIST = this.TWIST || {};
         var indexCard = this.index;
         for (var i = 0; i < sodoithong; i++) {
             var dudoi = 0;
-            for (var j = indexCard + i; j < this.handCards.length; j++) {
+            for (var j = 0; j < this.handCards.length; j++) {
                 if (this.getRank(this.handCards[j].getValue()) == rank) {
                     dudoi++;
                     results.push(this.handCards[j]);

@@ -417,4 +417,15 @@
             }
         }
     }
+    .session-id{
+        position: absolute;
+        right: 10px;
+        text-align: right;
+        top : 565px;
+        font-size : 22px;
+        color : #EEE;
+        &:before{
+            content: "ID : "
+        }
+    }
 }

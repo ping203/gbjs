@@ -4,6 +4,7 @@
 		"src/utils/utils.js",
                 "src/utils/md5.js",
                 
+                "src/events/Sound.js",
                 "src/events/Init.js",
                 "src/events/*.js",
                 

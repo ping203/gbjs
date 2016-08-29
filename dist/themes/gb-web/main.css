@@ -795,7 +795,7 @@
     font-size: 22px;
     color: #EEE; }
     .twist .mini-poker-bg .session-id:before {
-      content: "ID:"; }
+      content: "ID : "; }
 
 .twist .video-poker .result-text {
   text-indent: 35px; }
@@ -1467,3 +1467,12 @@
     top: 0;
     left: 0;
     opacity: 1; } }
+  .twist .hight-low .session-id {
+    position: absolute;
+    right: 10px;
+    text-align: right;
+    top: 565px;
+    font-size: 22px;
+    color: #EEE; }
+    .twist .hight-low .session-id:before {
+      content: "ID : "; }

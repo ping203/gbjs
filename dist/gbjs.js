@@ -397,56 +397,85 @@ this.TWIST = this.TWIST || {};
 (function () {
     "use strict";
 
-    TWIST.Observer = new EventEmitter();
-    TWIST.imagePath = '../src/themes/gb-web/images/';
-    
+    var initSettings = {
+        volume: 1
+    };
+
+    function Sound() {
+        this._isInited = false;
+        this.settings;
+    }
+
+    var p = Sound.prototype;
+
+    p.init = function (options) {
+        options = options || {};
+        this.settings = options && options.settings;
+        var src = (options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/sounds/';
+        createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
+        createjs.Sound.alternateExtensions = ["mp3"];
+        createjs.Sound.registerSounds(this._sounds, src);
+        this._isInited = true;
+    };
+
+
+    p.play = function (src) {
+        // This is fired for each sound that is registered.
+        if (!this._isInited)
+            return;
+        var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
+        instance.volume = (this.settings && this.settings.volume) || 1;
+        return instance;
+    };
+
+    p._sounds = [
+        {id: 'card/chia_bai', src: 'card/chia_bai.ogg'},
+        {id: 'card/danh_bai', src: 'card/danh_bai.ogg'},
+        {id: 'card/open_card', src: 'card/open_card.ogg'},
+        {id: 'chip/call2', src: 'chip/call2.ogg'},
+        {id: 'chip/multichip', src: 'chip/multichip.ogg'},
+        {id: 'chip/singlechip', src: 'chip/singlechip.ogg'},
+        {id: 'inroomgame/join_room', src: 'inroomgame/join_room.ogg'},
+        {id: 'minigame/BetChips', src: 'minigame/BetChips.ogg'},
+        {id: 'minigame/bonus_spin', src: 'minigame/bonus_spin.ogg'},
+        {id: 'minigame/BoostWin', src: 'minigame/BoostWin.ogg'},
+        {id: 'minigame/ButtonClick', src: 'minigame/ButtonClick.ogg'},
+        {id: 'minigame/coin_spin', src: 'minigame/coin_spin.ogg'},
+        {id: 'minigame/CollectChips', src: 'minigame/CollectChips.ogg'},
+        {id: 'minigame/Common_Click', src: 'minigame/Common_Click.ogg'},
+        {id: 'minigame/Common_Popup', src: 'minigame/Common_Popup.ogg'},
+        {id: 'minigame/DoubleOrNothing', src: 'minigame/DoubleOrNothing.ogg'},
+        {id: 'minigame/FlipCard', src: 'minigame/FlipCard.ogg'},
+        {id: 'minigame/FlyingCard', src: 'minigame/FlyingCard.ogg'},
+        {id: 'minigame/GotLevelUp', src: 'minigame/GotLevelUp.ogg'},
+        {id: 'minigame/HoldCard', src: 'minigame/HoldCard.ogg'},
+        {id: 'minigame/Nhac nen khi quay chiec non ky dieu 1 - CNKD', src: 'minigame/Nhac nen khi quay chiec non ky dieu 1 - CNKD.ogg'},
+        {id: 'minigame/NormalWin', src: 'minigame/NormalWin.ogg'},
+        {id: 'minigame/quay bai', src: 'minigame/quay bai.ogg'},
+        {id: 'minigame/slot_result', src: 'minigame/slot_result.ogg'},
+        {id: 'minigame/_GameTheme', src: 'minigame/_GameTheme.ogg'},
+        {id: 'rotate/lucky_wheel', src: 'rotate/lucky_wheel.ogg'},
+        {id: 'status/losing', src: 'status/losing.ogg'},
+        {id: 'status/winning', src: 'status/winning.ogg'},
+        {id: 'tone/bellopen', src: 'tone/bellopen.ogg'},
+        {id: 'tone/chuyen_view', src: 'tone/chuyen_view.ogg'},
+        {id: 'tone/end_vongquay', src: 'tone/end_vongquay.ogg'}
+    ];
+
+    TWIST.Sound = new Sound();
 })();
+
+
+
 this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
 
-    function Sound() {
-        this._sounds = [
-            {id: "bellopen", src: 'bellopen.ogg'},
-            {id: "call2", src: 'call2.ogg'},
-            {id: "chia_bai", src: 'chia_bai.ogg'},
-            {id: "chuyen_view", src: 'chuyen_view.ogg'},
-            {id: "danh_bai", src: "danh_bai.ogg"},
-            {id: "end_vongquay", src: "end_vongquay.ogg"},
-            {id: "join_room", src: "join_room.ogg"},
-            {id: "losing", src: "losing.ogg"},
-            {id: "lucky_wheel", src: "lucky_wheel.ogg"},
-            {id: "multichip", src: "multichip.ogg"},
-            {id: "open_card", src: "open_card.ogg"},
-            {id: "singlechip", src: "singlechip.ogg"},
-            {id: "winning", src: "winning.ogg"},
-        ];
-
-        this.init = function () {
-            createjs.Sound.registerPlugins([createjs.WebAudioPlugin]);
-            createjs.Sound.alternateExtensions = ["mp3"];
-            createjs.Sound.registerSounds(this._sounds, './sound/ogg/');
-        };
-
-        this.play = function (src, timeoutInteger) {
-            // This is fired for each sound that is registered.
-            var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
-            instance.volume = settings.volume;
-            if (timeoutInteger) {
-                $timeout(function () {
-                    instance.stop();
-                }, timeoutInteger);
-            }
-            return instance;
-        };
-    }
+    TWIST.Observer = new EventEmitter();
+    TWIST.imagePath = '../src/themes/gb-web/images/';
     
-    TWIST.Sound = Sound;
-})()
-
-
-
+})();
 /**
  * @module Info
  */
@@ -644,7 +673,7 @@ this.TWIST = this.TWIST || {};
         var indexCard = this.index;
         for (var i = 0; i < sodoithong; i++) {
             var dudoi = 0;
-            for (var j = indexCard + i; j < this.handCards.length; j++) {
+            for (var j = 0; j < this.handCards.length; j++) {
                 if (this.getRank(this.handCards[j].getValue()) == rank) {
                     dudoi++;
                     results.push(this.handCards[j]);
@@ -3303,7 +3332,7 @@ this.TWIST = this.TWIST || {};
         function onUpdateStage() {
             stage.update();
         }
-    }
+    };
 
     p.initEvent = function () {
         this.timeOutList = [];
@@ -3411,7 +3440,7 @@ this.TWIST = this.TWIST || {};
 
         jElement.runEffect = function () {
             jElement.setDisabled(true);
-        }
+        };
 
         jElement.endEffect = function () {
             jElement.setDisabled(false);
@@ -4348,6 +4377,8 @@ this.TWIST = this.TWIST || {};
 
         this._initChipsButton();
 
+        this._initSessionId();
+
         this._initNewTurnButton();
     };
 
@@ -4467,6 +4498,8 @@ this.TWIST = this.TWIST || {};
         if (this.userInfo.money < this.info.betting) {
             this.emit("error", "Bạn không đủ tiền !");
         } else {
+            TWIST.Sound.play("minigame/ButtonClick");
+            TWIST.Sound.play("minigame/coin_spin");
             _self.emit("start", this.info.betting);
             this.newTurnText.hide();
             this.changeStatus("running");
@@ -4479,6 +4512,7 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         if (_self.status !== 'pause' || gameState !== 1)
             return;
+        TWIST.Sound.play("minigame/ButtonClick");
         this.emit("choose", isHight);
     };
 
@@ -4532,11 +4566,17 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if (_self.status !== 'pause' || gameState !== 0)
                     return;
+                this.resultSound = TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
 
         this.setBetting(this.chipButtons[0]);
+    };
+    
+    p._initSessionId = function(){
+        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+        this.wrapperTemplate.append(this.sessionId);
     };
 
     p.setBetting = function (item) {
@@ -4629,7 +4669,7 @@ this.TWIST = this.TWIST || {};
                 y: 10,
                 scaleX: winCardSize.width / TWIST.Card.size.width,
                 scaleY: winCardSize.height / TWIST.Card.size.height
-            })
+            });
         }
         ;
     };
@@ -4701,6 +4741,9 @@ this.TWIST = this.TWIST || {};
         currentBetting = data.currentBetting;
         this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
         if (data.currentBetting > 0) {
+            if (data.currentBetting != this.info.betting) {
+                TWIST.Sound.play("minigame/NormalWin");
+            }
             this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
             this.remainTime.runEffect(data.remainTime || 120000);
             this.hightButton.setDisabled(false);
@@ -4715,6 +4758,7 @@ this.TWIST = this.TWIST || {};
                 this.effect.showEffect()
             }
         } else {
+            TWIST.Sound.play("minigame/slot_result");
             this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
             this.hightButton.setDisabled(true);
             this.lowButton.setDisabled(true);
@@ -4764,6 +4808,7 @@ this.TWIST = this.TWIST || {};
         data.currentBetting = data.currentBetting || this.info.betting;
         this.setNewCard(data);
         this.newTurnButton.setDisabled(true);
+        this.sessionId.text(data.sessionId);
     };
 
     p.bindPots = function (data) {
@@ -4784,10 +4829,13 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
+        this.sessionId.text("");
         if (currentBetting > 0) {
+            TWIST.Sound.play("minigame/coin_spin");
             this.moveChip.isTracking = true;
             this.moveChip.runEffect();
             this.moneyContainer.runEffect(this.userInfo.money + currentBetting, {duration: 500});
+            this.currentBetting.runEffect(0, {duration: 500});
             this.once('_moveChipComplete', function () {
                 _self.changeGameState(0);
             });
@@ -5069,6 +5117,7 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if (_self.status !== 'pause' && _self.status !== 'effecting')
                     return;
+                TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
@@ -5152,6 +5201,7 @@ this.TWIST = this.TWIST || {};
         } else {
             if (_self.status !== "pause")
                 _self.changeStatus("pause");
+            this.startSound = TWIST.Sound.play("minigame/bonus_spin");
             _self.emit("spin", this.info.betting);
             _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
         }
@@ -5204,12 +5254,14 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "running") {
+            this.resultSound  && this.resultSound.stop();
             this.buttonSpin.addClass('disabled');
             this.autoSpin.find('input').attr('disabled', true);
             this.resultText.text("");
         }
 
         if (status == "effecting") {
+            this.startSound && this.startSound.stop();
             this.buttonSpin.removeClass('disabled');
             this.autoSpin.find('input').attr('disabled', false);
         }
@@ -5342,6 +5394,9 @@ this.TWIST = this.TWIST || {};
             var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
             var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
             effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
+            this.resultSound = TWIST.Sound.play("minigame/NormalWin");
+        }else{
+            this.resultSound = TWIST.Sound.play("minigame/slot_result");
         }
         effectArray.oneTime = true;
         effectArray.forEach(function (item, index) {
@@ -6127,6 +6182,7 @@ this.TWIST = this.TWIST || {};
             item.template.on('click', function (event) {
                 if ((_self.status !== 'pause' && _self.status !== 'effecting') || gameTurn != 0)
                     return;
+                TWIST.Sound.play("minigame/Common_Click");
                 _self.setBetting(item);
             });
         });
@@ -6134,10 +6190,12 @@ this.TWIST = this.TWIST || {};
         this.virtualCardsList.forEach(function (item, index) {
             item.on('click', function (event) {
                 if (_self.status == 'effecting' && gameTurn == 1) {
+                    TWIST.Sound.play("minigame/Common_Click");
                     item._active = !item._active;
                     item.toggleClass("active");
                 } else if (gameTurn == 3) {
                     if (!currentCardList[index].isOpened) {
+                        TWIST.Sound.play("minigame/Common_Click");
                         _self.emit("cardSelect", index);
                         gameTurn = -1;
                     }
@@ -6150,6 +6208,7 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.getWinButton._disabled)
                 return;
+            TWIST.Sound.play("minigame/Common_Click");
             _self.emit("getWin");
         });
 
@@ -6158,6 +6217,7 @@ this.TWIST = this.TWIST || {};
                 return;
             if (_self.doubleButton._disabled)
                 return;
+            TWIST.Sound.play("minigame/Common_Click");
             _self.emit("double");
         });
 
@@ -6308,12 +6368,14 @@ this.TWIST = this.TWIST || {};
             } else {
                 if (_self.status !== "pause")
                     _self.changeStatus("pause");
+                this.startSound = TWIST.Sound.play("minigame/bonus_spin");
                 _self.emit("spin", this.info.betting);
                 _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 800}).runEffect();
                 _self.changeNumberEffect(_self.resultText, _self.info.betting, {duration: 800}).runEffect();
                 _self.moveChipEffect(1).runEffect();
             }
         } else if (gameTurn == 1) {
+            this.startSound = TWIST.Sound.play("minigame/bonus_spin");
             holdList = [];
             this.virtualCardsList.forEach(function (item, index) {
                 holdList.push(item._active);
@@ -6362,6 +6424,7 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "running") {
+            this.resultSound && this.resultSound.stop();
             this.buttonSpin.addClass('disabled');
             if (gameTurn == 0) {
                 this.resultText.text("");
@@ -6369,6 +6432,7 @@ this.TWIST = this.TWIST || {};
         }
 
         if (status == "effecting") {
+            this.startSound && this.startSound.stop();
             this.buttonSpin.removeClass('disabled');
         }
     };
@@ -6534,6 +6598,7 @@ this.TWIST = this.TWIST || {};
         var effectArray = [];
 
         if (parseInt(result.winMoney) > 0) {
+            this.resultSound = TWIST.Sound.play("minigame/NormalWin");
             var changeWinMoneyEffect = this.changeNumberEffect(this.resultText, result.winMoney, {duration: 700});
             var supportTextEffect = this.setTextEffect(this.supportText, "Nhân đôi " + result.winMoney + " thành " + (parseInt(result.winMoney) * 2) + "!");
             var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
@@ -6548,6 +6613,7 @@ this.TWIST = this.TWIST || {};
             currentWin = parseInt(result.winMoney);
             gameTurn = 2;
         } else {
+            this.resultSound = TWIST.Sound.play("minigame/slot_result");
             currentWin = 0;
             var supportTextEffect = this.setTextEffect(this.supportText, "Không ăn !");
             var changeWinMoneyEffect = this.changeNumberEffect(this.resultText, 0, {duration: 700});
@@ -6598,6 +6664,7 @@ this.TWIST = this.TWIST || {};
 
     p.getWin = function (data) {
         var _self = this;
+        TWIST.Sound.play("minigame/coin_spin");
         _self.changeStatus("effecting");
         _self.changeNumberEffect(_self.money, _self.userInfo.money, {duration: 800}).runEffect();
         _self.changeNumberEffect(_self.resultText, 0, {duration: 800}).runEffect();
