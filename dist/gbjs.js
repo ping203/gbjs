@@ -422,7 +422,7 @@ this.TWIST = this.TWIST || {};
         if (!this._isInited)
             return;
         var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
-        instance.volume = (this.settings && this.settings.volume) || 1;
+        instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
         return instance;
     };
 
