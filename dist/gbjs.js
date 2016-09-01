@@ -814,6 +814,8 @@ this.TWIST = this.TWIST || {};
             rankOfCardSelect++;
 
             card = _.find(self.handCards, function (handCard) {
+                var currentRank = self.getRank(handCard.getValue());
+                if(currentRank == 12) return false;
                 if (self.getRank(handCard.getValue()) == rankOfCardSelect) {
                     if (i != (self.cardsFire.length - 1)) {
                         return true;

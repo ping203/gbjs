@@ -1400,15 +1400,23 @@ and open the template in the editor.
       position: absolute; }
     .twist.logo .first-t {
       width: 200px;
-      height: 500px; }
+      height: 500px;
+      left: calc(50% - 200px); }
       .twist.logo .first-t > div {
         position: absolute;
         animation: glow-t 1s linear;
-        animation-iteration-count: 1; }
+        animation-iteration-count: 1;
+        animation-delay: 1s;
+        /*transition : all $delay;*/ }
+      .twist.logo .first-t .top {
+        width: 0px;
+        left: 100px;
+        height: 200px;
+        top: 0px; }
 
 @keyframes glow-t {
   0% {
-    opacity: 1; }
+    /*                opaciti*/ }
   80% {
     opacity: 0.3;
     font-size: 40px; }
