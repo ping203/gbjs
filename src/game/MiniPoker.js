@@ -252,6 +252,8 @@ this.TWIST = this.TWIST || {};
         });
 
         this.buttonSpin.on('click', function (event) {
+            if (_self.buttonSpin.hasClass('disabled'))
+                return;
             _self.checkStart();
         });
     };
@@ -316,7 +318,6 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         if (_self.status !== 'pause' && _self.status !== 'effecting')
             return;
-        if(this.buttonSpin.hasClass('disabled')) return;
         var _self = this;
         var flag = false;
         if (this.userInfo.money < this.info.betting) {
