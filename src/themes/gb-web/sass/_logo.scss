@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 30, 2016, 4:28:25 PM
+    Author     : TungTD
+*/
+
+&.logo{
+    position: relative;
+    margin: 100px auto 0;
+    width: 1000px;
+    height: 1000px;
+    overflow : hidden;
+    $delay : 1s;
+    &>div{
+        position: absolute;
+    }
+    .first-t{
+        width : 200px;
+        height : 500px;
+        left : calc(50% - 200px);
+        &>div{
+            position: absolute;
+            animation: glow-t 1s linear;
+            animation-iteration-count: 1;
+            animation-delay: 1s;
+            /*transition : all $delay;*/
+        }
+        .top{
+            width: 0px;
+            left: 100px;
+            height: 200px;
+            top : 0px
+        }
+        @keyframes glow-t {
+            0%{
+/*                opaciti*/
+            }
+
+            80%{
+                opacity:0.3;
+                font-size:40px;
+            }
+            100%{
+                opacity:0;
+                font-size:3px;
+            }
+        }
+    }
+    .w-character{
+
+    }
+    .i-character{
+
+    }
+    .s-character{
+
+    }
+    .second-t{
+
+    }
+}
