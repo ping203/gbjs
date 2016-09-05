@@ -5194,6 +5194,7 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         if (_self.status !== 'pause' && _self.status !== 'effecting')
             return;
+        if(this.buttonSpin.hasClass('disabled')) return;
         var _self = this;
         var flag = false;
         if (this.userInfo.money < this.info.betting) {
@@ -5262,7 +5263,11 @@ this.TWIST = this.TWIST || {};
 
         if (status == "effecting") {
             this.startSound && this.startSound.stop();
-            this.buttonSpin.removeClass('disabled');
+            if (this.isAutoSpin) {
+                this.buttonSpin.addClass('disabled');
+            }else{
+                this.buttonSpin.removeClass('disabled');
+            }
             this.autoSpin.find('input').attr('disabled', false);
         }
     };
