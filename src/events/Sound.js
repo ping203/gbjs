@@ -32,6 +32,11 @@ this.TWIST = this.TWIST || {};
         return instance;
     };
 
+
+    p.stop = function (src) {
+        createjs.Sound.stop(src);  //
+    };
+
     p._sounds = [
         {id: 'card/chia_bai', src: 'card/chia_bai.ogg'},
         {id: 'card/danh_bai', src: 'card/danh_bai.ogg'},

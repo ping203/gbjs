@@ -65,6 +65,7 @@ this.TWIST = this.TWIST || {};
         this.timeOutList = [];
         this.on('destroy', function () {
             createjs.Tween.removeAllTweens();
+            TWIST.Sound.stop();
         });
     };
 

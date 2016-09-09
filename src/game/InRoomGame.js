@@ -53,9 +53,9 @@ this.TWIST = this.TWIST || {};
     };
 
     p.initButtonBar = function () {
-        this.buttonBar = $(TWIST.HTMLTemplate.buttonBar.wrapper);
+        this.buttonBar = $(TWIST.HTMLTemplate['buttonBar/wrapper']);
         this.wrapper.append(this.buttonBar);
-        this.startButton = $(TWIST.HTMLTemplate.buttonBar.startButton);
+        this.startButton = $(TWIST.HTMLTemplate['buttonBar.startButton']);
         this.buttonBar.append(this.startButton);
         this.buttonBar.hide();
     };
@@ -101,7 +101,10 @@ this.TWIST = this.TWIST || {};
 
         this.on("hitTurn", this.onHitTurn);
 
-        this.on("draftCards", this.onDraftCards);
+        this.on("draftCards", function () {
+            TWIST.Sound.play('danh_bai');
+            this.onDraftCards;
+        });
 
         this.on("endTurn", this.onEndTurn);
 
@@ -279,15 +282,15 @@ this.TWIST = this.TWIST || {};
             }
         });
         players.sort(function (a, b) {
-            var fistPosition = a.indexPosition - userPosition;
-            if (fistPosition < 0) {
-                fistPosition += _self.options.maxPlayers;
+            var firstPosition = a.indexPosition - userPosition;
+            if (firstPosition < 0) {
+                firstPosition += _self.options.maxPlayers;
             }
             var seconPosition = b.indexPosition - userPosition;
             if (seconPosition < 0) {
                 seconPosition += _self.options.maxPlayers;
             }
-            return fistPosition - seconPosition;
+            return firstPosition - seconPosition;
         });
 
         var config = this.desk.config;
@@ -304,6 +307,21 @@ this.TWIST = this.TWIST || {};
             $.extend(item, config.playerPositions[item.position]);
             _self.drawPlayer(item);
         });
+    };
+
+    p.setPlayerTurn = function (uuid, remainingTime) {
+        var totalTime = this.model.turningTime;
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player) {
+                if (player.uuid === uuid) {
+                    player.setRemainingTime(remainingTime, totalTime);
+                } else {
+                    player.clearTimer();
+                }
+            }
+        }
     };
 
     p.drawPlayer = function (playerData) {
@@ -356,8 +374,8 @@ this.TWIST = this.TWIST || {};
 
     p.initResultPanel = function () {
         var _self = this;
-        
-        this.resultPanel = $(TWIST.HTMLTemplate.resultPanel.wrapper);
+
+        this.resultPanel = $(TWIST.HTMLTemplate['resultPanel/wrapper']);
         this.wrapper.append(this.resultPanel);
 
         var resultPanelCotainer = this.resultPanel.find('.container')[0];
@@ -365,13 +383,13 @@ this.TWIST = this.TWIST || {};
         this.resultPanel.hide();
         this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
         this.resultPanelScroll.refresh();
-        
+
         var closeButton = this.resultPanel.find('.close-popup');
         var popupMask = this.resultPanel.find('.global-mask');
-        closeButton.on('click', function(){
+        closeButton.on('click', function () {
             _self.resultPanel.hide();
         });
-        popupMask.on('click', function(){
+        popupMask.on('click', function () {
             _self.resultPanel.hide();
         });
     };
@@ -385,35 +403,35 @@ this.TWIST = this.TWIST || {};
         } else {
             resultIcon.addClass('lose');
         }
-        
+
         var container = this.resultPanel.find('.container>div');
-        
+
         resultData.listPlayers.forEach(function (item, index) {
             var cardList = "";
             var cardListIndex = item.remainCards;
-            cardListIndex.forEach(function(item,index){
-                var template = _.template(TWIST.HTMLTemplate.resultPanel.card);
+            cardListIndex.forEach(function (item, index) {
+                var template = _.template(TWIST.HTMLTemplate['resultPanel.card']);
                 var resultTemplate = template({
-                    id : item
+                    id: item
                 });
                 cardList += resultTemplate;
             });
-            
-            var compiled = _.template(TWIST.HTMLTemplate.resultPanel.user);
+
+            var compiled = _.template(TWIST.HTMLTemplate['resultPanel.user']);
             var resultText = compiled({
-                username : item.username,
-                moneyChange : Global.numberWithDot(item.changeMoney),
-                resultText : item.gameResultString,
-                cardList : cardList,
-                isWinnerClass : item.isWinner ? "winner" : ""
+                username: item.username,
+                moneyChange: Global.numberWithDot(item.changeMoney),
+                resultText: item.gameResultString,
+                cardList: cardList,
+                isWinnerClass: item.isWinner ? "winner" : ""
             });
-            
+
             container.append($(resultText));
         });
         this.resultPanelScroll.refresh();
     };
-    
-    p.endIngameEvent = function (){
+
+    p.endIngameEvent = function () {
         this.desk.setRemainingTime(0);
         this.buttonBar.hide();
         this.errorPanel.empty();

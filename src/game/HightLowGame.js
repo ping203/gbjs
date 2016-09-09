@@ -615,7 +615,11 @@ this.TWIST = this.TWIST || {};
 
         this.changeGameState(1);
         this.setBetting(button);
-        this.setNewCard(data);
+        if(data.listCard.length){
+            this.setNewCard(data);
+        }else{
+            
+        }
         this.drawListCard(data.listCard);
         if (data.numberPotCards) {
             for (var i = 0; i < data.numberPotCards; i++) {

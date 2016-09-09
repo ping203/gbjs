@@ -2,20 +2,77 @@ this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
+    
+    var initOptions = {
+        maxPlayers: 4,
+        numberCardsInHand: 9,
+        turnTime: 20000
+    };
+    
+    function PhomGame(wrapper, options) {
+        this.wrapper = $(wrapper);
+        this.options = $.extend(initOptions, options);
+        this.initPhomGame();
+    }
 
-    function BaseDemlaGame(wrapper, options) {}
+    var p = PhomGame.prototype = new TWIST.InRoomGame();
 
-    var p = BaseDemlaGame.prototype = new TWIST.InRoomGame();
-
-    p.initBaseDemlaGame = function (wrapper) {
+    p.initPhomGame = function (wrapper) {
         TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
         this.initInRoomGame();
-        this.pushTLMNDemlaEvent();
+        this.pushPhomEvent();
         this.bindButton();
     };
 
-    p.pushTLMNDemlaEvent = function () {
+    p.pushPhomEvent = function () {
 
+        this.on('get-turn', function (data) {
+            this.onGetTurn(data);
+        });
+
+        this.on('hit-turn', function (data) {
+            this.onHitTurn(data);
+        });
+
+        this.on('getCardComplete', function (data) {
+            this.getCardComplete(data);
+        });
+
+        this.on('enableEatCard', function (data) {
+            this.enableEatCard(data);
+        });
+
+        this.on('enableU', function (data) {
+            this.enableU(data);
+        });
+
+        this.on('enableShowPhom', function (data) {
+            this.enableShowPhom(data);
+        });
+
+        this.on('enableSendCard', function (data) {
+            this.enableSendCard(data);
+        });
+
+        this.on('eatCardSuccess', function (data) {
+            this.eatCardSuccess(data);
+        });
+
+        this.on('moveDraftCard', function (data) {
+            this.moveDraftCard(data);
+        });
+
+        this.on('showPhom', function (data) {
+            this.showPhom(data);
+        });
+
+        this.on('sendCard', function (data) {
+            this.sendCard(data);
+        });
+
+        this.on('entiretyCard', function (data) {
+            this.entiretyCard(data);
+        });
     };
 
     p.STATUS_WAITING_FOR_PLAYER = function () {
@@ -32,17 +89,17 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.handCardSelected = function (card) {
-        var lastDraftCard = this.desk.lastDraftCards;
-        if (card && lastDraftCard) {
-            var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
-            if (result.length > 0)
-                card.removeAllSelected();
-            result.forEach(function (item, index) {
-                item.setSelected(true);
-            });
-        }
-    };
+//    p.handCardSelected = function (card) {
+//        var lastDraftCard = this.desk.lastDraftCards;
+//        if (card && lastDraftCard) {
+//            var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
+//            if (result.length > 0)
+//                card.removeAllSelected();
+//            result.forEach(function (item, index) {
+//                item.setSelected(true);
+//            });
+//        }
+//    };
 
     p.STATUS_PLAYING = function () {
         this.buttonBar.show();
@@ -50,6 +107,34 @@ this.TWIST = this.TWIST || {};
         var players = this.model.players || [];
         players.forEach(function (item, index) {
             item.status = "STATUS_PLAYING";
+        });
+    };
+
+    p.onDraftCards = function (data) {
+        var cards = data.cardList;
+        var userID = data.uuid;
+        this.desk.lastDraftCards = data.cardList;
+        var Player = this.getPlayerByUuid(userID);
+        if (!Player) {
+            this.showError({code: 0});
+            return;
+        }
+        if (userID === this.userInfo.uuid) {
+            this.hitButton.hide();
+            this.foldTurnButton.hide();
+        }
+        this.desk.removeOverlayCards();
+        this.desk.setZeroVetical();
+        this.desk.overlayDraftCards();
+        var cardType = TWIST.Card.userCard;
+        var position = {};
+        position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
+        position.y = cardType.height * 0.8;
+
+        Player.draftCardsInHand(cards, {
+            draftCards: this.desk.draftCards,
+            position: position,
+            rotateAble: true
         });
     };
 
@@ -157,43 +242,19 @@ this.TWIST = this.TWIST || {};
         currentPlayer.setPlayerStatus("Báo 1 !");
     };
 
-    p.foldTurn = function (data) {
-        var Player = this.getPlayerByUuid(data.uuid);
-        if (Player) {
-            Player.clearTimer();
-            if (data.uuid === this.userInfo.uuid) {
-                this.hitButton.hide();
-                this.foldTurnButton.hide();
+    p.setPlayerTurn = function (uuid, remainingTime) {
+        var totalTime = this.model.turningTime;
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            if (player) {
+                if (player.uuid === uuid) {
+                    player.setRemainingTime(remainingTime, totalTime);
+                } else {
+                    player.clearTimer();
+                }
             }
         }
-    };
-
-    p.onDraftCards = function (data) {
-        var cards = data.cardList;
-        var userID = data.uuid;
-        this.desk.lastDraftCards = data.cardList;
-        var Player = this.getPlayerByUuid(userID);
-        if (!Player) {
-            this.showError({code: 0});
-            return;
-        }
-        if (userID === this.userInfo.uuid) {
-            this.hitButton.hide();
-            this.foldTurnButton.hide();
-        }
-        this.desk.removeOverlayCards();
-        this.desk.setZeroVetical();
-        this.desk.overlayDraftCards();
-        var cardType = TWIST.Card.userCard;
-        var position = {};
-        position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
-        position.y = cardType.height * 0.8;
-
-        Player.draftCardsInHand(cards, {
-            draftCards: this.desk.draftCards,
-            position: position,
-            rotateAble: true
-        });
     };
 
     p.onEndTurn = function (data) {
@@ -212,7 +273,7 @@ this.TWIST = this.TWIST || {};
             _self.emit("start", _self.model.players);
         });
 
-        this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
+        this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
         this.buttonBar.append(this.hitButton);
         this.hitButton.unbind('click');
         this.hitButton.click(function () {
@@ -229,20 +290,60 @@ this.TWIST = this.TWIST || {};
             });
         });
 
-        this.sortCardButton = $(TWIST.HTMLTemplate.buttonBar.sortCardButton);
+        this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
         this.buttonBar.append(this.sortCardButton);
         this.sortCardButton.unbind('click');
         this.sortCardButton.click(function () {
             var Player = _self.getCurrentPlayer();
-            Player.sortTL();
+            Player.sortPhom();
+            Player.sortCard();
         });
 
-        this.foldTurnButton = $(TWIST.HTMLTemplate.buttonBar.foldTurnButton);
-        this.buttonBar.append(this.foldTurnButton);
-        this.foldTurnButton.unbind('click');
-        this.foldTurnButton.click(function () {
-            _self.emit('userFold');
+        this.getCardButton = $(TWIST.HTMLTemplate['buttonBar/getCardButton']);
+        this.buttonBar.append(this.sortCardButton);
+        this.getCardButton.unbind('click');
+        this.getCardButton.click(function () {
+            _self.emit('getCard');
         });
+
+        this.eatCardButton = $(TWIST.HTMLTemplate['buttonBar/eatCardButton']);
+        this.eatCardButton.append(this.eatCardButton);
+        this.eatCardButton.unbind('click');
+        this.eatCardButton.click(function () {
+            _self.emit('eatCard');
+        });
+
+        this.entiretyButton = $(TWIST.HTMLTemplate['buttonBar/entiretyButton']);
+        this.entiretyButton.append(this.entiretyButton);
+        this.entiretyButton.unbind('click');
+        this.entiretyButton.click(function () {
+            _self.emit('entirety');
+        });
+
+        this.sendCardButton = $(TWIST.HTMLTemplate['buttonBar/sendCardButton']);
+        this.sendCardButton.append(this.entiretyButton);
+        this.sendCardButton.unbind('click');
+        this.sendCardButton.click(function () {
+            var Player = _self.getCurrentPlayer();
+            var cards = Player.getSelectedCards();
+            if (cards.length === 0) {
+                _self.showError({
+                    code: 1470
+                });
+                return;
+            }
+            _self.emit('sendCard', {
+                cards: cards
+            });
+        });
+
+        this.showPhomButton = $(TWIST.HTMLTemplate['buttonBar/showPhomButton']);
+        this.showPhomButton.append(this.showPhomButton);
+        this.showPhomButton.unbind('click');
+        this.showPhomButton.click(function () {
+            _self.emit('showPhom');
+        });
+
     };
 
     p.STATUS_ENDING = function () {
@@ -296,6 +397,6 @@ this.TWIST = this.TWIST || {};
         }, 2000);
     };
 
-    TWIST.BaseDemlaGame = BaseDemlaGame;
+    TWIST.PhomGame = PhomGame;
 
 })();
