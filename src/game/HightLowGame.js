@@ -618,7 +618,7 @@ this.TWIST = this.TWIST || {};
         if(data.listCard.length){
             this.setNewCard(data);
         }else{
-            
+            this.getFirstCard(data);
         }
         this.drawListCard(data.listCard);
         if (data.numberPotCards) {
