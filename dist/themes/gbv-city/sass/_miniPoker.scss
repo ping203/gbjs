@@ -1,0 +1,348 @@
+.mini-poker-bg{
+    background-image: url('#{$twistImagePath}miniPoker/background.png');
+    width: 919px;
+    height: 455px;
+    background-repeat: none;
+    position : relative;
+    display : inline-block;
+    vertical-align : top;
+    margin-left : 335px;
+    canvas{
+        position : absolute;
+        left : calc(50% - 400px);
+        top : 73px;
+    }
+    .result-text{
+        position: absolute;
+        line-height: 45px;
+        font-size: 24px;
+        width: 280px;
+        left : calc(50% - 140px);
+        color: #ffcc00;
+        top : 16px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .pot{
+        width: 300px;
+        position: absolute;
+        top : 313px;
+        left : 40px;
+        text-align: center;
+        color:  white;
+        font-size : 24px;
+        .pot-value{
+            font-weight: bold;
+            font-size: 40px;
+            @include linear-gradient(bottom, #cb7e11, #faff6c);
+            -webkit-background-clip : text;
+            -webkit-text-fill-color : transparent ; 
+            background-clip : text;
+            text-fill-color : transparent; 
+        }
+    }
+    .button-spin{
+        background-image: url('#{$twistImagePath}miniPoker/button-spin.png');
+        width: 189px;
+        height: 189px;
+        position: absolute;
+        left: calc(50% - 94.5px);
+        top : 270px;
+        cursor : pointer;
+        &:active{
+            transform: scale(0.98);
+        }
+        &.disabled{
+            &:active{
+                transform: none;
+            }
+            background-image: url('#{$twistImagePath}miniPoker/button-spin-disabled.png');
+        }
+    }
+    .autospin{
+        position: absolute;
+        left : 500px;
+        top : 346px;
+        font-size: 36.5px;
+        color : white;
+        text-align: center;
+        text-indent : 70px;
+        input{
+            display: none;
+            &:checked+label{
+                &:after{
+                    content: "";
+                    box-sizing: border-box;
+                    @include transform(rotate(45deg));
+                    position: absolute;
+                    left: 37.5%;
+                    top: 17.5%;
+                    width: 25%;
+                    height: 50%;
+                    border-width: 3px;
+                    border-style: solid;
+                    border-top: 0;
+                    border-left: 0;
+                    content: '';
+                    border-color: #e4a001;
+                }
+            }
+        }
+        label{
+            display: inline-block;
+            width : 50px;
+            height : 50px;
+            border-radius : 50%;
+            vertical-align: middle;
+            border : 2px solid #e4a001;
+            position: relative;
+            cursor : pointer;
+        }
+    }
+    .chip-group{
+        position: absolute;
+        top : 600px;
+        text-align: center;
+        $ratio : (121/111);
+        $normalRatio : (109/124);
+        width : 100%;
+        .chip{
+            position: absolute;
+            bottom: 0;
+            width : $normalRatio*121px;
+            height : $normalRatio*111px;
+            line-height:  $normalRatio*104px;
+            border-radius : 50% 50%;
+            background-image: url('#{$twistImagePath}miniPoker/chipBlue_small.png');
+            background-size : cover;
+            color : #004e79;
+            transition : all 0.1s linear;
+            font-size : 27px;
+            cursor : pointer;
+            font-weight : bold;
+            &:after{
+                content: "";
+                position: absolute;
+                top : 0%;
+                left : 0%;
+                bottom: 0%;
+                right: 0%;
+                border-radius: 50%;
+                border : 0px solid #ffde00;
+                box-shadow: 0 0 00px transparent;
+                transition: all 0.1s linear;
+            }
+            &:first-child{
+                right : 600px;
+            }
+            &:nth-child(2){
+                right : 400px;
+            }
+            &:nth-child(3){
+                right : 200px;
+            }
+            &.violet{
+                background-image: url('#{$twistImagePath}miniPoker/chipViolet_small.png');
+                color: #7c0567;
+            }
+            &.green{
+                background-image: url('#{$twistImagePath}miniPoker/chipGreen_small.png');
+                color : #004e79;
+            }
+            &.pink{
+                background-image: url('#{$twistImagePath}miniPoker/chipPink_small.png');
+                color : #3d5311;
+            }
+            &.red{
+                background-image: url('#{$twistImagePath}miniPoker/chipRed_small.png');
+            }
+            &.active{
+                width : 121px;
+                height : 111px;
+                font-size: 30px;
+                line-height : 104px;
+                &:after{
+                    border : 5px solid #ffde00;
+                    box-shadow: 0 0 10px rgba(255, 222, 0, 1),0 0 30px rgba(255, 222, 0, 1);
+                }
+            }
+        }
+    }
+    .error-panel-mini{
+        width: 700px;
+        position: absolute;
+        text-align: center;
+        top : 140px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #f5f5f5;
+        line-height: 70px;
+        left :calc(50% - 350px);
+        min-height: 70px;
+        @include linear-gradient(left, transparent, rgba(0,0,0,0.2), rgba(0,0,0,0.8), rgba(0,0,0,0.2), transparent);
+        transition: opacity 0.2s linear;
+        &:after,&:before{
+            position: absolute;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 2px;
+            @include linear-gradient(left, transparent, white, transparent);
+        }
+        &:before{
+            top: 0;
+        }
+        &:position{
+            bottom: 0;
+        }
+        .error-item-mini {
+            @include animation-name(error-remove-mini);
+            @include animation-duration(3s);
+            @include animation-timing-function(linear);
+            @include animation-iteration-count(1);
+        }
+
+        @keyframes error-remove-mini { 
+            0%{
+                opacity: 1;
+            }
+
+            80%{
+                opacity:0.3;
+                font-size:20px;
+            }
+            100%{
+                opacity:0;
+                font-size:3px;
+            }
+        }
+    }
+
+    .result-mini-poker-tab{
+        width: 275px;
+        vertical-align: top;
+        position : absolute;
+        left : -305px;
+        top : 10px;
+        .result-mini-item{
+            height: 40px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            position: relative;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #ffffab;
+            text-transform: uppercase;
+            text-indent: 40px;
+            line-height: 40px;
+            text-align : left;
+            font-weight: bold;
+
+            @keyframes hightlightResult{
+                0%{
+                    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+                    @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02));
+                }
+                50%{box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+                    @include  linear-gradient(bottom, rgba(255,238,0,0.07), rgba(255,238,0,0.05))}
+                100%{box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+                     @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02))}
+            }
+            &.active{
+                @include animation(hightlightResult 3s linear infinite);
+            }
+            .icon{
+                position: absolute;
+                left : 10px;
+                top : 10px;
+                width: 21px;
+                height: 22px;
+                background-image: url('#{$twistImagePath}miniPoker/chip-mini.png');
+            }
+            .value{
+                position: absolute;
+                top : 0;
+                right: 10px;
+                text-align: right;
+                color : #1c92c4;
+            }
+        }
+    }
+    .profile{
+        position: absolute;
+        left: -300px;
+        top : 510px;
+        .profile-left{
+            position: absolute;
+            top  : 0px;
+            left: 0px;
+            .avatar{
+                width: 87px;
+                height: 88px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border : 2px solid rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                overflow: hidden;
+                background-size: cover;
+                background-position: center;
+                @for $i from 0 through 10{
+                    &.avatar#{$i}{
+                        background-image: url('#{$twistImagePath}player/avatars/#{$i}.png');
+                    }
+                }
+            }
+        }
+        .profile-right{
+            position: absolute;
+            top  : 10px;
+            left: 100px;
+            width : 200px;
+            text-align: center;
+            font-size : 20px;
+            line-height : 30px;
+            .username{
+                color : white;
+            }
+            .money{
+                color: #ffc200;
+                &:after{
+                    content: " V"
+                }
+            }
+        }
+        .win-money{
+            position: absolute;
+            color: #f8ae00;
+            font-size: 34px;
+            text-align: center;
+            width: 300px;
+            left : 0;
+            text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000, 
+                1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;  
+            top : 50px;
+            @include animation-name(win-money);
+            @include animation-duration(2s);
+            @include animation-timing-function(linear);
+            @include animation-iteration-count(1);
+            @keyframes win-money { 
+                to {
+                    top : -50px;
+                }
+            }
+            &:before{
+                content: "+"
+            }
+        }
+    }
+    .session-id{
+        position: absolute;
+        right: 10px;
+        text-align: right;
+        top : 565px;
+        font-size : 22px;
+        color : #EEE;
+        &:before{
+            content: "ID : "
+        }
+    }
+}

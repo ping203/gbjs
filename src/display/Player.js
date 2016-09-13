@@ -37,7 +37,7 @@ this.TWIST = this.TWIST || {};
     p.initCanvas = function () {
         var self = this;
         var config = this.config || {};
-        var avatarConfig = config.avartar || Player.avatarConfig;
+        var avatarConfig = $.extend(Player.avatarConfig, config.avartar);
 
         this.initUsername(config, self);
         this.initAvatar(config, self);
@@ -46,7 +46,7 @@ this.TWIST = this.TWIST || {};
         this.initChatMessage(config, self);
         this.initMoneyEffect(config, self);
         this.initStatus(config, self);
-        this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y, radius : avatarConfig.radius,strokeThick : 10 });
+        this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y, radius: avatarConfig.radius, strokeThick: 10});
 
         this.addChild(this.timer, this.avatarContainer, this.usernameContainer, this.draftCards, this.hand, this.status, this.chat, this.moneyChangeEffect);
         this.render();
@@ -90,7 +90,7 @@ this.TWIST = this.TWIST || {};
                 scaleY: avatarImageDiameter / avatarImage.height
             });
         };
-        avatarBitmap.set({x : avatarConfig.radius - avatarConfig.innerRadius, y : avatarConfig.radius - avatarConfig.innerRadius})
+        avatarBitmap.set({x: avatarConfig.radius - avatarConfig.innerRadius, y: avatarConfig.radius - avatarConfig.innerRadius})
 
         var maskShape = new createjs.Shape();
         maskShape.graphics.drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.innerRadius);
@@ -193,12 +193,14 @@ this.TWIST = this.TWIST || {};
 
     p.setRemainingTime = function (remainingTime, totalTime) {
         remainingTime = remainingTime || 20000;
-        if(remainingTime < 50) remainingTime *= 1000;
+        if (remainingTime < 50)
+            remainingTime *= 1000;
         totalTime = totalTime || 20000;
-        if(totalTime < 50) totalTime *= 1000;
+        if (totalTime < 50)
+            totalTime *= 1000;
         this.timer.startTimer(totalTime, remainingTime);
     };
-    
+
     p.clearTimer = function (remainingTime, totalTime) {
         this.timer.clearTimer();
     };
@@ -319,12 +321,12 @@ this.TWIST = this.TWIST || {};
 
         this._renderHandCards(this.handCards.cardList, options);
         var _self = this;
-        if (this.hideCardLength) {
-            this.numberOfCards.visible = false;
-        } else {
+        if (this.showCardLength) {
             setTimeout(function () {
                 _self.setNumberCards(_self.handCards.cardList.length);
             }, 1000);
+        } else {
+            this.numberOfCards.visible = false;
         }
 
     };
@@ -401,6 +403,7 @@ this.TWIST = this.TWIST || {};
             card.isInPhom = cardsInPhom.indexOf(card.cardValue) > -1;
         }
         handCards.addChild(card);
+//        console.log("isNaN(options.x),cardType.seperator * handCards.getNumChildren(),options.x",isNaN(options.x),cardType.seperator,handCards.getNumChildren(),options.x);
         createjs.Tween.get(card).to({
             x: isNaN(options.x) ? cardType.seperator * handCards.getNumChildren() : options.x,
             y: isNaN(options.y) ? 0 : options.y,
@@ -547,7 +550,7 @@ this.TWIST = this.TWIST || {};
             scaleY: bai.scale
         }, _animationTime * 1 / 2).call(function () {
             if (_self.position !== 0) {
-                this.openCard(this.cardValue,bai);
+                this.openCard(this.cardValue, bai);
             } else if (options.reSort) {
                 this.setInPhom(false);
                 _self.sortCard();

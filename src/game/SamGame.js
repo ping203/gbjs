@@ -26,6 +26,7 @@ this.TWIST = this.TWIST || {};
         this.on("endInviteSam", this.onEndInviteSam);
         this.on("foldSam", this.onFoldSam);
         this.on("callSam", this.onCallSam);
+        this.on("notifyOne", this.onNotifyOne);
     };
 
     p.bindSamButton = function () {

@@ -12,7 +12,7 @@ this.TWIST = this.TWIST || {};
     }
 
     Card.size = {width: 90, height: 123};
-    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 55};
     Card.userCard.scale = Card.userCard.width / Card.size.width;
 
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
@@ -126,105 +126,15 @@ this.TWIST = this.TWIST || {};
     p.removeAllSelected = function () {
         this.parent.children.forEach(function (item, index) {
             item.setSelected(false);
-        })
-    }
-
-    p.baiTrenTay = function (card, handCards, isCurrent) {
-        if (!handCards)
-            return;
-
-        var cardValue = (card.cardValue ? card.cardValue : Card.baiLoc.defaultValue),
-                position = this.pos || handCards.children.length,
-                cardName = 'card' + cardValue;
-        if (isCurrent) {
-            var newX = 0 + position * Card.bai.seperator,
-                    newY = this.selected ? -Card.bai.selectedHeight : 0;
-
-            if (handCards.multiSelectCard) {
-                card.IsDraggable = true;
-                this.multiSelect = true;
-            }
-            ;
-            this.set({
-                name: cardName,
-                cardValue: cardValue,
-                x: newX,
-                y: newY,
-                width: Card.baiOther.width,
-                height: Card.baiOther.height,
-                scaleX: Card.baiOther.width / Card.image.width,
-                scaleY: Card.baiOther.height / Card.image.height
-            });
-
-//                if (card.IsInPhom || card.IsBaiAn) {
-//                    if (card.IsBaiAn)
-//                        this.shadow = Card.shadowBold;
-//                    else
-//                        this.shadow = Card.shadow;
-//                }
-//                console.log("log before this is clicj function"); 
-//                this.addEventListener("click", function (){
-//                   console.log("this is clicj function"); 
-//                });
-            this.bindEventListener();
-//                this.updateCache();
-        } else {
-            if (card && card.IsFlip) {
-                this.name = cardName;
-                this.setValue(cardValue);
-            } else {
-                this.name = position;
-            }
-
-            var new_X = 0 + position * Card.baiOther.seperator;
-            this.set({
-                x: new_X,
-                y: 0,
-                cardValue: cardValue,
-                width: Card.baiOther.width,
-                height: Card.baiOther.height,
-                scaleX: Card.baiOther.width / Card.image.width,
-                scaleY: Card.baiOther.height / Card.image.height
-            });
-            //this.updateCache();
-        }
-        this.pos = position;
-        handCards.addChildAt(this, position);
-    };
-
-    p.danhBai = function (cardValue, draftCards, isCurrent) {
-        if (!draftCards)
-            return;
-
-//            if (typeof cardValue == 'undefined' || cardValue < 0)
-//                cardValue = Card.baiLoc.defaultValue;
-
-        var dropCards = draftCards.children,
-                count = dropCards.length;
-
-        this.removeAllEventListeners();
-        this.set({
-//                name: 'card' + cardValue,
-//                sourceRect: Card.cropImage(cardValue),
-            x: count * Card.baiDraft.seperator,
-            y: 0,
-            width: Card.baiDraft.width,
-            height: Card.baiDraft.height,
-            scaleX: Card.baiDraft.width / Card.image.width,
-            scaleY: Card.baiDraft.height / Card.image.height
         });
-        //this.updateCache();
-        draftCards.addChild(this);
-//            console.log(draftCards);
     };
-
+    
     p.openCard = function (cardValue, cardType) {
         var oldX = this.x;
         var _self = this;
         cardType = cardType || Card.userCard;
         return createjs.Tween.get(this)
                 .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
-//                        .set({sourceRect: Card.cropImage(cardValue)})
                 .call(function () {
                     this.setValue(cardValue);
                     this.cardValue = cardValue;
@@ -482,7 +392,6 @@ this.TWIST = this.TWIST || {};
         this.isOverlay = true;
         this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
         this.cache(0, 0, Card.size.width, Card.size.height);
-        console.log("isOverlay",this.isOverlay)
         try {
             this.updateCache();
         } catch (e) {

@@ -16,20 +16,9 @@ this.TWIST = this.TWIST || {};
 
     p.pushTLMNDemlaEvent = function () {
 
-    };
+        this.on("endTurn", this.onEndTurn);
 
-    p.STATUS_WAITING_FOR_PLAYER = function () {
-        this.buttonBar.hide();
-    };
-
-    p.STATUS_WAITING_FOR_START = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
-
-        var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
-        if (playerData && playerData.isRoomMaster) {
-            this.startButton.show();
-        }
+        this.on("foldTurn", this.foldTurn);
     };
 
     p.handCardSelected = function (card) {
@@ -42,15 +31,6 @@ this.TWIST = this.TWIST || {};
                 item.setSelected(true);
             });
         }
-    };
-
-    p.STATUS_PLAYING = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
-        var players = this.model.players || [];
-        players.forEach(function (item, index) {
-            item.status = "STATUS_PLAYING";
-        });
     };
 
     p.drawPlayingState = function (data) {
@@ -169,6 +149,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.onDraftCards = function (data) {
+        TWIST.Sound.play('danh_bai');
         var cards = data.cardList;
         var userID = data.uuid;
         this.desk.lastDraftCards = data.cardList;

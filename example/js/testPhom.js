@@ -19,12 +19,39 @@
                 players: [{
                         uuid: "1",
                         username: "User Index 1",
-                        money: "11000"
-                    },{
+                        money: "11000",
+                        indexPosition: 1,
+                        isRoomMaster: true
+                    }, {
                         uuid: "2",
                         username: "User Index 2",
-                        money: "16000"
+                        money: "16000",
+                        indexPosition: 3
                     }]
+            },
+            nextTime: 1000
+        }
+        , {
+            event: "changeStatus",
+            data: {
+                newStatus: "1"
+            },
+            nextTime: 1000
+        }
+        , {
+            event: "changeStatus",
+            data: {
+                newStatus: "2"
+            },
+            nextTime: 1000
+        }
+        , {
+            event: "dealCards",
+            data: {
+                cardList : [0,1,2,3,4,5,6,7,8],
+                firstPlayer : {
+                    uuid : "2"
+                }
             },
             nextTime: 1000
         }
@@ -34,15 +61,7 @@
     var count = 0;
 
     game.on("start", function (betting) {
-        setTimeout(function () {
-            game.emit("getFirstCard", {
-                cardId: parseInt(Math.random() * 52),
-                isPotCard: true,
-                lowMoney: betting * Math.random() * 13,
-                hightMoney: betting * Math.random() * 13,
-                currentBetting: betting
-            });
-        });
+        
     });
 
 

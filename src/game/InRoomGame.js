@@ -55,7 +55,7 @@ this.TWIST = this.TWIST || {};
     p.initButtonBar = function () {
         this.buttonBar = $(TWIST.HTMLTemplate['buttonBar/wrapper']);
         this.wrapper.append(this.buttonBar);
-        this.startButton = $(TWIST.HTMLTemplate['buttonBar.startButton']);
+        this.startButton = $(TWIST.HTMLTemplate['buttonBar/startButton']);
         this.buttonBar.append(this.startButton);
         this.buttonBar.hide();
     };
@@ -97,26 +97,15 @@ this.TWIST = this.TWIST || {};
 
         this.on("dealCards", this.dealCards);
 
-        this.on("setDealCards", this.setDealCards);
+        this.on("endGame", this.endGame);
+
+        this.on("draftCards", this.onDraftCards);
 
         this.on("hitTurn", this.onHitTurn);
-
-        this.on("draftCards", function () {
-            TWIST.Sound.play('danh_bai');
-            this.onDraftCards;
-        });
-
-        this.on("endTurn", this.onEndTurn);
-
-        this.on("foldTurn", this.foldTurn);
-
-        this.on("endGame", this.endGame);
 
         this.on("reconnect", this.reconnect);
 
         this.on("updateUuid", this.updateUuid);
-
-        this.on("notifyOne", this.onNotifyOne);
     };
 
     p.setUserInfo = function (data) {
@@ -143,14 +132,15 @@ this.TWIST = this.TWIST || {};
 
         this.drawPlayers();
 
-        if (this.status === 'STATUS_PLAYING') {
-            this.drawPlayingState(data);
-        } else if (this.status === 'STATUS_WAITING_FOR_START') {
-            var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
-            if (playerData && playerData.isRoomMaster) {
-                this.startButton.show();
+        if (data.status)
+            if (this.status === 'STATUS_PLAYING') {
+                this.drawPlayingState(data);
+            } else if (this.status === 'STATUS_WAITING_FOR_START') {
+                var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
+                if (playerData && playerData.isRoomMaster) {
+                    this.startButton.show();
+                }
             }
-        }
         if (data.remainingTime) {
             this.desk.setRemainingTime(data.remainingTime);
         }
@@ -239,6 +229,29 @@ this.TWIST = this.TWIST || {};
         this.emit("ping");
     };
 
+    p.STATUS_WAITING_FOR_PLAYER = function () {
+        this.buttonBar.hide();
+    };
+
+    p.STATUS_WAITING_FOR_START = function () {
+        this.buttonBar.show();
+        this.buttonBar.find('.button').hide();
+
+        var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
+        if (playerData && playerData.isRoomMaster) {
+            this.startButton.show();
+        }
+    };
+
+    p.STATUS_PLAYING = function () {
+        this.buttonBar.show();
+        this.buttonBar.find('.button').hide();
+        var players = this.model.players || [];
+        players.forEach(function (item, index) {
+            item.status = "STATUS_PLAYING";
+        });
+    };
+    
     p.endGame = function (data) {
 
     };

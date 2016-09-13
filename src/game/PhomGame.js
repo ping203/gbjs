@@ -2,13 +2,14 @@ this.TWIST = this.TWIST || {};
 
 (function () {
     "use strict";
-    
+
     var initOptions = {
         maxPlayers: 4,
         numberCardsInHand: 9,
-        turnTime: 20000
+        turnTime: 20000,
+        numberCardsRender: 13
     };
-    
+
     function PhomGame(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
@@ -26,11 +27,11 @@ this.TWIST = this.TWIST || {};
 
     p.pushPhomEvent = function () {
 
-        this.on('get-turn', function (data) {
+        this.on('getGurn', function (data) {
             this.onGetTurn(data);
         });
 
-        this.on('hit-turn', function (data) {
+        this.on('hitTurn', function (data) {
             this.onHitTurn(data);
         });
 
@@ -75,67 +76,97 @@ this.TWIST = this.TWIST || {};
         });
     };
 
-    p.STATUS_WAITING_FOR_PLAYER = function () {
-        this.buttonBar.hide();
+    p.onGetTurn = function (data) {
+        var currentUuid = data.uuid;
+        var currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer.handCards.children.length > 0) {
+            this.sortCardButton.show();
+        }
+        this.hitButton.hide();
+        if (data.uuid === this.userInfo.uuid) {
+            this.getCardButton.show();
+        }
+        this.setPlayerTurn(data.uuid);
     };
 
-    p.STATUS_WAITING_FOR_START = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
+    p.onHitTurn = function (data) {
+        var currentUuid = data.uuid;
+        var currentPlayer = this.getCurrentPlayer();
+        if (currentPlayer.handCards.children.length > 0) {
+            this.sortCardButton.show();
+        }
+        this.getCardButton.hide();
+        if (data.uuid === this.userInfo.uuid) {
+            this.hitButton.show();
+        }
+        this.setPlayerTurn(data.uuid);
+    };
 
-        var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
-        if (playerData && playerData.isRoomMaster) {
-            this.startButton.show();
+    p.getCardComplete = function (data) {
+        this.getCardButton.hide();
+        var card = data.cardIndex;
+        var userID = data.uuid;
+        var listPhom = data.listPhom;
+        var player = this.getPlayerByUuid(userID);
+        player.listPhom = listPhom;
+        player.getDeckCard(card, listPhom);
+    };
+
+    p.enableEatCard = function () {
+        this.eatCardButton.show();
+    };
+
+    p.enableU = function () {
+        this.entiretyButton.show();
+    };
+
+    p.enableShowPhom = function () {
+        this.showPhomButton.show();
+    };
+
+    p.enableSendCard = function () {
+        this.sendCardButton.show();
+    };
+
+    p.eatCardSuccess = function (data) {
+        this.eatCardButton.hide();
+        var hitPlayer = this.getPlayerByUuid(data.hitPlayer);
+        var eatPlayer = this.getPlayerByUuid(data.eatPlayer);
+        var player = this.getCurrentPlayer()
+        if (eatPlayer) {
+            var card;
+            if (!hitPlayer) {
+                card = new cardFactory(data.cardIndex);
+            } else {
+                card = hitPlayer.getLastDraftCards([data.cardIndex])[0];
+            }
+            eatPlayer.listPhom = data.listPhom;
+            eatPlayer.eatCard(card);
+            this.desk.affterEatCard = true;
         }
     };
 
-//    p.handCardSelected = function (card) {
-//        var lastDraftCard = this.desk.lastDraftCards;
-//        if (card && lastDraftCard) {
-//            var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
-//            if (result.length > 0)
-//                card.removeAllSelected();
-//            result.forEach(function (item, index) {
-//                item.setSelected(true);
-//            });
-//        }
-//    };
-
-    p.STATUS_PLAYING = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
-        var players = this.model.players || [];
-        players.forEach(function (item, index) {
-            item.status = "STATUS_PLAYING";
-        });
+    p.moveDraftCard = function (data) {
+        var fromPlayer = this.getPlayerbyUuid(data.fromPlayer);
+        var toPlayer = this.getPlayerbyUuid(data.toPlayer);
+        if (fromPlayer && toPlayer) {
+            var card = fromPlayer.getLastDraftCard(data.cardIndex);
+            toPlayer.moveDraftCard(card, fromPlayer);
+        }
     };
 
     p.onDraftCards = function (data) {
-        var cards = data.cardList;
+        TWIST.Sound.play('danh_bai');
+        this.hitButton.hide();
+        this.sendCardButton.hide();
+        this.showPhomButton.hide();
+        this.entiretyButton.hide();
+        var cards = [data.cardIndex];
         var userID = data.uuid;
-        this.desk.lastDraftCards = data.cardList;
-        var Player = this.getPlayerByUuid(userID);
-        if (!Player) {
-            this.showError({code: 0});
-            return;
-        }
-        if (userID === this.userInfo.uuid) {
-            this.hitButton.hide();
-            this.foldTurnButton.hide();
-        }
-        this.desk.removeOverlayCards();
-        this.desk.setZeroVetical();
-        this.desk.overlayDraftCards();
-        var cardType = TWIST.Card.userCard;
-        var position = {};
-        position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
-        position.y = cardType.height * 0.8;
-
-        Player.draftCardsInHand(cards, {
-            draftCards: this.desk.draftCards,
-            position: position,
-            rotateAble: true
-        });
+        var player = this.getPlayerbyUuid(userID);
+        player.draftCardsInHand(cards);
+        this.desk.lastActivePlayer = data.uuid;
+        this.desk.lastDraftCard = cards;
     };
 
     p.drawPlayingState = function (data) {
@@ -186,26 +217,24 @@ this.TWIST = this.TWIST || {};
     p.dealCards = function (data) {
         var cardList = data.cardList;
         var players = this.model.players;
-        var numberPlayer = 0;
-        players.forEach(function (item, index) {
-            if (item.status === "STATUS_PLAYING") {
-                numberPlayer++;
-            }
-        });
-        var numberCards = numberPlayer * this.options.numberCardsInHand;
+        var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
         var _self = this;
 
-        this.desk.generateCards(numberCards);
+        this.desk.generateCards(numberCards, TWIST.Card.userCard);
 
         players.forEach(function (item, index) {
             var handCards = [];
             if (item.status !== "STATUS_PLAYING")
                 return;
-            if (item.uuid === _self.userInfo.uuid) {
-                handCards = cardList;
+            if (item.uuid === _self.userInfo.uuid && cardList) {
+                handCards = cardList || [];
                 handCards.sort(function (a, b) {
                     return a - b;
                 });
+            }
+
+            if (data.firstPlayer && data.firstPlayer.uuid && item.uuid == data.firstPlayer.uuid) {
+                handCards.length = _self.options.numberCardsInHand + 1;
             }
 
             var Player = _self.getPlayerByUuid(item.uuid);
@@ -213,33 +242,14 @@ this.TWIST = this.TWIST || {};
                 handCards.length = handCards.length || _self.options.numberCardsInHand;
                 Player.handCards.cardList = handCards;
                 Player.renderCards({
-                    showPlayerCard: true,
+                    showPlayerCard: false,
                     dragable: true
                 });
             }
-
         });
 
-    };
+        this.desk.showRemainingDeckCard();
 
-    p.onHitTurn = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer.handCards.children.length > 0) {
-            this.sortCardButton.show();
-        }
-        this.setPlayerTurn(data.uuid);
-
-        if (data.uuid === this.userInfo.uuid) {
-            this.hitButton.show();
-            this.foldTurnButton.show();
-        }
-    };
-
-    p.onNotifyOne = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        currentPlayer.setPlayerStatus("Báo 1 !");
     };
 
     p.setPlayerTurn = function (uuid, remainingTime) {
@@ -255,14 +265,6 @@ this.TWIST = this.TWIST || {};
                 }
             }
         }
-    };
-
-    p.onEndTurn = function (data) {
-        this.desk.lastDraftCards = undefined;
-        this.desk.clear();
-        this.hitButton.hide();
-        this.foldTurnButton.hide();
-        this.onHitTurn(data);
     };
 
     p.bindButton = function () {
@@ -346,6 +348,10 @@ this.TWIST = this.TWIST || {};
 
     };
 
+    p.handCardSelected = function (card) {
+
+    };
+
     p.STATUS_ENDING = function () {
         this.buttonBar.hide();
         this.errorPanel.empty();
@@ -353,48 +359,52 @@ this.TWIST = this.TWIST || {};
         this.setPlayerTurn();
     };
 
-    p.endDemlaGame = function (data, winTypeMap, nomalWinType) {
-        var _self = this;
-        var resultData = {
-            isWinner: false,
-            listPlayers: []
-        };
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
-            });
-            if (parseInt(player.changeMoney) < 0) {
-                if (data.winType === nomalWinType) {
-                    if (cardList.length === this.options.numberCardsInHand) {
-                        player.gameResultString = "Thua cóng";
-                    } else
-                        player.gameResultString = "Thua " + cardList.length + " lá!";
-                } else {
-                    player.gameResultString = "Thua !";
-                }
-            } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = winTypeMap[data.winType];
-                player.isWinner = true;
-                if (player.uuid === this.userInfo.uuid) {
-                    resultData.isWinner = true;
-                }
-            } else {
-                player.gameResultString = "Hòa";
-            }
+    p.showPhom = function (data) {
+        var phoms = data.phoms;
+        var userID = data.uuid;
+        var player = this.getPlayerByUuid()(userID);
+        player.showPhom(phoms);
+        if (player.position == 0) {
+            player.sortCard();
+        }
+        this.showPhomButton.hide();
+    };
 
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+    p.sendCard = function (data) {
+        var cardsSend = data.cardsSend;
+        var sendPlayer = this.getPlayerbyUuid(data.cardsSend[0].transFrom);
+        for (var i = 0; i < cardsSend.length; i++) {
+            var dataItem = cardsSend[i];
+            var receivePlayer = this.getPlayerbyUuid(dataItem.transTo);
+            if (receivePlayer && sendPlayer) {
+                var card = sendPlayer.getCardsInHand([dataItem.cardIndex])[0];
+                card.cardValue = dataItem.cardIndex;
+                receivePlayer.addCardInShowPhom(card);
             }
         }
-        setTimeout(function () {
-            _self.showResult(resultData);
-        }, 2000);
+        for (var i = 0; i < this.playersContainer.children.length; i++) {
+            var player = this.playersContainer.children.players[i];
+            if (player) {
+                (function (player) {
+                    setTimeout(function () {
+                        player.sortPhomArea();
+                    }, 700);
+                })(player);
+            }
+        }
+        if (sendPlayer.position == 0) {
+            sendPlayer.sortCard();
+        }
+        this.sendCardButton.hide();
+    };
+
+    p.entiretyCard = function (data) {
+        var phoms = data.phoms;
+        var userID = data.uuid;
+        var player = this.getPlayerbyUuid(userID);
+        player.showPhom(phoms);
+        player.setPlayerStatus("Ù");
+        this.buttonBar.children().hide();
     };
 
     TWIST.PhomGame = PhomGame;

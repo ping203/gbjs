@@ -8,17 +8,7 @@ var sass = require('gulp-sass'),
 	path = require('path'),
 	args = require('minimist')(process.argv.slice(2));
 
-var theme    = args.theme || 'gb-web';
-
-
-
-gulp.task('build.dev', function () {
-  var target = gulp.src(config.source.concat([
-    '!src/**/*.spec.js'
-  ]));
-  return target.pipe(concat('gbjs.js'))
-    .pipe(gulp.dest('./dist'));
-});
+var theme = args.theme || 'gbv-city';
 
 
 gulp.task('build.tpl', function() {
@@ -54,6 +44,13 @@ gulp.task('build.scss', function() {
     .pipe(gulp.dest('dist/themes/'+theme));
 });
 
+gulp.task('build.dev', function () {
+  var target = gulp.src(config.source.concat([
+    '!src/**/*.spec.js'
+  ]));
+  return target.pipe(concat('gbjs.js'))
+    .pipe(gulp.dest('./dist'));
+});
 
 gulp.task('build.js', function () {
   var target = gulp.src(config.source.concat([
@@ -83,6 +80,7 @@ gulp.task('build', [
 	'copy.scss',
 	'copy.images',
 	'build.js',
+        'build.dev'
 ]);
 
 /**
@@ -97,6 +95,6 @@ gulp.task('test', function (done) {
 
 gulp.task('watch', function () {
     gulp.watch(config.source, ['build.dev']);
-    gulp.watch('src/themes/**/*.html', ['build.tpl']);
-		gulp.watch('src/themes/**/*.scss', ['build.scss']);
+    gulp.watch('src/themes/'+theme+'/*.html', ['build.tpl']);
+    gulp.watch('src/themes/'+theme+'/*.scss', ['build.scss']);
 });

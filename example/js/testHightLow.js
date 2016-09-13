@@ -2,6 +2,7 @@
 
 (function () {
     "use strict";
+    TWIST.Sound.init();
     var game = new TWIST.HightLowGame('.wrapper');
 
     var mockupData = [{

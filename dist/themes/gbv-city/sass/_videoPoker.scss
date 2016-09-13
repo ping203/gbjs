@@ -1,0 +1,88 @@
+.video-poker{
+    .result-text{
+        &:before{
+            content: "";
+            position: absolute;
+            top : 3px;
+            left: 13px;
+            width : 51px;
+            height: 38px;
+            background-image: url('#{$twistImagePath}videoPoker/text-result-card.png');
+            background-repeat: no-repeat;
+        }
+        text-indent: 35px;
+    }
+    .get-win-button{
+        position: absolute;
+        left : 580px;
+        top : 346px;
+        line-height: 53px;
+        border-bottom: 4px solid #8c591d;
+        font-size: 26px;
+        width: 282px;   
+        color : white;
+        text-align: center;
+        border-radius: 30px;
+        text-shadow : 2px 0 2px #501c08, -2px 0 2px #501c08, 0 2px 2px #501c08, 0 -2px 2px #501c08, 
+            1px 1px 2px #501c08, -1px -1px 2px #501c08, 1px -1px 2px #501c08,-1px 1px 2px #501c08;  
+        @include radial-gradient(transparent, rgba(255,205,0,0.47));
+        cursor: pointer;
+        background-color: #ffae21;
+        -webkit-filter : grayscale(100%) ; 
+        &.active{
+            -webkit-filter : none;
+            &:active{
+                transform: translateY(4px);
+                border-bottom: 0;
+            }
+        }
+    }
+
+    .support-text{
+        position: absolute;
+        width: 100%;
+        top : -70px;
+        text-align: center;
+        color : white;  
+        font-size: 35px;
+        line-height: 70px;
+        font-weight: bold;
+    }
+    .double-button.button-spin {
+        background-image: url('#{$twistImagePath}videoPoker/double-button.png');
+        background-size: cover;
+        &.disabled{
+            -webkit-filter : grayscale(100%) ; 
+        }
+    }
+    .virtualCards{
+        position : absolute;
+        left : calc(50% - 400px);
+        top : 73px;
+        .card{
+            position: absolute;
+            width: 130px;
+            height: 175px;
+            cursor: pointer;
+            left : 15px;
+            top : 12.5px;
+            border-radius: 20px;
+            &.active{
+                &:after{
+                    content: "";
+                    position: absolute;
+                    width: 70px;
+                    height: 74px;
+                    left : -4px;
+                    bottom : -6px; 
+                    background-image: url('#{$twistImagePath}videoPoker/hold-ribbon.png');
+                }
+            }
+        }
+        @for $i from 1 through 5{
+            .vitualCard#{$i}{
+                left : ($i - 1) * 160 + 25px;
+            }
+        }
+    }
+}

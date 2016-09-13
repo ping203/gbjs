@@ -24,7 +24,6 @@ this.TWIST = this.TWIST || {};
     };
 
     Desk.draftPositions = {
-        
     };
 
     var p = Desk.prototype = new createjs.Container();
@@ -35,7 +34,7 @@ this.TWIST = this.TWIST || {};
     Desk.height = 580;
 
     // vi tri gua ban
-    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
+    Desk.position = {x: Desk.width / 2, y: Desk.height / 2 - 50};
 
     Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
@@ -57,8 +56,8 @@ this.TWIST = this.TWIST || {};
     p.createDeckCard = function () {
         this.deckCard = new createjs.Container();
         this.deckCard.set({
-            x: Desk.position.x - 20,
-            y: Desk.position.y - 60,
+            x: Desk.position.x - (TWIST.Card.userCard.width) / 2,
+            y: Desk.position.y - (TWIST.Card.userCard.height) / 2,
             visible: false
         });
         return this.deckCard;
@@ -67,10 +66,11 @@ this.TWIST = this.TWIST || {};
     p.createRemainingTime = function () {
         this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
         this.remainingTime.set({
-            x: Desk.width /2,
-            y: Desk.height/2,
+            x: Desk.position.x,
+            y: Desk.position.y,
             visible: false,
-            textAlign: "center"
+            textAlign: "center",
+            textBaseLine: "top"
         });
         return this.remainingTime;
     };
@@ -78,12 +78,16 @@ this.TWIST = this.TWIST || {};
     p.createRemainingCard = function () {
         this.remainingCard = new createjs.Text('', 'bold 30px Roboto Condensed', 'greenyellow');
         this.remainingCard.set({
-            x: this.deckCard.x + 35,
-            y: this.deckCard.y + 65,
+            x: Desk.position.x,
+            y: Desk.position.y,
             textAlign: "center",
-            textBaseline: 'bottom'
+            textBaseline: 'middle'
         });
         return this.remainingCard;
+    };
+
+    p.showRemainingDeckCard = function () {
+        this.remainingCard.text = this.deckCard.children.length;
     };
 
     p.createDraftCards = function () {
@@ -114,22 +118,22 @@ this.TWIST = this.TWIST || {};
 
         playerPosition = Desk.playerPositions[maxPlayers];
         handPosition[0] = {x: 150, y: -50, align: 'center'};
-        
+
         if (maxPlayers === 4) {
             handPosition[1] = {x: -30, y: 20, align: 'right'};
         }
-        
+
 
         this.config.playerPositions = playerPosition;
         this.config.handPositions = handPosition;
         this.config.draftPositions = draftPosition;
     };
 
-    p.generateCards = function (numberCards) {
+    p.generateCards = function (numberCards, cardType) {
         numberCards = numberCards || 0;
         for (var i = 0; i < numberCards; i++) {
             var cardImage = new TWIST.Card();
-            var scale = TWIST.Card.playerCard.scale;
+            var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
             cardImage.set({
                 scaleX: scale,
                 scaleY: scale

@@ -16,8 +16,8 @@ this.TWIST = this.TWIST || {};
 
     p.init = function (options) {
         options = options || {};
-        this.settings = options && options.settings;
-        var src = (options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/sounds/';
+        this.settings = options && options.settings || {};
+        var src = ((options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/') + 'sounds/';
         createjs.Sound.registerSounds(this._sounds, src);
         this._isInited = true;
     };
