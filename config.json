@@ -11,8 +11,8 @@
                 "src/logic/TLMNLogic.js",
                 "src/logic/*.js",
                 
-                "src/display/Card.js",
                 "src/display/templates.js",
+                "src/display/Card.js",
                 "src/display/Desk.js",
                 "src/display/Timer.js",
                 "src/display/Player.js",
