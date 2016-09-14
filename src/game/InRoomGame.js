@@ -110,7 +110,7 @@ this.TWIST = this.TWIST || {};
 
     p.setUserInfo = function (data) {
         this.userInfo = data || {};
-        this.userInfo.uuid = data.uuid || data.id;
+        this.userInfo.uuid = this.userInfo.uuid || this.userInfo.id;
     };
 
     p.observerEvent = function () {

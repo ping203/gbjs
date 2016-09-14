@@ -31,10 +31,6 @@ this.TWIST = this.TWIST || {};
             this.onGetTurn(data);
         });
 
-        this.on('hitTurn', function (data) {
-            this.onHitTurn(data);
-        });
-
         this.on('getCardComplete', function (data) {
             this.getCardComplete(data);
         });

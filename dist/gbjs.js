@@ -3523,7 +3523,7 @@ this.TWIST = this.TWIST || {};
 
     p.setUserInfo = function (data) {
         this.userInfo = data || {};
-        this.userInfo.uuid = data.uuid || data.id;
+        this.userInfo.uuid = this.userInfo.uuid || this.userInfo.id;
     };
 
     p.observerEvent = function () {
@@ -5696,10 +5696,6 @@ this.TWIST = this.TWIST || {};
 
         this.on('getGurn', function (data) {
             this.onGetTurn(data);
-        });
-
-        this.on('hitTurn', function (data) {
-            this.onHitTurn(data);
         });
 
         this.on('getCardComplete', function (data) {

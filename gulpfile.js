@@ -21,7 +21,8 @@ gulp.task('build.tpl', function() {
         return url.replace(/.html$/, '');
     }
    }))
-   .pipe(gulp.dest('dist/themes/' + theme));
+   .pipe(gulp.dest('dist/themes/' + theme))
+   .pipe(gulp.dest('src/display/'));
 });
 
 gulp.task('build.sound', function() {
