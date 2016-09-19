@@ -423,14 +423,14 @@ this.TWIST = this.TWIST || {};
             var cardList = "";
             var cardListIndex = item.remainCards;
             cardListIndex.forEach(function (item, index) {
-                var template = _.template(TWIST.HTMLTemplate['resultPanel.card']);
+                var template = _.template(TWIST.HTMLTemplate['resultPanel/card']);
                 var resultTemplate = template({
                     id: item
                 });
                 cardList += resultTemplate;
             });
 
-            var compiled = _.template(TWIST.HTMLTemplate['resultPanel.user']);
+            var compiled = _.template(TWIST.HTMLTemplate['resultPanel/user']);
             var resultText = compiled({
                 username: item.username,
                 moneyChange: Global.numberWithDot(item.changeMoney),
