@@ -32,14 +32,14 @@ this.TWIST = this.TWIST || {};
     p.bindSamButton = function () {
         var _self = this;
 
-        this.callSamButton = $(TWIST.HTMLTemplate.buttonBar.callSamButton);
+        this.callSamButton = $(TWIST.HTMLTemplate['buttonBar/callSamButton']);
         this.buttonBar.append(this.callSamButton);
         this.callSamButton.unbind('click');
         this.callSamButton.click(function () {
             _self.emit("call-sam");
         });
 
-        this.foldSamButton = $(TWIST.HTMLTemplate.buttonBar.foldSamButton);
+        this.foldSamButton = $(TWIST.HTMLTemplate['buttonBar/foldSamButton']);
         this.buttonBar.append(this.foldSamButton);
         this.foldSamButton.unbind('click');
         this.foldSamButton.click(function () {

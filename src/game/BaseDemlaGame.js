@@ -193,7 +193,7 @@ this.TWIST = this.TWIST || {};
             _self.emit("start", _self.model.players);
         });
 
-        this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
+        this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
         this.buttonBar.append(this.hitButton);
         this.hitButton.unbind('click');
         this.hitButton.click(function () {
@@ -210,7 +210,7 @@ this.TWIST = this.TWIST || {};
             });
         });
 
-        this.sortCardButton = $(TWIST.HTMLTemplate.buttonBar.sortCardButton);
+        this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
         this.buttonBar.append(this.sortCardButton);
         this.sortCardButton.unbind('click');
         this.sortCardButton.click(function () {
@@ -218,7 +218,7 @@ this.TWIST = this.TWIST || {};
             Player.sortTL();
         });
 
-        this.foldTurnButton = $(TWIST.HTMLTemplate.buttonBar.foldTurnButton);
+        this.foldTurnButton = $(TWIST.HTMLTemplate['buttonBar/foldTurnButton']);
         this.buttonBar.append(this.foldTurnButton);
         this.foldTurnButton.unbind('click');
         this.foldTurnButton.click(function () {
