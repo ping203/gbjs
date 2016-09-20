@@ -8,13 +8,13 @@ $invite-size : 70px;
         width: #{$invite-size};
         height: #{$invite-size};
         border : 3px solid greenyellow;
-        line-height: calc(#{$invite-size} - 6px);
+        line-height: $invite-size - 6px;
         border-radius : $invite-size/2 + 6px;
         cursor : pointer;
         &:after, &:before {
             content: "";
             position: absolute;
-            width: calc(#{$invite-size} - 16px);
+            width: $invite-size - 16px;
             height: 6px; 
             top : $invite-size/2;
             left: 8px;
