@@ -31,6 +31,7 @@ this.TWIST = this.TWIST || {};
         this.initBaseGame();
         this.drawRoom();
         this.pushInRoomGameEvent();
+        this.initInviteList();
         this.initErrotPanel();
         this.initButtonBar();
         this.initResultPanel();
@@ -38,6 +39,35 @@ this.TWIST = this.TWIST || {};
         this.userInfo = {};
         this.status = InRoomGame.statusList['0'];
         this.model = this.model || {};
+    };
+
+    p.initInviteList = function () {
+        var _self = this;
+        
+        this.inviteListTemplate = $(TWIST.HTMLTemplate['inviteList/wrapper']);
+        this.wrapper.append(this.inviteListTemplate);
+
+        var playerPositions = this.desk.config.playerPositions;
+
+        this.inviteList = [];
+
+        playerPositions.forEach(function (item, index) {
+            drawInvitePosition(item,index);
+        });
+
+        function drawInvitePosition(positionData, index) {
+            var invitePosition = $(TWIST.HTMLTemplate['inviteList/inviteItem']);
+            _self.inviteList.push(invitePosition);
+            _self.inviteListTemplate.append(invitePosition);
+            invitePosition.css({
+                top : positionData.y,
+                left : positionData.x
+            });
+            if(!index) invitePosition.hide();
+            invitePosition.on('click',function(){
+                _self.emit('invitePlayer');
+            });
+        }
     };
 
     p.initErrotPanel = function () {
@@ -251,7 +281,7 @@ this.TWIST = this.TWIST || {};
             item.status = "STATUS_PLAYING";
         });
     };
-    
+
     p.endGame = function (data) {
 
     };
@@ -307,6 +337,7 @@ this.TWIST = this.TWIST || {};
         });
 
         var config = this.desk.config;
+
         players.forEach(function (item, index) {
             var currenConfig = {};
             item.position = item.indexPosition - userPosition;
@@ -318,7 +349,20 @@ this.TWIST = this.TWIST || {};
             }
             item.config = currenConfig;
             $.extend(item, config.playerPositions[item.position]);
-            _self.drawPlayer(item);
+        });
+
+        var playerPositions = config.playerPositions;
+
+        playerPositions.forEach(function (item, index) {
+            var player = players.find(function (_item, _index) {
+                return index == _item.position;
+            });
+            if (player) {
+                _self.drawPlayer(player);
+                _self.inviteList[index].hide();
+            } else {
+                _self.inviteList[index].show();
+            }
         });
     };
 

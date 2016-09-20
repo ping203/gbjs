@@ -1424,3 +1424,29 @@ and open the template in the editor.
   100% {
     opacity: 0;
     font-size: 3px; } }
+  .twist .invite-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0; }
+    .twist .invite-wrapper .invite-item {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border: 3px solid greenyellow;
+      line-height: calc(70px - 6px);
+      border-radius: 41px;
+      cursor: pointer; }
+      .twist .invite-wrapper .invite-item:after, .twist .invite-wrapper .invite-item:before {
+        content: "";
+        position: absolute;
+        width: calc(70px - 16px);
+        height: 6px;
+        top: 35px;
+        left: 8px;
+        background-color: greenyellow; }
+      .twist .invite-wrapper .invite-item:after {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transform: rotate(90deg); }

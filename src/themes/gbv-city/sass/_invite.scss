@@ -1,0 +1,28 @@
+$invite-size : 70px;
+.invite-wrapper{
+    position: absolute;
+    top : 0; 
+    left : 0;
+    .invite-item{
+        position: absolute;
+        width: #{$invite-size};
+        height: #{$invite-size};
+        border : 3px solid greenyellow;
+        line-height: calc(#{$invite-size} - 6px);
+        border-radius : $invite-size/2 + 6px;
+        cursor : pointer;
+        &:after, &:before {
+            content: "";
+            position: absolute;
+            width: calc(#{$invite-size} - 16px);
+            height: 6px; 
+            top : $invite-size/2;
+            left: 8px;
+            background-color: greenyellow;
+        }
+        &:after{
+            @include transform(rotate(90deg))
+        }
+        
+    }
+}

@@ -959,6 +959,8 @@ this.FATE = this.FATE || {};
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title">Bank</div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
+'inviteList/inviteItem':'<div class="invite-item">\n    \n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -3485,6 +3487,7 @@ this.TWIST = this.TWIST || {};
         this.initBaseGame();
         this.drawRoom();
         this.pushInRoomGameEvent();
+        this.initInviteList();
         this.initErrotPanel();
         this.initButtonBar();
         this.initResultPanel();
@@ -3492,6 +3495,35 @@ this.TWIST = this.TWIST || {};
         this.userInfo = {};
         this.status = InRoomGame.statusList['0'];
         this.model = this.model || {};
+    };
+
+    p.initInviteList = function () {
+        var _self = this;
+        
+        this.inviteListTemplate = $(TWIST.HTMLTemplate['inviteList/wrapper']);
+        this.wrapper.append(this.inviteListTemplate);
+
+        var playerPositions = this.desk.config.playerPositions;
+
+        this.inviteList = [];
+
+        playerPositions.forEach(function (item, index) {
+            drawInvitePosition(item,index);
+        });
+
+        function drawInvitePosition(positionData, index) {
+            var invitePosition = $(TWIST.HTMLTemplate['inviteList/inviteItem']);
+            _self.inviteList.push(invitePosition);
+            _self.inviteListTemplate.append(invitePosition);
+            invitePosition.css({
+                top : positionData.y,
+                left : positionData.x
+            });
+            if(!index) invitePosition.hide();
+            invitePosition.on('click',function(){
+                _self.emit('invitePlayer');
+            });
+        }
     };
 
     p.initErrotPanel = function () {
@@ -3705,7 +3737,7 @@ this.TWIST = this.TWIST || {};
             item.status = "STATUS_PLAYING";
         });
     };
-    
+
     p.endGame = function (data) {
 
     };
@@ -3761,6 +3793,7 @@ this.TWIST = this.TWIST || {};
         });
 
         var config = this.desk.config;
+
         players.forEach(function (item, index) {
             var currenConfig = {};
             item.position = item.indexPosition - userPosition;
@@ -3772,7 +3805,20 @@ this.TWIST = this.TWIST || {};
             }
             item.config = currenConfig;
             $.extend(item, config.playerPositions[item.position]);
-            _self.drawPlayer(item);
+        });
+
+        var playerPositions = config.playerPositions;
+
+        playerPositions.forEach(function (item, index) {
+            var player = players.find(function (_item, _index) {
+                return index == _item.position;
+            });
+            if (player) {
+                _self.drawPlayer(player);
+                _self.inviteList[index].hide();
+            } else {
+                _self.inviteList[index].show();
+            }
         });
     };
 
