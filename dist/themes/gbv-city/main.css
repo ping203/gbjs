@@ -1441,8 +1441,8 @@ and open the template in the editor.
         position: absolute;
         width: 54px;
         height: 6px;
-        top: 35px;
-        left: 8px;
+        top: 30px;
+        left: 5px;
         background-color: greenyellow; }
       .twist .invite-wrapper .invite-item:after {
         -webkit-transform: rotate(90deg);

@@ -16,8 +16,8 @@ $invite-size : 70px;
             position: absolute;
             width: $invite-size - 16px;
             height: 6px; 
-            top : $invite-size/2;
-            left: 8px;
+            top : $invite-size/2 - 5px;
+            left: 5px;
             background-color: greenyellow;
         }
         &:after{
