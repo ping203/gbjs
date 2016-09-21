@@ -181,7 +181,7 @@ this.TWIST = this.TWIST || {};
         var player = this.getPlayerByUuid(data.uuid);
         if (player) {
             var playerPosition = player.position;
-            this.inviteList[playerPosition] && this.inviteList[playerPosition].hide();
+            this.inviteList[playerPosition] && this.inviteList[playerPosition].show();
             this.playersContainer.removeChild(player);
         }
         var playerData = this.removePlayerData(data.uuid);
