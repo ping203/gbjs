@@ -11,6 +11,7 @@ $invite-size : 70px;
         line-height: $invite-size - 6px;
         border-radius : $invite-size/2 + 6px;
         cursor : pointer;
+        box-sizing : border-box;
         &:after, &:before {
             content: "";
             position: absolute;

@@ -3499,7 +3499,7 @@ this.TWIST = this.TWIST || {};
 
     p.initInviteList = function () {
         var _self = this;
-        
+
         this.inviteListTemplate = $(TWIST.HTMLTemplate['inviteList/wrapper']);
         this.wrapper.append(this.inviteListTemplate);
 
@@ -3508,7 +3508,7 @@ this.TWIST = this.TWIST || {};
         this.inviteList = [];
 
         playerPositions.forEach(function (item, index) {
-            drawInvitePosition(item,index);
+            drawInvitePosition(item, index);
         });
 
         function drawInvitePosition(positionData, index) {
@@ -3516,11 +3516,12 @@ this.TWIST = this.TWIST || {};
             _self.inviteList.push(invitePosition);
             _self.inviteListTemplate.append(invitePosition);
             invitePosition.css({
-                top : positionData.y,
-                left : positionData.x
+                top: positionData.y,
+                left: positionData.x
             });
-            if(!index) invitePosition.hide();
-            invitePosition.on('click',function(){
+            if (!index)
+                invitePosition.hide();
+            invitePosition.on('click', function () {
                 _self.emit('invitePlayer');
             });
         }
@@ -3635,6 +3636,8 @@ this.TWIST = this.TWIST || {};
     p.removePlayer = function (data) {
         var player = this.getPlayerByUuid(data.uuid);
         if (player) {
+            var playerPosition = player.position;
+            this.inviteList[playerPosition] && this.inviteList[playerPosition].hide();
             this.playersContainer.removeChild(player);
         }
         var playerData = this.removePlayerData(data.uuid);
@@ -3766,6 +3769,7 @@ this.TWIST = this.TWIST || {};
         data.position = playerPosition;
         this.model.players.push(data);
         if (this.playersContainer.children.length < this.options.maxPlayers) {
+            this.inviteList[playerPosition] && this.inviteList[playerPosition].hide();
             this.drawPlayer(data);
         }
     };

@@ -1435,7 +1435,8 @@ and open the template in the editor.
       border: 3px solid greenyellow;
       line-height: 64px;
       border-radius: 41px;
-      cursor: pointer; }
+      cursor: pointer;
+      box-sizing: border-box; }
       .twist .invite-wrapper .invite-item:after, .twist .invite-wrapper .invite-item:before {
         content: "";
         position: absolute;
