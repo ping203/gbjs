@@ -24,6 +24,20 @@ and open the template in the editor.
     -webkit-user-select: none;
     font-family: Roboto;
     position: relative; }
+  .twist .error-panel {
+    width: 80%;
+    color: #ffea02;
+    font-style: italic;
+    text-shadow: 2px 2px 2px black;
+    position: absolute;
+    left: 10%;
+    top: 40%;
+    font-size: 40px;
+    font-family: Roboto Condensed;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
   .twist .error-item {
     margin: 20px auto 0;
     animation-name: error-remove;

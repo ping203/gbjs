@@ -21,6 +21,21 @@ $twistImagePath :   "images/" !default;
     font-family: Roboto;
     position: relative;
 }
+.error-panel {
+    width: 80%;
+    color: #ffea02;
+    font-style: italic;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    position: absolute;
+    left: 10%;
+    top: 40%;
+    font-size: 40px;
+    font-family: Roboto Condensed;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .error-item {
     margin: 20px auto 0;
     animation-name : error-remove;

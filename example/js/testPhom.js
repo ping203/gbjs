@@ -55,6 +55,14 @@
             },
             nextTime: 1000
         }
+        , {
+            event: "error",
+            data: {
+                cardList : [0,1,2,3,4,5,6,7,8],
+                message : 'Hhihihihi'
+            },
+            nextTime: 1000
+        }
     ];
 
     var startTime = 0;
