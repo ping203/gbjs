@@ -4,6 +4,6 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     TWIST.Observer = new EventEmitter();
-    TWIST.imagePath = '../src/themes/gb-web/images/';
+    TWIST.imagePath = '../src/themes/gbv-city/images/';
     
 })();

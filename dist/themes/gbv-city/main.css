@@ -1444,24 +1444,33 @@ and open the template in the editor.
     left: 0; }
     .twist .invite-wrapper .invite-item {
       position: absolute;
-      width: 70px;
-      height: 70px;
+      width: 78px;
+      height: 78px;
       border: 3px solid greenyellow;
-      line-height: 64px;
-      border-radius: 41px;
+      line-height: 72px;
+      border-radius: 50%;
       cursor: pointer;
-      box-sizing: border-box; }
-      .twist .invite-wrapper .invite-item:after, .twist .invite-wrapper .invite-item:before {
-        content: "";
+      box-sizing: border-box;
+      border: 2px solid rgba(255, 255, 255, 0.12); }
+      .twist .invite-wrapper .invite-item .invite-item-inner {
         position: absolute;
-        width: 54px;
-        height: 6px;
-        top: 30px;
-        left: 5px;
-        background-color: greenyellow; }
-      .twist .invite-wrapper .invite-item:after {
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg); }
+        background-color: #8398c5;
+        width: 70px;
+        height: 70px;
+        top: 2px;
+        left: 2px;
+        border-radius: 50%; }
+        .twist .invite-wrapper .invite-item .invite-item-inner:after, .twist .invite-wrapper .invite-item .invite-item-inner:before {
+          content: "";
+          position: absolute;
+          width: 28px;
+          height: 5px;
+          top: 32.5px;
+          left: 21px;
+          background-color: #7286b2; }
+        .twist .invite-wrapper .invite-item .invite-item-inner:after {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg); }

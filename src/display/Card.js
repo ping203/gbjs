@@ -11,7 +11,7 @@ this.TWIST = this.TWIST || {};
         this.initialize(position);
     }
 
-    Card.size = {width: 90, height: 123};
+    Card.size = {width: 88, height: 115};
     Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 55};
     Card.userCard.scale = Card.userCard.width / Card.size.width;
 

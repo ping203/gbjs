@@ -93,7 +93,7 @@ this.TWIST = this.TWIST || {};
 
     p.drawRoom = function () {
         var canvas = this.wrapper.find('canvas');
-        canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
+        canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.stage.addChild(this.playersContainer, this.desk);
@@ -249,7 +249,10 @@ this.TWIST = this.TWIST || {};
     };
 
     p.userChat = function (data) {
-
+        var player = this.getPlayerByUuid(data.uuid);
+        if(player){
+            player.showMessage(data.message);
+        }
     };
 
     p.changeStatus = function (data) {

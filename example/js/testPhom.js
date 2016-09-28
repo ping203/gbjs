@@ -63,6 +63,15 @@
             },
             nextTime: 1000
         }
+        , {
+            event: "userChat",
+            data: {
+                username : "tieuteiei",
+                uuid : "1",
+                message : 'Hhihihihidgdgdgd dfgsdgsdg'
+            },
+            nextTime: 1000
+        }
     ];
 
     var startTime = 0;

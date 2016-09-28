@@ -96,6 +96,6 @@ gulp.task('test', function (done) {
 
 gulp.task('watch', function () {
     gulp.watch(config.source, ['build.dev']);
-    gulp.watch('src/themes/'+theme+'/*.html', ['build.tpl']);
-    gulp.watch('src/themes/'+theme+'/*.scss', ['build.scss']);
+    gulp.watch('src/themes/'+theme+'/**/*.html', ['build.tpl']);
+    gulp.watch('src/themes/'+theme+'/**/*.scss', ['build.scss']);
 });

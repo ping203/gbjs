@@ -1,4 +1,5 @@
-$invite-size : 70px;
+$invite-size : 78px;
+$inner-size : $invite-size - 8px;
 .invite-wrapper{
     position: absolute;
     top : 0; 
@@ -9,21 +10,31 @@ $invite-size : 70px;
         height: #{$invite-size};
         border : 3px solid greenyellow;
         line-height: $invite-size - 6px;
-        border-radius : $invite-size/2 + 6px;
+        border-radius : 50%;
         cursor : pointer;
         box-sizing : border-box;
-        &:after, &:before {
-            content: "";
+        border : 2px solid rgba(255,255,255,0.12);
+        .invite-item-inner{
             position: absolute;
-            width: $invite-size - 16px;
-            height: 6px; 
-            top : $invite-size/2 - 5px;
-            left: 5px;
-            background-color: greenyellow;
+            background-color : #8398c5;
+            width: $inner-size;
+            height: $inner-size; 
+            top : 2px;
+            left: 2px;
+            border-radius : 50%;
+            &:after, &:before {
+                content: "";
+                position: absolute;
+                width: 28px;
+                height: 5px; 
+                top : $inner-size/2 - 2.5px;
+                left : $inner-size/2 - 14px;
+                background-color: #7286b2;
+            }
+            &:after{
+                @include transform(rotate(90deg))
+            }
         }
-        &:after{
-            @include transform(rotate(90deg))
-        }
-        
+
     }
 }
