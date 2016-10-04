@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var Server = require('karma').Server;
+var sourcemaps = require('gulp-sourcemaps');
 var config = require('./config');
 var templateCache = require('gulp-angular-templatecache');
 var sass = require('gulp-sass'),
@@ -41,7 +42,10 @@ gulp.task('build.sound', function() {
 
 gulp.task('build.scss', function() {
   return gulp.src('src/themes/'+theme+'/sass/main.scss')
+//    .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
+//    .pipe(sourcemaps.write())
+//    .pipe(concat('app.css'))
     .pipe(gulp.dest('dist/themes/'+theme));
 });
 

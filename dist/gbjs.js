@@ -956,8 +956,8 @@ this.FATE = this.FATE || {};
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
 'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
-'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n    </div>\n</div>\n',
-'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title">Bank</div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
+'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
+'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
 'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
 'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
@@ -4327,11 +4327,11 @@ this.TWIST = this.TWIST || {};
 
         effectQueue = [];
 
-        canvasSize = {width: 800, height: 400};
+        canvasSize = {width: 800, height: 220};
 
-        mainCardSize = {width: 190, height: 244};
+        mainCardSize = {width: 129, height: 169};
 
-        winCardSize = {width: 39, height: 48};
+        winCardSize = {width: 30, height: 39};
 
         bets = [1000, 10000, 100000];
 
@@ -4343,7 +4343,7 @@ this.TWIST = this.TWIST || {};
 
         newCard = {};
 
-        winCardContainer = {width: 740, height: 70, top: 340, left: 50};
+        winCardContainer = {width: 60, height: 198, top: 1, left: 721};
 
         currentBetting = 0;
     };
@@ -4586,8 +4586,8 @@ this.TWIST = this.TWIST || {};
 
         this.setBetting(this.chipButtons[0]);
     };
-    
-    p._initSessionId = function(){
+
+    p._initSessionId = function () {
         this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
         this.wrapperTemplate.append(this.sessionId);
     };
@@ -4625,9 +4625,86 @@ this.TWIST = this.TWIST || {};
             x: winCardContainer.left,
             y: winCardContainer.top
         });
+        var maskShape = new createjs.Shape(new createjs.Graphics()
+                .drawRect(winCardContainer.left, winCardContainer.top, winCardContainer.width, winCardContainer.height));
+        this.winCardContainer.mask = maskShape;
+//        this.initWinCardDragable();
 
         this.stage.addChild(this.mainContainer, this.winCardContainer);
         this.addMainCard(-1);
+    };
+
+    p.initWinCardDragable = function () {
+        var _self = this;
+        var centerTempalte = this.centerTempalte;
+        (function () {
+            var dragElement = centerTempalte.find(".card-store");
+            var zoomElement = $('#main');
+            var zoom = 1;
+            var wrapperWidth = winCardContainer.height;
+            var scrollElement = _self.winCardContainer;
+            var initElementLeft = 0;
+            var maxLeft = initElementLeft, minLeft = initElementLeft - wrapperWidth;
+            var maxDelta = wrapperWidth * 0.5;
+            var ratioGraph = 0.1;
+            var startX = 0, duration = 0, currentPositionLeft = 0, newPosition = 0;
+            var _isDragging = false;
+
+            var options = {
+                scroll: false,
+                start: function (e) {
+                    zoom = 1;
+                    _isDragging = true;
+                    startX = e.clientY;
+                    currentPositionLeft = scrollElement.y;
+                },
+                drag: function (e) {
+                    var distance = (e.clientY - startX);
+                    var realDistance = distance / zoom;
+                    newPosition = currentPositionLeft + realDistance;
+                    if (newPosition > maxLeft) {
+                        var distanceDelta = newPosition - maxLeft;
+                        var ratio = (1 - 1 / (distanceDelta * ratioGraph + 1));
+                        newPosition = maxLeft + maxDelta * ratio;
+                    }
+                    if (newPosition < minLeft) {
+                        var distanceDelta = minLeft - newPosition;
+                        var ratio = (1 - 1 / (distanceDelta * ratioGraph + 1));
+                        newPosition = minLeft - maxDelta * ratio;
+                    }
+                    transitionNewPosition(newPosition);
+                },
+                stop: function (e) {
+                    _isDragging = false;
+                    dragElement.css({
+                        position: 'absolute',
+                        right: 125,
+                        left: 'initial',
+                        top: 0
+                    });
+                }
+            };
+            dragElement.draggable(options);
+            dragElement.on('mousewheel', function (e) {
+                var index = $scope.index;
+                if (e.originalEvent.wheelDelta / 120 > 0) {
+                    index--;
+                    index = Math.max(index, 0);
+                } else {
+                    index++;
+                    index = Math.min(index, 2);
+                }
+                newPosition = maxLeft - index * wrapperWidth / 2;
+                transitionNewPosition(newPosition, index);
+            });
+
+
+            function transitionNewPosition(newPosition, index) {
+                createjs.Tween.get(_self.winCardContainer, {override: true}).to({
+                    y: newPosition
+                }, 200).call(function () {});
+            }
+        })();
     };
 
     p.addMainCard = function (value) {
@@ -4635,16 +4712,23 @@ this.TWIST = this.TWIST || {};
         this.mainContainer.removeAllChildren();
         var card, scale;
         if (value > -1) {
-            scale = mainCardSize.width / TWIST.Card.size.width;
             card = new TWIST.Card(value);
+            scale = mainCardSize.width / TWIST.Card.size.width;
             card.set({
                 scaleX: scale,
-                scaleY: scale
+                scaleY: scale,
+                y: 20
             });
         } else {
             var img = new Image();
             img.src = TWIST.imagePath + 'hightLow/card-back.png';
-            var card = new createjs.Bitmap(img);
+            card = new createjs.Bitmap(img);
+            scale = mainCardSize.width / 190;
+            card.set({
+                scaleX: scale,
+                scaleY: scale,
+                y: 20
+            });
         }
         this.mainContainer.addChild(card);
     };
@@ -4653,17 +4737,29 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         var card = this.mainContainer.children[0];
         var index = this.winCardContainer.children.length;
-        this.winCardContainer.addChild(card);
-        card.set({
-            x: card.x + this.mainContainer.x - this.winCardContainer.x,
-            y: card.y + this.mainContainer.y - this.winCardContainer.y
-        })
+        var newY = 0;
+        var globalPosition = card.localToGlobal(card.x, card.y);
+        var yDistance = winCardSize.height + 6;
+        this.stage.addChild(card);
+        card.set(globalPosition);
+        var bottomDistance = winCardContainer.height - yDistance * index - 20;
+        if (bottomDistance > 0) {
+            newY = yDistance * index + 10
+        } else {
+            newY = winCardContainer.height - yDistance;
+            var oldY = this.winCardContainer.y;
+            createjs.Tween.get(this.winCardContainer).to({
+                y: oldY - yDistance
+            }, 500).call(function () {});
+        }
         createjs.Tween.get(card).to({
-            x: 10 + (winCardSize.width + 10) * index,
-            y: 10,
+            x: this.winCardContainer.x + 9.5,
+            y: winCardContainer.top + newY,
             scaleX: winCardSize.width / TWIST.Card.size.width,
             scaleY: winCardSize.height / TWIST.Card.size.height
         }, 500).call(function () {
+            _self.winCardContainer.addChild(this);
+            this.set({x: 9.5, y: yDistance * index + 10})
             _self.emit("_storeComplete");
         });
     };
@@ -4739,6 +4835,7 @@ this.TWIST = this.TWIST || {};
         this.clear();
         this.potCards.removeActiveCard();
         this.winCardContainer.removeAllChildren();
+        this.winCardContainer.set({y : 0});
         this.currentBetting.runEffect(0);
     };
 
@@ -4877,9 +4974,9 @@ this.TWIST = this.TWIST || {};
 
         this.changeGameState(1);
         this.setBetting(button);
-        if(data.listCard.length){
+        if (data.listCard.length) {
             this.setNewCard(data);
-        }else{
+        } else {
             this.getFirstCard(data);
         }
         this.drawListCard(data.listCard);

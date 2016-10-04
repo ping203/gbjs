@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .twist {
   /*
 To change this license header, choose License Headers in Project Properties.
@@ -1043,89 +1042,114 @@ and open the template in the editor.
     left: 0;
     opacity: 1; } }
   .twist .hight-low {
-    width: 1280px;
-    height: 720px;
+    width: 1000px;
+    height: 580px;
     position: relative;
-    background-image: url("images/hightLow/background.png");
+    /*background-image: url('images/hightLow/background.png');*/
     background-size: cover;
     overflow: hidden; }
     .twist .hight-low .top {
       position: absolute;
       top: 0;
-      left: calc(50% - 470px);
-      width: 940px; }
-      .twist .hight-low .top > div {
+      left: calc(50% - 500px);
+      width: 1000px; }
+      .twist .hight-low .top > .bank {
         position: absolute;
-        width: 280px;
-        border-radius: 0 0 15px 15px;
-        border: 3px solid #06799b;
-        border-top: none;
-        background-color: #074767;
-        height: 87px;
-        left: 0;
-        box-shadow: 0 0 10px black;
-        font-size: 28px;
+        width: 220px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        border: 1px solid #20bbfc;
+        background-color: rgba(32, 187, 252, 0.12);
+        height: 56px;
+        left: calc(50% - 110px);
+        top: 0;
         color: white;
         text-align: center;
         font-weight: bold;
-        line-height: 40px;
         text-transform: uppercase; }
-        .twist .hight-low .top > div:nth-child(2) {
-          left: calc(50% - 140px); }
-        .twist .hight-low .top > div:nth-child(3) {
-          left: initial;
-          right: 0; }
-        .twist .hight-low .top > div .pot-value {
-          font-size: 32px;
-          color: #ffc200; }
-        .twist .hight-low .top > div .title {
-          text-shadow: 1px 1px 5px black; }
-        .twist .hight-low .top > div .bank-value {
-          margin: 0 10px;
-          border-radius: 20px;
-          height: 40px;
-          /*border : 1px solid black;*/
-          box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.5);
-          background-color: #ffde59;
-          background-image: -webkit-linear-gradient(top, #ffde59, #d3983c 50%, #ae5e23 51%, #ae5e23 55%, #d3983c 56%, #ffde59);
-          background-image: linear-gradient(to bottom,#ffde59, #d3983c 50%, #ae5e23 51%, #ae5e23 55%, #d3983c 56%, #ffde59);
-          -webkit-background-clip: text;
-          -moz-background-clip: text;
-          color: transparent;
-          font-size: 32px; }
-        .twist .hight-low .top > div .pot-card {
-          margin-top: 8px;
-          display: inline-block;
-          width: 54px;
-          height: 69px;
-          margin-right: 20px;
-          background-color: white;
-          border-radius: 4px;
-          box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-          -webkit-filter: brightness(30%);
+        .twist .hight-low .top > .bank .bank-value {
+          font-size: 15px;
+          color: #fedc32;
+          position: absolute;
+          top: 33px;
+          width: 100%; }
+        .twist .hight-low .top > .bank .title {
+          width: 57px;
+          height: 57px;
+          position: absolute;
+          background-image: url("images/hightLow/card-item.png");
+          background-repeat: no-repeat;
+          top: -10px;
+          left: calc(50% - 28.5px); }
+      .twist .hight-low .top > .pot {
+        position: absolute;
+        top: 56px;
+        left: 50px;
+        width: 200px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        color: white; }
+        .twist .hight-low .top > .pot .pot-value {
+          color: #fedc32; }
+      .twist .hight-low .top > .pot-cards {
+        position: absolute;
+        top: 110px;
+        left: calc(50% - 375px);
+        width: 62px;
+        text-align: center;
+        height: 200px;
+        box-sizing: border-box;
+        border-radius: 3px;
+        border: 1px solid #20bbfc;
+        background-color: rgba(32, 187, 252, 0.12); }
+        .twist .hight-low .top > .pot-cards:before {
+          content: "";
+          width: 57px;
+          height: 57px;
+          position: absolute;
+          background-image: url("images/hightLow/card-item.png");
+          background-repeat: no-repeat;
+          top: -2px;
+          left: calc(50% - 28.5px); }
+        .twist .hight-low .top > .pot-cards .pot-card {
+          position: absolute;
+          width: 30px;
+          height: 39px;
+          left: calc(50% - 15px);
+          background-image: url("images/hightLow/pot-card.png");
+          background-origin: border-box;
+          box-sizing: border-box;
+          opacity: 0.4;
           text-align: left;
-          text-indent: 5px; }
-          .twist .hight-low .top > div .pot-card:last-child {
-            margin-right: 0px; }
-          .twist .hight-low .top > div .pot-card:after {
-            content: "K";
-            font-size: 30px;
-            color: black;
-            line-height: 36px;
-            font-weight: normal; }
-          .twist .hight-low .top > div .pot-card.active {
-            -webkit-filter: brightness(100%); }
+          text-indent: 5px;
+          border-radius: 1px; }
+          .twist .hight-low .top > .pot-cards .pot-card.active {
+            opacity: 1;
+            border: 1px solid #feec90;
+            box-shadow: 0 0 12px rgba(254, 197, 46, 0.68), 0 0 48px rgba(254, 197, 46, 0.38), 0 0 35px rgba(252, 45, 28, 0.24), 0 3px 4px rgba(0, 0, 0, 0.78); }
+          .twist .hight-low .top > .pot-cards .pot-card:first-child {
+            top: 135px; }
+          .twist .hight-low .top > .pot-cards .pot-card:nth-child(2) {
+            top: 92px; }
+          .twist .hight-low .top > .pot-cards .pot-card:nth-child(3) {
+            top: 48px; }
     .twist .hight-low .center {
       position: absolute;
-      top: 100px;
-      left: calc(50% - 470px);
-      width: 940px;
+      top: 110px;
+      left: 0;
+      width: 100%;
       text-align: center;
       color: white; }
       .twist .hight-low .center .text-support {
-        font-size: 28px;
+        font-size: 17.5px;
         font-weight: normal;
-        line-height: 40px; }
+        line-height: 40px;
+        z-index: 2;
+        width: 700px;
+        position: absolute;
+        top: -50px;
+        left: calc(50% - 350px); }
         .twist .hight-low .center .text-support .text-animation-item {
           -webkit-animation-name: show-text-animation;
           -moz-animation-name: show-text-animation;
@@ -1162,12 +1186,16 @@ and open the template in the editor.
     text-overflow: initial;
     white-space: normal; } }
       .twist .hight-low .center .remain-time {
-        font-size: 37px;
-        line-height: 50px;
-        font-weight: bold; }
+        font-size: 22.5px;
+        color: #fedc32;
+        font-weight: bold;
+        position: absolute;
+        width: 300px;
+        left: calc(50% - 156px);
+        top: -20px; }
       .twist .hight-low .center .canvas-wrapper {
         position: absolute;
-        top: 100px;
+        top: 00px;
         left: 0;
         width: 100%;
         text-align: center; }
@@ -1179,17 +1207,17 @@ and open the template in the editor.
         .twist .hight-low .center .canvas-wrapper .game-button {
           position: absolute;
           z-index: 2;
-          width: 200px;
-          top: 20px;
-          font-size: 28px;
+          top: 40px;
+          font-size: 17.5px;
+          font-weight: bold;
           color: #ffc200; }
           .twist .hight-low .center .canvas-wrapper .game-button.left-button {
-            left: 20px; }
+            left: 277px; }
           .twist .hight-low .center .canvas-wrapper .game-button.right-button {
-            right: 20px; }
+            right: 277px; }
           .twist .hight-low .center .canvas-wrapper .game-button > :first-child {
-            width: 200px;
-            height: 180px;
+            width: 93px;
+            height: 93px;
             background-size: contain;
             cursor: pointer;
             font-size: 50px;
@@ -1197,76 +1225,80 @@ and open the template in the editor.
             color: #522c00;
             position: relative;
             background-repeat: no-repeat;
-            cursor: pointer; }
+            cursor: pointer;
+            border-radius: 50%; }
             .twist .hight-low .center .canvas-wrapper .game-button > :first-child:not(.disabled):active {
               transform: scale(0.98); }
             .twist .hight-low .center .canvas-wrapper .game-button > :first-child.disabled {
-              -webkit-filter: grayscale(100%); }
+              -webkit-filter: grayscale(100%);
+              filter: grayscale(100%); }
             .twist .hight-low .center .canvas-wrapper .game-button > :first-child:after {
               text-transform: uppercase;
               width: 80%;
               left: 10%;
               position: absolute; }
             .twist .hight-low .center .canvas-wrapper .game-button > :first-child.hight-button {
-              background-image: url("images/hightLow/hight.png");
-              -webkit-clip-path: polygon(45% 0%, 0% 90%, 0% 100%, 100% 100%, 100% 90%, 55% 0%); }
+              background-image: url("images/hightLow/hight.png"); }
               .twist .hight-low .center .canvas-wrapper .game-button > :first-child.hight-button:after {
-                content: "Cao";
-                top: 50%; }
+                position: absolute;
+                top: 120px;
+                width: 128px;
+                height: 20px;
+                left: calc(50% - 64px);
+                content: "";
+                background-image: url("images/hightLow/hight-description.png"); }
             .twist .hight-low .center .canvas-wrapper .game-button > :first-child.low-button {
               background-image: url("images/hightLow/low.png");
-              -webkit-clip-path: polygon(45% 100%, 0% 10%, 0% 0%, 100% 0%, 100% 10%, 55% 100%); }
+              /*-webkit-clip-path: polygon(45% 100%, 0% 10%, 0% 00%, 100% 00%, 100% 10%,55% 100%);*/ }
               .twist .hight-low .center .canvas-wrapper .game-button > :first-child.low-button:after {
-                content: "Thấp";
-                top: 8%; }
+                position: absolute;
+                top: 120px;
+                width: 132px;
+                height: 20px;
+                left: calc(50% - 66px);
+                content: "";
+                background-image: url("images/hightLow/low-description.png"); }
         .twist .hight-low .center .canvas-wrapper .virtual-card {
           position: absolute;
           z-index: 2;
-          height: 244px;
-          width: 190px;
-          left: calc(50% - 95px);
-          top: 0px;
+          height: 170px;
+          width: 130px;
+          left: calc(50% - 65px);
+          top: 20px;
           cursor: pointer; }
           .twist .hight-low .center .canvas-wrapper .virtual-card .new-turn-text {
             position: absolute;
             z-index: 1;
-            font-size: 36px;
-            width: 200px;
+            font-size: 20px;
+            width: 130px;
             font-weight: bold;
             text-transform: uppercase;
             color: white;
             text-align: center;
-            left: calc(50% - 100px);
-            top: 100px; }
-        .twist .hight-low .center .canvas-wrapper:before {
-          content: "";
+            left: calc(50% - 65px);
+            top: 80px; }
+        .twist .hight-low .center .canvas-wrapper .card-store, .twist .hight-low .center .canvas-wrapper:after {
           position: absolute;
-          z-index: 0;
-          width: 366px;
-          height: 37px;
-          left: calc(50% - 183px);
-          top: 275px;
-          background-repeat: no-repeat;
-          background-image: url("images/hightLow/description.png"); }
+          top: 0px;
+          right: calc(50% - 375px);
+          width: 62px;
+          height: 200px;
+          box-sizing: border-box; }
         .twist .hight-low .center .canvas-wrapper:after {
           content: "";
-          position: absolute;
-          z-index: 0;
-          width: 740px;
-          height: 70px;
-          left: calc(50% - 377px);
-          top: 340px;
-          background-repeat: no-repeat;
-          border-radius: 30px;
-          background-color: rgba(0, 0, 0, 0.4); }
+          background-color: rgba(32, 187, 252, 0.12);
+          border-radius: 3px;
+          border: 1px solid #20bbfc; }
+        .twist .hight-low .center .canvas-wrapper .card-store {
+          z-index: 2; }
     .twist .hight-low .bottom {
       position: absolute;
       height: 100px;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.3);
+      bottom: 130px;
+      /*background-color: rgba(0,0,0,0.3);*/
       width: 100%; }
       .twist .hight-low .bottom:before {
-        content: "";
+        /*content: "";*/
         position: absolute;
         top: -3px;
         height: 3px;
@@ -1288,69 +1320,57 @@ and open the template in the editor.
         .twist .hight-low .bottom .chip-group .chip {
           position: absolute;
           bottom: 0;
-          width: 106.3629px;
-          height: 97.57258px;
-          line-height: 91.41935px;
-          border-radius: 50% 50%;
-          background-image: url("images/miniPoker/chipBlue_small.png");
+          width: 75px;
+          height: 75px;
+          line-height: 75px;
+          border-radius: 50%;
+          background-image: url("images/hightLow/chip100k.png");
           background-size: cover;
-          color: #004e79;
+          box-sizing: border-box;
+          background-origin: border-box;
+          color: white;
           transition: all 0.1s linear;
-          font-size: 27px;
+          font-size: 17.5px;
           cursor: pointer;
-          font-weight: bold; }
-          .twist .hight-low .bottom .chip-group .chip:after {
-            content: "";
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            bottom: 0%;
-            right: 0%;
-            border-radius: 50%;
-            border: 0px solid #ffde00;
-            box-shadow: 0 0 00px transparent;
-            transition: all 0.1s linear; }
+          font-weight: bold;
+          opacity: 0.5; }
           .twist .hight-low .bottom .chip-group .chip:first-child {
-            right: 750px; }
+            right: calc(50% - 37.5px + 105px); }
           .twist .hight-low .bottom .chip-group .chip:nth-child(2) {
-            right: 600px; }
+            right: calc(50% - 37.5px); }
           .twist .hight-low .bottom .chip-group .chip:nth-child(3) {
-            right: 450px; }
+            right: calc(50% - 37.5px - 105px); }
           .twist .hight-low .bottom .chip-group .chip.violet {
-            background-image: url("images/miniPoker/chipViolet_small.png");
-            color: #7c0567; }
+            background-image: url("images/hightLow/chip1k.png"); }
           .twist .hight-low .bottom .chip-group .chip.green {
-            background-image: url("images/miniPoker/chipGreen_small.png");
-            color: #004e79; }
+            background-image: url("images/hightLow/chip10k.png"); }
           .twist .hight-low .bottom .chip-group .chip.pink {
-            background-image: url("images/miniPoker/chipPink_small.png");
-            color: #3d5311; }
+            background-image: url("images/miniPoker/chipPink_small.png"); }
           .twist .hight-low .bottom .chip-group .chip.red {
             background-image: url("images/miniPoker/chipRed_small.png"); }
           .twist .hight-low .bottom .chip-group .chip.active {
-            width: 121px;
-            height: 111px;
-            font-size: 30px;
-            line-height: 104px; }
-            .twist .hight-low .bottom .chip-group .chip.active:after {
-              border: 5px solid #ffde00;
-              box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
+            bottom: 25px;
+            opacity: 1;
+            border: 2px solid #ffed8a;
+            box-shadow: 0 0 12px rgba(254, 197, 46, 0.68), 0 0 48px rgba(254, 197, 46, 0.38), 0 0 35px rgba(252, 45, 28, 0.24), 0 3px 4px rgba(0, 0, 0, 0.78); }
       .twist .hight-low .bottom .new-turn-button {
         position: absolute;
         right: 210px;
         bottom: 15px;
-        width: 164px;
-        font-size: 25px;
+        width: 108px;
+        font-size: 16px;
         color: white;
-        background-color: #e50101;
-        line-height: 70px;
-        height: 70px;
-        border: 1px solid #c80607;
-        text-shadow: 0 0 10px #fff600;
+        background-color: rgba(254, 206, 47, 0.12);
+        line-height: 40px;
+        height: 40px;
+        box-sizing: border-box;
+        border: 1px solid #fece2f;
+        text-shadow: 0 0 5px rgba(254, 197, 46, 0.38), 0 0 8px rgba(254, 197, 46, 0.68);
         font-weight: bold;
         text-align: center;
         border-radius: 5px;
-        cursor: pointer; }
+        cursor: pointer;
+        text-transform: uppercase; }
         .twist .hight-low .bottom .new-turn-button.disabled {
           -webkit-filter: grayscale(100%); }
         .twist .hight-low .bottom .new-turn-button:active:not(.disabled) {
