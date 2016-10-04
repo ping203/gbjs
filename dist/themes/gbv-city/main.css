@@ -1420,8 +1420,8 @@ and open the template in the editor.
       position: absolute;
       right: 10px;
       text-align: right;
-      top: 565px;
-      font-size: 22px;
+      top: 400px;
+      font-size: 17.5px;
       color: #EEE; }
       .twist .hight-low .session-id:before {
         content: "ID : "; }
