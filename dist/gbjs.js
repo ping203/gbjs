@@ -1011,7 +1011,7 @@ this.TWIST = this.TWIST || {};
     Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
     Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
 
-    Card.miniPoker = {width: 130, height: 180, scale: 1.6};
+    Card.miniPoker = {width: 102, height: 133};
     Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
 
     Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
@@ -5099,7 +5099,7 @@ this.TWIST = this.TWIST || {};
 
         stepValue = 1;
 
-        itemSize = {width: 160, height: 205, padding: 10};
+        itemSize = {width: 126, height: 168, padding: 10};
 
         gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 
@@ -6545,7 +6545,7 @@ this.TWIST = this.TWIST || {};
 
         stepValue = 1;
 
-        itemSize = {width: 160, height: 205, padding: 10};
+        itemSize = {width: 126, height: 168, padding: 10};
 
         gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 

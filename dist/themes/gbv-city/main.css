@@ -393,67 +393,76 @@ and open the template in the editor.
     background-image: url("images/card/7.png"); }
   .twist .mini-poker-bg {
     background-image: url("images/miniPoker/background.png");
-    width: 919px;
-    height: 455px;
-    background-repeat: none;
+    width: 726px;
+    height: 326px;
+    background-repeat: no-repeat;
     position: relative;
     display: inline-block;
     vertical-align: top;
-    margin-left: 335px; }
+    margin-left: 275px; }
     .twist .mini-poker-bg canvas {
       position: absolute;
-      left: calc(50% - 400px);
-      top: 73px; }
+      left: calc(50% - 315px);
+      top: 57px; }
     .twist .mini-poker-bg .result-text {
       position: absolute;
       line-height: 45px;
       font-size: 24px;
       width: 280px;
       left: calc(50% - 140px);
-      color: #ffcc00;
-      top: 16px;
+      color: white;
+      top: 0px;
       font-weight: bold;
-      text-align: center; }
+      text-align: center;
+      text-shadow: 0 0 12px rgba(254, 197, 46, 0.68), 0 0 48px rgba(254, 197, 46, 0.38), 0 0 35px rgba(252, 45, 28, 0.24), 0 3px 4px rgba(0, 0, 0, 0.78); }
     .twist .mini-poker-bg .pot {
-      width: 300px;
+      width: 240px;
       position: absolute;
-      top: 313px;
+      top: 250px;
       left: 40px;
       text-align: center;
       color: white;
-      font-size: 24px; }
+      font-size: 18.5px; }
       .twist .mini-poker-bg .pot .pot-value {
         font-weight: bold;
-        font-size: 40px;
-        background-color: #cb7e11;
-        background-image: -webkit-linear-gradient(bottom, #cb7e11, #faff6c);
-        background-image: linear-gradient(to top,#cb7e11, #faff6c);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent; }
+        font-size: 29px;
+        font-weight: bold;
+        text-shadow: 0 0 8px rgba(20, 118, 251, 0.68), 0 0 5px rgba(20, 118, 251, 0.18), 0 0 18px rgba(20, 118, 251, 0.24), 0 5px 4px rgba(0, 0, 0, 0.78); }
     .twist .mini-poker-bg .button-spin {
-      background-image: url("images/miniPoker/button-spin.png");
-      width: 189px;
-      height: 189px;
+      background-image: url("images/miniPoker/button-spin1.png");
+      width: 221px;
+      height: 90px;
       position: absolute;
-      left: calc(50% - 94.5px);
-      top: 270px;
-      cursor: pointer; }
+      left: calc(50% - 110.5px);
+      top: 236px;
+      cursor: pointer;
+      animation: button-spin 0.5s infinite; }
+
+@keyframes button-spin {
+  0% {
+    background-image: url("images/miniPoker/button-spin1.png"); }
+  50% {
+    background-image: url("images/miniPoker/button-spin2.png"); }
+  100% {
+    background-image: url("images/miniPoker/button-spin1.png"); } }
       .twist .mini-poker-bg .button-spin:active {
         transform: scale(0.98); }
       .twist .mini-poker-bg .button-spin.disabled {
-        background-image: url("images/miniPoker/button-spin-disabled.png"); }
+        animation: none;
+        filter: grayscale(100%);
+        -webkit-filter: grayscale(100%); }
         .twist .mini-poker-bg .button-spin.disabled:active {
           transform: none; }
     .twist .mini-poker-bg .autospin {
       position: absolute;
-      left: 500px;
-      top: 346px;
-      font-size: 36.5px;
+      left: 444px;
+      top: 266px;
+      font-size: 20px;
       color: white;
       text-align: center;
-      text-indent: 70px; }
+      text-indent: 70px;
+      filter: drop-shadow(0 0 8px rgba(20, 118, 251, 0.68)) drop-shadow(0 0 5px rgba(20, 118, 251, 0.18)) drop-shadow(0 0 18px rgba(20, 118, 251, 0.24)) drop-shadow(0 5px 4px rgba(0, 0, 0, 0.78));
+      -webkit-filter: drop-shadow(0 0 8px rgba(20, 118, 251, 0.68)) drop-shadow(0 0 5px rgba(20, 118, 251, 0.18)) drop-shadow(0 0 18px rgba(20, 118, 251, 0.24)) drop-shadow(0 5px 4px rgba(0, 0, 0, 0.78)); }
       .twist .mini-poker-bg .autospin input {
         display: none; }
         .twist .mini-poker-bg .autospin input:checked + label:after {
@@ -473,72 +482,59 @@ and open the template in the editor.
           border-style: solid;
           border-top: 0;
           border-left: 0;
-          content: '';
-          border-color: #e4a001; }
+          border-color: white; }
       .twist .mini-poker-bg .autospin label {
         display: inline-block;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        box-sizing: border-box;
+        border-radius: 8px;
         vertical-align: middle;
-        border: 2px solid #e4a001;
+        border: 3px solid white;
         position: relative;
         cursor: pointer; }
     .twist .mini-poker-bg .chip-group {
       position: absolute;
-      top: 600px;
+      top: 450px;
+      right: 000px;
       text-align: center;
       width: 100%; }
       .twist .mini-poker-bg .chip-group .chip {
         position: absolute;
         bottom: 0;
-        width: 106.3629px;
-        height: 97.57258px;
-        line-height: 91.41935px;
-        border-radius: 50% 50%;
-        background-image: url("images/miniPoker/chipBlue_small.png");
+        width: 75px;
+        height: 75px;
+        line-height: 75px;
+        border-radius: 50%;
+        background-image: url("images/hightLow/chip100k.png");
         background-size: cover;
-        color: #004e79;
+        box-sizing: border-box;
+        background-origin: border-box;
+        color: white;
         transition: all 0.1s linear;
-        font-size: 27px;
+        font-size: 17.5px;
         cursor: pointer;
-        font-weight: bold; }
-        .twist .mini-poker-bg .chip-group .chip:after {
-          content: "";
-          position: absolute;
-          top: 0%;
-          left: 0%;
-          bottom: 0%;
-          right: 0%;
-          border-radius: 50%;
-          border: 0px solid #ffde00;
-          box-shadow: 0 0 00px transparent;
-          transition: all 0.1s linear; }
+        font-weight: bold;
+        opacity: 0.5; }
         .twist .mini-poker-bg .chip-group .chip:first-child {
-          right: 600px; }
+          right: calc(50% - 37.5px + 105px); }
         .twist .mini-poker-bg .chip-group .chip:nth-child(2) {
-          right: 400px; }
+          right: calc(50% - 37.5px); }
         .twist .mini-poker-bg .chip-group .chip:nth-child(3) {
-          right: 200px; }
+          right: calc(50% - 37.5px - 105px); }
         .twist .mini-poker-bg .chip-group .chip.violet {
-          background-image: url("images/miniPoker/chipViolet_small.png");
-          color: #7c0567; }
+          background-image: url("images/hightLow/chip1k.png"); }
         .twist .mini-poker-bg .chip-group .chip.green {
-          background-image: url("images/miniPoker/chipGreen_small.png");
-          color: #004e79; }
+          background-image: url("images/hightLow/chip10k.png"); }
         .twist .mini-poker-bg .chip-group .chip.pink {
-          background-image: url("images/miniPoker/chipPink_small.png");
-          color: #3d5311; }
+          background-image: url("images/miniPoker/chipPink_small.png"); }
         .twist .mini-poker-bg .chip-group .chip.red {
           background-image: url("images/miniPoker/chipRed_small.png"); }
         .twist .mini-poker-bg .chip-group .chip.active {
-          width: 121px;
-          height: 111px;
-          font-size: 30px;
-          line-height: 104px; }
-          .twist .mini-poker-bg .chip-group .chip.active:after {
-            border: 5px solid #ffde00;
-            box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
+          bottom: 25px;
+          opacity: 1;
+          border: 2px solid #ffed8a;
+          box-shadow: 0 0 12px rgba(254, 197, 46, 0.68), 0 0 48px rgba(254, 197, 46, 0.38), 0 0 35px rgba(252, 45, 28, 0.24), 0 3px 4px rgba(0, 0, 0, 0.78); }
     .twist .mini-poker-bg .error-panel-mini {
       width: 700px;
       position: absolute;
@@ -591,24 +587,26 @@ and open the template in the editor.
     opacity: 0;
     font-size: 3px; } }
     .twist .mini-poker-bg .result-mini-poker-tab {
-      width: 275px;
+      width: 260px;
       vertical-align: top;
       position: absolute;
-      left: -305px;
+      left: -275px;
       top: 10px; }
       .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item {
-        height: 40px;
+        height: 30px;
         background-color: rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
+        border-radius: 4px;
         position: relative;
-        margin-bottom: 15px;
-        font-size: 16px;
+        margin-bottom: 10px;
+        font-size: 14px;
         color: #ffffab;
         text-transform: uppercase;
-        text-indent: 40px;
-        line-height: 40px;
+        text-indent: 30px;
+        line-height: 30px;
         text-align: left;
-        font-weight: bold; }
+        font-weight: bold;
+        display: flex;
+        align-items: center; }
 
 @keyframes hightlightResult {
   0% {
@@ -631,9 +629,9 @@ and open the template in the editor.
           -moz-animation: hightlightResult 3s linear infinite;
           animation: hightlightResult 3s linear infinite; }
         .twist .mini-poker-bg .result-mini-poker-tab .result-mini-item .icon {
-          position: absolute;
-          left: 10px;
-          top: 10px;
+          display: inline-block;
+          margin-left: 10px;
+          margin-right: 10px;
           width: 21px;
           height: 22px;
           background-image: url("images/miniPoker/chip-mini.png"); }
@@ -645,8 +643,8 @@ and open the template in the editor.
           color: #1c92c4; }
     .twist .mini-poker-bg .profile {
       position: absolute;
-      left: -300px;
-      top: 510px; }
+      left: -250px;
+      top: 400px; }
       .twist .mini-poker-bg .profile .profile-left {
         position: absolute;
         top: 0px;
@@ -727,7 +725,7 @@ and open the template in the editor.
       position: absolute;
       right: 10px;
       text-align: right;
-      top: 565px;
+      top: 400px;
       font-size: 22px;
       color: #EEE; }
       .twist .mini-poker-bg .session-id:before {
@@ -745,71 +743,85 @@ and open the template in the editor.
       background-repeat: no-repeat; }
   .twist .video-poker .get-win-button {
     position: absolute;
-    left: 580px;
-    top: 346px;
-    line-height: 53px;
-    border-bottom: 4px solid #8c591d;
-    font-size: 26px;
-    width: 282px;
+    left: 500px;
+    top: 255px;
+    line-height: 47px;
+    height: 49px;
+    border: 2px solid #186184;
+    font-size: 20px;
+    width: 175px;
+    box-sizing: border-box;
     color: white;
+    color: #186184;
     text-align: center;
-    border-radius: 30px;
-    text-shadow: 2px 0 2px #501c08, -2px 0 2px #501c08, 0 2px 2px #501c08, 0 -2px 2px #501c08,  1px 1px 2px #501c08, -1px -1px 2px #501c08, 1px -1px 2px #501c08,-1px 1px 2px #501c08;
-    background-color: transparent;
-    background-image: -webkit-radial-gradient(transparent, rgba(255, 205, 0, 0.47));
-    background-image: radial-gradient(  transparent, rgba(255, 205, 0, 0.47));
-    cursor: pointer;
-    background-color: #ffae21;
-    -webkit-filter: grayscale(100%); }
+    border-radius: 5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    /*@include radial-gradient(transparent, rgba(255,205,0,0.47));*/
+    cursor: pointer; }
     .twist .video-poker .get-win-button.active {
-      -webkit-filter: none; }
+      filter: drop-shadow(0 0 8px rgba(20, 118, 251, 0.68)) drop-shadow(0 0 5px rgba(20, 118, 251, 0.18)) drop-shadow(0 0 18px rgba(20, 118, 251, 0.24)) drop-shadow(0 5px 4px rgba(0, 0, 0, 0.78));
+      -webkit-filter: drop-shadow(0 0 8px rgba(20, 118, 251, 0.68)) drop-shadow(0 0 5px rgba(20, 118, 251, 0.18)) drop-shadow(0 0 18px rgba(20, 118, 251, 0.24)) drop-shadow(0 5px 4px rgba(0, 0, 0, 0.78));
+      border-color: #20bbfc;
+      color: white; }
       .twist .video-poker .get-win-button.active:active {
         transform: translateY(4px);
         border-bottom: 0; }
   .twist .video-poker .support-text {
     position: absolute;
     width: 100%;
-    top: -70px;
+    top: -50px;
     text-align: center;
     color: white;
-    font-size: 35px;
-    line-height: 70px;
+    font-size: 25px;
+    line-height: 50px;
     font-weight: bold; }
   .twist .video-poker .double-button.button-spin {
     background-image: url("images/videoPoker/double-button.png");
-    background-size: cover; }
+    background-size: cover;
+    animation: double-button 0.5s infinite; }
+
+@keyframes double-button {
+  0% {
+    background-image: url("images/videoPoker/double-button1.png"); }
+  50% {
+    background-image: url("images/videoPoker/double-button2.png"); }
+  100% {
+    background-image: url("images/videoPoker/double-button1.png"); } }
     .twist .video-poker .double-button.button-spin.disabled {
-      -webkit-filter: grayscale(100%); }
+      animation: none;
+      -webkit-filter: grayscale(100%);
+      filter: grayscale(100%); }
   .twist .video-poker .virtualCards {
     position: absolute;
-    left: calc(50% - 400px);
-    top: 73px; }
+    left: calc(50% - 315px);
+    top: 57px; }
     .twist .video-poker .virtualCards .card {
       position: absolute;
-      width: 130px;
-      height: 175px;
+      width: 102px;
+      height: 133px;
       cursor: pointer;
       left: 15px;
-      top: 12.5px;
+      top: 17.5px;
       border-radius: 20px; }
       .twist .video-poker .virtualCards .card.active:after {
         content: "";
         position: absolute;
-        width: 70px;
-        height: 74px;
-        left: -4px;
-        bottom: -6px;
+        width: 123px;
+        height: 185px;
+        left: -11px;
+        bottom: -29px;
         background-image: url("images/videoPoker/hold-ribbon.png"); }
     .twist .video-poker .virtualCards .vitualCard1 {
-      left: 25px; }
+      left: 23px; }
     .twist .video-poker .virtualCards .vitualCard2 {
-      left: 185px; }
+      left: 148px; }
     .twist .video-poker .virtualCards .vitualCard3 {
-      left: 345px; }
+      left: 273px; }
     .twist .video-poker .virtualCards .vitualCard4 {
-      left: 505px; }
+      left: 398px; }
     .twist .video-poker .virtualCards .vitualCard5 {
-      left: 665px; }
+      left: 523px; }
   .twist .effect {
     position: absolute; }
     .twist .effect .money-falling {

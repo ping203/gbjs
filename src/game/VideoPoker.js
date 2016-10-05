@@ -106,7 +106,7 @@ this.TWIST = this.TWIST || {};
 
         stepValue = 1;
 
-        itemSize = {width: 160, height: 205, padding: 10};
+        itemSize = {width: 126, height: 168, padding: 10};
 
         gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 
