@@ -777,7 +777,7 @@ and open the template in the editor.
     line-height: 50px;
     font-weight: bold; }
   .twist .video-poker .double-button.button-spin {
-    background-image: url("images/videoPoker/double-button.png");
+    background-image: url("images/videoPoker/double-button1.png");
     background-size: cover;
     animation: double-button 0.5s infinite; }
 
