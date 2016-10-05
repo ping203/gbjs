@@ -1040,14 +1040,14 @@ and open the template in the editor.
     left: 0;
     opacity: 1; }
   100% {
-    top: -525px;
-    left: 460px;
+    top: -440px;
+    left: 440px;
     opacity: 1; } }
 
 @keyframes chipDecrease {
   0% {
-    top: -525px;
-    left: 460px;
+    top: -440px;
+    left: 440px;
     opacity: 1; }
   100% {
     top: 0;
