@@ -96,6 +96,7 @@ this.TWIST = this.TWIST || {};
         canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
+        this.desk.name = "desk";
         this.stage.addChild(this.playersContainer, this.desk);
         this.wrapper.css({
             width: canvas.width(),
@@ -398,13 +399,14 @@ this.TWIST = this.TWIST || {};
         if (playerData.isRoomMaster) {
             this.roomMasterIcon = newPlayer.setRoomMaster(true);
         }
+        return newPlayer;
     };
 
     p.getPlayerByUuid = function (uuid) {
         var players = this.playersContainer.children || [];
         for (var i = 0, length = players.length; i < length; i++) {
             var player = players[i];
-            if (player.uuid === uuid)
+            if (player.uuid == uuid)
                 return player;
         }
     };

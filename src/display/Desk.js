@@ -23,7 +23,9 @@ this.TWIST = this.TWIST || {};
         right: {x: 150, y: -110, align: 'center'}
     };
 
-    Desk.draftPositions = {
+    Desk.draftPositionList = {
+//        4: [{x: 300, y: -70}, {x: -350, y: TWIST.Card.draftCard.height},
+//            {x: 50, y: TWIST.Card.draftCard.height}, {x: 50, y: TWIST.Card.draftCard.height}]
     };
 
     var p = Desk.prototype = new createjs.Container();
@@ -107,8 +109,7 @@ this.TWIST = this.TWIST || {};
         var draftPosition = new Array(maxPlayers);
 
         for (var i = 0; i < maxPlayers; i++) {
-            playerPosition[i] = {x: 0, y: 0};
-            draftPosition[i] = {x: 50, y: 50};
+            draftPosition[i] = {x: 100, y: TWIST.Card.draftCard.height};
             handPosition[i] = {
                 x: 90,
                 y: 20,
@@ -117,10 +118,13 @@ this.TWIST = this.TWIST || {};
         }
 
         playerPosition = Desk.playerPositions[maxPlayers];
+//        draftPosition = Desk.draftPosition[maxPlayers] || [];
         handPosition[0] = {x: 150, y: -50, align: 'center'};
 
         if (maxPlayers === 4) {
-            handPosition[1] = {x: -30, y: 20, align: 'right'};
+            handPosition[1] = {x: -30, y: 20, align: 'center'};
+            draftPosition[0] = {x: 350,y: -TWIST.Card.draftCard.height*1.7,align: 'center'};
+            draftPosition[1] = {x: -350,y: TWIST.Card.draftCard.height,align: 'right'};
         }
 
 

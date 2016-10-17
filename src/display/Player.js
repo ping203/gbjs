@@ -127,7 +127,7 @@ this.TWIST = this.TWIST || {};
     p.initDraftCards = function (config, self) {
         //        draft cards
 
-        var draftCardsConfig = config.draftCards || Player.draftCardsConfig;
+        var draftCardsConfig = config.draftPositions || Player.draftCardsConfig;
         this.draftCards = new createjs.Container();
         $.extend(this.draftCards, draftCardsConfig);
     };
@@ -257,7 +257,6 @@ this.TWIST = this.TWIST || {};
                             x: initPosition.x,
                             y: initPosition.y
                         }, _animationTime).call(function () {
-
                 });
 
             }
@@ -453,8 +452,8 @@ this.TWIST = this.TWIST || {};
 
     p.getDeckCard = function (cardValue, options) {
         options = options || {};
-        var desk = this.parent.parent.getChildByName('desk'),
-                cardImage = desk.getCard();
+        var desk = this.parent.parent.getChildByName('desk');
+        var cardImage = desk.getCard();
         cardImage.cardValue = cardValue;
         $.extend(options, {
             animationTime: 200,
@@ -797,7 +796,7 @@ this.TWIST = this.TWIST || {};
 
     p.eatCard = function (card, position, cardSordList) {
         var _self = this;
-        this.playerModel.numberEatedCard++;
+        this.numberEatedCard++;
         var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
 
         card.hightLight();
@@ -845,31 +844,38 @@ this.TWIST = this.TWIST || {};
         }
     }
 
-    p.moveDraftCard = function (cards, position) {
+    p.moveDraftCard = function (cards, fromPlayer) {
         this.cardsEated++;
         var bai = TWIST.Card.draftCard;
+        var self = this;
 
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
+            var draftCardsPosition = this.draftCards.localToGlobal(0, 0);
             var oldX = card.x,
                     oldY = card.y,
                     newX = bai.seperator * this.draftCards.children.length,
                     newY = 0;
-            this.draftCards.addChild(card);
-            card.set({x: card.x + position.x - this.draftCards.x - this.x, y: card.y + position.y - this.draftCards.y - this.y});
+            var oldPosition = card.localToGlobal(0, 0);
+            this.stage.addChild(card);
 
             if (this.draftCards.align == "right") {
                 newX = 300 - bai.seperator * (this.draftCards.children.length - 1)
             }
             var _self = this;
             createjs.Tween.get(card).to({
-                x: newX, y: newY,
+                x: newX + draftCardsPosition.x,
+                y: newY + draftCardsPosition.y,
                 width: bai.width,
                 height: bai.height,
                 scaleX: bai.scale,
                 scaleY: bai.scale
             }, _animationTime, createjs.Ease.sineOut()).call(function () {
-
+                self.draftCards.addChild(this);
+                this.set({
+                    x: newX,
+                    y: newY
+                })
             });
         }
     };
@@ -877,10 +883,9 @@ this.TWIST = this.TWIST || {};
     p.showPhom = function (phoms) {
         var cardsToDrash = [];
         for (var i = 0; i < phoms.length; i++) {
-            var phom = phoms[i].meldItem;
+            var phom = phoms[i];
             this.showSinglePhom(phom, i);
         }
-        ;
         var _self = this;
         setTimeout(function () {
             _self.sortPhomArea();
@@ -888,8 +893,9 @@ this.TWIST = this.TWIST || {};
     };
 
     p.addShowPhomArea = function (player) {
-        var desk = this.parent.parent.getChildByName('desk'),
-                draftPosition = desk.draftPosition[this.position];
+        var desk = this.parent.parent.getChildByName('desk');
+        var draftPosition = desk.config.draftPositions[this.position];
+
         var newY = 0;
         if (this.position == 0) {
             newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
@@ -978,6 +984,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.showSinglePhom = function (cardList, position) {
+        console.log("cardList", cardList, position);
         if (!cardList)
             return;
         var cards = this.getCardsInHand(cardList);
@@ -1015,7 +1022,9 @@ this.TWIST = this.TWIST || {};
         return cards;
     };
 
-    p.addCardInShowPhom = function (card, position) {
+    p.addCardInShowPhom = function (card) {
+        console.log("card, position", card);
+        var _self = this;
         var bai = TWIST.Card.draftCard,
                 _self = this,
                 oldX = card.x,
@@ -1024,20 +1033,25 @@ this.TWIST = this.TWIST || {};
                 newY = 0,
                 draftCards = this.showPhomArea;
 
-        this.showPhomArea.addChild(card);
-        card.set({x: oldX + position.x - this.showPhomArea.x - this.x, y: oldY + position.y - this.showPhomArea.y - this.y, visible: true});
-
         if (this.draftCards.align == "right") {
-            newX = 300 - bai.seperator * (draftCards.children.length - 1)
-        }
+            newX =300 - bai.seperator * (draftCards.children.length - 1)
+        };
+        card.localToGlobal(0, 0);
+        this.stage.addChild(card);
         card.removeAllEventListeners();
         createjs.Tween.get(card).to({
-            x: newX, y: newY,
+            x: this.x + this.showPhomArea.x + newX, 
+            y:  this.y + this.showPhomArea.y + newY,
             width: bai.width,
             height: bai.height,
             scaleX: bai.scale,
             scaleY: bai.scale
-        }, _animationTime, createjs.Ease.sineOut()).call(function () {
+        }, _animationTime).call(function () {
+            _self.showPhomArea.addChild(this);
+            this.set({
+                x : newX,
+                y : newY
+            });
             this.openCard(this.cardValue);
         });
     };

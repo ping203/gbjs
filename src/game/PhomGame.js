@@ -21,13 +21,13 @@ this.TWIST = this.TWIST || {};
     p.initPhomGame = function (wrapper) {
         TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
         this.initInRoomGame();
-        this.pushPhomEvent();
         this.bindButton();
+        this.pushPhomEvent();
     };
 
     p.pushPhomEvent = function () {
 
-        this.on('getGurn', function (data) {
+        this.on('getTurn', function (data) {
             this.onGetTurn(data);
         });
 
@@ -132,7 +132,7 @@ this.TWIST = this.TWIST || {};
         if (eatPlayer) {
             var card;
             if (!hitPlayer) {
-                card = new cardFactory(data.cardIndex);
+                card = new TWIST.Card(parseInt(data.cardIndex));
             } else {
                 card = hitPlayer.getLastDraftCards([data.cardIndex])[0];
             }
@@ -143,11 +143,11 @@ this.TWIST = this.TWIST || {};
     };
 
     p.moveDraftCard = function (data) {
-        var fromPlayer = this.getPlayerbyUuid(data.fromPlayer);
-        var toPlayer = this.getPlayerbyUuid(data.toPlayer);
+        var fromPlayer = this.getPlayerByUuid(data.fromPlayer);
+        var toPlayer = this.getPlayerByUuid(data.toPlayer);
         if (fromPlayer && toPlayer) {
-            var card = fromPlayer.getLastDraftCard(data.cardIndex);
-            toPlayer.moveDraftCard(card, fromPlayer);
+            var cards = fromPlayer.getLastDraftCards([data.cardIndex]);
+            toPlayer.moveDraftCard(cards, fromPlayer);
         }
     };
 
@@ -159,7 +159,7 @@ this.TWIST = this.TWIST || {};
         this.entiretyButton.hide();
         var cards = [data.cardIndex];
         var userID = data.uuid;
-        var player = this.getPlayerbyUuid(userID);
+        var player = this.getPlayerByUuid(userID);
         player.draftCardsInHand(cards);
         this.desk.lastActivePlayer = data.uuid;
         this.desk.lastDraftCard = cards;
@@ -298,28 +298,28 @@ this.TWIST = this.TWIST || {};
         });
 
         this.getCardButton = $(TWIST.HTMLTemplate['buttonBar/getCardButton']);
-        this.buttonBar.append(this.sortCardButton);
+        this.buttonBar.append(this.getCardButton);
         this.getCardButton.unbind('click');
         this.getCardButton.click(function () {
             _self.emit('getCard');
         });
 
         this.eatCardButton = $(TWIST.HTMLTemplate['buttonBar/eatCardButton']);
-        this.eatCardButton.append(this.eatCardButton);
+        this.buttonBar.append(this.eatCardButton);
         this.eatCardButton.unbind('click');
         this.eatCardButton.click(function () {
             _self.emit('eatCard');
         });
 
         this.entiretyButton = $(TWIST.HTMLTemplate['buttonBar/entiretyButton']);
-        this.entiretyButton.append(this.entiretyButton);
+        this.buttonBar.append(this.entiretyButton);
         this.entiretyButton.unbind('click');
         this.entiretyButton.click(function () {
             _self.emit('entirety');
         });
 
         this.sendCardButton = $(TWIST.HTMLTemplate['buttonBar/sendCardButton']);
-        this.sendCardButton.append(this.entiretyButton);
+        this.buttonBar.append(this.sendCardButton);
         this.sendCardButton.unbind('click');
         this.sendCardButton.click(function () {
             var Player = _self.getCurrentPlayer();
@@ -336,7 +336,7 @@ this.TWIST = this.TWIST || {};
         });
 
         this.showPhomButton = $(TWIST.HTMLTemplate['buttonBar/showPhomButton']);
-        this.showPhomButton.append(this.showPhomButton);
+        this.buttonBar.append(this.showPhomButton);
         this.showPhomButton.unbind('click');
         this.showPhomButton.click(function () {
             _self.emit('showPhom');
@@ -358,28 +358,37 @@ this.TWIST = this.TWIST || {};
     p.showPhom = function (data) {
         var phoms = data.phoms;
         var userID = data.uuid;
-        var player = this.getPlayerByUuid()(userID);
+        var player = this.getPlayerByUuid(userID);
         player.showPhom(phoms);
         if (player.position == 0) {
             player.sortCard();
         }
         this.showPhomButton.hide();
     };
+    
+    p.drawPlayer = function(playerData){
+        var newPlayer = TWIST.InRoomGame.prototype.drawPlayer.call(this, playerData);
+        newPlayer.addShowPhomArea();
+    };
 
     p.sendCard = function (data) {
         var cardsSend = data.cardsSend;
-        var sendPlayer = this.getPlayerbyUuid(data.cardsSend[0].transFrom);
+        var sendPlayer = this.getPlayerByUuid(data.cardsSend[0].transFrom);
         for (var i = 0; i < cardsSend.length; i++) {
             var dataItem = cardsSend[i];
-            var receivePlayer = this.getPlayerbyUuid(dataItem.transTo);
+            var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
             if (receivePlayer && sendPlayer) {
                 var card = sendPlayer.getCardsInHand([dataItem.cardIndex])[0];
+                card.set({
+                    x : card.x + sendPlayer.x + sendPlayer.hand.x,
+                    y : card.y + sendPlayer.y + sendPlayer.hand.y
+                });
                 card.cardValue = dataItem.cardIndex;
                 receivePlayer.addCardInShowPhom(card);
             }
         }
         for (var i = 0; i < this.playersContainer.children.length; i++) {
-            var player = this.playersContainer.children.players[i];
+            var player = this.playersContainer.children[i];
             if (player) {
                 (function (player) {
                     setTimeout(function () {
@@ -397,7 +406,7 @@ this.TWIST = this.TWIST || {};
     p.entiretyCard = function (data) {
         var phoms = data.phoms;
         var userID = data.uuid;
-        var player = this.getPlayerbyUuid(userID);
+        var player = this.getPlayerByUuid(userID);
         player.showPhom(phoms);
         player.setPlayerStatus("Ù");
         this.buttonBar.children().hide();
