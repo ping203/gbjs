@@ -815,9 +815,9 @@ this.TWIST = this.TWIST || {};
             card.set({x: card.x - this.hand.x - this.x, y: card.y - this.hand.y - this.y});
             newY = 0;
             if (this.draftCards.align == "right") {
-                newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.playerModel.numberEatedCard - 1) * bai.seperator;
+                newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
             } else {
-                newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.playerModel.numberEatedCard - 1);
+                newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
             }
             createjs.Tween.get(card).to({
                 x: newX, y: newY,
