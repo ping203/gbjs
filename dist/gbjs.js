@@ -5937,11 +5937,11 @@ this.TWIST = this.TWIST || {};
             this.moveDraftCard(data);
         });
 
-        this.on('showPhom', function (data) {
+        this.on('showPhomComplete', function (data) {
             this.showPhom(data);
         });
 
-        this.on('sendCard', function (data) {
+        this.on('sendCardComplete', function (data) {
             this.sendCard(data);
         });
 
