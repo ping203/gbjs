@@ -58,10 +58,11 @@
         , {
             event: "dealCards",
             data: {
-                cardList: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                cardList: [0, 1, 2, 13, 4, 5, 6, 7, 16],
                 firstPlayer: {
                     uuid: "2"
-                }
+                },
+                listPhom: [[0, 1, 2], [4, 5, 6, 7]]
             },
             nextTime: 1000
         }
@@ -108,15 +109,15 @@
 //            },
 //            nextTime: 1000
 //        }
-//        , {
-//            event: "draftCards",
-//            data: {
-//                username : "tieuteiei",
-//                uuid : "3",
-//                cardIndex : '3'
-//            },
-//            nextTime: 1000
-//        }
+        , {
+            event: "draftCards",
+            data: {
+                username: "tieuteiei",
+                uuid: "3",
+                cardIndex: '3'
+            },
+            nextTime: 1000
+        }
 //        , {
 //            event: "draftCards",
 //            data: {
@@ -126,14 +127,14 @@
 //            },
 //            nextTime: 1000
 //        }
-//        , {
-//            event: "getTurn",
-//            data: {
-//                username : "tieuteiei",
-//                uuid : "1"
-//            },
-//            nextTime: 1000
-//        }
+        , {
+            event: "getTurn",
+            data: {
+                username : "tieuteiei",
+                uuid : "1"
+            },
+            nextTime: 1000
+        }
 //        , {
 //            event: "getCardComplete",
 //            data: {
@@ -192,7 +193,7 @@
             data: {
                 username: "tieuteiei",
                 uuid: "3",
-                cardIndex: '3'
+                cardIndex: 6
             },
             nextTime: 1000
         }
@@ -200,26 +201,71 @@
 //            event: "eatCardSuccess",
 //            data: {
 //                username: "tieuteiei",
-//                hitPlayer: "5",
+//                hitPlayer: "3",
 //                eatPlayer: "1",
-//                cardIndex : "3"
+//                cardIndex: "3"
 //            }
 //        }
-        , {
-            event: "moveDraftCard",
-            data: {
-                username: "tieuteiei",
-                fromPlayer: "3",
-                toPlayer: "1",
-                cardIndex: "3"
-            }
-        }
 //        , {
-//            event: "showPhom",
+//            event: "eatCardSuccess",
+//            data: {
+//                username: "tieuteiei",
+//                hitPlayer: "3",
+//                eatPlayer: "4",
+//                cardIndex: 6
+//            }
+//        }
+//        , {
+//            event: "moveDraftCard",
+//            data: {
+//                username: "tieuteiei",
+//                fromPlayer: "3",
+//                toPlayer: "1",
+//                cardIndex: 3
+//            }
+//        }
+//        , {
+//            event: "moveDraftCard",
+//            data: {
+//                username: "tieuteiei",
+//                fromPlayer: "3",
+//                toPlayer: "1",
+//                cardIndex: 6
+//            }
+//        }
+//        , {
+//            event: "showPhomComplete",
 //            data: {
 //                username: "tieuteiei",
 //                uuid: "1",
-//                phoms: [[1, 2, 3]],
+//                phoms: [[1, 2, 3, 6], [4, 5, 6], [7, 8, 9]],
+//                cardIndex: "3"
+//            }
+//        }
+//        , {
+//            event: "showPhomComplete",
+//            data: {
+//                username: "tieuteiei",
+//                uuid: "4",
+//                phoms: [[1, 2, 3, 6], [4, 5, 6], [7, 8, 9]],
+//                cardIndex: "3"
+//            }
+//        }
+//        , {
+//            event: "showPhomComplete",
+//            data: {
+//                username: "tieuteiei",
+//                uuid: "3",
+//                phoms: [[1, 2, 3, 6], [4, 5, 6], [7, 8, 9]],
+//                cardIndex: "3"
+//            }
+//        }
+//        , {
+//            event: "showPhomComplete",
+//            data: {
+//                username: "tieuteiei",
+//                uuid: "2",
+//                phoms: [[1, 2, 3, 6], [4, 5, 6], [7, 8, 9]],
 //                cardIndex: "3"
 //            }
 //        }

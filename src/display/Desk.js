@@ -10,7 +10,7 @@ this.TWIST = this.TWIST || {};
     }
 
     Desk.playerPositions = {
-        4: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 450, y: 17}, {x: 110, y: 160}],
+        4: [{x: 12, y: 430}, {x: 840, y: 190}, {x: 450, y: 17}, {x: 70, y: 190}],
         2: [{x: 12, y: 410}, {x: 450, y: 17}],
         5: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 350, y: 17}, {x: 650, y: 17}, {x: 110, y: 160}],
         9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
@@ -19,8 +19,8 @@ this.TWIST = this.TWIST || {};
 
     Desk.handPositions = {
         center: {x: 150, y: -110, align: 'center'},
-        left: {x: -50, y: 20, align: 'left'},
-        right: {x: 150, y: -110, align: 'center'}
+        left: {x: -4, y: 32, align: 'left'},
+        right: {x: 52, y: 32, align: 'center'}
     };
 
     Desk.draftPositionList = {
@@ -109,12 +109,12 @@ this.TWIST = this.TWIST || {};
         var draftPosition = new Array(maxPlayers);
 
         for (var i = 0; i < maxPlayers; i++) {
-            draftPosition[i] = {x: 100, y: TWIST.Card.draftCard.height};
             handPosition[i] = {
-                x: 90,
-                y: 20,
+                x: 63,
+                y: 30,
                 align: 'left'
             };
+            draftPosition[i] = {x: handPosition[i].x + TWIST.Card.draftCard.width * 1.5, y: handPosition[i].y};
         }
 
         playerPosition = Desk.playerPositions[maxPlayers];
@@ -122,9 +122,19 @@ this.TWIST = this.TWIST || {};
         handPosition[0] = {x: 150, y: -50, align: 'center'};
 
         if (maxPlayers === 4) {
-            handPosition[1] = {x: -30, y: 20, align: 'center'};
-            draftPosition[0] = {x: 350,y: -TWIST.Card.draftCard.height*1.7,align: 'center'};
-            draftPosition[1] = {x: -350,y: TWIST.Card.draftCard.height,align: 'right'};
+            handPosition[1] = {x: 6, y: 30, align: 'center'};
+            draftPosition[0] = {
+                x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[0].x,
+                y: -100,
+                align: 'left'
+            };
+            draftPosition[1].x = -340;
+            draftPosition[1].align = 'right';
+            draftPosition[2] = {
+                x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[2].x,
+                y: 120,
+                align: 'left'
+            };
         }
 
 
@@ -134,15 +144,20 @@ this.TWIST = this.TWIST || {};
     };
 
     p.generateCards = function (numberCards, cardType) {
-        numberCards = numberCards || 0;
-        for (var i = 0; i < numberCards; i++) {
-            var cardImage = new TWIST.Card();
-            var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
-            cardImage.set({
-                scaleX: scale,
-                scaleY: scale
-            });
-            this.deckCard.addChild(cardImage);
+        var currentCards = this.deckCard.children.length;
+        var numberCardAdd = numberCards - currentCards;
+        if (numberCardAdd > 0) {
+            for (var i = 0; i < numberCardAdd; i++) {
+                var cardImage = new TWIST.Card();
+                var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
+                cardImage.set({
+                    scaleX: scale,
+                    scaleY: scale
+                });
+                this.deckCard.addChild(cardImage);
+            }
+        } else {
+            this.deckCard.children.splice(0, -numberCardAdd);
         }
         this.deckCard.visible = true;
     };
@@ -172,7 +187,6 @@ this.TWIST = this.TWIST || {};
                 scaleY: 0.3
             });
         }
-        ;
     };
 
     p.renderDraftCards = function (cards) {

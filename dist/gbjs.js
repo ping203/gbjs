@@ -961,6 +961,9 @@ this.FATE = this.FATE || {};
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
 'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
 'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -973,9 +976,6 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
@@ -996,13 +996,16 @@ this.TWIST = this.TWIST || {};
     }
 
     Card.size = {width: 88, height: 115};
-    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 55};
+    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 54};
     Card.userCard.scale = Card.userCard.width / Card.size.width;
 
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
     Card.playerCard.scale = Card.playerCard.width / Card.size.width;
 
-    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
+    Card.deckCard = {width: 40, seperator: 0.1};
+    Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+
+    Card.draftCard = {width: 30, height: 40, seperator: 31};
     Card.draftCard.scale = Card.draftCard.width / Card.size.width;
 
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
@@ -1075,16 +1078,11 @@ this.TWIST = this.TWIST || {};
             bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
         }
 
-        this.inPhom = new createjs.Bitmap(cards);
-        this.inPhom.sourceRect = {
-            width: 25,
-            height: 25,
-            x: Card.size.width * 1,
-            y: Card.size.height * Card.SuitNameMap.length
-        };
+        this.inPhom = new createjs.Shape();
+        this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
         this.inPhom.set({
-            x: 55,
-            y: 10
+            x: Card.size.width/2 - 15,
+            y: Card.size.height + 2
         });
         this.inPhom.visible = false;
 
@@ -1100,7 +1098,7 @@ this.TWIST = this.TWIST || {};
             y: -1.5
         });
         this.border.visible = this.showBorder;
-        this.addChild(bg, this.border);
+        this.addChild(bg,this.inPhom, this.border);
     };
 
     p.getValue = function () {
@@ -1431,7 +1429,7 @@ this.TWIST = this.TWIST || {};
     }
 
     Desk.playerPositions = {
-        4: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 450, y: 17}, {x: 110, y: 160}],
+        4: [{x: 12, y: 430}, {x: 840, y: 190}, {x: 450, y: 17}, {x: 70, y: 190}],
         2: [{x: 12, y: 410}, {x: 450, y: 17}],
         5: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 350, y: 17}, {x: 650, y: 17}, {x: 110, y: 160}],
         9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
@@ -1440,8 +1438,8 @@ this.TWIST = this.TWIST || {};
 
     Desk.handPositions = {
         center: {x: 150, y: -110, align: 'center'},
-        left: {x: -50, y: 20, align: 'left'},
-        right: {x: 150, y: -110, align: 'center'}
+        left: {x: -4, y: 32, align: 'left'},
+        right: {x: 52, y: 32, align: 'center'}
     };
 
     Desk.draftPositionList = {
@@ -1530,12 +1528,12 @@ this.TWIST = this.TWIST || {};
         var draftPosition = new Array(maxPlayers);
 
         for (var i = 0; i < maxPlayers; i++) {
-            draftPosition[i] = {x: 100, y: TWIST.Card.draftCard.height};
             handPosition[i] = {
-                x: 90,
-                y: 20,
+                x: 63,
+                y: 30,
                 align: 'left'
             };
+            draftPosition[i] = {x: handPosition[i].x + TWIST.Card.draftCard.width * 1.5, y: handPosition[i].y};
         }
 
         playerPosition = Desk.playerPositions[maxPlayers];
@@ -1543,9 +1541,19 @@ this.TWIST = this.TWIST || {};
         handPosition[0] = {x: 150, y: -50, align: 'center'};
 
         if (maxPlayers === 4) {
-            handPosition[1] = {x: -30, y: 20, align: 'center'};
-            draftPosition[0] = {x: 350,y: -TWIST.Card.draftCard.height*1.7,align: 'center'};
-            draftPosition[1] = {x: -350,y: TWIST.Card.draftCard.height,align: 'right'};
+            handPosition[1] = {x: 6, y: 30, align: 'center'};
+            draftPosition[0] = {
+                x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[0].x,
+                y: -100,
+                align: 'left'
+            };
+            draftPosition[1].x = -340;
+            draftPosition[1].align = 'right';
+            draftPosition[2] = {
+                x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[2].x,
+                y: 120,
+                align: 'left'
+            };
         }
 
 
@@ -1555,15 +1563,20 @@ this.TWIST = this.TWIST || {};
     };
 
     p.generateCards = function (numberCards, cardType) {
-        numberCards = numberCards || 0;
-        for (var i = 0; i < numberCards; i++) {
-            var cardImage = new TWIST.Card();
-            var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
-            cardImage.set({
-                scaleX: scale,
-                scaleY: scale
-            });
-            this.deckCard.addChild(cardImage);
+        var currentCards = this.deckCard.children.length;
+        var numberCardAdd = numberCards - currentCards;
+        if (numberCardAdd > 0) {
+            for (var i = 0; i < numberCardAdd; i++) {
+                var cardImage = new TWIST.Card();
+                var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
+                cardImage.set({
+                    scaleX: scale,
+                    scaleY: scale
+                });
+                this.deckCard.addChild(cardImage);
+            }
+        } else {
+            this.deckCard.children.splice(0, -numberCardAdd);
         }
         this.deckCard.visible = true;
     };
@@ -1593,7 +1606,6 @@ this.TWIST = this.TWIST || {};
                 scaleY: 0.3
             });
         }
-        ;
     };
 
     p.renderDraftCards = function (cards) {
@@ -1786,7 +1798,7 @@ this.TWIST = this.TWIST || {};
 
     var imagePath = location.origin + location.pathname + '../src/images/';
     var _animationTime = 300;
-
+    var DESK = TWIST.Desk;
 
     function Player(playerData) {
         this.initialize(playerData);
@@ -2120,7 +2132,7 @@ this.TWIST = this.TWIST || {};
         var handCards = this.handCards,
                 cardType = options.cardType || (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.playerCard),
                 numberCard = listCard.length,
-                desk = this.parent.parent.getChildAt(1),
+                desk = this.parent.parent.getChildByName('desk'),
                 dealTimeAnimation = 150,
                 eachCardDelay = 30,
                 animationTime,
@@ -2175,15 +2187,14 @@ this.TWIST = this.TWIST || {};
             scaleX: bai.scale,
             scaleY: bai.scale
         });
-        if (this.listPhom && this.listPhom.length && card.cardValue && this.position == 0) {
+        if (this.listPhom && this.listPhom.length && !isNaN(card.cardValue) && this.position == 0) {
             var cardsInPhom = [];
             this.listPhom.forEach(function (item, index) {
-                cardsInPhom = cardsInPhom.concat(item.meldItem);
+                cardsInPhom = cardsInPhom.concat(item);
             });
             card.isInPhom = cardsInPhom.indexOf(card.cardValue) > -1;
         }
         handCards.addChild(card);
-//        console.log("isNaN(options.x),cardType.seperator * handCards.getNumChildren(),options.x",isNaN(options.x),cardType.seperator,handCards.getNumChildren(),options.x);
         createjs.Tween.get(card).to({
             x: isNaN(options.x) ? cardType.seperator * handCards.getNumChildren() : options.x,
             y: isNaN(options.y) ? 0 : options.y,
@@ -2343,7 +2354,7 @@ this.TWIST = this.TWIST || {};
         var _self = this;
 
         var length = cards.length;
-        var indexLeft = (1280 - length * TWIST.Card.draftCard.seperator - (this.draftCards.x + this.x) * 2) / 2;
+        var indexLeft = (DESK.width - length * TWIST.Card.draftCard.seperator - (this.draftCards.x + this.x) * 2) / 2;
 
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
@@ -2364,12 +2375,13 @@ this.TWIST = this.TWIST || {};
         });
         if (this.position != 0) {
             for (var i = 0; i < cardList.length; i++) {
-                var cardIndex = cardList[i];
+                var cardValue = cardList[i];
                 var handCardValue = handCards.map(function (item) {
                     return item.cardValue
                 });
-                if (handCardValue.indexOf(cardIndex) > -1) {
-                    var sliceCards = handCards.splice(handCardValue.indexOf(cardIndex), 1);
+                var cardIndex = handCardValue.indexOf(cardValue);
+                if (cardIndex > -1) {
+                    var sliceCards = handCards.splice(cardIndex, 1);
                 } else {
                     var sliceCards = handCards.splice(handCardValue.indexOf(undefined), 1);
                 }
@@ -2421,7 +2433,7 @@ this.TWIST = this.TWIST || {};
         var cards = this.handCards.children;
         var cardsInPhom = [];
         for (var i = 0; i < phomList.length; i++) {
-            var phom = phomList[i].meldItem;
+            var phom = phomList[i];
             phom.sort(function (a, b) {
                 return a - b
             });
@@ -2508,7 +2520,7 @@ this.TWIST = this.TWIST || {};
         var cardsInPhom = [];
         phomList = phomList;
         for (var i = 0; i < phomList.length; i++) {
-            var phom = phomList[i].meldItem;
+            var phom = phomList[i];
             phom.sort(function (a, b) {
                 return a - b
             });
@@ -2577,10 +2589,11 @@ this.TWIST = this.TWIST || {};
 
     p.eatCard = function (card, position, cardSordList) {
         var _self = this;
+        this.numberEatedCard = this.numberEatedCard || 0;
         this.numberEatedCard++;
         var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
 
-        card.hightLight();
+        card.Overlay();
         if (this.position == 0) {
             this.addHandCards(card, {
                 animationTime: 200,
@@ -2594,11 +2607,16 @@ this.TWIST = this.TWIST || {};
                     newY = 0;
             this.handCards.addChild(card);
             card.set({x: card.x - this.hand.x - this.x, y: card.y - this.hand.y - this.y});
-            newY = 0;
-            if (this.draftCards.align == "right") {
-                newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
+            if (this.position == 2) {
+                newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
+                newY = 0;
             } else {
-                newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
+                newY = -45;
+                if (this.draftCards.align == "right") {
+                    newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
+                } else {
+                    newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
+                }
             }
             createjs.Tween.get(card).to({
                 x: newX, y: newY,
@@ -2615,7 +2633,7 @@ this.TWIST = this.TWIST || {};
         if (!this.listPhom)
             return;
         this.listPhom.forEach(function (item, index) {
-            cardsInPhom = cardsInPhom.concat(item.meldItem);
+            cardsInPhom = cardsInPhom.concat(item);
         });
 
         var cards = this.handCards.children;
@@ -2678,13 +2696,25 @@ this.TWIST = this.TWIST || {};
         var draftPosition = desk.config.draftPositions[this.position];
 
         var newY = 0;
+        var newX = 0;
         if (this.position == 0) {
             newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
+            newX = draftPosition.x;
+        } else if (this.position == 2) {
+            newX = this.hand.x + 37;
+            newY = this.hand.y;
+        } else {
+            newY = draftPosition.y - 45;
+            if (this.draftCards.align == "right") {
+                newX = this.draftCards.x;
+            } else {
+                newX = this.draftCards.x;
+            }
         }
         this.showPhomArea = new createjs.Container();
         this.showPhomArea.set({
             name: "showPhomArea",
-            x: draftPosition.x,
+            x: newX,
             y: newY
         });
         this.addChild(this.showPhomArea);
@@ -2736,7 +2766,6 @@ this.TWIST = this.TWIST || {};
         var desk = this.parent.parent.getChildByName('desk');
         var waitTime = 0;
         desk.chickenTotal.visible = true;
-        console.log("chipArray", chipArray);
         for (var j = 0; j < chipArray.length; j++) {
             _pushChicken(chipArray[j].number, chipArray[j].type)
         }
@@ -2765,9 +2794,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.showSinglePhom = function (cardList, position) {
-        console.log("cardList", cardList, position);
-        if (!cardList)
-            return;
         var cards = this.getCardsInHand(cardList);
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
@@ -2796,7 +2822,7 @@ this.TWIST = this.TWIST || {};
             }, _animationTime, createjs.Ease.sineOut()).call(function () {
                 this.setInPhom(false);
                 if (_self.position != 0) {
-                    this.openCard(this.cardValue);
+                    this.openCard(this.cardValue, bai);
                 }
             });
         }
@@ -2804,7 +2830,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.addCardInShowPhom = function (card) {
-        console.log("card, position", card);
         var _self = this;
         var bai = TWIST.Card.draftCard,
                 _self = this,
@@ -2815,14 +2840,15 @@ this.TWIST = this.TWIST || {};
                 draftCards = this.showPhomArea;
 
         if (this.draftCards.align == "right") {
-            newX =300 - bai.seperator * (draftCards.children.length - 1)
-        };
+            newX = 300 - bai.seperator * (draftCards.children.length - 1)
+        }
+        ;
         card.localToGlobal(0, 0);
         this.stage.addChild(card);
         card.removeAllEventListeners();
         createjs.Tween.get(card).to({
-            x: this.x + this.showPhomArea.x + newX, 
-            y:  this.y + this.showPhomArea.y + newY,
+            x: this.x + this.showPhomArea.x + newX,
+            y: this.y + this.showPhomArea.y + newY,
             width: bai.width,
             height: bai.height,
             scaleX: bai.scale,
@@ -2830,8 +2856,8 @@ this.TWIST = this.TWIST || {};
         }, _animationTime).call(function () {
             _self.showPhomArea.addChild(this);
             this.set({
-                x : newX,
-                y : newY
+                x: newX,
+                y: newY
             });
             this.openCard(this.cardValue);
         });
@@ -2850,7 +2876,7 @@ this.TWIST = this.TWIST || {};
             width = 300;
         var indexLeft = 0;
         if (this.position == 0) {
-            indexLeft = (1280 - width - (this.showPhomArea.x + this.x) * 2) / 2;
+            indexLeft = (DESK.width - width - (this.showPhomArea.x + this.x) * 2) / 2;
         }
 
         for (var i = 0; i < cards.length; i++) {
@@ -2910,7 +2936,6 @@ this.TWIST = this.TWIST || {};
     p.rerenderDraftPhom = function (cardList) {
         if (!cardList)
             return;
-        console.log(cardList);
         var cards = [], bai = TWIST.Card.draftCard;
 
         for (var i = 0; i < cardList.length; i++) {
@@ -3571,7 +3596,7 @@ this.TWIST = this.TWIST || {};
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.desk.name = "desk";
-        this.stage.addChild(this.playersContainer, this.desk);
+        this.stage.addChild(this.desk ,this.playersContainer );
         this.wrapper.css({
             width: canvas.width(),
             height: canvas.height()
@@ -5879,418 +5904,425 @@ this.TWIST = this.TWIST || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var initOptions = {
-        maxPlayers: 4,
-        numberCardsInHand: 9,
-        turnTime: 20000,
-        numberCardsRender: 13
-    };
+  var initOptions = {
+    maxPlayers: 4,
+    numberCardsInHand: 9,
+    turnTime: 20000,
+    numberCardsRender: 13,
+    renderCardOptions: {
+      showPlayerCard: true,
+      dragable: true
+    }
+  };
+  function PhomGame(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initPhomGame();
+  }
 
-    function PhomGame(wrapper, options) {
-        this.wrapper = $(wrapper);
-        this.options = $.extend(initOptions, options);
-        this.initPhomGame();
+  var p = PhomGame.prototype = new TWIST.InRoomGame();
+
+  p.initPhomGame = function (wrapper) {
+    TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
+    this.initInRoomGame();
+    this.bindButton();
+    this.pushPhomEvent();
+  };
+
+  p.pushPhomEvent = function () {
+
+    this.on('getTurn', function (data) {
+      this.onGetTurn(data);
+    });
+
+    this.on('getCardComplete', function (data) {
+      this.getCardComplete(data);
+    });
+
+    this.on('enableEatCard', function (data) {
+      this.enableEatCard(data);
+    });
+
+    this.on('enableU', function (data) {
+      this.enableU(data);
+    });
+
+    this.on('enableShowPhom', function (data) {
+      this.enableShowPhom(data);
+    });
+
+    this.on('enableSendCard', function (data) {
+      this.enableSendCard(data);
+    });
+
+    this.on('eatCardSuccess', function (data) {
+      this.eatCardSuccess(data);
+    });
+
+    this.on('moveDraftCard', function (data) {
+      this.moveDraftCard(data);
+    });
+
+    this.on('showPhomComplete', function (data) {
+      this.showPhom(data);
+    });
+
+    this.on('sendCardComplete', function (data) {
+      this.sendCard(data);
+    });
+
+    this.on('entiretyCard', function (data) {
+      this.entiretyCard(data);
+    });
+  };
+
+  p.onGetTurn = function (data) {
+    var currentUuid = data.uuid;
+    var currentPlayer = this.getCurrentPlayer();
+    if (currentPlayer.handCards.children.length > 0) {
+      this.sortCardButton.show();
+    }
+    this.hitButton.hide();
+    if (data.uuid === this.userInfo.uuid) {
+      this.getCardButton.show();
+    }
+    this.setPlayerTurn(data.uuid);
+  };
+
+  p.onHitTurn = function (data) {
+    var currentUuid = data.uuid;
+    var currentPlayer = this.getCurrentPlayer();
+    if (currentPlayer.handCards.children.length > 0) {
+      this.sortCardButton.show();
+    }
+    this.getCardButton.hide();
+    if (data.uuid === this.userInfo.uuid) {
+      this.hitButton.show();
+    }
+    this.setPlayerTurn(data.uuid);
+  };
+
+  p.getCardComplete = function (data) {
+    this.getCardButton.hide();
+    var card = data.cardIndex;
+    var userID = data.uuid;
+    var listPhom = data.listPhom;
+    var player = this.getPlayerByUuid(userID);
+    player.listPhom = listPhom;
+    player.getDeckCard(card, listPhom);
+  };
+
+  p.enableEatCard = function () {
+    this.eatCardButton.show();
+  };
+
+  p.enableU = function () {
+    this.entiretyButton.show();
+  };
+
+  p.enableShowPhom = function () {
+    this.showPhomButton.show();
+  };
+
+  p.enableSendCard = function () {
+    this.sendCardButton.show();
+  };
+
+  p.eatCardSuccess = function (data) {
+    this.eatCardButton.hide();
+    var hitPlayer = this.getPlayerByUuid(data.hitPlayer);
+    var eatPlayer = this.getPlayerByUuid(data.eatPlayer);
+    var player = this.getCurrentPlayer()
+    if (eatPlayer) {
+      var card;
+      if (!hitPlayer) {
+        card = new TWIST.Card(parseInt(data.cardIndex));
+      } else {
+        card = hitPlayer.getLastDraftCards([data.cardIndex])[0];
+      }
+      eatPlayer.listPhom = data.listPhom;
+      eatPlayer.eatCard(card);
+      //this.desk.affterEatCard = true; // ????
+    }
+  };
+
+  p.moveDraftCard = function (data) {
+    var fromPlayer = this.getPlayerByUuid(data.fromPlayer);
+    var toPlayer = this.getPlayerByUuid(data.toPlayer);
+    if (fromPlayer && toPlayer) {
+      var cards = fromPlayer.getLastDraftCards([data.cardIndex]);
+      toPlayer.moveDraftCard(cards, fromPlayer);
+    }
+  };
+
+  p.onDraftCards = function (data) {
+    TWIST.Sound.play('danh_bai');
+    this.hitButton.hide();
+    this.sendCardButton.hide();
+    this.showPhomButton.hide();
+    this.entiretyButton.hide();
+    var cards = [data.cardIndex];
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.listPhom = data.listPhom || player.listPhom;
+    player.draftCardsInHand(cards);
+    player.markEatedCard();
+    this.desk.lastActivePlayer = data.uuid;
+    this.desk.lastDraftCard = cards;
+  };
+
+  p.drawPlayingState = function (data) {
+    var players = data.players || [];
+    var _self = this;
+
+    var playingPlayer = data.playingPlayer;
+    var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
+    if (PlayingPlayer) {
+      PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
+      if (PlayingPlayer.uuid === this.userInfo.uuid) {
+        this.hitButton.show();
+        this.foldTurnButton.show();
+      }
     }
 
-    var p = PhomGame.prototype = new TWIST.InRoomGame();
+    if (data.lastDraftCards) {
+      this.desk.lastDraftCards = data.lastDraftCards;
+      this.desk.createLastDraftCards(data.lastDraftCards);
+    }
 
-    p.initPhomGame = function (wrapper) {
-        TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
-        this.initInRoomGame();
-        this.bindButton();
-        this.pushPhomEvent();
-    };
+    players.forEach(function (item, index) {
+      var handCards = [];
 
-    p.pushPhomEvent = function () {
-
-        this.on('getTurn', function (data) {
-            this.onGetTurn(data);
+      if (item.uuid === _self.userInfo.uuid) {
+        handCards = data.userListCard || [];
+        handCards.sort(function (a, b) {
+          return a - b;
         });
-
-        this.on('getCardComplete', function (data) {
-            this.getCardComplete(data);
-        });
-
-        this.on('enableEatCard', function (data) {
-            this.enableEatCard(data);
-        });
-
-        this.on('enableU', function (data) {
-            this.enableU(data);
-        });
-
-        this.on('enableShowPhom', function (data) {
-            this.enableShowPhom(data);
-        });
-
-        this.on('enableSendCard', function (data) {
-            this.enableSendCard(data);
-        });
-
-        this.on('eatCardSuccess', function (data) {
-            this.eatCardSuccess(data);
-        });
-
-        this.on('moveDraftCard', function (data) {
-            this.moveDraftCard(data);
-        });
-
-        this.on('showPhomComplete', function (data) {
-            this.showPhom(data);
-        });
-
-        this.on('sendCardComplete', function (data) {
-            this.sendCard(data);
-        });
-
-        this.on('entiretyCard', function (data) {
-            this.entiretyCard(data);
-        });
-    };
-
-    p.onGetTurn = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer.handCards.children.length > 0) {
-            this.sortCardButton.show();
+        if (handCards.length > 0) {
+          _self.sortCardButton.show();
         }
-        this.hitButton.hide();
-        if (data.uuid === this.userInfo.uuid) {
-            this.getCardButton.show();
-        }
-        this.setPlayerTurn(data.uuid);
-    };
+      } else {
+        handCards.length = item.numberCardsInHand;
+      }
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        Player.handCards.cardList = handCards;
+        Player.renderCards(initOptions.renderCardOptions);
+      }
+    });
 
-    p.onHitTurn = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer.handCards.children.length > 0) {
-            this.sortCardButton.show();
-        }
-        this.getCardButton.hide();
-        if (data.uuid === this.userInfo.uuid) {
-            this.hitButton.show();
-        }
-        this.setPlayerTurn(data.uuid);
-    };
+  };
 
-    p.getCardComplete = function (data) {
-        this.getCardButton.hide();
-        var card = data.cardIndex;
-        var userID = data.uuid;
-        var listPhom = data.listPhom;
-        var player = this.getPlayerByUuid(userID);
-        player.listPhom = listPhom;
-        player.getDeckCard(card, listPhom);
-    };
+  p.dealCards = function (data) {
+    var cardList = data.cardList;
+    var players = this.model.players;
+    var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
+    var _self = this;
 
-    p.enableEatCard = function () {
-        this.eatCardButton.show();
-    };
+    this.desk.generateCards(numberCards, TWIST.Card.userCard);
 
-    p.enableU = function () {
-        this.entiretyButton.show();
-    };
-
-    p.enableShowPhom = function () {
-        this.showPhomButton.show();
-    };
-
-    p.enableSendCard = function () {
-        this.sendCardButton.show();
-    };
-
-    p.eatCardSuccess = function (data) {
-        this.eatCardButton.hide();
-        var hitPlayer = this.getPlayerByUuid(data.hitPlayer);
-        var eatPlayer = this.getPlayerByUuid(data.eatPlayer);
-        var player = this.getCurrentPlayer()
-        if (eatPlayer) {
-            var card;
-            if (!hitPlayer) {
-                card = new TWIST.Card(parseInt(data.cardIndex));
-            } else {
-                card = hitPlayer.getLastDraftCards([data.cardIndex])[0];
-            }
-            eatPlayer.listPhom = data.listPhom;
-            eatPlayer.eatCard(card);
-            this.desk.affterEatCard = true;
-        }
-    };
-
-    p.moveDraftCard = function (data) {
-        var fromPlayer = this.getPlayerByUuid(data.fromPlayer);
-        var toPlayer = this.getPlayerByUuid(data.toPlayer);
-        if (fromPlayer && toPlayer) {
-            var cards = fromPlayer.getLastDraftCards([data.cardIndex]);
-            toPlayer.moveDraftCard(cards, fromPlayer);
-        }
-    };
-
-    p.onDraftCards = function (data) {
-        TWIST.Sound.play('danh_bai');
-        this.hitButton.hide();
-        this.sendCardButton.hide();
-        this.showPhomButton.hide();
-        this.entiretyButton.hide();
-        var cards = [data.cardIndex];
-        var userID = data.uuid;
-        var player = this.getPlayerByUuid(userID);
-        player.draftCardsInHand(cards);
-        this.desk.lastActivePlayer = data.uuid;
-        this.desk.lastDraftCard = cards;
-    };
-
-    p.drawPlayingState = function (data) {
-        var players = data.players || [];
-        var _self = this;
-
-        var playingPlayer = data.playingPlayer;
-        var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
-        if (PlayingPlayer) {
-            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
-            if (PlayingPlayer.uuid === this.userInfo.uuid) {
-                this.hitButton.show();
-                this.foldTurnButton.show();
-            }
-        }
-
-        if (data.lastDraftCards) {
-            this.desk.lastDraftCards = data.lastDraftCards;
-            this.desk.createLastDraftCards(data.lastDraftCards);
-        }
-
-        players.forEach(function (item, index) {
-            var handCards = [];
-
-            if (item.uuid === _self.userInfo.uuid) {
-                handCards = data.userListCard || [];
-                handCards.sort(function (a, b) {
-                    return a - b;
-                });
-                if (handCards.length > 0) {
-                    _self.sortCardButton.show();
-                }
-            } else {
-                handCards.length = item.numberCardsInHand;
-            }
-            var Player = _self.getPlayerByUuid(item.uuid);
-            if (Player) {
-                Player.handCards.cardList = handCards;
-                Player.renderCards({
-                    showPlayerCard: true,
-                    dragable: true
-                });
-            }
+    players.forEach(function (item, index) {
+      var handCards = [];
+      if (item.status !== "STATUS_PLAYING")
+        return;
+      if (item.uuid === _self.userInfo.uuid && cardList) {
+        handCards = cardList || [];
+        handCards.sort(function (a, b) {
+          return a - b;
         });
+      }
 
-    };
+      if (data.firstPlayer && data.firstPlayer.uuid && item.uuid == data.firstPlayer.uuid) {
+        handCards.length = _self.options.numberCardsInHand + 1;
+      }
 
-    p.dealCards = function (data) {
-        var cardList = data.cardList;
-        var players = this.model.players;
-        var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
-        var _self = this;
-
-        this.desk.generateCards(numberCards, TWIST.Card.userCard);
-
-        players.forEach(function (item, index) {
-            var handCards = [];
-            if (item.status !== "STATUS_PLAYING")
-                return;
-            if (item.uuid === _self.userInfo.uuid && cardList) {
-                handCards = cardList || [];
-                handCards.sort(function (a, b) {
-                    return a - b;
-                });
-            }
-
-            if (data.firstPlayer && data.firstPlayer.uuid && item.uuid == data.firstPlayer.uuid) {
-                handCards.length = _self.options.numberCardsInHand + 1;
-            }
-
-            var Player = _self.getPlayerByUuid(item.uuid);
-            if (Player) {
-                handCards.length = handCards.length || _self.options.numberCardsInHand;
-                Player.handCards.cardList = handCards;
-                Player.renderCards({
-                    showPlayerCard: false,
-                    dragable: true
-                });
-            }
-        });
-
-        this.desk.showRemainingDeckCard();
-
-    };
-
-    p.setPlayerTurn = function (uuid, remainingTime) {
-        var totalTime = this.model.turningTime;
-        var players = this.playersContainer.children;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player) {
-                if (player.uuid === uuid) {
-                    player.setRemainingTime(remainingTime, totalTime);
-                } else {
-                    player.clearTimer();
-                }
-            }
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        handCards.length = handCards.length || _self.options.numberCardsInHand;
+        if (Player.position == 0) {
+          Player.listPhom = data.listPhom
         }
-    };
+        ;
+        Player.handCards.cardList = handCards;
+        Player.renderCards(initOptions.renderCardOptions);
+      }
+    });
 
-    p.bindButton = function () {
-        var _self = this;
+    this.desk.showRemainingDeckCard();
 
-        this.startButton.unbind('click');
-        this.startButton.click(function () {
-            _self.emit("start", _self.model.players);
-        });
+  };
 
-        this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
-        this.buttonBar.append(this.hitButton);
-        this.hitButton.unbind('click');
-        this.hitButton.click(function () {
-            var Player = _self.getCurrentPlayer();
-            var cards = Player.getSelectedCards();
-            if (cards.length === 0) {
-                _self.showError({
-                    code: 1470
-                });
-                return;
-            }
-            _self.emit('hitCards', {
-                cards: cards
-            });
-        });
-
-        this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
-        this.buttonBar.append(this.sortCardButton);
-        this.sortCardButton.unbind('click');
-        this.sortCardButton.click(function () {
-            var Player = _self.getCurrentPlayer();
-            Player.sortPhom();
-            Player.sortCard();
-        });
-
-        this.getCardButton = $(TWIST.HTMLTemplate['buttonBar/getCardButton']);
-        this.buttonBar.append(this.getCardButton);
-        this.getCardButton.unbind('click');
-        this.getCardButton.click(function () {
-            _self.emit('getCard');
-        });
-
-        this.eatCardButton = $(TWIST.HTMLTemplate['buttonBar/eatCardButton']);
-        this.buttonBar.append(this.eatCardButton);
-        this.eatCardButton.unbind('click');
-        this.eatCardButton.click(function () {
-            _self.emit('eatCard');
-        });
-
-        this.entiretyButton = $(TWIST.HTMLTemplate['buttonBar/entiretyButton']);
-        this.buttonBar.append(this.entiretyButton);
-        this.entiretyButton.unbind('click');
-        this.entiretyButton.click(function () {
-            _self.emit('entirety');
-        });
-
-        this.sendCardButton = $(TWIST.HTMLTemplate['buttonBar/sendCardButton']);
-        this.buttonBar.append(this.sendCardButton);
-        this.sendCardButton.unbind('click');
-        this.sendCardButton.click(function () {
-            var Player = _self.getCurrentPlayer();
-            var cards = Player.getSelectedCards();
-            if (cards.length === 0) {
-                _self.showError({
-                    code: 1470
-                });
-                return;
-            }
-            _self.emit('sendCard', {
-                cards: cards
-            });
-        });
-
-        this.showPhomButton = $(TWIST.HTMLTemplate['buttonBar/showPhomButton']);
-        this.buttonBar.append(this.showPhomButton);
-        this.showPhomButton.unbind('click');
-        this.showPhomButton.click(function () {
-            _self.emit('showPhom');
-        });
-
-    };
-
-    p.handCardSelected = function (card) {
-
-    };
-
-    p.STATUS_ENDING = function () {
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-        this.desk.lastDraftCards = undefined;
-        this.setPlayerTurn();
-    };
-
-    p.showPhom = function (data) {
-        var phoms = data.phoms;
-        var userID = data.uuid;
-        var player = this.getPlayerByUuid(userID);
-        player.showPhom(phoms);
-        if (player.position == 0) {
-            player.sortCard();
+  p.setPlayerTurn = function (uuid, remainingTime) {
+    var totalTime = this.model.turningTime;
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player) {
+        if (player.uuid === uuid) {
+          player.setRemainingTime(remainingTime, totalTime);
+        } else {
+          player.clearTimer();
         }
-        this.showPhomButton.hide();
-    };
-    
-    p.drawPlayer = function(playerData){
-        var newPlayer = TWIST.InRoomGame.prototype.drawPlayer.call(this, playerData);
-        newPlayer.addShowPhomArea();
-    };
+      }
+    }
+  };
 
-    p.sendCard = function (data) {
-        var cardsSend = data.cardsSend;
-        var sendPlayer = this.getPlayerByUuid(data.cardsSend[0].transFrom);
-        for (var i = 0; i < cardsSend.length; i++) {
-            var dataItem = cardsSend[i];
-            var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
-            if (receivePlayer && sendPlayer) {
-                var card = sendPlayer.getCardsInHand([dataItem.cardIndex])[0];
-                card.set({
-                    x : card.x + sendPlayer.x + sendPlayer.hand.x,
-                    y : card.y + sendPlayer.y + sendPlayer.hand.y
-                });
-                card.cardValue = dataItem.cardIndex;
-                receivePlayer.addCardInShowPhom(card);
-            }
-        }
-        for (var i = 0; i < this.playersContainer.children.length; i++) {
-            var player = this.playersContainer.children[i];
-            if (player) {
-                (function (player) {
-                    setTimeout(function () {
-                        player.sortPhomArea();
-                    }, 700);
-                })(player);
-            }
-        }
-        if (sendPlayer.position == 0) {
-            sendPlayer.sortCard();
-        }
-        this.sendCardButton.hide();
-    };
+  p.bindButton = function () {
+    var _self = this;
 
-    p.entiretyCard = function (data) {
-        var phoms = data.phoms;
-        var userID = data.uuid;
-        var player = this.getPlayerByUuid(userID);
-        player.showPhom(phoms);
-        player.setPlayerStatus("Ù");
-        this.buttonBar.children().hide();
-    };
+    this.startButton.unbind('click');
+    this.startButton.click(function () {
+      _self.emit("start", _self.model.players);
+    });
 
-    TWIST.PhomGame = PhomGame;
+    this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
+    this.buttonBar.append(this.hitButton);
+    this.hitButton.unbind('click');
+    this.hitButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('hitCards', {
+        cards: cards
+      });
+    });
+
+    this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
+    this.buttonBar.append(this.sortCardButton);
+    this.sortCardButton.unbind('click');
+    this.sortCardButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      Player.sortPhom();
+      Player.sortCard();
+    });
+
+    this.getCardButton = $(TWIST.HTMLTemplate['buttonBar/getCardButton']);
+    this.buttonBar.append(this.getCardButton);
+    this.getCardButton.unbind('click');
+    this.getCardButton.click(function () {
+      _self.emit('getCard');
+    });
+
+    this.eatCardButton = $(TWIST.HTMLTemplate['buttonBar/eatCardButton']);
+    this.buttonBar.append(this.eatCardButton);
+    this.eatCardButton.unbind('click');
+    this.eatCardButton.click(function () {
+      _self.emit('eatCard');
+    });
+
+    this.entiretyButton = $(TWIST.HTMLTemplate['buttonBar/entiretyButton']);
+    this.buttonBar.append(this.entiretyButton);
+    this.entiretyButton.unbind('click');
+    this.entiretyButton.click(function () {
+      _self.emit('entirety');
+    });
+
+    this.sendCardButton = $(TWIST.HTMLTemplate['buttonBar/sendCardButton']);
+    this.buttonBar.append(this.sendCardButton);
+    this.sendCardButton.unbind('click');
+    this.sendCardButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('sendCard', {
+        cards: cards
+      });
+    });
+
+    this.showPhomButton = $(TWIST.HTMLTemplate['buttonBar/showPhomButton']);
+    this.buttonBar.append(this.showPhomButton);
+    this.showPhomButton.unbind('click');
+    this.showPhomButton.click(function () {
+      _self.emit('showPhom');
+    });
+
+  };
+
+  p.handCardSelected = function (card) {
+
+  };
+
+  p.STATUS_ENDING = function () {
+    this.buttonBar.hide();
+    this.errorPanel.empty();
+    this.desk.lastDraftCards = undefined;
+    this.setPlayerTurn();
+  };
+
+  p.showPhom = function (data) {
+    var phoms = data.phoms;
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.showPhom(phoms);
+    if (player.position == 0) {
+      player.sortCard();
+    }
+    this.showPhomButton.hide();
+  };
+
+  p.drawPlayer = function (playerData) {
+    var newPlayer = TWIST.InRoomGame.prototype.drawPlayer.call(this, playerData);
+    newPlayer.addShowPhomArea();
+  };
+
+  p.sendCard = function (data) {
+    var cardsSend = data.cardsSend;
+    var sendPlayer = this.getPlayerByUuid(data.cardsSend[0].transFrom);
+    for (var i = 0; i < cardsSend.length; i++) {
+      var dataItem = cardsSend[i];
+      var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
+      if (receivePlayer && sendPlayer) {
+        var card = sendPlayer.getCardsInHand([dataItem.cardIndex])[0];
+        card.set({
+          x: card.x + sendPlayer.x + sendPlayer.hand.x,
+          y: card.y + sendPlayer.y + sendPlayer.hand.y
+        });
+        card.cardValue = dataItem.cardIndex;
+        receivePlayer.addCardInShowPhom(card);
+      }
+    }
+    for (var i = 0; i < this.playersContainer.children.length; i++) {
+      var player = this.playersContainer.children[i];
+      if (player) {
+        (function (player) {
+          setTimeout(function () {
+            player.sortPhomArea();
+          }, 700);
+        })(player);
+      }
+    }
+    if (sendPlayer.position == 0) {
+      sendPlayer.sortCard();
+    }
+    this.sendCardButton.hide();
+  };
+
+  p.entiretyCard = function (data) {
+    var phoms = data.phoms;
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.showPhom(phoms);
+    player.setPlayerStatus("Ù");
+    this.buttonBar.children().hide();
+    var _self = this;
+    setTimeout(function () {
+      _self.sortPhomArea();
+    }, 550);
+  };
+
+  TWIST.PhomGame = PhomGame;
 
 })();
 this.TWIST = this.TWIST || {};

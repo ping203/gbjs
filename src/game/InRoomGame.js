@@ -97,7 +97,7 @@ this.TWIST = this.TWIST || {};
         this.playersContainer = new createjs.Container();
         this.desk = new TWIST.Desk(this.options);
         this.desk.name = "desk";
-        this.stage.addChild(this.playersContainer, this.desk);
+        this.stage.addChild(this.desk ,this.playersContainer );
         this.wrapper.css({
             width: canvas.width(),
             height: canvas.height()

@@ -12,13 +12,16 @@ this.TWIST = this.TWIST || {};
     }
 
     Card.size = {width: 88, height: 115};
-    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 55};
+    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 54};
     Card.userCard.scale = Card.userCard.width / Card.size.width;
 
     Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
     Card.playerCard.scale = Card.playerCard.width / Card.size.width;
 
-    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
+    Card.deckCard = {width: 40, seperator: 0.1};
+    Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+
+    Card.draftCard = {width: 30, height: 40, seperator: 31};
     Card.draftCard.scale = Card.draftCard.width / Card.size.width;
 
     Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
@@ -91,16 +94,11 @@ this.TWIST = this.TWIST || {};
             bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
         }
 
-        this.inPhom = new createjs.Bitmap(cards);
-        this.inPhom.sourceRect = {
-            width: 25,
-            height: 25,
-            x: Card.size.width * 1,
-            y: Card.size.height * Card.SuitNameMap.length
-        };
+        this.inPhom = new createjs.Shape();
+        this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
         this.inPhom.set({
-            x: 55,
-            y: 10
+            x: Card.size.width/2 - 15,
+            y: Card.size.height + 2
         });
         this.inPhom.visible = false;
 
@@ -116,7 +114,7 @@ this.TWIST = this.TWIST || {};
             y: -1.5
         });
         this.border.visible = this.showBorder;
-        this.addChild(bg, this.border);
+        this.addChild(bg,this.inPhom, this.border);
     };
 
     p.getValue = function () {
