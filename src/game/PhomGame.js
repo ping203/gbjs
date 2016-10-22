@@ -419,6 +419,55 @@ this.TWIST = this.TWIST || {};
     }, 550);
   };
 
+  p.endGame = function (data, result, nomalWinType) {
+
+    var winTypeMap = {
+      0: "Nhất",
+      1: "Nhì",
+      2: "Ba",
+      3: "Bét",
+      4: "Móm"
+    };
+    var _self = this;
+    var resultData = {
+      isWinner: false,
+      listPlayers: []
+    };
+    resultData.listPlayers = data.listPlayers;
+    for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
+      var player = resultData.listPlayers[i];
+      var cardList = player.remainCards;
+      cardList.sort(function (a, b) {
+        return a - b;
+      });
+      if (parseInt(player.changeMoney) < 0) {
+        player.gameResultString = player.playerResult;
+      } else if (parseInt(player.changeMoney) > 0) {
+        player.gameResultString = player.playerResult;
+        player.isWinner = true;
+        if (player.uuid === this.userInfo.uuid) {
+          resultData.isWinner = true;
+        }
+      } else {
+        player.gameResultString = "Hòa";
+      };
+      
+      if(player.showPoint && player.totalPoint){
+        player.gameResultString = player.gameResultString + " " + player.totalPoint + " điểm !";
+      }
+
+      var Player = this.getPlayerByUuid(player.uuid);
+      if (Player) {
+        Player.clearTimer();
+        Player.setMoney(player.money);
+        Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+      }
+    }
+    setTimeout(function () {
+      _self.showResult(resultData);
+    }, 2000);
+  };
+
   TWIST.PhomGame = PhomGame;
 
 })();
