@@ -122,14 +122,20 @@ this.TWIST = this.TWIST || {};
   p.enableShowPhom = function (data) {
     this.listPhom = data['listPhom'];
     var player = this.getCurrentPlayer();
-    player.preparedShowPhom();
-    this.showPhomButton.show();
+    player.handCards.sortType = "suiteSort";
+    player.sortPhom();
+    setTimeout(function () {
+      player.preparedShowPhom();
+      this.showPhomButton.show();
+    }, 500);
   };
 
   p.enableSendCard = function (data) {
     var player = this.getCurrentPlayer();
     player.preparedSendCard(data['listCards']);
-    this.sendCardButton.show();
+    setTimeout(function () {
+      this.sendCardButton.show();
+    }, 500);
   };
 
   p.eatCardSuccess = function (data) {
@@ -426,7 +432,7 @@ this.TWIST = this.TWIST || {};
 
   p.STATUS_PLAYING = function () {
     TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
-    this.playersContainer.children.forEach(function(item,index){
+    this.playersContainer.children.forEach(function (item, index) {
       item && item.clearDraftCards() && item.clearHand() && item.clearShowPhomArea();
     });
   };
@@ -463,7 +469,6 @@ this.TWIST = this.TWIST || {};
       } else {
         player.gameResultString = "Hòa";
       }
-      ;
 
       if (player.showPoint && player.totalPoint) {
         player.gameResultString = player.gameResultString + " " + player.totalPoint + " điểm !";

@@ -722,19 +722,7 @@ this.TWIST = this.TWIST || {};
         }
     };
 
-    p.preparedShowPhom = function () {
-        var phomList = this.listPhom;
-        var cardsInPhom = [];
-        phomList = phomList;
-        for (var i = 0; i < phomList.length; i++) {
-            var phom = phomList[i];
-            phom.sort(function (a, b) {
-                return a - b
-            });
-            for (var j = 0; j < phom.length; j++) {
-                cardsInPhom.push(phom[j]);
-            }
-        }
+    p.preparedShowPhom = function (cardsInPhom) {
 
         var cards = this.handCards.children;
 
