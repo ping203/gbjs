@@ -6012,20 +6012,22 @@ this.TWIST = this.TWIST || {};
   };
 
   p.enableShowPhom = function (data) {
+    var _self = this;
     var player = this.getCurrentPlayer();
     player.handCards.sortType = "suiteSort";
     player.sortPhom();
     setTimeout(function () {
       player.preparedShowPhom(data['listCard']);
-      this.showPhomButton.show();
+      _self.showPhomButton.show();
     }, 500);
   };
 
   p.enableSendCard = function (data) {
+    var _self = this;
     var player = this.getCurrentPlayer();
     player.preparedSendCard(data['listCard']);
     setTimeout(function () {
-      this.sendCardButton.show();
+      _self.sendCardButton.show();
     }, 500);
   };
 
