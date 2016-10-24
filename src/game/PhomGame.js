@@ -120,19 +120,18 @@ this.TWIST = this.TWIST || {};
   };
 
   p.enableShowPhom = function (data) {
-    this.listPhom = data['listPhom'];
     var player = this.getCurrentPlayer();
     player.handCards.sortType = "suiteSort";
     player.sortPhom();
     setTimeout(function () {
-      player.preparedShowPhom();
+      player.preparedShowPhom(data['listCard']);
       this.showPhomButton.show();
     }, 500);
   };
 
   p.enableSendCard = function (data) {
     var player = this.getCurrentPlayer();
-    player.preparedSendCard(data['listCards']);
+    player.preparedSendCard(data['listCard']);
     setTimeout(function () {
       this.sendCardButton.show();
     }, 500);
