@@ -1124,7 +1124,7 @@ this.TWIST = this.TWIST || {};
       if (this.isTracking) {
         TWIST.Observer.emit('cardOpened', this);
       }
-      this.setInPhom(this.isInPhom);
+      this.setInPhom(this.inPhom);
       //this.updateCache();
     });
   };
@@ -2799,7 +2799,7 @@ this.TWIST = this.TWIST || {};
         scaleX: bai.scale,
         scaleY: bai.scale
       }, _animationTime, createjs.Ease.sineOut()).call(function () {
-        this.setInPhom(false);
+        this.inPhom = false;
         if (_self.position != 0) {
           this.openCard(this.cardValue, bai);
         }
