@@ -492,7 +492,7 @@ this.TWIST = this.TWIST || {};
                 cardList: cardList,
                 isWinnerClass: item.isWinner ? "winner" : ""
             });
-
+            container.empty();
             container.append($(resultText));
         });
         this.resultPanelScroll.refresh();
