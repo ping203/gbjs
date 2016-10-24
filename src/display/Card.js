@@ -140,7 +140,7 @@ this.TWIST = this.TWIST || {};
       if (this.isTracking) {
         TWIST.Observer.emit('cardOpened', this);
       }
-      this.setInPhom(this.inPhom);
+      this.setInPhom(this.isInPhom);
       //this.updateCache();
     });
   };

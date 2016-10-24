@@ -1011,7 +1011,7 @@ this.TWIST = this.TWIST || {};
         scaleX: bai.scale,
         scaleY: bai.scale
       }, _animationTime, createjs.Ease.sineOut()).call(function () {
-        this.inPhom = false;
+        this.isInPhom = false;
         if (_self.position != 0) {
           this.openCard(this.cardValue, bai);
         }
