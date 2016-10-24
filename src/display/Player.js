@@ -784,7 +784,7 @@ this.TWIST = this.TWIST || {};
     this.numberEatedCard++;
     var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
 
-    card.Overlay();
+    card.hightLight();
     if (this.position == 0) {
       this.addHandCards(card, {
         animationTime: 200,

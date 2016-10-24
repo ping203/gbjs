@@ -955,15 +955,12 @@ this.FATE = this.FATE || {};
 'buttonBar/wrapper':'<div class="button-bar"></div>',
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
-'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
+'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -976,6 +973,9 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
@@ -985,437 +985,432 @@ this.FATE = this.FATE || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/';
+  var imagePath = location.origin + location.pathname + '../src/images/';
 
-    function Card(position) {
-        if (typeof position !== 'number' || position < 0 || position > 51)
-            position = -1;
-        this.initialize(position);
+  function Card(position) {
+    if (typeof position !== 'number' || position < 0 || position > 51)
+      position = -1;
+    this.initialize(position);
+  }
+
+  Card.size = {width: 88, height: 115};
+  Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6, seperator: 54};
+  Card.userCard.scale = Card.userCard.width / Card.size.width;
+
+  Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+  Card.playerCard.scale = Card.playerCard.width / Card.size.width;
+
+  Card.deckCard = {width: 40, seperator: 0.1};
+  Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+
+  Card.draftCard = {width: 30, height: 40, seperator: 31};
+  Card.draftCard.scale = Card.draftCard.width / Card.size.width;
+
+  Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
+  Card.threeCards.scale = Card.threeCards.width / Card.size.width;
+
+  Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
+  Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
+
+  Card.miniPoker = {width: 102, height: 133};
+  Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
+
+  Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
+
+  Card.Suite = {
+    3: 0, //co = 39/13
+    2: 1, // ro = 26/13
+    1: 3, //nhep = 13/13
+    0: 2, //bich = 0/13
+    4: 4
+  };
+
+  Card.NumberCardInHand = 13;
+  Card.SuitMap = ["♠", "♣", "♦", "♥"];
+  Card.SuitNameMap = ["b", "t", "r", "c"];
+  Card.SuitImageIndex = ["♠", "♣", "♦", "♥"];
+
+  var p = Card.prototype = new createjs.Container();
+  p.container_initialize = p.initialize;
+
+
+  function getRankSuite(cardValue) {
+    var cardRank = Math.floor(cardValue / 4);
+    var cardSuite = Math.floor(cardValue % 4);
+
+    if (cardValue < 0 || cardValue >= 52) {
+      cardRank = -1;
+      cardSuite = 4;
+    }
+    return {
+      rank: cardRank,
+      suite: cardSuite
+    };
+  }
+
+  p.initialize = function (value) {
+    this.container_initialize();
+    this.setValue(value);
+  };
+
+  p.setValue = function (value) {
+    var rankSuite = getRankSuite(value);
+    this.cardValue = value;
+    this.rank = rankSuite.rank;
+    this.suite = rankSuite.suite;
+
+
+    var cards = new Image();
+    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
+    var bg = new createjs.Bitmap(cards);
+    this.bg = bg;
+    bg.sourceRect = $.extend({}, Card.size);
+    if (value !== -1) {
+      Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+      var rankName = Card.RankMapIndex[rankSuite.rank];
+      var suidName = Card.SuitMap[rankSuite.suite];
+      bg.sourceRect.x = (rankName - 1) * Card.size.width;
+      bg.sourceRect.y = rankSuite.suite * Card.size.height;
+    } else {
+      bg.sourceRect.x = 0;
+      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
 
-    Card.size = {width: 88, height: 115};
-    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6,seperator: 54};
-    Card.userCard.scale = Card.userCard.width / Card.size.width;
+    this.inPhom = new createjs.Shape();
+    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
+    this.inPhom.set({
+      x: Card.size.width / 2 - 15,
+      y: Card.size.height + 2
+    });
+    this.inPhom.visible = false;
 
-    Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
-    Card.playerCard.scale = Card.playerCard.width / Card.size.width;
+    this.border = new createjs.Shape();
+    this.border.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
+    this.border.set({
+      alpha: 0.5
+    });
+    this.border.visible = this.showBorder;
+    this.addChild(bg, this.inPhom, this.border);
+  };
 
-    Card.deckCard = {width: 40, seperator: 0.1};
-    Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+  p.getValue = function () {
+    return this.cardValue;
+  };
 
-    Card.draftCard = {width: 30, height: 40, seperator: 31};
-    Card.draftCard.scale = Card.draftCard.width / Card.size.width;
+  p.removeAllSelected = function () {
+    this.parent.children.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+  };
 
-    Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
-    Card.threeCards.scale = Card.threeCards.width / Card.size.width;
+  p.openCard = function (cardValue, cardType) {
+    var oldX = this.x;
+    var _self = this;
+    cardType = cardType || Card.userCard;
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
+            .call(function () {
+              this.setValue(cardValue);
+              this.cardValue = cardValue;
+              try {
+                this.updateCache();
+              } catch (e) {
 
-    Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
-    Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
+              }
+            })
+            .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+      if (this.isTracking) {
+        TWIST.Observer.emit('cardOpened', this);
+      }
+      this.setInPhom(this.isInPhom);
+      //this.updateCache();
+    });
+  };
 
-    Card.miniPoker = {width: 102, height: 133};
-    Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
+  p.upSideDown = function (cardType) {
+    var oldX = this.x;
+    var _self = this;
+    cardType = cardType || Card.userCard;
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
+            .call(function () {
+              this.cardValue = -1;
+              this.setValue(-1);
+              try {
+                this.updateCache();
+              } catch (e) {
 
-    Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
-
-    Card.Suite = {
-        3: 0, //co = 39/13
-        2: 1, // ro = 26/13
-        1: 3, //nhep = 13/13
-        0: 2, //bich = 0/13
-        4: 4
-    };
-
-    Card.NumberCardInHand = 13;
-    Card.SuitMap = ["♠", "♣", "♦", "♥"];
-    Card.SuitNameMap = ["b", "t", "r", "c"];
-    Card.SuitImageIndex = ["♠", "♣", "♦", "♥"];
-
-    var p = Card.prototype = new createjs.Container();
-    p.container_initialize = p.initialize;
-
-
-    function getRankSuite(cardValue) {
-        var cardRank = Math.floor(cardValue / 4);
-        var cardSuite = Math.floor(cardValue % 4);
-
-        if (cardValue < 0 || cardValue >= 52) {
-            cardRank = -1;
-            cardSuite = 4;
-        }
-        return {
-            rank: cardRank,
-            suite: cardSuite
-        };
-    }
-
-    p.initialize = function (value) {
-        this.container_initialize();
-        this.setValue(value);
-    };
-
-    p.setValue = function (value) {
-        var rankSuite = getRankSuite(value);
-        this.cardValue = value;
-        this.rank = rankSuite.rank;
-        this.suite = rankSuite.suite;
-
-
-        var cards = new Image();
-        cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
-        var bg = new createjs.Bitmap(cards);
-        this.bg = bg;
-        bg.sourceRect = $.extend({}, Card.size);
-        if (value !== -1) {
-            Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
-            var rankName = Card.RankMapIndex[rankSuite.rank];
-            var suidName = Card.SuitMap[rankSuite.suite];
-            bg.sourceRect.x = (rankName - 1) * Card.size.width;
-            bg.sourceRect.y = rankSuite.suite * Card.size.height;
-        } else {
-            bg.sourceRect.x = 0;
-            bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
-        }
-
-        this.inPhom = new createjs.Shape();
-        this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
-        this.inPhom.set({
-            x: Card.size.width/2 - 15,
-            y: Card.size.height + 2
-        });
-        this.inPhom.visible = false;
-
-        this.border = new createjs.Bitmap(cards);
-        this.border.sourceRect = {
-            width: Card.size.width + 4,
-            height: Card.size.height + 3,
-            x: Card.size.width * 2,
-            y: Card.size.height * Card.SuitNameMap.length
-        };
-        this.border.set({
-            x: -2,
-            y: -1.5
-        });
-        this.border.visible = this.showBorder;
-        this.addChild(bg,this.inPhom, this.border);
-    };
-
-    p.getValue = function () {
-        return this.cardValue;
-    };
-
-    p.removeAllSelected = function () {
-        this.parent.children.forEach(function (item, index) {
-            item.setSelected(false);
-        });
-    };
-    
-    p.openCard = function (cardValue, cardType) {
-        var oldX = this.x;
-        var _self = this;
-        cardType = cardType || Card.userCard;
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
-                .call(function () {
-                    this.setValue(cardValue);
-                    this.cardValue = cardValue;
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-
-                    }
-                })
-                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
-            if (this.isTracking) {
-                TWIST.Observer.emit('cardOpened', this);
-            }
-            this.setInPhom(this.isInPhom);
-            //this.updateCache();
-        });
-    };
-
-    p.upSideDown = function (cardType) {
-        var oldX = this.x;
-        var _self = this;
-        cardType = cardType || Card.userCard;
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
-                .call(function () {
-                    this.cardValue = -1;
-                    this.setValue(-1);
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-
-                    }
-                })
-                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+              }
+            })
+            .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
 
 
-        });
-    };
+    });
+  };
 
-    p.tipOff = function () {
-        if (this.IsFlip === false)
-            return;
+  p.tipOff = function () {
+    if (this.IsFlip === false)
+      return;
 
-        var newX = this.x;
+    var newX = this.x;
 
-        this.removeAllEventListeners();
+    this.removeAllEventListeners();
 
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: newX + this.width / 2}, 150)
-                .call(function () {
-                    this.setValue(-1);
-                })
-                .to({scaleX: Card.draftCard.scale, x: newX}, 150)
-                .call(function () {
-                    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-                        console.log(e);
-                    }
-                });
-    };
-
-    p.movePosition = function (newPosition) {
-        if (!this.parent)
-            return;
-
-        createjs.Tween.get(this).to({x: newPosition.x, y: newPosition.y}, 150).call(function () {});
-    }
-
-    p.setSelected = function (isSelect) {
-        if (isSelect) {
-            var newY = -Card.userCard.selectedHeight;
-            createjs.Tween.get(this).to({y: newY}, 100).call(function () {
-                this.selected = true;
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: newX + this.width / 2}, 150)
+            .call(function () {
+              this.setValue(-1);
+            })
+            .to({scaleX: Card.draftCard.scale, x: newX}, 150)
+            .call(function () {
+              this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
+              try {
+                this.updateCache();
+              } catch (e) {
+                console.log(e);
+              }
             });
-        } else {
-            this.selected = false;
-            this.y = 0;
-        }
-    };
+  };
 
-    p.toggedSelected = function () {
-        var _self = this;
-        if (this.isSelected) {
-            this.isSelected = false;
-            this.y = this.y + 15;
-            _self.parent.swapCardX = undefined;
-            _self.parent.swapCardY = undefined;
-            _self.parent.selectedCard = undefined;
-        } else {
-            var newY = this.y - 15;
-            _self.parent.setChildIndex(_self, 12);
-            _self.isSelected = true;
-            createjs.Tween.get(this).to({y: newY}, 100).call(function () {
-                _self.parent.selectedCard = _self;
-            });
+  p.movePosition = function (newPosition) {
+    if (!this.parent)
+      return;
 
-        }
-    };
+    createjs.Tween.get(this).to({x: newPosition.x, y: newPosition.y}, 150).call(function () {});
+  }
 
-    p.setDraggable = function (draggable) {
-        var _self = this;
-        this.removeAllEventListeners("mousedown");
-        this.removeAllEventListeners("pressmove");
-        this.removeAllEventListeners("pressup");
+  p.setSelected = function (isSelect) {
+    if (isSelect) {
+      var newY = -Card.userCard.selectedHeight;
+      createjs.Tween.get(this).to({y: newY}, 100).call(function () {
+        this.selected = true;
+      });
+    } else {
+      this.selected = false;
+      this.y = 0;
+    }
+  };
+
+  p.toggedSelected = function () {
+    var _self = this;
+    if (this.isSelected) {
+      this.isSelected = false;
+      this.y = this.y + 15;
+      _self.parent.swapCardX = undefined;
+      _self.parent.swapCardY = undefined;
+      _self.parent.selectedCard = undefined;
+    } else {
+      var newY = this.y - 15;
+      _self.parent.setChildIndex(_self, 12);
+      _self.isSelected = true;
+      createjs.Tween.get(this).to({y: newY}, 100).call(function () {
+        _self.parent.selectedCard = _self;
+      });
+
+    }
+  };
+
+  p.setDraggable = function (draggable) {
+    var _self = this;
+    this.removeAllEventListeners("mousedown");
+    this.removeAllEventListeners("pressmove");
+    this.removeAllEventListeners("pressup");
 
 //                this.parent.
-        if (draggable) {
-            this.addEventListener('mousedown', function (evt) {
-                _self.startPositionX = _self.x;
-                _self.startPositionY = _self.y;
-                _self.startMousePositionX = evt.stageX;
-                _self.startMousePositionY = evt.stageY;
-                _self.parent.addChild(_self);
-            });
-            this.addEventListener('pressmove', function (evt) {
-                _self.parent.addChild(_self);
-                var distanceX = (evt.stageX - _self.startMousePositionX);
-                var distanceY = (evt.stageY - _self.startMousePositionY);
-                if ((Math.abs(distanceX) + Math.abs(distanceY)) <= 10)
-                    return;
-                _self.isDragging = true;
-                _self.x = _self.startPositionX + distanceX;
-                _self.y = _self.startPositionY + distanceY;
-                var handCards = _self.parent;
-                var indexLeft = handCards.indexLeft;
-                var pointerPosition = handCards.globalToLocal(evt.stageX - indexLeft, evt.stageY);
-                if (pointerPosition.y > 0 && pointerPosition.y <= _self.height) {
-                    var curPosition = Math.floor(pointerPosition.x / _self.seperator);
-                    curPosition = (curPosition < 0) ? 0 : ((curPosition >= handCards.children.length - 1) ? handCards.children.length - 1 : curPosition);
-                    if (curPosition != _self.position) {
-                        var length = Math.abs(curPosition - _self.position);
-                        var direction = (curPosition - _self.position) / Math.abs(curPosition - _self.position);
+    if (draggable) {
+      this.addEventListener('mousedown', function (evt) {
+        _self.startPositionX = _self.x;
+        _self.startPositionY = _self.y;
+        _self.startMousePositionX = evt.stageX;
+        _self.startMousePositionY = evt.stageY;
+        _self.parent.addChild(_self);
+      });
+      this.addEventListener('pressmove', function (evt) {
+        _self.parent.addChild(_self);
+        var distanceX = (evt.stageX - _self.startMousePositionX);
+        var distanceY = (evt.stageY - _self.startMousePositionY);
+        if ((Math.abs(distanceX) + Math.abs(distanceY)) <= 10)
+          return;
+        _self.isDragging = true;
+        _self.x = _self.startPositionX + distanceX;
+        _self.y = _self.startPositionY + distanceY;
+        var handCards = _self.parent;
+        var indexLeft = handCards.indexLeft;
+        var pointerPosition = handCards.globalToLocal(evt.stageX - indexLeft, evt.stageY);
+        if (pointerPosition.y > 0 && pointerPosition.y <= _self.height) {
+          var curPosition = Math.floor(pointerPosition.x / _self.seperator);
+          curPosition = (curPosition < 0) ? 0 : ((curPosition >= handCards.children.length - 1) ? handCards.children.length - 1 : curPosition);
+          if (curPosition != _self.position) {
+            var length = Math.abs(curPosition - _self.position);
+            var direction = (curPosition - _self.position) / Math.abs(curPosition - _self.position);
 
-                        var cardPositions = handCards.children.forEach(function (item, index) {
-                            if ((item.position - curPosition) * (item.position - _self.position) <= 0 && (item.position != _self.position)) {
-                                item.position -= direction;
-                                item.moveToPosition(item.position);
-                            }
-                        });
-                    }
-                    ;
-                    _self.position = curPosition;
-                }
+            var cardPositions = handCards.children.forEach(function (item, index) {
+              if ((item.position - curPosition) * (item.position - _self.position) <= 0 && (item.position != _self.position)) {
+                item.position -= direction;
+                item.moveToPosition(item.position);
+              }
             });
-            this.addEventListener('pressup', function (evt) {
-                if (_self.isDragging) {
-                    _self.selected = false;
-                    _self.moveToPosition(_self.position);
-                    _self.parent.children.sort(function (a, b) {
-                        return a.position - b.position
-                    });
-                }
-                _self.isDragging = false;
-            });
+          }
+          ;
+          _self.position = curPosition;
         }
-    };
+      });
+      this.addEventListener('pressup', function (evt) {
+        if (_self.isDragging) {
+          _self.selected = false;
+          _self.moveToPosition(_self.position);
+          _self.parent.children.sort(function (a, b) {
+            return a.position - b.position
+          });
+        }
+        _self.isDragging = false;
+      });
+    }
+  };
 
-    p.moveTo = function (x, y, options) {
-        createjs.Tween.get(this).to({
-            x: x,
-            y: y
-        }, 100, createjs.Ease.sineOut()).call(function () {
+  p.moveTo = function (x, y, options) {
+    createjs.Tween.get(this).to({
+      x: x,
+      y: y
+    }, 100, createjs.Ease.sineOut()).call(function () {
 //                    this.tween = undefined;
 //                    this.parent.setChildIndex(this, this.position);
-        });
-    };
+    });
+  };
 
-    p.moveToPosition = function (position, options) {
-        position = position || this.position || 0;
-        var indexLeft = this.parent.indexLeft || 0;
-        var seperator = this.seperator || Card.userCard.seperator;
-        var newX = indexLeft + seperator * position;
-        this.moveTo(newX, 0, options);
-    };
+  p.moveToPosition = function (position, options) {
+    position = position || this.position || 0;
+    var indexLeft = this.parent.indexLeft || 0;
+    var seperator = this.seperator || Card.userCard.seperator;
+    var newX = indexLeft + seperator * position;
+    this.moveTo(newX, 0, options);
+  };
 
-    p.setInPhom = function (value) {
-        if (value) {
-            this.inPhom.visible = true;
-        } else {
-            this.inPhom.visible = false;
-        }
-    };
-
-    p.setClick = function (clickable) {
-        var _self = this;
-
-        this.removeAllEventListeners("click");
-        if (clickable) {
-            this.addEventListener('click', function (e) {
-                var card = e.target.parent;
-                if (!card.isDragging) {
-                    if (card.parent.selectedCard && card.parent.selectedCard.cardValue != card.cardValue) {
-                        $rootScope.playerEvent = {evt: "swapSelected", data: [card.parent.selectedCard.cardValue, card.cardValue]};
-                        $rootScope.digest();
-                    } else {
-                        card.toggedSelected();
-                    }
-                }
-            });
-        }
-    };
-
-    p.bindMouseOver = function (mouseOver) {
-        var _self = this;
-
-        this.removeAllEventListeners("mouseover");
-        this.removeAllEventListeners("mouseout");
-
-        if (mouseOver) {
-            this.addEventListener('mouseover', function (evt) {
-                console.log("moserOver ", _self.cardValue);
-                return;
-                _self.cursor = "pointer";
-                _self.Overlay();
-            });
-            return;
-            this.addEventListener('mouseout', function (evt) {
-                _self.cursor = undefined;
-                _self.UnOverlay()
-            });
-        }
-    };
-
-    p.bindEventListener = function () {
-        this.removeAllEventListeners("click");
-        var _self = this;
-        this.addEventListener('click', function (e) {
-            if (!_self.isDragging) {
-                if (!_self.selected) {
-                    TWIST.Observer.emit("cardSelected", _self);
-                }
-                _self.setSelected(!_self.selected);
-
-            }
-        });
-    };
-
-    p.bindOpenCard = function () {
-        this.removeAllEventListeners("click");
-        var _self = this;
-        this.addEventListener('click', function (e) {
-            try {
-                if (!_self.isDragging) {
-                    _self.openCard(_self.cardValue);
-                }
-            } catch (e) {
-                console.warn(e);
-            }
-        });
+  p.setInPhom = function (value) {
+    if (value) {
+      this.inPhom.visible = true;
+    } else {
+      this.inPhom.visible = false;
     }
+    try {this.updateCache();} catch (e) {}
+  };
 
-    p.Overlay = function () {
-        this.isOverlay = true;
-        this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
-        this.cache(0, 0, Card.size.width, Card.size.height);
-        try {
-            this.updateCache();
-        } catch (e) {
+  p.setClick = function (clickable) {
+    var _self = this;
 
+    this.removeAllEventListeners("click");
+    if (clickable) {
+      this.addEventListener('click', function (e) {
+        var card = e.target.parent;
+        if (!card.isDragging) {
+          if (card.parent.selectedCard && card.parent.selectedCard.cardValue != card.cardValue) {
+            $rootScope.playerEvent = {evt: "swapSelected", data: [card.parent.selectedCard.cardValue, card.cardValue]};
+            $rootScope.digest();
+          } else {
+            card.toggedSelected();
+          }
         }
-    };
+      });
+    }
+  };
 
-    p.UnOverlay = function () {
-        this.isOverlay = false;
-        this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
-        try {
-            this.updateCache();
-        } catch (e) {
+  p.bindMouseOver = function (mouseOver) {
+    var _self = this;
 
+    this.removeAllEventListeners("mouseover");
+    this.removeAllEventListeners("mouseout");
+
+    if (mouseOver) {
+      this.addEventListener('mouseover', function (evt) {
+        console.log("moserOver ", _self.cardValue);
+        return;
+        _self.cursor = "pointer";
+        _self.Overlay();
+      });
+      return;
+      this.addEventListener('mouseout', function (evt) {
+        _self.cursor = undefined;
+        _self.UnOverlay()
+      });
+    }
+  };
+
+  p.bindEventListener = function () {
+    this.removeAllEventListeners("click");
+    var _self = this;
+    this.addEventListener('click', function (e) {
+      if (!_self.isDragging) {
+        if (!_self.selected) {
+          TWIST.Observer.emit("cardSelected", _self);
         }
-    };
+        _self.setSelected(!_self.selected);
 
-    p.addMouseMoveEvent = function () {
-        if (this.card.IsDraggable && !this.card.IsInPhom) {
-            this.addEventListener('mouseover', function (evt) {
+      }
+    });
+  };
+
+  p.bindOpenCard = function () {
+    this.removeAllEventListeners("click");
+    var _self = this;
+    this.addEventListener('click', function (e) {
+      try {
+        if (!_self.isDragging) {
+          _self.openCard(_self.cardValue);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    });
+  }
+
+  p.Overlay = function () {
+    this.isOverlay = true;
+    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
+    this.cache(0, 0, Card.size.width, Card.size.height);
+    try {
+      this.updateCache();
+    } catch (e) {
+
+    }
+  };
+
+  p.UnOverlay = function () {
+    this.isOverlay = false;
+    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
+    try {
+      this.updateCache();
+    } catch (e) {
+
+    }
+  };
+
+  p.addMouseMoveEvent = function () {
+    if (this.card.IsDraggable && !this.card.IsInPhom) {
+      this.addEventListener('mouseover', function (evt) {
 //                    evt.target.shadow = Card.shadowHover;
-            });
+      });
 
-            this.addEventListener('mouseout', function (evt) {
+      this.addEventListener('mouseout', function (evt) {
 //                    evt.target.shadow = null;
-            });
-        }
-    };
-
-    p.hightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = true;
-        this.border.visible = true;
+      });
     }
+  };
 
-    p.unHightLight = function () {
+  p.hightLight = function () {
 //                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = false;
-        this.border.visible = false;
-    }
+    this.showBorder = true;
+    this.border.visible = true;
+  }
 
-    TWIST.Card = Card;
+  p.unHightLight = function () {
+//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
+    this.showBorder = false;
+    this.border.visible = false;
+  }
+
+  TWIST.Card = Card;
 })();
 this.TWIST = this.TWIST || {};
 
@@ -2577,7 +2572,7 @@ this.TWIST = this.TWIST || {};
     this.numberEatedCard++;
     var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
 
-    card.Overlay();
+    card.hightLight();
     if (this.position == 0) {
       this.addHandCards(card, {
         animationTime: 200,
