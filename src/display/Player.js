@@ -650,13 +650,7 @@ this.TWIST = this.TWIST || {};
         }
       }
     }
-    if (!this.handCards.sortType) {
-      this.handCards.sortType = "";
-    }
-    if (this.handCards.sortType == "rankSort") {
-      this.handCards.sortType = "suiteSort";
-    } else
-      this.handCards.sortType = "rankSort";
+    this.handCards.sortType = this.handCards.sortType ? "" : "rankSort";
     var _self = this;
 
     cards.forEach(function (item, index) {
@@ -685,7 +679,7 @@ this.TWIST = this.TWIST || {};
 
   p.sortTL = function () {
     var cards = this.handCards.children;
-    this.handCards.sortType = (this.handCards.sortType == "rankSort") ? "suiteSort" : "rankSort";
+    this.handCards.sortType = this.handCards.sortType ? "" : "rankSort";
     var _self = this;
     cards.sort(function (a, b) {
       if (_self.handCards.sortType == "rankSort") {

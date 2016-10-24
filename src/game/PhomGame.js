@@ -95,6 +95,7 @@ this.TWIST = this.TWIST || {};
       this.sortCardButton.show();
     }
     this.getCardButton.hide();
+    this.eatCardButton.hide();
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
     }
@@ -123,7 +124,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var player = this.getCurrentPlayer();
     player.handCards.sortType = "suiteSort";
-    player.sortPhom();
+    player.sortPhom(data['listCard']);
     setTimeout(function () {
       player.preparedShowPhom(data['listCard']);
       _self.showPhomButton.show();
