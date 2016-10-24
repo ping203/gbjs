@@ -22,7 +22,7 @@ this.TWIST = this.TWIST || {};
   var p = PhomGame.prototype = new TWIST.InRoomGame();
 
   p.initPhomGame = function (wrapper) {
-    TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
     this.initInRoomGame();
     this.bindButton();
     this.pushPhomEvent();
@@ -419,6 +419,13 @@ this.TWIST = this.TWIST || {};
     }, 550);
   };
 
+  p.STATUS_PLAYING = function () {
+    TWIST.InRoomGame.STATUS_PLAYING.call(this);
+    this.playersContainer.children.forEach(function(item,index){
+      item && item.clearDraftCards() && item.clearHand();
+    });
+  };
+
   p.endGame = function (data, result, nomalWinType) {
 
     var winTypeMap = {
@@ -450,9 +457,10 @@ this.TWIST = this.TWIST || {};
         }
       } else {
         player.gameResultString = "Hòa";
-      };
-      
-      if(player.showPoint && player.totalPoint){
+      }
+      ;
+
+      if (player.showPoint && player.totalPoint) {
         player.gameResultString = player.gameResultString + " " + player.totalPoint + " điểm !";
       }
 

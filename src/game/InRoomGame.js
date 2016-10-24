@@ -287,6 +287,7 @@ this.TWIST = this.TWIST || {};
         players.forEach(function (item, index) {
             item.status = "STATUS_PLAYING";
         });
+        this.desk.clear();
     };
 
     p.endGame = function (data) {
