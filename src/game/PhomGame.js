@@ -119,11 +119,16 @@ this.TWIST = this.TWIST || {};
     this.entiretyButton.show();
   };
 
-  p.enableShowPhom = function () {
+  p.enableShowPhom = function (data) {
+    this.listPhom = data['listPhom'];
+    var player = this.getCurrentPlayer();
+    player.preparedShowPhom();
     this.showPhomButton.show();
   };
 
-  p.enableSendCard = function () {
+  p.enableSendCard = function (data) {
+    var player = this.getCurrentPlayer();
+    player.preparedSendCard(data['listCards']);
     this.sendCardButton.show();
   };
 
@@ -422,7 +427,7 @@ this.TWIST = this.TWIST || {};
   p.STATUS_PLAYING = function () {
     TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
     this.playersContainer.children.forEach(function(item,index){
-      item && item.clearDraftCards() && item.clearHand();
+      item && item.clearDraftCards() && item.clearHand() && item.clearShowPhomArea();
     });
   };
 
