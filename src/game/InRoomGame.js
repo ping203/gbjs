@@ -472,7 +472,7 @@ this.TWIST = this.TWIST || {};
         }
 
         var container = this.resultPanel.find('.container>div');
-
+        container.empty();
         resultData.listPlayers.forEach(function (item, index) {
             var cardList = "";
             var cardListIndex = item.remainCards;
@@ -492,7 +492,6 @@ this.TWIST = this.TWIST || {};
                 cardList: cardList,
                 isWinnerClass: item.isWinner ? "winner" : ""
             });
-            container.empty();
             container.append($(resultText));
         });
         this.resultPanelScroll.refresh();
