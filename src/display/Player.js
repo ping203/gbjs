@@ -267,8 +267,8 @@ this.TWIST = this.TWIST || {};
 
   p.clearHand = function () {
     this.handCards.removeAllChildren();
-    var cardNumberBg = this.hand.getChildAt(1);
-    var cardNumber = this.hand.getChildAt(2);
+    var cardNumberBg = this.numberOfCards.getChildAt(0);
+    var cardNumber = this.numberOfCards.getChildAt(1);
     cardNumberBg.visible = false;
     cardNumber.visible = false;
   };
