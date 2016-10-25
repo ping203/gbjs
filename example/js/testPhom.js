@@ -260,13 +260,34 @@
         phoms: [[1, 2, 4, 6, 15]],
         cardIndex: "3"
       },
-      nextTime: 3000
+      nextTime: 1000
     }
     , {
       event: "hitTurn",
       data: {
         username: "tieuteiei",
         uuid: "1"
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "endGame",
+      data: {
+        newStatus: "1"
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: "1"
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: "2"
       },
       nextTime: 1000
     }

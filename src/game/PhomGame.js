@@ -445,7 +445,9 @@ this.TWIST = this.TWIST || {};
   p.STATUS_PLAYING = function () {
     TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
     this.playersContainer.children.forEach(function (item, index) {
-      item && item.clearDraftCards() && item.clearHand() && item.clearShowPhomArea();
+      item && item.clearDraftCards();
+      item && item.clearHand();
+      item && item.clearShowPhomArea();
     });
   };
 
