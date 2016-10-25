@@ -2672,7 +2672,7 @@ this.TWIST = this.TWIST || {};
     }
     var _self = this;
     setTimeout(function () {
-//      _self.sortPhomArea();
+      _self.sortPhomArea();
     }, 550);
   };
 
