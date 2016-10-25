@@ -2087,10 +2087,12 @@ this.TWIST = this.TWIST || {};
     var statusContainer = this.status;
     var statusText = statusContainer.getChildAt(1);
     var statusBg = statusContainer.getChildAt(0);
-
+    if (options) {
+      this.status.options = options;
+    }
     if (!status || !status.length) {
-      statusContainer.visible = false;
-      return;
+      status = (this.status.options && this.status.options.default) || "";
+      options = this.status.options;
     }
     if (!options)
       options = {};
@@ -2799,7 +2801,7 @@ this.TWIST = this.TWIST || {};
       card.set({x: card.x + this.hand.x - draftCards.x, y: card.y + this.hand.y - draftCards.y});
       card.removeAllEventListeners();
 
-      createjs.Tween.get(card,  {override:true}).to({
+      createjs.Tween.get(card, {override: true}).to({
         x: newX, y: newY,
         width: bai.width,
         height: bai.height,
@@ -2809,7 +2811,7 @@ this.TWIST = this.TWIST || {};
         this.isInPhom = false;
         if (_self.position != 0) {
           this.openCard(this.cardValue, bai);
-        }else{
+        } else {
           this.setInPhom(false);
         }
       });
@@ -6335,9 +6337,11 @@ this.TWIST = this.TWIST || {};
   p.STATUS_PLAYING = function () {
     TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
     this.playersContainer.children.forEach(function (item, index) {
-      item && item.clearDraftCards();
-      item && item.clearHand();
-      item && item.clearShowPhomArea();
+      if(!item) return;
+      item.clearDraftCards();
+      item.clearHand();
+      item.clearShowPhomArea();
+      item.setPlayerStatus("");
     });
   };
 
