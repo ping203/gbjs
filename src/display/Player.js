@@ -783,7 +783,6 @@ this.TWIST = this.TWIST || {};
     this.numberEatedCard = this.numberEatedCard || 0;
     this.numberEatedCard++;
     var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
-
     card.hightLight();
     if (this.position == 0) {
       this.addHandCards(card, {
@@ -792,7 +791,6 @@ this.TWIST = this.TWIST || {};
         sortPhom: true,
         dragable: true
       });
-      this.markEatedCard();
     } else {
       var newX = bai.seperator * this.draftCards.children.length,
               newY = 0;
@@ -878,7 +876,7 @@ this.TWIST = this.TWIST || {};
     }
     var _self = this;
     setTimeout(function () {
-      _self.sortPhomArea();
+//      _self.sortPhomArea();
     }, 550);
   };
 
@@ -1004,7 +1002,7 @@ this.TWIST = this.TWIST || {};
       card.set({x: card.x + this.hand.x - draftCards.x, y: card.y + this.hand.y - draftCards.y});
       card.removeAllEventListeners();
 
-      createjs.Tween.get(card).to({
+      createjs.Tween.get(card,  {override:true}).to({
         x: newX, y: newY,
         width: bai.width,
         height: bai.height,
@@ -1035,7 +1033,6 @@ this.TWIST = this.TWIST || {};
     if (this.draftCards.align == "right") {
       newX = 300 - bai.seperator * (draftCards.children.length - 1)
     }
-    ;
     card.localToGlobal(0, 0);
     this.stage.addChild(card);
     card.removeAllEventListeners();

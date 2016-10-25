@@ -68,7 +68,34 @@ this.TWIST = this.TWIST || {};
 
   p.initialize = function (value) {
     this.container_initialize();
+    this._init();
     this.setValue(value);
+  };
+
+  p._init = function () {
+    var cards = new Image();
+    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
+    var bg = new createjs.Bitmap(cards);
+    this.bg = bg;
+    bg.sourceRect = $.extend({}, Card.size);
+    bg.sourceRect.x = 0;
+    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+
+    this.inPhom = new createjs.Shape();
+    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
+    this.inPhom.set({
+      x: Card.size.width / 2 - 15,
+      y: Card.size.height + 2
+    });
+    this.inPhom.visible = false;
+
+    this.eatEffect = new createjs.Shape();
+    this.eatEffect.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
+    this.eatEffect.set({
+      alpha: 0.5
+    });
+    this.eatEffect.visible = this.showEatEffect;
+    this.addChild(bg, this.inPhom, this.eatEffect);
   };
 
   p.setValue = function (value) {
@@ -77,11 +104,7 @@ this.TWIST = this.TWIST || {};
     this.rank = rankSuite.rank;
     this.suite = rankSuite.suite;
 
-
-    var cards = new Image();
-    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
-    var bg = new createjs.Bitmap(cards);
-    this.bg = bg;
+    var bg = this.bg;
     bg.sourceRect = $.extend({}, Card.size);
     if (value !== -1) {
       Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
@@ -93,22 +116,6 @@ this.TWIST = this.TWIST || {};
       bg.sourceRect.x = 0;
       bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
-
-    this.inPhom = new createjs.Shape();
-    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
-    this.inPhom.set({
-      x: Card.size.width / 2 - 15,
-      y: Card.size.height + 2
-    });
-    this.inPhom.visible = false;
-
-    this.border = new createjs.Shape();
-    this.border.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
-    this.border.set({
-      alpha: 0.5
-    });
-    this.border.visible = this.showBorder;
-    this.addChild(bg, this.inPhom, this.border);
   };
 
   p.getValue = function () {
@@ -137,6 +144,7 @@ this.TWIST = this.TWIST || {};
               }
             })
             .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+
       if (this.isTracking) {
         TWIST.Observer.emit('cardOpened', this);
       }
@@ -310,7 +318,10 @@ this.TWIST = this.TWIST || {};
     } else {
       this.inPhom.visible = false;
     }
-    try {this.updateCache();} catch (e) {}
+    try {
+      this.updateCache();
+    } catch (e) {
+    }
   };
 
   p.setClick = function (clickable) {
@@ -340,7 +351,6 @@ this.TWIST = this.TWIST || {};
 
     if (mouseOver) {
       this.addEventListener('mouseover', function (evt) {
-        console.log("moserOver ", _self.cardValue);
         return;
         _self.cursor = "pointer";
         _self.Overlay();
@@ -415,15 +425,13 @@ this.TWIST = this.TWIST || {};
   };
 
   p.hightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-    this.showBorder = true;
-    this.border.visible = true;
+    this.showEatEffect = true;
+    this.eatEffect.visible = true;
   }
 
   p.unHightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-    this.showBorder = false;
-    this.border.visible = false;
+    this.showEatEffect = false;
+    this.eatEffect.visible = false;
   }
 
   TWIST.Card = Card;

@@ -955,12 +955,12 @@ this.FATE = this.FATE || {};
 'buttonBar/wrapper':'<div class="button-bar"></div>',
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
-'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
+'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -1052,7 +1052,34 @@ this.TWIST = this.TWIST || {};
 
   p.initialize = function (value) {
     this.container_initialize();
+    this._init();
     this.setValue(value);
+  };
+
+  p._init = function () {
+    var cards = new Image();
+    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
+    var bg = new createjs.Bitmap(cards);
+    this.bg = bg;
+    bg.sourceRect = $.extend({}, Card.size);
+    bg.sourceRect.x = 0;
+    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+
+    this.inPhom = new createjs.Shape();
+    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
+    this.inPhom.set({
+      x: Card.size.width / 2 - 15,
+      y: Card.size.height + 2
+    });
+    this.inPhom.visible = false;
+
+    this.eatEffect = new createjs.Shape();
+    this.eatEffect.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
+    this.eatEffect.set({
+      alpha: 0.5
+    });
+    this.eatEffect.visible = this.showEatEffect;
+    this.addChild(bg, this.inPhom, this.eatEffect);
   };
 
   p.setValue = function (value) {
@@ -1061,11 +1088,7 @@ this.TWIST = this.TWIST || {};
     this.rank = rankSuite.rank;
     this.suite = rankSuite.suite;
 
-
-    var cards = new Image();
-    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
-    var bg = new createjs.Bitmap(cards);
-    this.bg = bg;
+    var bg = this.bg;
     bg.sourceRect = $.extend({}, Card.size);
     if (value !== -1) {
       Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
@@ -1077,22 +1100,6 @@ this.TWIST = this.TWIST || {};
       bg.sourceRect.x = 0;
       bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
-
-    this.inPhom = new createjs.Shape();
-    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
-    this.inPhom.set({
-      x: Card.size.width / 2 - 15,
-      y: Card.size.height + 2
-    });
-    this.inPhom.visible = false;
-
-    this.border = new createjs.Shape();
-    this.border.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
-    this.border.set({
-      alpha: 0.5
-    });
-    this.border.visible = this.showBorder;
-    this.addChild(bg, this.inPhom, this.border);
   };
 
   p.getValue = function () {
@@ -1121,6 +1128,7 @@ this.TWIST = this.TWIST || {};
               }
             })
             .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+
       if (this.isTracking) {
         TWIST.Observer.emit('cardOpened', this);
       }
@@ -1294,7 +1302,10 @@ this.TWIST = this.TWIST || {};
     } else {
       this.inPhom.visible = false;
     }
-    try {this.updateCache();} catch (e) {}
+    try {
+      this.updateCache();
+    } catch (e) {
+    }
   };
 
   p.setClick = function (clickable) {
@@ -1324,7 +1335,6 @@ this.TWIST = this.TWIST || {};
 
     if (mouseOver) {
       this.addEventListener('mouseover', function (evt) {
-        console.log("moserOver ", _self.cardValue);
         return;
         _self.cursor = "pointer";
         _self.Overlay();
@@ -1399,15 +1409,13 @@ this.TWIST = this.TWIST || {};
   };
 
   p.hightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-    this.showBorder = true;
-    this.border.visible = true;
+    this.showEatEffect = true;
+    this.eatEffect.visible = true;
   }
 
   p.unHightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-    this.showBorder = false;
-    this.border.visible = false;
+    this.showEatEffect = false;
+    this.eatEffect.visible = false;
   }
 
   TWIST.Card = Card;
@@ -2571,7 +2579,6 @@ this.TWIST = this.TWIST || {};
     this.numberEatedCard = this.numberEatedCard || 0;
     this.numberEatedCard++;
     var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
-
     card.hightLight();
     if (this.position == 0) {
       this.addHandCards(card, {
@@ -2580,7 +2587,6 @@ this.TWIST = this.TWIST || {};
         sortPhom: true,
         dragable: true
       });
-      this.markEatedCard();
     } else {
       var newX = bai.seperator * this.draftCards.children.length,
               newY = 0;
@@ -2666,7 +2672,7 @@ this.TWIST = this.TWIST || {};
     }
     var _self = this;
     setTimeout(function () {
-      _self.sortPhomArea();
+//      _self.sortPhomArea();
     }, 550);
   };
 
@@ -2792,7 +2798,7 @@ this.TWIST = this.TWIST || {};
       card.set({x: card.x + this.hand.x - draftCards.x, y: card.y + this.hand.y - draftCards.y});
       card.removeAllEventListeners();
 
-      createjs.Tween.get(card).to({
+      createjs.Tween.get(card,  {override:true}).to({
         x: newX, y: newY,
         width: bai.width,
         height: bai.height,
@@ -2823,7 +2829,6 @@ this.TWIST = this.TWIST || {};
     if (this.draftCards.align == "right") {
       newX = 300 - bai.seperator * (draftCards.children.length - 1)
     }
-    ;
     card.localToGlobal(0, 0);
     this.stage.addChild(card);
     card.removeAllEventListeners();
