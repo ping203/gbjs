@@ -1974,7 +1974,8 @@ this.TWIST = this.TWIST || {};
   p.initStatus = function (config, self) {
     //player status
     this.status = new createjs.Container();
-    this.status.set({x: 50, y: 50});
+    var radius = (config.avartar || Player.avatarConfig).radius;
+    this.status.set({x: radius, y: radius});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
@@ -2098,7 +2099,7 @@ this.TWIST = this.TWIST || {};
     options.x = options.x || 0;
     options.y = options.y || 10;
     options.textAlign = options.textAlign || 'center';
-    options.textBaseline = options.textBaselinex || 'bottom';
+    options.textBaseline = options.textBaseline || 'bottom';
     $.extend(statusText, options);
     $.extend(statusBg, options);
     statusContainer.visible = true;
