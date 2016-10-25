@@ -222,7 +222,7 @@
         hitPlayer: "3",
         eatPlayer: "1",
         cardIndex: "15",
-        listPhom :  [[1, 2, 4, 6, 15]]
+        listPhom: [[1, 2, 4, 6, 15]]
       }
     }
 //        , {
@@ -267,27 +267,6 @@
       data: {
         username: "tieuteiei",
         uuid: "1"
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "endGame",
-      data: {
-        newStatus: "1"
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus: "1"
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus: "2"
       },
       nextTime: 1000
     }
@@ -349,6 +328,23 @@
 //                cardIndex: "3"
 //            }
 //        }
+
+    , {
+      event: "endGame",
+      data: {
+        isWinner: false,
+        listPlayers: [{
+            playerResult: "Vô địch",
+            changeMoney: 4333,
+            money: 40000,
+            remainCards: [3, 5, 7],
+            totalPoint: 2,
+            uuid: "1",
+            showPoint: true,
+            username: "tieutieuhiepoe"
+          }]
+      }
+    }
   ];
 
   var startTime = 0;

@@ -179,7 +179,7 @@ this.TWIST = this.TWIST || {};
     //player status
     this.status = new createjs.Container();
     var radius = (config.avartar || Player.avatarConfig).radius;
-    this.status.set({x: radius, y: radius});
+    this.status.set({x: 50, y: 40});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
