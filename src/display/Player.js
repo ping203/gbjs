@@ -1014,6 +1014,8 @@ this.TWIST = this.TWIST || {};
         this.isInPhom = false;
         if (_self.position != 0) {
           this.openCard(this.cardValue, bai);
+        }else{
+          this.setInPhom(false);
         }
       });
     }

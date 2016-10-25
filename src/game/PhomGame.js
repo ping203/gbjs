@@ -428,7 +428,7 @@ this.TWIST = this.TWIST || {};
     this.buttonBar.children().hide();
     var _self = this;
     setTimeout(function () {
-      _self.sortPhomArea();
+      player.sortPhomArea();
     }, 550);
   };
 

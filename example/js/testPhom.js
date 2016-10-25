@@ -197,15 +197,15 @@
             },
             nextTime: 1000
         }
-//        , {
-//            event: "eatCardSuccess",
-//            data: {
-//                username: "tieuteiei",
-//                hitPlayer: "3",
-//                eatPlayer: "1",
-//                cardIndex: "3"
-//            }
-//        }
+        , {
+            event: "eatCardSuccess",
+            data: {
+                username: "tieuteiei",
+                hitPlayer: "3",
+                eatPlayer: "1",
+                cardIndex: "6"
+            }
+        }
 //        , {
 //            event: "eatCardSuccess",
 //            data: {
@@ -233,15 +233,15 @@
 //                cardIndex: 6
 //            }
 //        }
-//        , {
-//            event: "showPhomComplete",
-//            data: {
-//                username: "tieuteiei",
-//                uuid: "1",
-//                phoms: [[1, 2, 3, 6], [4, 5, 6], [7, 8, 9]],
-//                cardIndex: "3"
-//            }
-//        }
+        , {
+            event: "showPhomComplete",
+            data: {
+                username: "tieuteiei",
+                uuid: "1",
+                phoms: [[1, 2, 3, 6], [4, 5, 6]],
+                cardIndex: "3"
+            }
+        }
 //        , {
 //            event: "showPhomComplete",
 //            data: {
@@ -291,15 +291,15 @@
 //            }
 //        }
 
-        , {
-            event: "entiretyCard",
-            data: {
-                username: "tieuteiei",
-                uuid: "1",
-                phoms: [[1, 2, 3]],
-                cardIndex: "3"
-            }
-        }
+//        , {
+//            event: "entiretyCard",
+//            data: {
+//                username: "tieuteiei",
+//                uuid: "1",
+//                phoms: [[1, 2, 3]],
+//                cardIndex: "3"
+//            }
+//        }
     ];
 
     var startTime = 0;
