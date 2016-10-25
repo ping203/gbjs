@@ -452,6 +452,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.endGame = function (data, result, nomalWinType) {
+    
+    function convertRemainCards(item){
+      return item > 7 ? item - 8 : item + 44;
+    }
 
     var winTypeMap = {
       0: "Nhất",
@@ -472,6 +476,7 @@ this.TWIST = this.TWIST || {};
       cardList.sort(function (a, b) {
         return a - b;
       });
+      player.remainCards = cardList.map(convertRemainCards);
       if (parseInt(player.changeMoney) < 0) {
         player.gameResultString = player.playerResult;
       } else if (parseInt(player.changeMoney) > 0) {
@@ -490,6 +495,7 @@ this.TWIST = this.TWIST || {};
 
       var Player = this.getPlayerByUuid(player.uuid);
       if (Player) {
+        Player.setPlayerStatus(player.playerResult);
         Player.clearTimer();
         Player.setMoney(player.money);
         Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
