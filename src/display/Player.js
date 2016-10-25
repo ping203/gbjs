@@ -1023,7 +1023,7 @@ this.TWIST = this.TWIST || {};
     return cards;
   };
 
-  p.addCardInShowPhom = function (card) {
+  p.addCardInShowPhom = function (card, otherPlayerSend) {
     var _self = this;
     var bai = TWIST.Card.draftCard,
             _self = this,
@@ -1052,7 +1052,9 @@ this.TWIST = this.TWIST || {};
         x: newX,
         y: newY
       });
-      this.openCard(this.cardValue);
+      if (otherPlayerSend) {
+        this.openCard(this.cardValue, bai);
+      }
     });
   };
 

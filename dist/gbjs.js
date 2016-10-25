@@ -2819,7 +2819,7 @@ this.TWIST = this.TWIST || {};
     return cards;
   };
 
-  p.addCardInShowPhom = function (card) {
+  p.addCardInShowPhom = function (card, otherPlayerSend) {
     var _self = this;
     var bai = TWIST.Card.draftCard,
             _self = this,
@@ -2848,7 +2848,9 @@ this.TWIST = this.TWIST || {};
         x: newX,
         y: newY
       });
-      this.openCard(this.cardValue);
+      if (otherPlayerSend) {
+        this.openCard(this.cardValue, bai);
+      }
     });
   };
 
@@ -6292,6 +6294,7 @@ this.TWIST = this.TWIST || {};
   p.sendCard = function (data) {
     var cardsSend = data.cardsSend;
     var sendPlayer = this.getPlayerByUuid(data.cardsSend[0].transFrom);
+    var otherPlayerSend = (sendPlayer.position != 0);
     for (var i = 0; i < cardsSend.length; i++) {
       var dataItem = cardsSend[i];
       var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
@@ -6303,7 +6306,7 @@ this.TWIST = this.TWIST || {};
             y: card.y + sendPlayer.y + sendPlayer.hand.y
           });
           card.cardValue = dataItem.cardList[index];
-          receivePlayer.addCardInShowPhom(card);
+          receivePlayer.addCardInShowPhom(card,otherPlayerSend);
         });
       }
     }
