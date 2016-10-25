@@ -355,7 +355,17 @@ this.TWIST = this.TWIST || {};
     this.buttonBar.append(this.showPhomButton);
     this.showPhomButton.unbind('click');
     this.showPhomButton.click(function () {
-      _self.emit('showPhom');
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('showPhom', {
+        cards: cards
+      });
     });
 
   };
