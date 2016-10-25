@@ -404,25 +404,22 @@ this.TWIST = this.TWIST || {};
       var dataItem = cardsSend[i];
       var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
       if (receivePlayer && sendPlayer) {
-        var card = sendPlayer.getCardsInHand([dataItem.cardIndex])[0];
-        card.set({
-          x: card.x + sendPlayer.x + sendPlayer.hand.x,
-          y: card.y + sendPlayer.y + sendPlayer.hand.y
+        var cardList = sendPlayer.getCardsInHand(dataItem.cardList);
+        cardList.forEach(function (card, index) {
+          card.set({
+            x: card.x + sendPlayer.x + sendPlayer.hand.x,
+            y: card.y + sendPlayer.y + sendPlayer.hand.y
+          });
+          card.cardValue = dataItem.cardList[index];
+          receivePlayer.addCardInShowPhom(card);
         });
-        card.cardValue = dataItem.cardIndex;
-        receivePlayer.addCardInShowPhom(card);
       }
     }
-    for (var i = 0; i < this.playersContainer.children.length; i++) {
-      var player = this.playersContainer.children[i];
-      if (player) {
-        (function (player) {
-          setTimeout(function () {
-            player.sortPhomArea();
-          }, 700);
-        })(player);
-      }
-    }
+    this.playersContainer.children.forEach(function (item, index) {
+      setTimeout(function () {
+        item.sortPhomArea();
+      }, 700);
+    });
     if (sendPlayer.position == 0) {
       sendPlayer.sortCard();
     }
@@ -445,17 +442,19 @@ this.TWIST = this.TWIST || {};
   p.STATUS_PLAYING = function () {
     TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
     this.playersContainer.children.forEach(function (item, index) {
-      if(!item) return;
+      if (!item)
+        return;
       item.clearDraftCards();
       item.clearHand();
       item.clearShowPhomArea();
       item.setPlayerStatus("");
+      item.numberEatedCard = 0;
     });
   };
 
   p.endGame = function (data, result, nomalWinType) {
-    
-    function convertRemainCards(item){
+
+    function convertRemainCards(item) {
       return item > 7 ? item - 8 : item + 44;
     }
 
