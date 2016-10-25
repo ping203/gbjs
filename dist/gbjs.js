@@ -2832,22 +2832,22 @@ this.TWIST = this.TWIST || {};
     if (this.draftCards.align == "right") {
       newX = 300 - bai.seperator * (draftCards.children.length - 1)
     }
-    card.localToGlobal(0, 0);
-    this.stage.addChild(card);
+    var showPhomGlobal = _self.showPhomArea.localToGlobal(0,0);
+    card.set({
+      x : card.x - showPhomGlobal.x,
+      y : card.y - showPhomGlobal.y
+    });
+     _self.showPhomArea.addChild(card);
     card.removeAllEventListeners();
+    card.setInPhom(false);
     createjs.Tween.get(card).to({
-      x: this.x + this.showPhomArea.x + newX,
-      y: this.y + this.showPhomArea.y + newY,
+      x: newX,
+      y: newY,
       width: bai.width,
       height: bai.height,
       scaleX: bai.scale,
       scaleY: bai.scale
     }, _animationTime).call(function () {
-      _self.showPhomArea.addChild(this);
-      this.set({
-        x: newX,
-        y: newY
-      });
       if (otherPlayerSend) {
         this.openCard(this.cardValue, bai);
       }
