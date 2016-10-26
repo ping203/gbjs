@@ -150,7 +150,7 @@ this.TWIST = this.TWIST || {};
       if (!hitPlayer) {
         card = new TWIST.Card(parseInt(data.cardIndex));
       } else {
-        card = hitPlayer.getLastDraftCards([data.cardIndex])[0];
+        card = hitPlayer.getLastDraftCards(data.cardIndex);
       }
       eatPlayer.listPhom = data.listPhom;
       eatPlayer.eatCard(card);
@@ -162,8 +162,8 @@ this.TWIST = this.TWIST || {};
     var fromPlayer = this.getPlayerByUuid(data.fromPlayer);
     var toPlayer = this.getPlayerByUuid(data.toPlayer);
     if (fromPlayer && toPlayer) {
-      var cards = fromPlayer.getLastDraftCards([data.cardIndex]);
-      toPlayer.moveDraftCard(cards, fromPlayer);
+      var card = fromPlayer.getLastDraftCards(data.cardIndex);
+      toPlayer.moveDraftCard(card, fromPlayer);
     }
   };
 

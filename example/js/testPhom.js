@@ -100,20 +100,29 @@
 //            },
 //            nextTime: 1000
 //        }
-//        , {
-//            event: "draftCards",
-//            data: {
-//                username : "tieuteiei",
-//                uuid : "2",
-//                cardIndex : '2'
-//            },
-//            nextTime: 1000
-//        }
     , {
       event: "draftCards",
       data: {
         username: "tieuteiei",
-        uuid: "3",
+        uuid: "2",
+        cardIndex: '2'
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "moveDraftCard",
+      data: {
+        fromPlayer: "2",
+        toPlayer: "1",
+        cardIndex: '2'
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "draftCards",
+      data: {
+        username: "tieuteiei",
+        uuid: "1",
         cardIndex: '3'
       },
       nextTime: 1000
@@ -127,14 +136,14 @@
 //            },
 //            nextTime: 1000
 //        }
-    , {
-      event: "getTurn",
-      data: {
-        username: "tieuteiei",
-        uuid: "1"
-      },
-      nextTime: 1000
-    }
+//    , {
+//      event: "getTurn",
+//      data: {
+//        username: "tieuteiei",
+//        uuid: "1"
+//      },
+//      nextTime: 1000
+//    }
 //        , {
 //            event: "getCardComplete",
 //            data: {
@@ -192,7 +201,7 @@
       event: "draftCards",
       data: {
         username: "tieuteiei",
-        uuid: "3",
+        uuid: "2",
         cardIndex: 15
       },
       nextTime: 1000
@@ -201,8 +210,8 @@
       event: "draftCards",
       data: {
         username: "tieuteiei",
-        uuid: "3",
-        cardIndex: 25
+        uuid: "1",
+        cardIndex: 6
       },
       nextTime: 1000
     }
@@ -210,8 +219,17 @@
       event: "draftCards",
       data: {
         username: "tieuteiei",
-        uuid: "3",
+        uuid: "2",
         cardIndex: 45
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "draftCards",
+      data: {
+        username: "tieuteiei",
+        uuid: "1",
+        cardIndex: 7
       },
       nextTime: 1000
     }
@@ -219,9 +237,9 @@
       event: "eatCardSuccess",
       data: {
         username: "tieuteiei",
-        hitPlayer: "3",
+        hitPlayer: "2",
         eatPlayer: "1",
-        cardIndex: "15",
+        cardIndex: "45",
         listPhom: [[1, 2, 4, 6, 15]]
       }
     }
@@ -252,24 +270,24 @@
 //                cardIndex: 6
 //            }
 //        }
-    , {
-      event: "showPhomComplete",
-      data: {
-        username: "tieuteiei",
-        uuid: "1",
-        phoms: [[1, 2, 4, 6, 15]],
-        cardIndex: "3"
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "hitTurn",
-      data: {
-        username: "tieuteiei",
-        uuid: "1"
-      },
-      nextTime: 1000
-    }
+//    , {
+//      event: "showPhomComplete",
+//      data: {
+//        username: "tieuteiei",
+//        uuid: "1",
+//        phoms: [[1, 2, 4, 6, 15]],
+//        cardIndex: "3"
+//      },
+//      nextTime: 1000
+//    }
+//    , {
+//      event: "hitTurn",
+//      data: {
+//        username: "tieuteiei",
+//        uuid: "1"
+//      },
+//      nextTime: 1000
+//    }
 //        , {
 //            event: "showPhomComplete",
 //            data: {
@@ -329,22 +347,22 @@
 //            }
 //        }
 
-    , {
-      event: "endGame",
-      data: {
-        isWinner: false,
-        listPlayers: [{
-            playerResult: "Vô địch",
-            changeMoney: 4333,
-            money: 40000,
-            remainCards: [3, 5, 7],
-            totalPoint: 2,
-            uuid: "1",
-            showPoint: true,
-            username: "tieutieuhiepoe"
-          }]
-      }
-    }
+//    , {
+//      event: "endGame",
+//      data: {
+//        isWinner: false,
+//        listPlayers: [{
+//            playerResult: "Vô địch",
+//            changeMoney: 4333,
+//            money: 40000,
+//            remainCards: [3, 5, 7],
+//            totalPoint: 2,
+//            uuid: "1",
+//            showPoint: true,
+//            username: "tieutieuhiepoe"
+//          }]
+//      }
+//    }
   ];
 
   var startTime = 0;

@@ -754,24 +754,19 @@ this.TWIST = this.TWIST || {};
     }
   };
 
-  p.getLastDraftCards = function (cardList) {
-    if (!cardList)
-      return;
-    var cards = [];
+  p.getLastDraftCards = function (cardIndex) {
     var _self = this;
     var draftCards = this.draftCards.children;
-    for (var i = 0; i < cardList.length; i++) {
-      for (var j = 0; j < draftCards.length; j++) {
-        if (cardList[i] == draftCards[j].cardValue) {
-          var position = draftCards[j].localToGlobal(0, 0);
-          draftCards[j].x = position.x;
-          draftCards[j].y = position.y;
-          cards = cards.concat(draftCards.splice(j, 1));
-          j--;
-        }
+    for (var j = 0; j < draftCards.length; j++) {
+      if (cardIndex == draftCards[j].cardValue) {
+        var position = draftCards[j].localToGlobal(0, 0);
+        draftCards[j].x = position.x;
+        draftCards[j].y = position.y;
+        var card =  draftCards.splice(j, 1)[0];
+        console.log("getLastDraftCards return",card);
+        return card;
       }
     }
-    return cards;
   };
 
   p.getDraftCardsAbsolutePosition = function () {
@@ -835,40 +830,28 @@ this.TWIST = this.TWIST || {};
     }
   }
 
-  p.moveDraftCard = function (cards, fromPlayer) {
-    this.cardsEated++;
+  p.moveDraftCard = function (card, fromPlayer) {
     var bai = TWIST.Card.draftCard;
     var self = this;
-
-    for (var i = 0; i < cards.length; i++) {
-      var card = cards[i];
-      var draftCardsPosition = this.draftCards.localToGlobal(0, 0);
-      var oldX = card.x,
-              oldY = card.y,
-              newX = bai.seperator * this.draftCards.children.length,
-              newY = 0;
-      var oldPosition = card.localToGlobal(0, 0);
-      this.stage.addChild(card);
-
-      if (this.draftCards.align == "right") {
-        newX = 300 - bai.seperator * (this.draftCards.children.length - 1)
-      }
-      var _self = this;
-      createjs.Tween.get(card).to({
-        x: newX + draftCardsPosition.x,
-        y: newY + draftCardsPosition.y,
-        width: bai.width,
-        height: bai.height,
-        scaleX: bai.scale,
-        scaleY: bai.scale
-      }, _animationTime, createjs.Ease.sineOut()).call(function () {
-        self.draftCards.addChild(this);
-        this.set({
-          x: newX,
-          y: newY
-        })
-      });
+    var draftCardsPosition = this.draftCards.localToGlobal(0, 0);
+    var newX = bai.seperator * this.draftCards.children.length, newY = 0;
+    if (this.draftCards.align == "right") {
+      newX = 300 - bai.seperator * (this.draftCards.children.length - 1)
     }
+    card.set({
+      x : card.x - draftCardsPosition.x,
+      y : card.y - draftCardsPosition.y
+    });
+    self.draftCards.addChild(card);
+
+    createjs.Tween.get(card).to({
+      x: newX,
+      y: newY,
+      width: bai.width,
+      height: bai.height,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    }, _animationTime, createjs.Ease.sineOut());
   };
 
   p.showPhom = function (phoms) {
@@ -1036,12 +1019,12 @@ this.TWIST = this.TWIST || {};
     if (this.draftCards.align == "right") {
       newX = 300 - bai.seperator * (draftCards.children.length - 1)
     }
-    var showPhomGlobal = _self.showPhomArea.localToGlobal(0,0);
+    var showPhomGlobal = _self.showPhomArea.localToGlobal(0, 0);
     card.set({
-      x : card.x - showPhomGlobal.x,
-      y : card.y - showPhomGlobal.y
+      x: card.x - showPhomGlobal.x,
+      y: card.y - showPhomGlobal.y
     });
-     _self.showPhomArea.addChild(card);
+    _self.showPhomArea.addChild(card);
     card.removeAllEventListeners();
     card.setInPhom(false);
     createjs.Tween.get(card).to({
