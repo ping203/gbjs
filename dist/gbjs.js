@@ -2632,7 +2632,7 @@ this.TWIST = this.TWIST || {};
     var draftCardsPosition = this.draftCards.localToGlobal(0, 0);
     var newX = bai.seperator * this.draftCards.children.length, newY = 0;
     if (this.draftCards.align == "right") {
-      newX = 300 - bai.seperator * (this.draftCards.children.length - 1)
+      newX = 300 - bai.seperator * (this.draftCards.children.length)
     }
     card.set({
       x : card.x - draftCardsPosition.x,
