@@ -72,15 +72,13 @@ this.TWIST = this.TWIST || {};
     //        avatar container
 
     var avatarContainer = new createjs.Container();
-    var avatarConfig = config.avartar || Player.avatarConfig;
+    var avatarConfig = $.extend(Player.avatarConfig, config.avartar);
     var avatarImageDiameter = avatarConfig.innerRadius * 2;
     $.extend(avatarContainer, avatarConfig);
 
     var avatarImage = new Image();
-//        var avatarHash = md5(this.username);
-//        var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
     var avatarNumber = Global.md5Avatar(this.username) || 10;
-    avatarImage.src = (TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png';
+    avatarImage.src = this.avatarSrc || ((TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png');
     var avatarBitmap = new createjs.Bitmap(avatarImage);
     avatarImage.onload = function () {
       avatarBitmap.set({
@@ -762,8 +760,8 @@ this.TWIST = this.TWIST || {};
         var position = draftCards[j].localToGlobal(0, 0);
         draftCards[j].x = position.x;
         draftCards[j].y = position.y;
-        var card =  draftCards.splice(j, 1)[0];
-        console.log("getLastDraftCards return",card);
+        var card = draftCards.splice(j, 1)[0];
+        console.log("getLastDraftCards return", card);
         return card;
       }
     }
@@ -839,8 +837,8 @@ this.TWIST = this.TWIST || {};
       newX = 300 - bai.seperator * (this.draftCards.children.length)
     }
     card.set({
-      x : card.x - draftCardsPosition.x,
-      y : card.y - draftCardsPosition.y
+      x: card.x - draftCardsPosition.x,
+      y: card.y - draftCardsPosition.y
     });
     self.draftCards.addChild(card);
 
