@@ -26,6 +26,7 @@ this.TWIST = this.TWIST || {};
     };
 
     p.initCanvas = function () {
+        console.log('test gbjs');
         var canvas = $(TWIST.HTMLTemplate.canvas);
         canvas.attr({
             width: this.options.width || initOptions.width,
