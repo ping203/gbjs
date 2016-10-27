@@ -9,6 +9,7 @@ this.TWIST = this.TWIST || {};
 
   function Player(playerData) {
     this.initialize(playerData);
+    console.log('he he');
   }
 
   Player.Defaults = {
