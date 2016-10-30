@@ -165,7 +165,9 @@ this.TWIST = this.TWIST || {};
     this.drawPlayers();
 
     if (data.status) {
-      this.changeStatus(data.status);
+      this.changeStatus({
+        newStatus: data.status
+      });
       if (this.status === 'STATUS_PLAYING') {
         this.drawPlayingState(data);
       }
