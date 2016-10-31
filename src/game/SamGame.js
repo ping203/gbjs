@@ -44,6 +44,7 @@ this.TWIST = this.TWIST || {};
         this.foldSamButton.unbind('click');
         this.foldSamButton.click(function () {
             _self.emit("fold-sam");
+            _self.foldSamButton.hide();
         });
     };
 
@@ -97,7 +98,7 @@ this.TWIST = this.TWIST || {};
            20 : "Thua",
            21 : "Bắt sâm"
         };
-        
+
         var _self = this;
         var resultData = {
             isWinner: false,
@@ -116,7 +117,7 @@ this.TWIST = this.TWIST || {};
                 if (player.uuid === this.userInfo.uuid) {
                     resultData.isWinner = true;
                 }
-            } 
+            }
 
             var Player = this.getPlayerByUuid(player.uuid);
             if (Player) {
