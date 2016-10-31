@@ -6080,7 +6080,7 @@ this.TWIST = this.TWIST || {};
       }
     }
 
-    this.desk.generateCards(data.deckCardRemain);
+    this.desk.generateCards(data.deckCardRemain, TWIST.Card.userCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -6100,6 +6100,9 @@ this.TWIST = this.TWIST || {};
       if (Player) {
         Player.handCards.cardList = handCards;
         Player.renderCards(initOptions.renderCardOptions);
+        if (Player.position != 0) {
+          Player.reEatCards(item.eatedCards);
+        }
         Player.rerenderDraftPhom(item.drarfCards);
         item.listPhom && item.listPhom.forEach(function (phom, _index) {
           Player.showSinglePhom(phom);
