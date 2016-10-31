@@ -211,7 +211,7 @@ this.TWIST = this.TWIST || {};
           _self.sortCardButton.show();
         }
       } else {
-        handCards.length = item.numberCardsInHand;
+        handCards.length = item.numberCardsInHand || initOptions.numberCardsInHand;
       }
       var Player = _self.getPlayerByUuid(item.uuid);
       if (Player) {
