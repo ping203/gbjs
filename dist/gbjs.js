@@ -961,9 +961,6 @@ this.FATE = this.FATE || {};
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
 'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
 'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -976,6 +973,9 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
@@ -6077,7 +6077,6 @@ this.TWIST = this.TWIST || {};
       PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
       if (PlayingPlayer.uuid === this.userInfo.uuid) {
         this.hitButton.show();
-        this.foldTurnButton.show();
       }
     }
 
@@ -6110,7 +6109,9 @@ this.TWIST = this.TWIST || {};
             }, 550);
           })(Player);
         });
-        Player.hightLightEatCards(item.eatedCards);
+        if (item.eatedCards) {
+          Player.hightLightEatCards(item.eatedCards);
+        }
       }
     });
 

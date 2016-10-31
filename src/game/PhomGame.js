@@ -194,7 +194,6 @@ this.TWIST = this.TWIST || {};
       PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
       if (PlayingPlayer.uuid === this.userInfo.uuid) {
         this.hitButton.show();
-        this.foldTurnButton.show();
       }
     }
 
@@ -227,7 +226,9 @@ this.TWIST = this.TWIST || {};
             }, 550);
           })(Player);
         });
-        Player.hightLightEatCards(item.eatedCards);
+        if (item.eatedCards) {
+          Player.hightLightEatCards(item.eatedCards);
+        }
       }
     });
 
