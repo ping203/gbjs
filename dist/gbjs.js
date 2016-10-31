@@ -6093,6 +6093,7 @@ this.TWIST = this.TWIST || {};
 
     players.forEach(function (item, index) {
       var handCards = [];
+      var listPhom = [];
 
       if (item.uuid === _self.userInfo.uuid) {
         handCards = data.userListCard || [];
@@ -6102,12 +6103,14 @@ this.TWIST = this.TWIST || {};
         if (handCards.length > 0) {
           _self.sortCardButton.show();
         }
+        listPhom = data.listPhom;
       } else {
         handCards.length = item.numberCardsInHand || initOptions.numberCardsInHand;
       }
       var Player = _self.getPlayerByUuid(item.uuid);
       if (Player) {
         Player.handCards.cardList = handCards;
+        Player.listPhom = listPhom;
         Player.renderCards(initOptions.renderCardOptions);
         if (Player.position != 0) {
           Player.reEatCards(item.eatedCards);
