@@ -92,11 +92,10 @@ this.TWIST = this.TWIST || {};
     var _value;
     if (typeof value === "undefined") {
       var _value = this.deckCard.children.length;
-    }else _value = value;
+    }else{
+      this.deckCard.children.length = _value = value;
+    } 
     this.remainingCard.text = _value;
-    if (_value === 0) {
-      this.deckCard.removeAllChildren();
-    }
   };
 
   p.createDraftCards = function () {

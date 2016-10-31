@@ -73,6 +73,10 @@ this.TWIST = this.TWIST || {};
     this.on('entiretyCard', function (data) {
       this.entiretyCard(data);
     });
+
+    this.on('setRemainCards', function (data) {
+      this.setRemainCards(data);
+    });
   };
 
   p.onGetTurn = function (data) {
@@ -196,8 +200,9 @@ this.TWIST = this.TWIST || {};
         this.hitButton.show();
       }
     }
-
+    console.log("data.deckCardRemain",data.deckCardRemain);
     this.desk.generateCards(data.deckCardRemain, TWIST.Card.userCard);
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -244,6 +249,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
 
     this.desk.generateCards(numberCards, TWIST.Card.userCard);
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -270,7 +276,6 @@ this.TWIST = this.TWIST || {};
         Player.renderCards(initOptions.renderCardOptions);
       }
     });
-    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.setPlayerTurn = function (uuid, remainingTime) {
@@ -447,6 +452,11 @@ this.TWIST = this.TWIST || {};
     setTimeout(function () {
       player.sortPhomArea();
     }, 550);
+  };
+
+  p.setRemainCards = function (data) {
+    var remainCards = data.remainCards;
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.STATUS_PLAYING = function () {
