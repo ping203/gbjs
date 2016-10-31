@@ -955,12 +955,12 @@ this.FATE = this.FATE || {};
 'buttonBar/wrapper':'<div class="button-bar"></div>',
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
-'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
+'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -6089,9 +6089,7 @@ this.TWIST = this.TWIST || {};
         this.hitButton.show();
       }
     }
-    console.log("data.deckCardRemain",data.deckCardRemain);
-    this.desk.generateCards(data.deckCardRemain, TWIST.Card.userCard);
-    this.desk.showRemainingDeckCard(data.deckCardRemain);
+    this.desk.generateCards(52, TWIST.Card.userCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -6128,7 +6126,7 @@ this.TWIST = this.TWIST || {};
         }
       }
     });
-
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.dealCards = function (data) {
@@ -6138,7 +6136,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
 
     this.desk.generateCards(numberCards, TWIST.Card.userCard);
-    this.desk.showRemainingDeckCard(data.deckCardRemain);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -6165,6 +6162,7 @@ this.TWIST = this.TWIST || {};
         Player.renderCards(initOptions.renderCardOptions);
       }
     });
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.setPlayerTurn = function (uuid, remainingTime) {
@@ -6345,7 +6343,7 @@ this.TWIST = this.TWIST || {};
 
   p.setRemainCards = function (data) {
     var remainCards = data.remainCards;
-    this.desk.showRemainingDeckCard(data.deckCardRemain);
+    this.desk.showRemainingDeckCard(data.remainCards);
   };
 
   p.STATUS_PLAYING = function () {
