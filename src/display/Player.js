@@ -1148,16 +1148,22 @@ this.TWIST = this.TWIST || {};
   p.reEatCards = function (cardList) {
     if (!cardList)
       return;
+    this.numberEatedCard = 0;
     var cards = [], bai = TWIST.Card.draftCard;
 
     for (var i = 0; i < cardList.length; i++) {
       var card = new TWIST.Card(cardList[i]);
-
       var newX = bai.seperator * i, newY = 0;
-      if (this.draftCards.align == "right") {
-        newX = -0 - this.handCards.x - this.hand.x + this.draftCards.x + 300 - i * bai.seperator;
+      if (this.position == 2) {
+        newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
+        newY = 0;
       } else {
-        newX = 0 - this.handCards.x - this.hand.x + this.draftCards.x + i * bai.seperator
+        newY = -45;
+        if (this.draftCards.align == "right") {
+          newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
+        } else {
+          newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
+        }
       }
       card.set({
         x: newX,
@@ -1165,6 +1171,7 @@ this.TWIST = this.TWIST || {};
         scaleX: bai.scale,
         scaleY: bai.scale
       });
+      this.numberEatedCard++;
       this.handCards.addChild(card);
     }
     return cards;
