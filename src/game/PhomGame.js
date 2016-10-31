@@ -85,7 +85,7 @@ this.TWIST = this.TWIST || {};
     if (data.uuid === this.userInfo.uuid) {
       this.getCardButton.show();
     }
-    this.setPlayerTurn(data.uuid);
+    this.setPlayerTurn(data.uuid, data.remainingTime);
   };
 
   p.onHitTurn = function (data) {
@@ -99,7 +99,7 @@ this.TWIST = this.TWIST || {};
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
     }
-    this.setPlayerTurn(data.uuid);
+    this.setPlayerTurn(data.uuid, data.remainingTime);
   };
 
   p.getCardComplete = function (data) {
@@ -110,6 +110,7 @@ this.TWIST = this.TWIST || {};
     var player = this.getPlayerByUuid(userID);
     player.listPhom = listPhom;
     player.getDeckCard(card, listPhom);
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.enableEatCard = function () {
@@ -197,10 +198,7 @@ this.TWIST = this.TWIST || {};
       }
     }
 
-    if (data.lastDraftCards) {
-      this.desk.lastDraftCards = data.lastDraftCards;
-      this.desk.createLastDraftCards(data.lastDraftCards);
-    }
+    this.desk.generateCards(data.deckCardRemain);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -220,6 +218,16 @@ this.TWIST = this.TWIST || {};
       if (Player) {
         Player.handCards.cardList = handCards;
         Player.renderCards(initOptions.renderCardOptions);
+        Player.rerenderDraftPhom(item.drarfCards);
+        item.listPhom && item.listPhom.forEach(function (phom, _index) {
+          Player.showSinglePhom(phom);
+          (function (Player) {
+            setTimeout(function () {
+              Player.sortPhomArea();
+            }, 550);
+          })(Player);
+        });
+        Player.hightLightEatCards(item.eatedCards);
       }
     });
 
@@ -254,14 +262,11 @@ this.TWIST = this.TWIST || {};
         if (Player.position == 0) {
           Player.listPhom = data.listPhom
         }
-        ;
         Player.handCards.cardList = handCards;
         Player.renderCards(initOptions.renderCardOptions);
       }
     });
-
-    this.desk.showRemainingDeckCard();
-
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.setPlayerTurn = function (uuid, remainingTime) {
@@ -412,7 +417,7 @@ this.TWIST = this.TWIST || {};
             y: card.y + sendPlayer.y + sendPlayer.hand.y
           });
           card.cardValue = dataItem.cardList[index];
-          receivePlayer.addCardInShowPhom(card,otherPlayerSend);
+          receivePlayer.addCardInShowPhom(card, otherPlayerSend);
         });
       }
     }

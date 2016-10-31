@@ -171,6 +171,7 @@ this.TWIST = this.TWIST || {};
         position.y = cardType.height * 0.8;
 
         Player.draftCardsInHand(cards, {
+            cardType : TWIST.Card.playerCard,
             draftCards: this.desk.draftCards,
             position: position,
             rotateAble: true
