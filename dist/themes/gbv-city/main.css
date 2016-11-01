@@ -195,11 +195,12 @@ and open the template in the editor.
   .twist .winner span.result-item-money {
     text-shadow: 0 0 15px #fec52e; }
   .twist .result-card-list-container {
-    display: inline-block;
+    display: inline-flex;
     width: calc(60% - 4px);
     vertical-align: top;
     height: 60px;
-    text-align: right; }
+    text-align: right;
+    justify-content: flex-end; }
   .twist .profile {
     position: absolute;
     left: -300px;

@@ -234,11 +234,12 @@ span.result-item-money {
     text-shadow: 0 0 15px #fec52e;
 }
 .result-card-list-container {
-    display: inline-block;
+    display: inline-flex;
     width: calc(60% - 4px);
     vertical-align: top;
     height: 60px;
     text-align: right;
+    justify-content: flex-end;
 }
 
 .profile{
