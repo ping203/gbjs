@@ -3279,7 +3279,6 @@ this.TWIST = this.TWIST || {};
     };
 
     p.initCanvas = function () {
-        console.log('test gbjs');
         var canvas = $(TWIST.HTMLTemplate.canvas);
         canvas.attr({
             width: this.options.width || initOptions.width,
@@ -3762,6 +3761,11 @@ this.TWIST = this.TWIST || {};
             item.status = "STATUS_PLAYING";
         });
         this.desk.clear();
+        var players = this.playersContainer.children;
+        for (var i = 0, length = players.length; i < length; i++) {
+            var player = players[i];
+            player.setPlayerStatus("");
+        }
     };
 
     p.endGame = function (data) {
@@ -3998,6 +4002,7 @@ this.TWIST = this.TWIST || {};
     TWIST.InRoomGame = InRoomGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
