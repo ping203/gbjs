@@ -2334,14 +2334,16 @@ this.TWIST = this.TWIST || {};
     card.visible = true;
     card.removeAllEventListeners();
     var _self = this,
-            bai = TWIST.Card.draftCard,
+            bai = options.cardType || TWIST.Card.draftCard,
             draftCards = options.draftCards || this.draftCards;
 
     var draftPosition = draftCards.localToGlobal(0, 0);
     card.set({
       x: card.x + this.hand.x + this.x - draftPosition.x,
       y: card.y + this.hand.y + this.y - draftPosition.y,
-      rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0
+      rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0,
+      scaleX : bai.scale,
+      scaleY : bai.scale
     });
     draftCards.addChild(card);
     createjs.Tween.get(card).to({
