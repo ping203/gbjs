@@ -127,6 +127,21 @@
       },
       nextTime: 1000
     }
+    , {
+      event: "isolateUpdateMoney",
+      data: {
+        players: [{
+            uuid : '1',
+            money : "456",
+            changeMoney : 1000
+        },{
+            uuid : '2',
+            money : "456",
+            changeMoney : -1000
+        }]
+      },
+      nextTime: 1000
+    }
 //        , {
 //            event: "draftCards",
 //            data: {

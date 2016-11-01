@@ -1971,9 +1971,9 @@ this.TWIST = this.TWIST || {};
     //show change money effect
     this.moneyChangeEffect = new createjs.Container();
     this.moneyChangeEffect.set({name: 'moneyChangeEffect', x: 50, y: 50});
-    var moneyChangeBg = new createjs.Text("", "30px Roboto Condensed", "black");
+    var moneyChangeBg = new createjs.Text("", "bold 24px Roboto Condensed", "black");
     moneyChangeBg.set({x: 1, y: 11, textAlign: 'center', textBaseline: 'bottom'});
-    var moneyChangeText = new createjs.Text("", "30px Roboto Condensed");
+    var moneyChangeText = new createjs.Text("", "bold 24px Roboto Condensed");
     moneyChangeText.set({x: 0, y: 10, textAlign: 'center', textBaseline: 'bottom'});
     moneyChangeText.shadow = new createjs.Shadow("#000", 0, 0, 10);
     this.moneyChangeEffect.addChild(moneyChangeBg, moneyChangeText);
@@ -2567,7 +2567,6 @@ this.TWIST = this.TWIST || {};
         draftCards[j].x = position.x;
         draftCards[j].y = position.y;
         var card = draftCards.splice(j, 1)[0];
-        console.log("getLastDraftCards return", card);
         return card;
       }
     }
@@ -2878,7 +2877,9 @@ this.TWIST = this.TWIST || {};
 
   p.showMoneyExchageEffect = function (money, type, options) {
     var moneyChangeContainer = this.getChildByName('moneyChangeEffect');
-    moneyChangeContainer.set({visible: true, y: 50});
+    var startY = (options && options.startY) || ((type === "lose") ? 100 : 0);
+    var endY = (options && options.endY) || ((type === "lose") ? 0 : 100);
+    moneyChangeContainer.set({visible: true, y: startY, alpha : 0.3});
     var moneyChangeBg = moneyChangeContainer.getChildAt(0);
     var moneyChangeText = moneyChangeContainer.getChildAt(1);
     var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
@@ -2889,7 +2890,7 @@ this.TWIST = this.TWIST || {};
       moneyChangeText.color = "yellow";
       moneyChangeBg.text = moneyChangeText.text = "+ " + absMoney;
     }
-    createjs.Tween.get(moneyChangeContainer).to({y: (options && options.y) ? options.y : -20}, _animationTime).call(function () {
+    createjs.Tween.get(moneyChangeContainer).to({y: endY, alpha : 1}, _animationTime + 200).call(function () {
       setTimeout(function () {
         moneyChangeContainer.visible = false;
         moneyChangeText.text = '';
@@ -4072,6 +4073,10 @@ this.TWIST = this.TWIST || {};
                 });
                 if (handCards.length > 0) {
                     _self.sortCardButton.show();
+                }else{
+                  _self.showError({
+                    message : "Ván chơi đang diễn ra !"
+                  });
                 }
             } else {
                 handCards.length = item.numberCardsInHand;
@@ -6466,6 +6471,7 @@ this.TWIST = this.TWIST || {};
         this.foldSamButton.unbind('click');
         this.foldSamButton.click(function () {
             _self.emit("fold-sam");
+            _self.foldSamButton.hide();
         });
     };
 
@@ -6519,7 +6525,7 @@ this.TWIST = this.TWIST || {};
            20 : "Thua",
            21 : "Bắt sâm"
         };
-        
+
         var _self = this;
         var resultData = {
             isWinner: false,
@@ -6538,7 +6544,7 @@ this.TWIST = this.TWIST || {};
                 if (player.uuid === this.userInfo.uuid) {
                     resultData.isWinner = true;
                 }
-            } 
+            }
 
             var Player = this.getPlayerByUuid(player.uuid);
             if (Player) {
@@ -6555,6 +6561,7 @@ this.TWIST = this.TWIST || {};
     TWIST.SamGame = SamGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {

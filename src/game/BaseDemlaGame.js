@@ -62,6 +62,10 @@ this.TWIST = this.TWIST || {};
                 });
                 if (handCards.length > 0) {
                     _self.sortCardButton.show();
+                }else{
+                  _self.showError({
+                    message : "Ván chơi đang diễn ra !"
+                  });
                 }
             } else {
                 handCards.length = item.numberCardsInHand;
