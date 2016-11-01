@@ -209,6 +209,11 @@ this.TWIST = this.TWIST || {};
         if (Player) {
           this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
         }
+        if((Player.uuid == this.userInfo.uuid) && (this.status == "STATUS_WAITING_FOR_START")){
+          this.startButton.show();
+        }else{
+          this.startButton.hide();
+        }
       } else {
         player.isRoomMaster = false;
         if (Player)

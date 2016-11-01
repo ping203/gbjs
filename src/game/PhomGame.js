@@ -102,6 +102,8 @@ this.TWIST = this.TWIST || {};
     this.eatCardButton.hide();
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
+    }else{
+      this.hitButton.hide();
     }
     this.setPlayerTurn(data.uuid, data.remainingTime);
   };
@@ -213,6 +215,10 @@ this.TWIST = this.TWIST || {};
         });
         if (handCards.length > 0) {
           _self.sortCardButton.show();
+        } else {
+          _self.showError({
+            message: "Ván chơi đang diễn ra !"
+          });
         }
         listPhom = data.listPhom;
       } else {

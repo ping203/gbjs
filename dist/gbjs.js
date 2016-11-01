@@ -3698,6 +3698,11 @@ this.TWIST = this.TWIST || {};
         if (Player) {
           this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
         }
+        if((Player.uuid == this.userInfo.uuid) && (this.status == "STATUS_WAITING_FOR_START")){
+          this.startButton.show();
+        }else{
+          this.startButton.hide();
+        }
       } else {
         player.isRoomMaster = false;
         if (Player)
@@ -4186,7 +4191,7 @@ this.TWIST = this.TWIST || {};
         position.y = cardType.height * 0.8;
 
         Player.draftCardsInHand(cards, {
-            cardType : TWIST.Card.playerCard,
+            cardType : TWIST.Card.userCard,
             draftCards: this.desk.draftCards,
             position: position,
             rotateAble: true
@@ -5996,6 +6001,8 @@ this.TWIST = this.TWIST || {};
     this.eatCardButton.hide();
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
+    }else{
+      this.hitButton.hide();
     }
     this.setPlayerTurn(data.uuid, data.remainingTime);
   };
@@ -6107,6 +6114,10 @@ this.TWIST = this.TWIST || {};
         });
         if (handCards.length > 0) {
           _self.sortCardButton.show();
+        } else {
+          _self.showError({
+            message: "Ván chơi đang diễn ra !"
+          });
         }
         listPhom = data.listPhom;
       } else {
