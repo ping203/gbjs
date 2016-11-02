@@ -90,6 +90,7 @@ this.TWIST = this.TWIST || {};
            2 : "Đồng màu",
            3 : "Tứ 2",
            4 : "Sảnh rồng",
+           13 : "Thắng",
            15 : "Hòa",
            16 : "Bị ăn sâm",
            17 : "Bị bắt sâm",
@@ -98,37 +99,7 @@ this.TWIST = this.TWIST || {};
            20 : "Thua",
            21 : "Bắt sâm"
         };
-
-        var _self = this;
-        var resultData = {
-            isWinner: false,
-            listPlayers: []
-        };
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
-            });
-            player.gameResultString = winTypeMap[data.winType];
-            if (parseInt(player.changeMoney) > 0) {
-                player.isWinner = true;
-                if (player.uuid === this.userInfo.uuid) {
-                    resultData.isWinner = true;
-                }
-            }
-
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
-            }
-        }
-        setTimeout(function () {
-            _self.showResult(resultData);
-        }, 2000);
+        this.endDemlaGame(data,winTypeMap,(data.winType == 13));
     };
 
     TWIST.SamGame = SamGame;

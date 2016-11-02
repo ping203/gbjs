@@ -165,9 +165,9 @@ this.TWIST = this.TWIST || {};
     //show change money effect
     this.moneyChangeEffect = new createjs.Container();
     this.moneyChangeEffect.set({name: 'moneyChangeEffect', x: 50, y: 50});
-    var moneyChangeBg = new createjs.Text("", "30px Roboto Condensed", "black");
+    var moneyChangeBg = new createjs.Text("", "bold 24px Roboto Condensed", "black");
     moneyChangeBg.set({x: 1, y: 11, textAlign: 'center', textBaseline: 'bottom'});
-    var moneyChangeText = new createjs.Text("", "30px Roboto Condensed");
+    var moneyChangeText = new createjs.Text("", "bold 24px Roboto Condensed");
     moneyChangeText.set({x: 0, y: 10, textAlign: 'center', textBaseline: 'bottom'});
     moneyChangeText.shadow = new createjs.Shadow("#000", 0, 0, 10);
     this.moneyChangeEffect.addChild(moneyChangeBg, moneyChangeText);
@@ -496,7 +496,7 @@ this.TWIST = this.TWIST || {};
   p.draftCardsInHand = function (cardList, options) {
     var options = options || {},
             cardsToDrash = [],
-            bai = TWIST.Card.draftCard,
+            bai = options.cardType || TWIST.Card.draftCard,
             cardsToDrash = this.getCardsInHand(cardList),
             draftCards = options.draftCards || this.draftCards;
     var newPosition = options.position || {
@@ -528,14 +528,16 @@ this.TWIST = this.TWIST || {};
     card.visible = true;
     card.removeAllEventListeners();
     var _self = this,
-            bai = TWIST.Card.draftCard,
+            bai = options.cardType || TWIST.Card.draftCard,
             draftCards = options.draftCards || this.draftCards;
 
     var draftPosition = draftCards.localToGlobal(0, 0);
     card.set({
       x: card.x + this.hand.x + this.x - draftPosition.x,
       y: card.y + this.hand.y + this.y - draftPosition.y,
-      rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0
+      rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0,
+      scaleX : bai.scale,
+      scaleY : bai.scale
     });
     draftCards.addChild(card);
     createjs.Tween.get(card).to({
@@ -761,7 +763,6 @@ this.TWIST = this.TWIST || {};
         draftCards[j].x = position.x;
         draftCards[j].y = position.y;
         var card = draftCards.splice(j, 1)[0];
-        console.log("getLastDraftCards return", card);
         return card;
       }
     }
@@ -1072,7 +1073,9 @@ this.TWIST = this.TWIST || {};
 
   p.showMoneyExchageEffect = function (money, type, options) {
     var moneyChangeContainer = this.getChildByName('moneyChangeEffect');
-    moneyChangeContainer.set({visible: true, y: 50});
+    var startY = (options && options.startY) || ((type === "lose") ? 100 : 0);
+    var endY = (options && options.endY) || ((type === "lose") ? 0 : 100);
+    moneyChangeContainer.set({visible: true, y: startY, alpha : 0.3});
     var moneyChangeBg = moneyChangeContainer.getChildAt(0);
     var moneyChangeText = moneyChangeContainer.getChildAt(1);
     var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
@@ -1083,7 +1086,7 @@ this.TWIST = this.TWIST || {};
       moneyChangeText.color = "yellow";
       moneyChangeBg.text = moneyChangeText.text = "+ " + absMoney;
     }
-    createjs.Tween.get(moneyChangeContainer).to({y: (options && options.y) ? options.y : -20}, _animationTime).call(function () {
+    createjs.Tween.get(moneyChangeContainer).to({y: endY, alpha : 1}, _animationTime + 200).call(function () {
       setTimeout(function () {
         moneyChangeContainer.visible = false;
         moneyChangeText.text = '';
@@ -1148,16 +1151,22 @@ this.TWIST = this.TWIST || {};
   p.reEatCards = function (cardList) {
     if (!cardList)
       return;
+    this.numberEatedCard = 0;
     var cards = [], bai = TWIST.Card.draftCard;
 
     for (var i = 0; i < cardList.length; i++) {
       var card = new TWIST.Card(cardList[i]);
-
       var newX = bai.seperator * i, newY = 0;
-      if (this.draftCards.align == "right") {
-        newX = -0 - this.handCards.x - this.hand.x + this.draftCards.x + 300 - i * bai.seperator;
+      if (this.position == 2) {
+        newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
+        newY = 0;
       } else {
-        newX = 0 - this.handCards.x - this.hand.x + this.draftCards.x + i * bai.seperator
+        newY = -45;
+        if (this.draftCards.align == "right") {
+          newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
+        } else {
+          newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
+        }
       }
       card.set({
         x: newX,
@@ -1165,6 +1174,7 @@ this.TWIST = this.TWIST || {};
         scaleX: bai.scale,
         scaleY: bai.scale
       });
+      this.numberEatedCard++;
       this.handCards.addChild(card);
     }
     return cards;

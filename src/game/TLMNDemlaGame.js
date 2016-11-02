@@ -31,7 +31,7 @@ this.TWIST = this.TWIST || {};
            5 : "Sảnh rồng",
            16 : "Thắng !"
         };
-        this.endDemlaGame(data,winTypeMap,16);
+        this.endDemlaGame(data,winTypeMap,(data.winType == 16));
     };
 
     TWIST.TLMNDemlaGame = TLMNDemlaGame;

@@ -74,12 +74,13 @@ this.TWIST = this.TWIST || {};
 
   p._init = function () {
     var cards = new Image();
-    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
+    this.image = cards;
+    cards.src = (TWIST.imagePath || imagePath) + 'card/-1.png';
     var bg = new createjs.Bitmap(cards);
     this.bg = bg;
-    bg.sourceRect = $.extend({}, Card.size);
-    bg.sourceRect.x = 0;
-    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+//    bg.sourceRect = $.extend({}, Card.size);
+//    bg.sourceRect.x = 0;
+//    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
 
     this.inPhom = new createjs.Shape();
     this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
@@ -105,17 +106,20 @@ this.TWIST = this.TWIST || {};
     this.suite = rankSuite.suite;
 
     var bg = this.bg;
-    bg.sourceRect = $.extend({}, Card.size);
+    var srcValue = -1;
+//    bg.sourceRect = $.extend({}, Card.size);
     if (value !== -1) {
       Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
       var rankName = Card.RankMapIndex[rankSuite.rank];
       var suidName = Card.SuitMap[rankSuite.suite];
-      bg.sourceRect.x = (rankName - 1) * Card.size.width;
-      bg.sourceRect.y = rankSuite.suite * Card.size.height;
+      srcValue = (rankName - 1) * 4 + rankSuite.suite;
+//      bg.sourceRect.x = (rankName - 1) * Card.size.width;
+//      bg.sourceRect.y = rankSuite.suite * Card.size.height;
     } else {
-      bg.sourceRect.x = 0;
-      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+//      bg.sourceRect.x = 0;
+//      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
+    this.image.src = (TWIST.imagePath || imagePath) + 'card/' + srcValue + '.png';
   };
 
   p.getValue = function () {

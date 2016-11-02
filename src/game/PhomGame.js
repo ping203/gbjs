@@ -73,6 +73,10 @@ this.TWIST = this.TWIST || {};
     this.on('entiretyCard', function (data) {
       this.entiretyCard(data);
     });
+
+    this.on('setRemainCards', function (data) {
+      this.setRemainCards(data);
+    });
   };
 
   p.onGetTurn = function (data) {
@@ -85,7 +89,7 @@ this.TWIST = this.TWIST || {};
     if (data.uuid === this.userInfo.uuid) {
       this.getCardButton.show();
     }
-    this.setPlayerTurn(data.uuid);
+    this.setPlayerTurn(data.uuid, data.remainingTime);
   };
 
   p.onHitTurn = function (data) {
@@ -98,8 +102,10 @@ this.TWIST = this.TWIST || {};
     this.eatCardButton.hide();
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
+    }else{
+      this.hitButton.hide();
     }
-    this.setPlayerTurn(data.uuid);
+    this.setPlayerTurn(data.uuid, data.remainingTime);
   };
 
   p.getCardComplete = function (data) {
@@ -110,6 +116,7 @@ this.TWIST = this.TWIST || {};
     var player = this.getPlayerByUuid(userID);
     player.listPhom = listPhom;
     player.getDeckCard(card, listPhom);
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.enableEatCard = function () {
@@ -193,17 +200,13 @@ this.TWIST = this.TWIST || {};
       PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
       if (PlayingPlayer.uuid === this.userInfo.uuid) {
         this.hitButton.show();
-        this.foldTurnButton.show();
       }
     }
-
-    if (data.lastDraftCards) {
-      this.desk.lastDraftCards = data.lastDraftCards;
-      this.desk.createLastDraftCards(data.lastDraftCards);
-    }
+    this.desk.generateCards(52, TWIST.Card.userCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
+      var listPhom = [];
 
       if (item.uuid === _self.userInfo.uuid) {
         handCards = data.userListCard || [];
@@ -212,17 +215,38 @@ this.TWIST = this.TWIST || {};
         });
         if (handCards.length > 0) {
           _self.sortCardButton.show();
+        } else {
+          _self.showError({
+            message: "Ván chơi đang diễn ra !"
+          });
         }
+        listPhom = data.listPhom;
       } else {
-        handCards.length = item.numberCardsInHand;
+        handCards.length = item.numberCardsInHand || initOptions.numberCardsInHand;
       }
       var Player = _self.getPlayerByUuid(item.uuid);
       if (Player) {
         Player.handCards.cardList = handCards;
+        Player.listPhom = listPhom;
         Player.renderCards(initOptions.renderCardOptions);
+        if (Player.position != 0) {
+          Player.reEatCards(item.eatedCards);
+        }
+        Player.rerenderDraftPhom(item.drarfCards);
+        item.listPhom && item.listPhom.forEach(function (phom, _index) {
+          Player.showSinglePhom(phom);
+          (function (Player) {
+            setTimeout(function () {
+              Player.sortPhomArea();
+            }, 550);
+          })(Player);
+        });
+        if (item.eatedCards) {
+          Player.hightLightEatCards(item.eatedCards);
+        }
       }
     });
-
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.dealCards = function (data) {
@@ -254,14 +278,11 @@ this.TWIST = this.TWIST || {};
         if (Player.position == 0) {
           Player.listPhom = data.listPhom
         }
-        ;
         Player.handCards.cardList = handCards;
         Player.renderCards(initOptions.renderCardOptions);
       }
     });
-
-    this.desk.showRemainingDeckCard();
-
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
   };
 
   p.setPlayerTurn = function (uuid, remainingTime) {
@@ -412,7 +433,7 @@ this.TWIST = this.TWIST || {};
             y: card.y + sendPlayer.y + sendPlayer.hand.y
           });
           card.cardValue = dataItem.cardList[index];
-          receivePlayer.addCardInShowPhom(card,otherPlayerSend);
+          receivePlayer.addCardInShowPhom(card, otherPlayerSend);
         });
       }
     }
@@ -438,6 +459,11 @@ this.TWIST = this.TWIST || {};
     setTimeout(function () {
       player.sortPhomArea();
     }, 550);
+  };
+
+  p.setRemainCards = function (data) {
+    var remainCards = data.remainCards;
+    this.desk.showRemainingDeckCard(data.remainCards);
   };
 
   p.STATUS_PLAYING = function () {
