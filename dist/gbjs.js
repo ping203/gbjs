@@ -2126,21 +2126,12 @@ this.TWIST = this.TWIST || {};
     statusBg.color = "black";
   };
 
-
   p.renderCards = function (options) {
-    var hand = this.hand;
-    hand.visible = true;
-
     this._renderHandCards(this.handCards.cardList, options);
     var _self = this;
-    if (this.showCardLength) {
-      setTimeout(function () {
-        _self.setNumberCards(_self.handCards.cardList.length);
-      }, 1000);
-    } else {
-      this.numberOfCards.visible = false;
-    }
-
+    setTimeout(function () {
+      _self.setNumberCards(_self.handCards.cardList.length);
+    }, 1000);
   };
 
   p._renderHandCards = function (listCard, options) {
@@ -3043,6 +3034,7 @@ this.TWIST = this.TWIST || {};
   TWIST.Player = Player;
 
 })();
+
 /**
  * @module Sortable
  */
