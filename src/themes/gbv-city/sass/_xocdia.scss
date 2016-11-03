@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 2, 2016, 3:50:09 PM
+    Author     : TungTD
+*/
+.xocdia-wrapper{
+    $xocdiaImagePath : $twistImagePath + "xocdia/";
+    position : relative;
+    height : 100%;
+    .history{
+        position: absolute;
+        left : 0;
+        top : 130px;
+        width: 68px;
+        height: 273px;
+        background-image:  url('#{$xocdiaImagePath}history-table.png');
+    }
+    .host{
+        width : 96px;
+        height : 145px;
+        background-image:  url('#{$xocdiaImagePath}host.png');
+        position : absolute;
+        top : 0;
+        left : calc(50% - 48px);
+        font-size: 16px;
+        color: white;
+        .host-name{
+            width: 162px;
+            height: 31px;
+            position: absolute;
+            top : 90px;
+            left : calc(50% - 81px);
+            border-radius: 6px;
+            line-height: 31px;
+            font-weight: bold;
+            background-color: rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .chat-box{
+            background-image:  url('#{$xocdiaImagePath}chatbox.png');
+            position: absolute;
+            width: 148px;
+            height: 62px;
+            left : calc(50% + 25px);
+            top : 5px;
+            .chat-box-inner{
+                display: flex;
+                margin: 0 5px 0 10px;
+                justify-content: center;
+                height: 100%;
+            }
+        }
+    }
+    .invite-button{
+        background-image:  url('#{$xocdiaImagePath}players.png');
+        position: absolute;
+        width: 89px;
+        height: 81px;
+        right : 0;
+        top : calc(50% - 40px);
+    }
+}

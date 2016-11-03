@@ -40,4 +40,8 @@
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
 'videoPoker/supportText':'<div class="support-text"></div>',
 'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',}})();
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
+'xocDia/history':'<div class="history"></div>\n',
+'xocDia/host':'<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
+'xocDia/inviteButton':'<div class="invite-button"></div>',
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
