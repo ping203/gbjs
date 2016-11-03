@@ -4158,7 +4158,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onNotifyOne = function (data) {
-    var player = this.getPlayerByUuid(data.remainingTime);
+    var player = this.getPlayerByUuid(data.uuid);
     player.setPlayerStatus("Báo 1 !");
   };
 
