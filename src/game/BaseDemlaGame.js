@@ -147,6 +147,9 @@ this.TWIST = this.TWIST || {};
       if (data.uuid === this.userInfo.uuid) {
         this.hitButton.hide();
         this.foldTurnButton.hide();
+        this.showError({
+          message: "Bỏ lượt !"
+        });
       }
     }
   };
