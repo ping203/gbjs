@@ -9,7 +9,14 @@ and open the template in the editor.
 */
 .xocdia-wrapper{
     $xocdiaImagePath : $twistImagePath + "xocdia/";
-    position : relative;
+    position : absolute;
+    width: 100%;
+    height : 100%;
+    .gameCanvas{
+        top : 0;
+        left : 0;
+        position: absolute;
+    }
     .history{
         position: absolute;
         left : 0;
@@ -51,15 +58,206 @@ and open the template in the editor.
                 margin: 0 5px 0 10px;
                 justify-content: center;
                 height: 100%;
+                align-items: center;
             }
         }
-        .invite-button{
-            background-image:  url('#{$xocdiaImagePath}players.png');
+    }
+    .invite-button{
+        background-image:  url('#{$xocdiaImagePath}players.png');
+        position: absolute;
+        width: 89px;
+        height: 81px;
+        right : 0;
+        top : calc(50% - 40px);
+    }
+    .betting-position{
+        $positionList : (
+            (1, 150),
+            (2, 590),
+            (3, 130),
+            (4, 262.5),
+            (5, 395),
+            (6, 527.5),
+            (7, 660)
+            );
+        position: absolute;
+        height: 115px;
+        box-sizing: content-box;
+        width: 160px;
+        border-radius: 8px;
+        background-color: rgba(0,0,0,0.12);
+        top : 140px;
+        border : 1px solid #fece2f;
+        &.small-betting-position{
+            top : 290px;
+            border-color: #20bbfc;
+            background-color: #374077;
+            border-radius: 22px;
+            width: 110px;
+        }
+        @each $code, $left in $positionList {
+            &.betting#{$code}{
+                left : $left + px;
+            }
+        }
+        .coin-tittle{
             position: absolute;
-            width: 89px;
-            height: 81px;
-            right : 0;
-            top : calc(50% - 40px);
+            width: 100%;
+            height: 22px;
+            text-align: center;
+            top : -11px;
+        }
+        .coin-item{
+            width: 25px;
+            height: 22px;
+            background-image:  url('#{$xocdiaImagePath}white.png');
+            display : inline-block;
+            margin : 0 -2px;
+            &.red-coin{
+                background-image:  url('#{$xocdiaImagePath}red.png');
+            }
+        }
+    }
+
+    .profile{
+        position: absolute;
+        left: 50px;
+        top : 450px;
+        height : 70px;
+        .profile-left{
+            position: absolute;
+            top  : 0px;
+            left: 0px;
+            width: 90px;
+            text-align: right;
+            font-size : 16px;
+            white-space : nowrap;
+            height : 100%;
+            display : flex;
+            justify-content: center;
+            align-items: center;
+            .username{
+                color : white;
+                font-weight: bold;
+            }
+            .money{
+                color: #ffc200;
+                font-size : 14px;
+                &:after{
+                    content: " V"
+                }
+            }
+        }
+        .profile-right{
+            position: absolute;
+            top  : 0px;
+            left: 100px;
+            width : 200px;
+            .avatar{
+                width: 80px;
+                height: 80px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border : 3px solid rgba(0, 0, 0, 0.5);
+                padding: 2px;
+                border-radius: 50%;
+                overflow: hidden;
+                background-size: cover;
+                background-position: center;
+                box-sizing: border-box;
+                background-origin: content-box;
+                background-repeat: none;
+                background-clip: content-box;
+                @for $i from 0 through 10{
+                    &.avatar#{$i}{
+                        /*background-image: url('#{$twistImagePath}player/avatars/#{$i}.png');*/
+                        background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);
+
+                    }
+                }
+            }
+        }
+        .win-money{
+            position: absolute;
+            color: #f8ae00;
+            font-size: 34px;
+            text-align: center;
+            width: 300px;
+            left : 0;
+            text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000, 
+                1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;  
+            top : 50px;
+            @include animation-name(win-money);
+            @include animation-duration(2s);
+            @include animation-timing-function(linear);
+            @include animation-iteration-count(1);
+            @keyframes win-money { 
+                to {
+                    top : -50px;
+                }
+            }
+            &:before{
+                content: "+"
+            }
+        }
+    }
+
+    .chip-group{
+        position: absolute;
+        top : 450px;
+        right : 450px;
+        text-align: center;
+        .chip{
+            position: absolute;
+            top: 0;
+            width : 75px;
+            height : 75px;
+            line-height:  75px;
+            border-radius : 50%;
+            background-image: url('#{$xocdiaImagePath}1st-chip.png');
+            background-size : cover;
+            box-sizing: border-box;
+            background-origin: border-box;
+            color : white;
+            transition : all 0.1s linear;
+            font-size : 17.5px;
+            cursor : pointer;
+            font-weight : bold;
+            opacity : 0.5;
+            &:first-child{
+                left : calc(50% - 90px - 105px);
+                background-image: url('#{$xocdiaImagePath}1st-chip.png');
+            }
+            &:nth-child(2){
+                left : calc(50% - 90px);
+                background-image: url('#{$xocdiaImagePath}2nd-chip.png');
+            }
+            &:nth-child(3){
+                left : calc(50% + 15px);
+                background-image: url('#{$xocdiaImagePath}3rd-chip.png');
+            }
+            &:nth-child(4){
+                left : calc(50% + 15px + 105px);
+                background-image: url('#{$xocdiaImagePath}4th-chip.png');
+            }
+            &.active{
+                top : -15px;
+                opacity: 1;
+                border : 2px solid #ffed8a;
+                box-shadow: 0 0 12px rgba(254,197,46, 0.68), 0 0 48px rgba(254,197,46, 0.38), 0 0 35px rgba(252,45,28, 0.24),0 3px 4px rgba(0,0,0, 0.78);
+
+            }
+        }
+    }
+    .xocdia-button-bar{
+        top : 490px;
+        bottom : initial;
+        .button-bottom{
+            right: 100px;
+            bottom: -30px;
+        }
+        .button-top{
+            right: 100px;
+            bottom: 15px;
         }
     }
 }

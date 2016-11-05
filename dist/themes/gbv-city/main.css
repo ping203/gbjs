@@ -1517,8 +1517,13 @@ and open the template in the editor.
           -o-transform: rotate(90deg);
           transform: rotate(90deg); }
   .twist .xocdia-wrapper {
-    position: relative;
+    position: absolute;
+    width: 100%;
     height: 100%; }
+    .twist .xocdia-wrapper .gameCanvas {
+      top: 0;
+      left: 0;
+      position: absolute; }
     .twist .xocdia-wrapper .history {
       position: absolute;
       left: 0;
@@ -1557,7 +1562,8 @@ and open the template in the editor.
           display: flex;
           margin: 0 5px 0 10px;
           justify-content: center;
-          height: 100%; }
+          height: 100%;
+          align-items: center; }
     .twist .xocdia-wrapper .invite-button {
       background-image: url("images/xocdia/players.png");
       position: absolute;
@@ -1565,3 +1571,258 @@ and open the template in the editor.
       height: 81px;
       right: 0;
       top: calc(50% - 40px); }
+    .twist .xocdia-wrapper .betting-position {
+      position: absolute;
+      height: 115px;
+      box-sizing: content-box;
+      width: 160px;
+      border-radius: 8px;
+      background-color: rgba(254, 206, 47, 0.12);
+      top: 140px;
+      border: 1px solid #fece2f; }
+      .twist .xocdia-wrapper .betting-position .name {
+        height: 84px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        font-weight: bold;
+        text-shadow: 0 5px 4px rgba(0, 0, 0, 0.78), 0 0 22px rgba(254, 197, 46, 0.8), 0 0 5px rgba(254, 197, 46, 0.48), 0 0 8px rgba(254, 197, 46, 0.68);
+        color: white; }
+      .twist .xocdia-wrapper .betting-position .mine-betting, .twist .xocdia-wrapper .betting-position .total-betting {
+        position: absolute;
+        width: 50%;
+        height: 29px;
+        right: 0;
+        font-weight: bold;
+        line-height: 29px;
+        border: 1px solid #fece2f;
+        border-right: none;
+        border-bottom: none;
+        color: #fece2f;
+        text-align: center;
+        bottom: 0; }
+      .twist .xocdia-wrapper .betting-position .total-betting {
+        right: 50%;
+        font-weight: normal;
+        color: white;
+        border-left: none; }
+      .twist .xocdia-wrapper .betting-position.small-betting-position {
+        top: 290px;
+        border-color: #20bbfc;
+        background-color: #374077;
+        border-radius: 22px;
+        width: 110px; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position .name {
+          height: 105px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 25px;
+          font-weight: bold;
+          text-shadow: 0 5px 4px rgba(0, 0, 0, 0.78), 0 0 22px rgba(0, 186, 255, 0.8), 0 0 5px rgba(0, 186, 255, 0.48), 0 0 8px rgba(0, 186, 255, 0.68);
+          color: white; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position .mine-betting, .twist .xocdia-wrapper .betting-position.small-betting-position .total-betting {
+          width: 100%;
+          height: 29px;
+          right: 0;
+          font-weight: bold;
+          line-height: 29px;
+          border: none;
+          border-top: 1px solid #2a2e65;
+          color: #fece2f;
+          text-align: center;
+          bottom: 0px; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position .total-betting {
+          bottom: 80px;
+          font-weight: normal;
+          color: white;
+          border-left: none;
+          border-top: none; }
+      .twist .xocdia-wrapper .betting-position.betting0 {
+        left: 150px; }
+      .twist .xocdia-wrapper .betting-position.betting1 {
+        left: 590px; }
+      .twist .xocdia-wrapper .betting-position.betting2 {
+        left: 130px; }
+      .twist .xocdia-wrapper .betting-position.betting3 {
+        left: 262.5px; }
+      .twist .xocdia-wrapper .betting-position.betting4 {
+        left: 395px; }
+      .twist .xocdia-wrapper .betting-position.betting5 {
+        left: 527.5px; }
+      .twist .xocdia-wrapper .betting-position.betting6 {
+        left: 660px; }
+      .twist .xocdia-wrapper .betting-position .coin-tittle {
+        position: absolute;
+        width: 100%;
+        height: 22px;
+        text-align: center;
+        top: -11px; }
+      .twist .xocdia-wrapper .betting-position .coin-item {
+        width: 25px;
+        height: 22px;
+        background-image: url("images/xocdia/white.png");
+        display: inline-block;
+        margin: 0 -2px; }
+        .twist .xocdia-wrapper .betting-position .coin-item.red-coin {
+          background-image: url("images/xocdia/red.png"); }
+    .twist .xocdia-wrapper .profile {
+      position: absolute;
+      left: 50px;
+      top: 450px;
+      height: 70px; }
+      .twist .xocdia-wrapper .profile .profile-left {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 90px;
+        text-align: right;
+        font-size: 16px;
+        white-space: nowrap;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center; }
+        .twist .xocdia-wrapper .profile .profile-left .username {
+          color: white;
+          font-weight: bold; }
+        .twist .xocdia-wrapper .profile .profile-left .money {
+          color: #ffc200;
+          font-size: 14px; }
+          .twist .xocdia-wrapper .profile .profile-left .money:after {
+            content: " V"; }
+      .twist .xocdia-wrapper .profile .profile-right {
+        position: absolute;
+        top: 0px;
+        left: 100px;
+        width: 200px; }
+        .twist .xocdia-wrapper .profile .profile-right .avatar {
+          width: 80px;
+          height: 80px;
+          background-color: rgba(0, 0, 0, 0.5);
+          border: 3px solid rgba(0, 0, 0, 0.5);
+          padding: 2px;
+          border-radius: 50%;
+          overflow: hidden;
+          background-size: cover;
+          background-position: center;
+          box-sizing: border-box;
+          background-origin: content-box;
+          background-repeat: none;
+          background-clip: content-box; }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar0 {
+            /*background-image: url('images/player/avatars/0.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar1 {
+            /*background-image: url('images/player/avatars/1.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar2 {
+            /*background-image: url('images/player/avatars/2.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar3 {
+            /*background-image: url('images/player/avatars/3.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar4 {
+            /*background-image: url('images/player/avatars/4.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar5 {
+            /*background-image: url('images/player/avatars/5.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar6 {
+            /*background-image: url('images/player/avatars/6.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar7 {
+            /*background-image: url('images/player/avatars/7.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar8 {
+            /*background-image: url('images/player/avatars/8.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar9 {
+            /*background-image: url('images/player/avatars/9.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+          .twist .xocdia-wrapper .profile .profile-right .avatar.avatar10 {
+            /*background-image: url('images/player/avatars/10.png');*/
+            /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
+      .twist .xocdia-wrapper .profile .win-money {
+        position: absolute;
+        color: #f8ae00;
+        font-size: 34px;
+        text-align: center;
+        width: 300px;
+        left: 0;
+        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
+        top: 50px;
+        -webkit-animation-name: win-money;
+        -moz-animation-name: win-money;
+        animation-name: win-money;
+        -webkit-animation-duration: 2s;
+        -moz-animation-duration: 2s;
+        animation-duration: 2s;
+        -webkit-animation-timing-function: linear;
+        -moz-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-iteration-count: 1;
+        -moz-animation-iteration-count: 1;
+        animation-iteration-count: 1; }
+
+@keyframes win-money {
+  to {
+    top: -50px; } }
+        .twist .xocdia-wrapper .profile .win-money:before {
+          content: "+"; }
+    .twist .xocdia-wrapper .chip-group {
+      position: absolute;
+      top: 450px;
+      right: 450px;
+      text-align: center; }
+      .twist .xocdia-wrapper .chip-group .chip {
+        position: absolute;
+        top: 0;
+        width: 75px;
+        height: 75px;
+        line-height: 75px;
+        border-radius: 50%;
+        background-image: url("images/xocdia/1st-chip.png");
+        background-size: cover;
+        box-sizing: border-box;
+        background-origin: border-box;
+        color: white;
+        transition: all 0.1s linear;
+        font-size: 17.5px;
+        cursor: pointer;
+        font-weight: bold;
+        opacity: 0.5; }
+        .twist .xocdia-wrapper .chip-group .chip:first-child {
+          left: calc(50% - 90px - 105px);
+          background-image: url("images/xocdia/1st-chip.png"); }
+        .twist .xocdia-wrapper .chip-group .chip:nth-child(2) {
+          left: calc(50% - 90px);
+          background-image: url("images/xocdia/2nd-chip.png"); }
+        .twist .xocdia-wrapper .chip-group .chip:nth-child(3) {
+          left: calc(50% + 15px);
+          background-image: url("images/xocdia/3rd-chip.png"); }
+        .twist .xocdia-wrapper .chip-group .chip:nth-child(4) {
+          left: calc(50% + 15px + 105px);
+          background-image: url("images/xocdia/4th-chip.png"); }
+        .twist .xocdia-wrapper .chip-group .chip.active {
+          top: -15px;
+          opacity: 1;
+          border: 2px solid #ffed8a;
+          box-shadow: 0 0 12px rgba(254, 197, 46, 0.68), 0 0 48px rgba(254, 197, 46, 0.38), 0 0 35px rgba(252, 45, 28, 0.24), 0 3px 4px rgba(0, 0, 0, 0.78); }
+    .twist .xocdia-wrapper .xocdia-button-bar {
+      top: 490px;
+      bottom: initial; }
+      .twist .xocdia-wrapper .xocdia-button-bar .button {
+        /*            background-image: none;
+                        text-shadow: 0 5px 4px rgba(0,0,0, 0.78), 0 0 22px rgba(21,118, 251, 0.80)
+                            , 0 0 5px rgba(21,118, 251, 0.48), 0 0 8px rgba(21,118, 251, 0.68), 0 0 1px rgba(255,255,255,0.6);
+                        color : white;
+                        border-color: rgba(21,118, 251, 1);
+                        background-color: rgba(32,187, 252, 0.12)*/ }
+      .twist .xocdia-wrapper .xocdia-button-bar .button-bottom {
+        right: 100px;
+        bottom: -30px; }
+      .twist .xocdia-wrapper .xocdia-button-bar .button-top {
+        right: 100px;
+        bottom: 15px; }

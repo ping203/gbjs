@@ -220,10 +220,11 @@ this.TWIST = this.TWIST || {};
     return card;
   };
 
-  p.setRemainingTime = function (time) {
+  p.setRemainingTime = function (time, options) {
     var miliseconTime = time > 1000 ? time : time * 1000;
     var startTime = new Date().getTime();
     var miliseconTimeText = this.remainingTime;
+    $.extend(miliseconTimeText, options);
     miliseconTimeText.visible = true;
     if (miliseconTime > 0) {
       if (this.remainingTimeTween) {

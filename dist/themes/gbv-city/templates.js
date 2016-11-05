@@ -1,4 +1,4 @@
-;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas id="testCanvas" width="1000" height="580" ></canvas>',
+;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" width="1000" height="580" ></canvas>',
 'errorPanel':'<div class="error-panel">\r\n    \r\n</div>',
 'buttonBar/callSamButton':'<div class="button fourth red" id="call-sam">B\xE1o s\xE2m</div>',
 'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
@@ -41,7 +41,12 @@
 'videoPoker/supportText':'<div class="support-text"></div>',
 'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
 'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
+'xocDia/bettingPosition':'<div class="betting-position">\n    <div class="coin-tittle"></div>\n    <div class="name"></div>\n    <div class="mine-betting">\n        0\n    </div>\n    <div class="total-betting">\n        0\n    </div>\n</div>\n',
+'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\n    <div class="button blue button-bottom">\u0110\u1EB7t l\u1EA1i</div>\n    <div class="button blue button-bottom">B\xE1n c\u1EEDa l\u1EBD</div>\n    <div class="button blue button-bottom">H\u1EE7y c\xE1i</div>\n    <div class="button blue button-top">\u0110\u1EB7t l\u1EA1i</div>\n    <div class="button blue button-top">B\xE1n c\u1EEDa ch\u1EB5n</div>\n    <div class="button blue button-top">Xin c\xE1i</div>\n</div>',
+'xocDia/chips':'<div class="chip-group">\n    <div class="chip chip-1st">5K</div>\n    <div class="chip chip-2nd">10k</div>\n    <div class="chip chip-3rd">20k</div>\n    <div class="chip chip-4th">50k</div>\n</div>\n',
+'xocDia/coin-item':'<div class="coin-item"></div>',
 'xocDia/history':'<div class="history"></div>\n',
 'xocDia/host':'<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
 'xocDia/inviteButton':'<div class="invite-button"></div>',
+'xocDia/user':'<div class="profile">\n    <div class="profile-left">\n        <div>\n            <div class="username "></div>\n            <div class="money "></div>\n        </div>\n    </div>\n    <div class="profile-right">\n        <div class="user avatar avatar1" ></div>\n    </div>\n</div>',
 'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();

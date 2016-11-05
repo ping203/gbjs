@@ -46,6 +46,28 @@ this.Global = this.Global || {};
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             return parts.join(".");
         },
+        numberWithDot2 : function(number) {
+            if (isNaN(number)) {
+                return number;
+            } else {
+                var displayNumber, character;
+                var numberAbs = Math.abs(number)
+                if (numberAbs >= 100000000) {
+                    displayNumber = Global.numberWithDot(Math.floor(numberAbs / 1000000));
+                    character = "M";
+                } else if (numberAbs >= 1000) {
+                    displayNumber = Global.numberWithDot(Math.floor(numberAbs / 1000));
+                    character = "K";
+                } else {
+                    displayNumber = Global.numberWithDot(numberAbs);
+                    character = "";
+                }
+                if (number < 0) {
+                    displayNumber = "-" + displayNumber;
+                }
+                return displayNumber + character;
+            }
+        },
         _generateUniqueId: function () {
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
