@@ -136,9 +136,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onNotifyOne = function (data) {
-    var currentUuid = data.uuid;
-    var currentPlayer = this.getCurrentPlayer();
-    currentPlayer.setPlayerStatus("Báo 1 !");
+    var player = this.getPlayerByUuid(data.uuid);
+    player.setPlayerStatus("Báo 1 !",{
+      default : "Báo 1 !"
+    });
   };
 
   p.foldTurn = function (data) {

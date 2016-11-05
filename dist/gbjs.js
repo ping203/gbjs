@@ -950,7 +950,7 @@ this.FATE = this.FATE || {};
 'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
 'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
-'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
+'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">S\u1EAFp x\u1EBFp</div>\r\n',
 'buttonBar/startButton':'<div class="button first green" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/wrapper':'<div class="button-bar"></div>',
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
@@ -976,16 +976,16 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
+'xocDia/history':'<div class="history"></div>\n',
+'xocDia/host':'<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
+'xocDia/inviteButton':'<div class="invite-button"></div>',
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
 'videoPoker/supportText':'<div class="support-text"></div>',
 'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
-'xocDia/history':'<div class="history"></div>\n',
-'xocDia/host':'<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
-'xocDia/inviteButton':'<div class="invite-button"></div>',
-'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',}})();
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -1518,14 +1518,19 @@ this.TWIST = this.TWIST || {};
     return this.remainingCard;
   };
 
-  p.showRemainingDeckCard = function (value) {
+  p.showRemainingDeckCard = function(value) {
     var _value;
-    if (typeof value === "undefined") {
+    if(typeof value === "undefined") {
       var _value = this.deckCard.children.length;
-    }else{
+    } else {
       this.deckCard.children.length = _value = value;
-    } 
-    this.remainingCard.text = _value;
+    }
+    if(_value > 0) {
+      this.remainingCard.text = _value;
+    } else {
+      this.remainingCard.text = '';
+    }
+
   };
 
   p.createDraftCards = function () {
@@ -1731,6 +1736,7 @@ this.TWIST = this.TWIST || {};
 
   TWIST.Desk = Desk;
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -3784,6 +3790,11 @@ this.TWIST = this.TWIST || {};
       item.status = "STATUS_PLAYING";
     });
     this.desk.clear();
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      player.setPlayerStatus("");
+    }
   };
 
   p.endGame = function (data) {
@@ -4020,6 +4031,7 @@ this.TWIST = this.TWIST || {};
   TWIST.InRoomGame = InRoomGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -4158,9 +4170,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onNotifyOne = function (data) {
-    var currentUuid = data.uuid;
-    var currentPlayer = this.getCurrentPlayer();
-    currentPlayer.setPlayerStatus("Báo 1 !");
+    var player = this.getPlayerByUuid(data.uuid);
+    player.setPlayerStatus("Báo 1 !",{
+      default : "Báo 1 !"
+    });
   };
 
   p.foldTurn = function (data) {
@@ -4297,6 +4310,7 @@ this.TWIST = this.TWIST || {};
   TWIST.BaseDemlaGame = BaseDemlaGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {

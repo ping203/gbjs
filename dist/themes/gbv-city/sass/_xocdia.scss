@@ -10,6 +10,7 @@ and open the template in the editor.
 .xocdia-wrapper{
     $xocdiaImagePath : $twistImagePath + "xocdia/";
     position : relative;
+    height : 100%;
     .history{
         position: absolute;
         left : 0;
@@ -53,13 +54,13 @@ and open the template in the editor.
                 height: 100%;
             }
         }
-        .invite-button{
-            background-image:  url('#{$xocdiaImagePath}players.png');
-            position: absolute;
-            width: 89px;
-            height: 81px;
-            right : 0;
-            top : calc(50% - 40px);
-        }
+    }
+    .invite-button{
+        background-image:  url('#{$xocdiaImagePath}players.png');
+        position: absolute;
+        width: 89px;
+        height: 81px;
+        right : 0;
+        top : calc(50% - 40px);
     }
 }
