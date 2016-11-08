@@ -1520,6 +1520,108 @@ and open the template in the editor.
     position: absolute;
     width: 100%;
     height: 100%; }
+
+@-webkit-keyframes xocdiaBoxShadowfec52e {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@-moz-keyframes xocdiaBoxShadowfec52e {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@keyframes xocdiaBoxShadowfec52e {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@-webkit-keyframes xocdiaBoxShadow0baff {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@-moz-keyframes xocdiaBoxShadow0baff {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@keyframes xocdiaBoxShadow0baff {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); }
+  50% {
+    box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.07);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.07), rgba(255, 238, 0, 0.05)); }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+    background-color: rgba(255, 238, 0, 0.05);
+    background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
+    background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
     .twist .xocdia-wrapper .gameCanvas {
       top: 0;
       left: 0;
@@ -1550,7 +1652,13 @@ and open the template in the editor.
         line-height: 31px;
         font-weight: bold;
         background-color: rgba(0, 0, 0, 0.5);
-        text-align: center; }
+        text-align: center;
+        display: none; }
+        .twist .xocdia-wrapper .host .host-name.active {
+          display: block;
+          box-shadow: inset 0 0px 0px transparent, inset 0 0 22px transparent, inset 0 0 5px transparent, inset 0 0 8px transparent;
+          animation: xocdiaBoxShadowfec52e 1s;
+          animation-iteration-count: 3; }
       .twist .xocdia-wrapper .host .chat-box {
         background-image: url("images/xocdia/chatbox.png");
         position: absolute;
@@ -1639,20 +1747,6 @@ and open the template in the editor.
           color: white;
           border-left: none;
           border-top: none; }
-      .twist .xocdia-wrapper .betting-position.betting0 {
-        left: 150px; }
-      .twist .xocdia-wrapper .betting-position.betting1 {
-        left: 590px; }
-      .twist .xocdia-wrapper .betting-position.betting2 {
-        left: 130px; }
-      .twist .xocdia-wrapper .betting-position.betting3 {
-        left: 262.5px; }
-      .twist .xocdia-wrapper .betting-position.betting4 {
-        left: 395px; }
-      .twist .xocdia-wrapper .betting-position.betting5 {
-        left: 527.5px; }
-      .twist .xocdia-wrapper .betting-position.betting6 {
-        left: 660px; }
       .twist .xocdia-wrapper .betting-position .coin-tittle {
         position: absolute;
         width: 100%;
@@ -1667,6 +1761,29 @@ and open the template in the editor.
         margin: 0 -2px; }
         .twist .xocdia-wrapper .betting-position .coin-item.red-coin {
           background-image: url("images/xocdia/red.png"); }
+    .twist .xocdia-wrapper .vitual-betting-position {
+      position: absolute;
+      height: 115px;
+      width: 160px;
+      top: 140px;
+      cursor: pointer; }
+      .twist .xocdia-wrapper .vitual-betting-position.small-vitual-betting {
+        top: 290px;
+        width: 110px; }
+    .twist .xocdia-wrapper .betting0 {
+      left: 150px; }
+    .twist .xocdia-wrapper .betting1 {
+      left: 590px; }
+    .twist .xocdia-wrapper .betting2 {
+      left: 130px; }
+    .twist .xocdia-wrapper .betting3 {
+      left: 262.5px; }
+    .twist .xocdia-wrapper .betting4 {
+      left: 395px; }
+    .twist .xocdia-wrapper .betting5 {
+      left: 527.5px; }
+    .twist .xocdia-wrapper .betting6 {
+      left: 660px; }
     .twist .xocdia-wrapper .profile {
       position: absolute;
       left: 50px;
@@ -1751,7 +1868,7 @@ and open the template in the editor.
         text-align: center;
         width: 300px;
         left: 0;
-        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
+        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
         top: 50px;
         -webkit-animation-name: win-money;
         -moz-animation-name: win-money;

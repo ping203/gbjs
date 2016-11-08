@@ -981,8 +981,6 @@ this.FATE = this.FATE || {};
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
-'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -995,6 +993,8 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
+'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
@@ -1004,14 +1004,15 @@ this.FATE = this.FATE || {};
 'videoPoker/supportText':'<div class="support-text"></div>',
 'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
 'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
-'xocDia/bettingPosition':'<div class="betting-position">\n    <div class="coin-tittle"></div>\n    <div class="name"></div>\n    <div class="mine-betting">\n        0\n    </div>\n    <div class="total-betting">\n        0\n    </div>\n</div>\n',
-'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\n    <div class="button blue button-bottom">\u0110\u1EB7t l\u1EA1i</div>\n    <div class="button blue button-bottom">B\xE1n c\u1EEDa l\u1EBD</div>\n    <div class="button blue button-bottom">H\u1EE7y c\xE1i</div>\n    <div class="button blue button-top">\u0110\u1EB7t l\u1EA1i</div>\n    <div class="button blue button-top">B\xE1n c\u1EEDa ch\u1EB5n</div>\n    <div class="button blue button-top">Xin c\xE1i</div>\n</div>',
-'xocDia/chips':'<div class="chip-group">\n    <div class="chip chip-1st">5K</div>\n    <div class="chip chip-2nd">10k</div>\n    <div class="chip chip-3rd">20k</div>\n    <div class="chip chip-4th">50k</div>\n</div>\n',
+'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
+'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue button-bottom">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button blue button-bottom">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue button-bottom">H\u1EE7y c\xE1i</div>\r\n    <div class="button blue button-top">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button blue button-top">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button blue button-top">Xin c\xE1i</div>\r\n</div>',
+'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">5K</div>\r\n    <div class="chip chip-2nd">10k</div>\r\n    <div class="chip chip-3rd">20k</div>\r\n    <div class="chip chip-4th">50k</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
 'xocDia/history':'<div class="history"></div>\n',
 'xocDia/host':'<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
 'xocDia/inviteButton':'<div class="invite-button"></div>',
-'xocDia/user':'<div class="profile">\n    <div class="profile-left">\n        <div>\n            <div class="username "></div>\n            <div class="money "></div>\n        </div>\n    </div>\n    <div class="profile-right">\n        <div class="user avatar avatar1" ></div>\n    </div>\n</div>',
+'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
+'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
 this.TWIST = this.TWIST || {};
 
@@ -7772,8 +7773,27 @@ this.TWIST = this.TWIST || {};
       width: 900,
       height: 560
     },
+    chipSize: {
+      width: 75,
+      height: 75,
+      miniWidth: 24,
+      miniHeight: 24,
+      miniRatio: 0.33
+    },
+    bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
+      {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
     width: 900,
-    height: 560
+    height: 560,
+    moveChipAnimationTime: 300,
+    diskPosition: {
+      x: 360,
+      y: 120
+    },
+    bowlPosition: {
+      x: 11,
+      y: 3
+    }
   };
 
   function XocDia(wrapper, options) {
@@ -7805,31 +7825,11 @@ this.TWIST = this.TWIST || {};
       isRoomMaster: false
     });
     this.bettingPositions = [{
-        name: "Chẵn",
-        displayName: "Chẵn",
-        valueMap: [0],
-        ratio: 1,
-        code: 0,
-        top: 140,
-        left: 150,
-        width: 160,
-        height: 115
-      }, {
-        name: "Lẻ",
-        displayName: "Lẻ",
-        valueMap: [1],
-        ratio: 1,
-        code: 1,
-        top: 140,
-        left: 590,
-        width: 160,
-        height: 115
-      }, {
         name: "Bốn Trắng",
         displayName: "1:10",
         valueMap: [0, 0, 0, 0],
         ratio: 10,
-        code: 2,
+        id: 2,
         top: 290,
         left: 130,
         width: 110,
@@ -7839,7 +7839,7 @@ this.TWIST = this.TWIST || {};
         displayName: "1:10",
         valueMap: [1, 1, 1, 1],
         ratio: 3,
-        code: 3,
+        id: 3,
         top: 290,
         left: 262.5,
         width: 110,
@@ -7849,7 +7849,7 @@ this.TWIST = this.TWIST || {};
         displayName: "1:3",
         valueMap: [0, 0, 0, 1],
         ratio: 1.5,
-        code: 4,
+        id: 4,
         top: 290,
         left: 395,
         width: 110,
@@ -7859,7 +7859,7 @@ this.TWIST = this.TWIST || {};
         displayName: "1:3",
         valueMap: [0, 1, 1, 1],
         ratio: 3,
-        code: 5,
+        id: 5,
         top: 290,
         left: 527.5,
         width: 110,
@@ -7869,10 +7869,30 @@ this.TWIST = this.TWIST || {};
         displayName: "1:1.5",
         valueMap: [0, 0, 1, 1],
         ratio: 4,
-        code: 6,
+        id: 6,
         top: 290,
         left: 660,
         width: 110,
+        height: 115
+      }, {
+        name: "Chẵn",
+        displayName: "Chẵn",
+        valueMap: [0],
+        ratio: 1,
+        id: 0,
+        top: 140,
+        left: 150,
+        width: 160,
+        height: 115
+      }, {
+        name: "Lẻ",
+        displayName: "Lẻ",
+        valueMap: [1],
+        ratio: 1,
+        id: 1,
+        top: 140,
+        left: 590,
+        width: 160,
         height: 115
       }];
     this.statusList = {
@@ -7914,6 +7934,7 @@ this.TWIST = this.TWIST || {};
     this.changeStatus({
       newStatus: data.status
     });
+    this.setHost(data.host);
     this.setBettingChipValue(data.betting);
     this.setRemainingTime(data.remainingTime);
     this.drawBettingPositions(data.bettingPositions);
@@ -7932,11 +7953,11 @@ this.TWIST = this.TWIST || {};
 
     this.initHistory();
 
-    this.initHost();
-
     this.initBettingPositionList();
 
     this.initProfile();
+
+    this.initHost();
 
     this.initGameCanvas();
 
@@ -7959,9 +7980,13 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setBetting = function (item) {
-    this.chipWrapper.find('.chip').removeClass('active');
-    item.template.addClass("active");
-    this.info.betting = item.value;
+    if (this.chipButtons.active) {
+      this.chipButtons.forEach(function (_item, _index) {
+        _item.template.removeClass('active');
+      });
+      item.template.addClass('active');
+      this.currentBetting = item;
+    }
   };
 
   p.pushXocDiaEvent = function () {
@@ -7971,17 +7996,178 @@ this.TWIST = this.TWIST || {};
       _self.renderUserInfo(arguments[0]);
     });
 
-    this.on("roomInfo", function (data) {
-      _self.updateMoney(data);
+    this.on("userBetting", function (data) {
+      _self.userBetting(data);
     });
 
-    this.on("updatePots", function (data) {
-      _self.bindPots(data);
+    this.on("xocDia", function (data) {
+      _self.xocDia(data);
     });
 
-    this.on("error", function (message) {
-      _self.showError(message);
+    this.on("openDisk", function (data) {
+      _self.openDisk(data);
     });
+  };
+
+  p.userBetting = function (data) {
+    var bettingPosition = this.bettingPositions.find(function (item, index) {
+      return item.id == data.id;
+    });
+    bettingPosition.setMineBetting(data.mineBetting);
+    bettingPosition.setTotalBetting(data.totalBetting);
+    var currentBettingID = this.currentBetting.id;
+    bettingChipAction(data.id, currentBettingID, false);
+  };
+
+  p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
+
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
+    var chip = this.createChip(currentBettingID);
+    chip.isMine = isMine;
+    var bettingChipPosition = initOptions.bettingChipPositions[currentBettingID] || "aaa";
+    var fromPosition = {
+      x: bettingChipPosition.x - bettingSlot.x,
+      y: bettingChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    chip.move(fromPosition, toPosition);
+  };
+
+  p.playerBetting = function (slotBetting, chipId) {
+    var bettingSlot = this.moveChipContainer.getChildByName(data.id);
+    var currentBettingID = this.currentBetting.id;
+
+    var chip = this.createChip(currentBettingID);
+    chip.isMine = true;
+    var bettingChipPosition = initOptions.bettingChipPositions[currentBettingID];
+    var fromPosition = {
+      x: bettingChipPosition.x - bettingSlot.x,
+      y: bettingChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    chip.move(fromPosition, toPosition);
+  };
+
+  p.userReBetting = function (slotBetting, value) {
+    var _self = this;
+    var unit = this.roomBetting;
+    var quantityOfUnit = parseInt(value / unit);
+    if (!quantityOfUnit)
+      return;
+    var waitAnimationStep = 200 / quantityOfUnit;
+    for (var i = 0; i < quantityOfUnit; i++) {
+      this.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, _self.bettingChipAction.id, true);
+      }, waitAnimationStep * i));
+    }
+  };
+
+  p.playersBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 300 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+//        _self.playerBetting(slotBetting);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.convertValueToChips = function (value) {
+    var listChip = [];
+    var unit = this.roomBetting;
+    var totalRatio = 0;
+    var totalArray = [];
+    this.chipButtons.forEach(function (item, index) {
+      totalRatio += item.ratio * item.concentration;
+      for (var i = 0; i < item.concentration; i++) {
+        totalArray.push(item.id);
+      }
+    });
+    var totalUnit = totalRatio * unit;
+    var quantityOfTotalUnit = parseInt(value / totalUnit);
+    for (var i = 0; i < quantityOfTotalUnit; i++) {
+      listChip = listChip.concat(totalArray);
+    }
+    var quantityOfUnit = parseInt((value % totalUnit) / unit);
+    for (var i = 0; i < quantityOfUnit; i++) {
+      listChip.push(this.chipButtons[0].id);
+    }
+    return listChip;
+  };
+
+  p.xocDia = function () {
+    var _self = this;
+    var message, position;
+    if (this.status === 'STATUS_SHAKE_DISK') {
+      position = {
+        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 10 + 10),
+        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 10)
+      };
+      message = 'xocDia';
+    } else {
+      position = initOptions.diskPosition;
+      message = 'endXocDia';
+    }
+    createjs.Tween.get(this.diskContainer)
+            .to(position, 100)
+            .call(function () {
+              _self.diskContainer.isTop = !_self.diskContainer.isTop;
+              _self.emit(message);
+            });
+  };
+
+  p.openDisk = function (data) {
+    var _self = this;
+    var newY = -100;
+    var message, position;
+    this.chipResultContainer.removeAllChildren();
+    data.map.forEach(function (item, index) {
+      _self.createCanvas();
+    });
+    this.disk.set({
+      y: initOptions.diskPosition.y,
+      alpha: 1
+    });
+    createjs.Tween.get(this.disk)
+            .to({
+              y: newY,
+              alpha: 0
+            }, 500)
+            .call(function () {
+              _self.emit("openDiskComplete");
+            });
+  };
+
+  p.createChip = function (id) {
+    var scale = initOptions.chipSize.miniRatio;
+    var src = imagePath + initOptions.chipSrcList[id];
+    var chip = new createjs.Bitmap(src);
+    chip.set({
+      scaleX: scale,
+      scaleY: scale
+    });
+    chip.move = function (fromPosition, toPosition, callback) {
+      chip.set(fromPosition);
+      createjs.Tween.get(chip)
+              .to(toPosition, initOptions.moveChipAnimationTime)
+              .call(function () {
+                if (typeof callback === 'function') {
+                  callback();
+                }
+              });
+    };
+    return chip;
   };
 
   p.renderUserInfo = function () {
@@ -8017,6 +8203,15 @@ this.TWIST = this.TWIST || {};
     };
   };
 
+  p.setHost = function (hostname) {
+    console.log("hostname", hostname);
+    this.host.hostName.removeClass('active');
+    if (hostname) {
+      this.host.hostName.addClass('active');
+      this.host.hostName.html(hostname);
+    }
+  };
+
   p.initInviteButton = function () {
     this.inviteButton = $(TWIST.HTMLTemplate['xocDia/inviteButton']);
     this.wrapperTemplate.append(this.inviteButton);
@@ -8031,7 +8226,11 @@ this.TWIST = this.TWIST || {};
   };
 
   p.initVitualBetting = function () {
-
+    var _self = this;
+    var bettingPositions = this.bettingPositions;
+    bettingPositions.forEach(function (item, index) {
+      _self.createVitualBetting(item);
+    });
   };
 
   p.initProfile = function () {
@@ -8055,36 +8254,34 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(this.chipWrapper);
 
     this.chipButtons = [{
-        id: 1,
+        id: 0,
         value: 1000,
         ratio: 1,
+        concentration: 2,
         template: this.chipWrapper.find('.chip-1st')
       }, {
-        id: 2,
+        id: 1,
         value: 10000,
         ratio: 2,
+        concentration: 2,
         template: this.chipWrapper.find('.chip-2nd')
       }, {
-        id: 3,
+        id: 2,
         value: 100000,
-        ratio: 5,
+        ratio: 4,
+        concentration: 1,
         template: this.chipWrapper.find('.chip-3rd')
       }, {
-        id: 4,
+        id: 3,
         value: 1000000,
         ratio: 10,
+        concentration: 1,
         template: this.chipWrapper.find('.chip-4th')
       }];
     this.chipButtons.active = true;
     this.chipButtons.forEach(function (item, index) {
       item.template.on('click', function () {
-        if (_self.chipButtons.active) {
-          _self.chipButtons.forEach(function (_item, _index) {
-            _item.template.removeClass('active');
-          });
-          $(this).addClass('active');
-          _self.currentBetting = item;
-        }
+        _self.setBetting(item);
       });
     });
   };
@@ -8110,35 +8307,76 @@ this.TWIST = this.TWIST || {};
 
   p.initDisk = function () {
     this.diskContainer = new createjs.Container();
-    this.diskContainer.set({
-      x: 360,
-      y: 120
-    });
+    this.diskContainer.set(initOptions.diskPosition);
 
     this.disk = new createjs.Bitmap(imagePath + 'disk.png');
-    this.bowl = new createjs.Bitmap(imagePath + 'bowl.png');
-    this.bowl.set({
-      x: 11,
-      y: 3
+    this.chipResultContainer = new createjs.Container();
+    this.chipResultContainer.set({
+      x: 40,
+      y: 30,
+      width: 80,
+      height: 60
     });
+    this.bowl = new createjs.Bitmap(imagePath + 'bowl.png');
+    this.bowl.set(initOptions.bowlPosition);
 
-    this.diskContainer.addChild(this.disk, this.bowl);
+    this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
   };
 
   p.initMoveChipContainer = function () {
     this.moveChipContainer = new createjs.Container();
+    var moveChipContainer = this.moveChipContainer;
+
+    this.bettingPositions.forEach(function (item, index) {
+      var bettingSlot = new createjs.Container();
+      var position = {
+        x: item.left + 10,
+        y: item.top,
+        width: item.width - 20,
+        height: item.height - 30,
+        name: item.id
+      };
+      if (item.id > 1) {
+        position.y += 30;
+        position.height -= 30;
+      }
+
+      bettingSlot.set(position);
+      moveChipContainer.addChild(bettingSlot);
+    });
+  };
+
+  p.createVitualBetting = function (data) {
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['xocDia/vitualBetting'];
+    var vitualBetting = $(temp);
+    if (data.id > 1) {
+      vitualBetting.addClass('small-vitual-betting');
+    }
+    vitualBetting.addClass("betting" + data.id);
+
+    this.wrapperTemplate.append(vitualBetting);
+    data.vitualBetting = vitualBetting;
+    vitualBetting.on('click', function () {
+      var emitData = {
+        value: _self.currentBetting.value,
+        currentBettingId: _self.currentBetting.id,
+        slotBettingId: data.id
+      };
+      _self.emit('betting', emitData);
+    });
   };
 
   p.createBettingPosition = function (data) {
     var _self = this;
     var temp = TWIST.HTMLTemplate['xocDia/bettingPosition'];
     var bettingPosition = $(temp);
-    if (data.code > 1) {
+    if (data.id > 1) {
       bettingPosition.addClass('small-betting-position');
     }
     data.template = bettingPosition;
     this.wrapperTemplate.append(bettingPosition);
-    bettingPosition.addClass("betting" + data.code);
+    bettingPosition.addClass("betting" + data.id);
     bettingPosition.mineBetting = bettingPosition.find('.mine-betting');
     this.addNumberEffect(bettingPosition.mineBetting);
     bettingPosition.totalBetting = bettingPosition.find('.total-betting');
@@ -8151,9 +8389,19 @@ this.TWIST = this.TWIST || {};
     });
     bettingPosition.setMineBetting = function (betting) {
       this.mineBetting.html(Global.numberWithDot(betting));
+      data.mineValue = betting;
     };
     bettingPosition.setTotalBetting = function (betting) {
       this.totalBetting.html(Global.numberWithDot(betting));
+      data.totalValue = betting;
+    };
+    data.setMineBetting = function (betting) {
+      this.template.mineBetting.runEffect(betting);
+      this.mineValue = betting;
+    };
+    data.setTotalBetting = function (betting) {
+      this.template.totalBetting.runEffect(betting);
+      this.totalValue = betting;
     };
     return bettingPosition;
   };
@@ -8167,6 +8415,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setBettingChipValue = function (betting) {
+    this.roomBetting = betting;
     betting = parseInt(betting);
     this.chipButtons.forEach(function (item, index) {
       item.value = betting * item.ratio;
@@ -8184,15 +8433,17 @@ this.TWIST = this.TWIST || {};
   };
 
   p.drawBettingPositions = function (data) {
+    var _self = this;
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
-        return _item.code == item.code;
+        return _item.id == item.id;
       });
       if (!dataItem)
         return;
-      var template = item.template;
-      template.mineBetting.runEffect(dataItem.mineBetting);
-      template.totalBetting.runEffect(dataItem.totalBetting);
+      item.setMineBetting(dataItem.mineBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.playersBetting(item, dataItem.totalBetting - dataItem.mineBetting);
     });
   };
 
@@ -8204,8 +8455,8 @@ this.TWIST = this.TWIST || {};
 
   p.STATUS_SHAKE_DISK = function () {
     this.host.setMessage();
-    this.vitualButtonList.hide();
-    this.host.setMessage("Xóc !!!");
+//    this.vitualButtonList.hide();
+    this.host.setMessage("Xóc, xóc !!!");
   };
 
   p.STATUS_BETTING = function () {

@@ -12,6 +12,38 @@ and open the template in the editor.
     position : absolute;
     width: 100%;
     height : 100%;
+
+    $positionList : (
+        (0, 150),
+        (1, 590),
+        (2, 130),
+        (3, 262.5),
+        (4, 395),
+        (5, 527.5),
+        (6, 660)
+        );
+    @mixin xocdiaTextShadow ($color) {  
+        text-shadow: 0 5px 4px rgba(0,0,0, 0.78), 0 0 22px rgba($color, 0.80)
+            , 0 0 5px rgba($color, 0.48), 0 0 8px rgba($color, 0.68);
+        color : white;
+    }
+
+    $colorList : (#fec52e,#00baff);
+    @each $color in $colorList {
+        @include keyframes(xocdiaBoxShadow#{$color}) {
+            to {
+                box-shadow: 0 5px 4px inset rgba(0,0,0, 0.78), 0 0 22px inset rgba($color, 0.80)
+                    , 0 0 5px inset rgba($color, 0.48), 0 0 8px inset rgba($color, 0.68);
+            }
+        }
+    }
+
+    @mixin xocdiaBoxShadow ($color) {  
+        box-shadow: 0 0px 0px inset transparent, 0 0 22px inset transparent
+                    , 0 0 5px inset transparent, 0 0 8px inset transparent;
+        animation: xocdiaBoxShadow#{$color} 1s;
+        animation-iteration-count: 3;
+    }
     .gameCanvas{
         top : 0;
         left : 0;
@@ -45,6 +77,11 @@ and open the template in the editor.
             font-weight: bold;
             background-color: rgba(0,0,0,0.5);
             text-align: center;
+            display: hidden;
+            &:active{
+                display: block;
+                @include xocdiaBoxShadow(#fec52e);
+            }
         }
         .chat-box{
             background-image:  url('#{$xocdiaImagePath}chatbox.png');
@@ -71,33 +108,76 @@ and open the template in the editor.
         top : calc(50% - 40px);
     }
     .betting-position{
-        $positionList : (
-            (1, 150),
-            (2, 590),
-            (3, 130),
-            (4, 262.5),
-            (5, 395),
-            (6, 527.5),
-            (7, 660)
-            );
         position: absolute;
         height: 115px;
         box-sizing: content-box;
         width: 160px;
         border-radius: 8px;
-        background-color: rgba(0,0,0,0.12);
+        background-color: rgba(254,206,47,0.12);
         top : 140px;
         border : 1px solid #fece2f;
+        .name{
+            height: 84px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            font-weight: bold;
+            @include xocdiaTextShadow(#fec52e);
+        }
+        .mine-betting, .total-betting{
+            position: absolute;
+            width: 50%;
+            height: 29px;
+            right: 0;
+            font-weight: bold;
+            line-height: 29px;
+            border : 1px solid #fece2f;
+            border-right: none;
+            border-bottom: none;
+            color: #fece2f;
+            text-align: center;
+            bottom: 0;
+        }
+        .total-betting{
+            right: 50%;
+            font-weight: normal;
+            color: white;
+            border-left: none;
+        }
         &.small-betting-position{
             top : 290px;
             border-color: #20bbfc;
             background-color: #374077;
             border-radius: 22px;
             width: 110px;
-        }
-        @each $code, $left in $positionList {
-            &.betting#{$code}{
-                left : $left + px;
+            .name{
+                height: 105px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 25px;
+                font-weight: bold;
+                @include xocdiaTextShadow(#00baff);
+            }
+            .mine-betting, .total-betting{
+                width: 100%;
+                height: 29px;
+                right: 0;
+                font-weight: bold;
+                line-height: 29px;
+                border:none;
+                border-top : 1px solid #2a2e65;
+                color: #fece2f;
+                text-align: center;
+                bottom: 0px;
+            }
+            .total-betting{
+                bottom: 80px;
+                font-weight: normal;
+                color: white;
+                border-left: none;
+                border-top : none;
             }
         }
         .coin-tittle{
@@ -119,6 +199,23 @@ and open the template in the editor.
         }
     }
 
+    .vitual-betting-position{
+        position: absolute;
+        height: 115px;
+        width: 160px;
+        top : 140px;
+        cursor : pointer;
+        &.small-vitual-betting{
+            top : 290px;
+            width: 110px;
+        }
+    }
+
+    @each $code, $left in $positionList {
+        .betting#{$code}{
+            left : $left + px;
+        }
+    }
     .profile{
         position: absolute;
         left: 50px;
@@ -170,7 +267,7 @@ and open the template in the editor.
                 @for $i from 0 through 10{
                     &.avatar#{$i}{
                         /*background-image: url('#{$twistImagePath}player/avatars/#{$i}.png');*/
-                        background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);
+                        /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/
 
                     }
                 }
@@ -251,6 +348,14 @@ and open the template in the editor.
     .xocdia-button-bar{
         top : 490px;
         bottom : initial;
+        .button{
+            /*            background-image: none;
+                        text-shadow: 0 5px 4px rgba(0,0,0, 0.78), 0 0 22px rgba(21,118, 251, 0.80)
+                            , 0 0 5px rgba(21,118, 251, 0.48), 0 0 8px rgba(21,118, 251, 0.68), 0 0 1px rgba(255,255,255,0.6);
+                        color : white;
+                        border-color: rgba(21,118, 251, 1);
+                        background-color: rgba(32,187, 252, 0.12)*/
+        }
         .button-bottom{
             right: 100px;
             bottom: -30px;

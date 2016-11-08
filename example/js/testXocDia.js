@@ -23,47 +23,75 @@
       data: {
         status: 3,
         bettingPositions: [{
-            code: 0, //(0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
+            id: 0, //(0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
             //client (0-chẵn, 1-lẻ, 2-Bốn Trắng, 3-Bốn Đỏ, 4-Ba Trắng, 5-Ba đỏ, 6-2đenđỏ)
-            totalBetting: 100,
+            totalBetting: 1003,
             mineBetting: 299,
             ratio: 1
-          },{
-            code: 1,
-            totalBetting: 101,
+          }, {
+            id: 1,
+            totalBetting: 1014,
             mineBetting: 301,
             ratio: 1
-          },{
-            code: 2,
-            totalBetting: 102,
+          }, {
+            id: 2,
+            totalBetting: 1025,
             mineBetting: 302,
             ratio: 1
-          },{
-            code: 3,
-            totalBetting: 103,
+          }, {
+            id: 3,
+            totalBetting: 1036,
             mineBetting: 303,
             ratio: 1
-          },{
-            code: 4,
-            totalBetting: 104,
+          }, {
+            id: 4,
+            totalBetting: 1047,
             mineBetting: 304,
             ratio: 1
-          },{
-            code: 5,
-            totalBetting: 105,
+          }, {
+            id: 5,
+            totalBetting: 1305,
             mineBetting: 305,
             ratio: 1
-          },{
-            code: 6,
-            totalBetting: 106,
+          }, {
+            id: 6,
+            totalBetting: 15506,
             mineBetting: 306,
             ratio: 1
           }],
         remainingTime: 12,
         host: "tieukiemtien",
-        betting: 5000
+        betting: 100
       },
-      nextTime: 3000
+      nextTime: 1000
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: 2
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "xocDia",
+      data: {
+      },
+      nextTime: 100
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: 3
+      },
+      nextTime: 5000
+    }
+    , {
+      event: "openDisk",
+      data: {
+        map: [0,1,0,1],
+        bettingSlots : [1,2]
+      },
+      nextTime: 100
     }
 //        , {
 //            event: "endSpin",
@@ -81,6 +109,17 @@
   var count = 0;
 
 
+
+  InstanceGame.on("betting", function (data) {
+    setTimeout(function () {
+      InstanceGame.emit("userBetting", {
+        totalBetting: Math.random() * 10600,
+        mineBetting: Math.random() * 30600,
+        id: data.slotBettingId
+      });
+    }, 100);
+    count++;
+  });
 
   mockupData.forEach(function (item, index) {
 
