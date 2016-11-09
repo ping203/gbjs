@@ -1622,6 +1622,30 @@ and open the template in the editor.
     background-color: rgba(255, 238, 0, 0.05);
     background-image: -webkit-linear-gradient(bottom, rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02));
     background-image: linear-gradient(to top,rgba(255, 238, 0, 0.05), rgba(255, 238, 0, 0.02)); } }
+
+@-webkit-keyframes xocdiaBoxShadow {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+  50% {
+    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+
+@-moz-keyframes xocdiaBoxShadow {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+  50% {
+    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+
+@keyframes xocdiaBoxShadow {
+  0% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+  50% {
+    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+  100% {
+    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
     .twist .xocdia-wrapper .gameCanvas {
       top: 0;
       left: 0;
@@ -1633,6 +1657,92 @@ and open the template in the editor.
       width: 68px;
       height: 273px;
       background-image: url("images/xocdia/history-table.png"); }
+      .twist .xocdia-wrapper .history .result-chip {
+        position: absolute;
+        box-sizing: border-box;
+        width: 34px;
+        height: 34px;
+        box-shadow: inset 0 0px 0px transparent, inset 0 0 22px transparent, inset 0 0 5px transparent, inset 0 0 8px transparent;
+        animation: xocdiaBoxShadowfec52e 1s;
+        animation-iteration-count: 3; }
+        .twist .xocdia-wrapper .history .result-chip .inner-chip {
+          height: 100%;
+          background-repeat: no-repeat;
+          background-position: 5px 8px;
+          background-image: url("images/xocdia/white.png");
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          color: black;
+          font-weight: bold; }
+        .twist .xocdia-wrapper .history .result-chip.result-chip-odd .inner-chip {
+          color: white;
+          background-image: url("images/xocdia/red.png"); }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(1) {
+          top: 0px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(2) {
+          top: 34px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(3) {
+          top: 68px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(4) {
+          top: 102px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(5) {
+          top: 136px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(6) {
+          top: 170px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(7) {
+          top: 204px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(8) {
+          top: 238px;
+          left: 0px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(9) {
+          top: 0px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(10) {
+          top: 34px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(11) {
+          top: 68px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(12) {
+          top: 102px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(13) {
+          top: 136px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(14) {
+          top: 170px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(15) {
+          top: 204px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(16) {
+          top: 238px;
+          left: 34px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(1) {
+          border-top-left-radius: 3px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(8) {
+          border-bottom-left-radius: 3px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(9) {
+          border-top-right-radius: 3px; }
+        .twist .xocdia-wrapper .history .result-chip:nth-child(16) {
+          border-bottom-right-radius: 3px; }
+    .twist .xocdia-wrapper .host-background {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: none; }
     .twist .xocdia-wrapper .host {
       width: 96px;
       height: 145px;
@@ -1678,7 +1788,8 @@ and open the template in the editor.
       width: 89px;
       height: 81px;
       right: 0;
-      top: calc(50% - 40px); }
+      top: calc(50% - 40px);
+      cursor: pointer; }
     .twist .xocdia-wrapper .betting-position {
       position: absolute;
       height: 115px;
@@ -1688,6 +1799,11 @@ and open the template in the editor.
       background-color: rgba(254, 206, 47, 0.12);
       top: 140px;
       border: 1px solid #fece2f; }
+      .twist .xocdia-wrapper .betting-position.active {
+        animation: xocdiaBoxShadow 1s;
+        animation-iteration-count: infinite; }
+      .twist .xocdia-wrapper .betting-position.disabled {
+        opacity: 0.3; }
       .twist .xocdia-wrapper .betting-position .name {
         height: 84px;
         display: flex;

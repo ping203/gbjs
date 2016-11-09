@@ -42,6 +42,13 @@ and open the template in the editor.
         }
     }
 
+
+    @include keyframes(xocdiaBoxShadow) {
+        0%{box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;}
+        50%{box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4;}
+        100%{box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;}
+    }
+
     @mixin xocdiaBoxShadow ($color) {  
         box-shadow: inset 0 0px 0px  rgba(0,0,0,0),inset  0 0 22px rgba(0,0,0,0)
             , inset 0 0 5px rgba(0,0,0,0), inset 0 0 8px rgba(0,0,0,0);
@@ -60,6 +67,58 @@ and open the template in the editor.
         width: 68px;
         height: 273px;
         background-image:  url('#{$xocdiaImagePath}history-table.png');
+        .result-chip{
+            position: absolute;
+            box-sizing: border-box;
+            width: 34px;
+            height: 34px;
+            @include xocdiaBoxShadow(fec52e);
+            .inner-chip{
+                height: 100%;
+                background-repeat: no-repeat;
+                background-position: 5px 8px;
+                background-image: url('#{$xocdiaImagePath}white.png');
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 14px;
+                color : black;
+                font-weight: bold;
+            }
+            &.result-chip-odd{
+                .inner-chip{
+                    color: white;
+                    background-image: url('#{$xocdiaImagePath}red.png');
+                }
+            }
+            @for $i from 1 through 16{
+                &:nth-child(#{$i}){
+                    top : (($i - 1) % 8) * 34px;
+                    left : floor(($i - 1) / 8) * 34px;
+                }
+            }
+            &:nth-child(1){
+                border-top-left-radius: 3px;
+            }
+            &:nth-child(8){
+                border-bottom-left-radius: 3px;
+            }
+            &:nth-child(9){
+                border-top-right-radius: 3px;
+            }
+            &:nth-child(16){
+                border-bottom-right-radius: 3px;
+            }
+        }
+    }
+    .host-background{
+        position: absolute;
+        background-color: rgba(0,0,0,0.7);
+        width: 100%;
+        height: 100%;
+        top : 0;
+        left: 0;
+        display: none;
     }
     .host{
         width : 96px;
@@ -110,6 +169,7 @@ and open the template in the editor.
         height: 81px;
         right : 0;
         top : calc(50% - 40px);
+        cursor: pointer;
     }
     .betting-position{
         position: absolute;
@@ -120,6 +180,13 @@ and open the template in the editor.
         background-color: rgba(254,206,47,0.12);
         top : 140px;
         border : 1px solid #fece2f;
+        &.active{
+            animation: xocdiaBoxShadow 1s;
+            animation-iteration-count: infinite;
+        }
+        &.disabled{
+            opacity: 0.3;
+        }
         .name{
             height: 84px;
             display: flex;

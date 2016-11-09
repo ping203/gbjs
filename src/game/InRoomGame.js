@@ -246,6 +246,10 @@ this.TWIST = this.TWIST || {};
       $.extend(Player, data);
       Player.render();
     }
+    if(this._listenChangeMoney){
+      this._listenChangeMoney = false;
+      this.userMoney.runEffect(data.money);
+    }
   };
 
   p.isolateUpdateMoney = function (data) {
@@ -420,7 +424,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.getPlayerByUuid = function (uuid) {
-    var players = this.playersContainer.children || [];
+    var players = (this.playersContainer && this.playersContainer.children) || [];
     for (var i = 0, length = players.length; i < length; i++) {
       var player = players[i];
       if (player.uuid == uuid)

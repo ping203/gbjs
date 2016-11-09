@@ -9,12 +9,13 @@
       event: "userInfo",
       data: {
         username: "User Index 1",
-        money: "11000",
+        money: "14000",
         pot: {
           1000: "445555",
           10000: "4554522323",
           100000: "121212121"
-        }
+        },
+        uuid : "1"
       },
       nextTime: 100
     }
@@ -60,8 +61,42 @@
             ratio: 1
           }],
         remainingTime: 12,
-        host: "tieukiemtien",
+        host: "1",
         betting: 100
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "updateBettings",
+      data: [{
+            id: 0, 
+            totalBetting: 10036
+          }, {
+            id: 1,
+            totalBetting: 15014
+          }, {
+            id: 2,
+            totalBetting: 17025
+          }, {
+            id: 3,
+            totalBetting: 14036
+          }, {
+            id: 4,
+            totalBetting: 19047
+          }, {
+            id: 5,
+            totalBetting: 41305
+          }, {
+            id: 6,
+            totalBetting: 15506
+          }],
+      nextTime: 1000
+    }
+    , {
+      event: "error",
+      data: {
+        code: 2545,
+        message : "Hhihihii"
       },
       nextTime: 1000
     }
@@ -83,15 +118,52 @@
       data: {
         newStatus: 3
       },
-      nextTime: 5000
+      nextTime: 1000
     }
     , {
       event: "openDisk",
       data: {
         map: [0,1,0,1],
-        bettingSlots : [1,2]
+        winnerSlots : [1,2]
       },
       nextTime: 100
+    },
+    , {
+      event: "hostPayment",
+      data: {
+        money: Math.random() * 20000,
+        winMoney : Math.random() * 2000,
+        slotWinMoneys : [{
+            id : 0,
+            money : Math.random() * 2000,
+        },{
+            id : 1,
+            money : Math.random() * 2000,
+        },{
+            id : 2,
+            money : Math.random() * 2000,
+        },{
+            id : 3,
+            money : Math.random() * 2000,
+        },{
+            id : 4,
+            money : Math.random() * 2000,
+        },{
+            id : 5,
+            money : Math.random() * 2000,
+        },{
+            id : 5,
+            money : Math.random() * 2000,
+        }]
+      },
+      nextTime: 100
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus : 1
+      },
+      nextTime: 1000
     }
 //        , {
 //            event: "endSpin",
@@ -112,6 +184,9 @@
 
   InstanceGame.on("betting", function (data) {
     setTimeout(function () {
+      InstanceGame.emit("updateInfo", {
+        money : Math.random() * 100000
+      });
       InstanceGame.emit("userBetting", {
         totalBetting: Math.random() * 10600,
         mineBetting: Math.random() * 30600,
@@ -129,7 +204,6 @@
     setTimeout(function () {
       InstanceGame.emit(item.event, item.data);
     }, startTime);
-
 
   });
 

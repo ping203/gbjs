@@ -21,10 +21,22 @@ this.TWIST = this.TWIST || {};
     },
     bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
       {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    playerPosition: {
+      y: 256,
+      x: 844
+    },
+    hostPosition: {
+      x: 450,
+      y: 100
+    },
+    userPosition: {
+      y: 480,
+      x: 100
+    },
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
     width: 900,
     height: 560,
-    moveChipAnimationTime: 300,
+    moveChipAnimationTime: 500,
     diskPosition: {
       x: 360,
       y: 120
@@ -32,6 +44,12 @@ this.TWIST = this.TWIST || {};
     bowlPosition: {
       x: 11,
       y: 3
+    },
+    chipResultPosition: {
+      x: 40,
+      y: 30,
+      width: 80,
+      height: 60
     }
   };
 
@@ -61,7 +79,7 @@ this.TWIST = this.TWIST || {};
       uuid: "",
       username: "",
       money: 0,
-      isRoomMaster: false
+      isHost: false
     });
     this.bettingPositions = [{
         name: "Bốn Trắng",
@@ -77,7 +95,7 @@ this.TWIST = this.TWIST || {};
         name: "Bốn Đỏ",
         displayName: "1:10",
         valueMap: [1, 1, 1, 1],
-        ratio: 3,
+        ratio: 10,
         id: 3,
         top: 290,
         left: 262.5,
@@ -87,7 +105,7 @@ this.TWIST = this.TWIST || {};
         name: "Ba Trắng",
         displayName: "1:3",
         valueMap: [0, 0, 0, 1],
-        ratio: 1.5,
+        ratio: 3,
         id: 4,
         top: 290,
         left: 395,
@@ -107,7 +125,7 @@ this.TWIST = this.TWIST || {};
         name: "Hai đỏ",
         displayName: "1:1.5",
         valueMap: [0, 0, 1, 1],
-        ratio: 4,
+        ratio: 1.5,
         id: 6,
         top: 290,
         left: 660,
@@ -168,8 +186,8 @@ this.TWIST = this.TWIST || {};
 //      host : "tieukiemtien",
 //      betting : 10
 //    };
-
-    this.userInfo.isRoomMaster = (data.host == this.userInfo.uuid);
+  
+    this.userInfo.isHost = (data.host == this.userInfo.uuid);
     this.changeStatus({
       newStatus: data.status
     });
@@ -206,9 +224,7 @@ this.TWIST = this.TWIST || {};
 
     this.initChipButton();
 
-    this.errorPanel = $(TWIST.HTMLTemplate['xocDia/errorPanel']);
     this.wrapperTemplate.append(this.errorPanel);
-    this.errorPanel.hide();
 
     this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
     this.wrapperTemplate.append(this.effectWrapper);
@@ -239,6 +255,10 @@ this.TWIST = this.TWIST || {};
       _self.userBetting(data);
     });
 
+    this.on("updateBettings", function (data) {
+      _self.updateBettings(data);
+    });
+
     this.on("xocDia", function (data) {
       _self.xocDia(data);
     });
@@ -246,16 +266,174 @@ this.TWIST = this.TWIST || {};
     this.on("openDisk", function (data) {
       _self.openDisk(data);
     });
+
+    this.on("hostPayment", function (data) {
+      _self.hostPaymentData = data;
+    });
+
+    this.on("openDiskComplete", function (data) {
+      _self.hostPaymentPhase1();
+    });
+  };
+
+  p.hostPaymentPhase1 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+
+    this.bettingPositions.forEach(function (item, index) {
+      if (!item.status) {
+        _self.moveChipToHost(item.id);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+  };
+
+  p.hostPaymentPhase2 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        _self.paymentChipToSlotBetting(item.id, item.totalValue * item.ratio);
+        item.setTotalBetting(item.totalValue * (item.ratio + 1));
+        item.setMineBetting(item.mineValue * (item.ratio + 1));
+      }
+    });
+  };
+
+  p.hostPaymentPhase3 = function () {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        (function (mineValue, totalValue) {
+          setTimeout(function () {
+            _self.moveChipToPlayers(item.id, mineValue, totalValue);
+          }, 500);
+        })(item.mineValue, item.totalValue);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+  };
+
+  p.paymentChipToSlotBetting = function (id, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 300 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.paymentChipAction(id, item);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.moveChipToHost = function (id) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var length = listChip.length;
+    _self._numberChipMove = _self._numberChipMove || 0;
+    listChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = _self.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
+      setTimeout(function () {
+        _self._numberChipMove++;
+        _self.stage.addChild(item);
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+          _self._numberChipMove--;
+          if (!_self._numberChipMove) {
+            setTimeout(function () {
+              _self.hostPaymentPhase2();
+            }, 500);
+          }
+        });
+      }, 300 / length * index);
+    });
+  };
+
+  p.moveChipToPlayers = function (id, mineValue, totalValue) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    if (mineValue) {
+      this.moveChipsToPosition(mineValue, listChip, initOptions.userPosition);
+    }
+    this.moveRemainChipToPlayers(listChip, initOptions.playerPosition);
+  };
+
+  p.moveChipsToPosition = function (value, listChip, position) {
+    var _self = this;
+    var listChipMove = this.convertValueToChips(value);
+    var length = listChipMove.length;
+    listChipMove.forEach(function (item, index) {
+      var chip = listChip.find(function (_item, _index) {
+        return _item.type == item;
+      });
+      if (chip) {
+        var fromPosition = chip.localToGlobal(0, 0);
+        var toPosition = position;
+        chip.set(fromPosition);
+        _self.stage.addChild(chip);
+        setTimeout(function () {
+          chip.move(fromPosition, toPosition, function () {
+            _self.stage.removeChild(chip);
+          });
+        }, 300 / length * index);
+      }
+    });
+  };
+
+
+  p.moveRemainChipToPlayers = function (listChip, position) {
+    var _self = this;
+    var length = listChip.length;
+
+    listChip.forEach(function (item, index) {
+      var chip = item;
+      if (chip) {
+        var fromPosition = chip.localToGlobal(0, 0);
+        var toPosition = position;
+        setTimeout(function () {
+          _self.stage.addChild(chip);
+          chip.move(fromPosition, toPosition, function () {
+            _self.stage.removeChild(chip);
+          });
+        }, 300 / length * index);
+      }
+    });
   };
 
   p.userBetting = function (data) {
+    var _self = this;
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
     bettingPosition.setMineBetting(data.mineBetting);
     bettingPosition.setTotalBetting(data.totalBetting);
     var currentBettingID = this.currentBetting.id;
-    bettingChipAction(data.id, currentBettingID, false);
+    this.bettingChipAction(data.id, currentBettingID, true);
+  };
+
+  p.updateBettings = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      _self.playersBetting(item, dataItem.totalBetting - item.mineValue);
+    });
   };
 
   p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
@@ -263,7 +441,7 @@ this.TWIST = this.TWIST || {};
     var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
     var chip = this.createChip(currentBettingID);
     chip.isMine = isMine;
-    var bettingChipPosition = initOptions.bettingChipPositions[currentBettingID] || "aaa";
+    var bettingChipPosition = isMine ? initOptions.bettingChipPositions[currentBettingID] : initOptions.playerPosition;
     var fromPosition = {
       x: bettingChipPosition.x - bettingSlot.x,
       y: bettingChipPosition.y - bettingSlot.y
@@ -277,16 +455,14 @@ this.TWIST = this.TWIST || {};
     chip.move(fromPosition, toPosition);
   };
 
-  p.playerBetting = function (slotBetting, chipId) {
-    var bettingSlot = this.moveChipContainer.getChildByName(data.id);
-    var currentBettingID = this.currentBetting.id;
-
+  p.paymentChipAction = function (bettingId, currentBettingID) {
+    var _self = this;
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
     var chip = this.createChip(currentBettingID);
-    chip.isMine = true;
-    var bettingChipPosition = initOptions.bettingChipPositions[currentBettingID];
+    var paymentChipPosition = this.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
     var fromPosition = {
-      x: bettingChipPosition.x - bettingSlot.x,
-      y: bettingChipPosition.y - bettingSlot.y
+      x: paymentChipPosition.x - bettingSlot.x,
+      y: paymentChipPosition.y - bettingSlot.y
     };
 
     var toPosition = {
@@ -294,7 +470,25 @@ this.TWIST = this.TWIST || {};
       y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
     };
     bettingSlot.addChild(chip);
-    chip.move(fromPosition, toPosition);
+    this._numberChipMove = this._numberChipMove || 0;
+    this._numberChipMove++;
+    chip.move(fromPosition, toPosition, function () {
+      _self._numberChipMove--;
+      if (!_self._numberChipMove) {
+        _self.hostPaymentPhase3();
+      }
+    });
+  };
+
+  p.playersBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 1000 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item);
+      }, waitAnimationStep * index));
+    });
   };
 
   p.userReBetting = function (slotBetting, value) {
@@ -306,20 +500,9 @@ this.TWIST = this.TWIST || {};
     var waitAnimationStep = 200 / quantityOfUnit;
     for (var i = 0; i < quantityOfUnit; i++) {
       this.timeOutList.push(setTimeout(function () {
-        _self.bettingChipAction(slotBetting.id, _self.bettingChipAction.id, true);
+        _self.bettingChipAction(slotBetting.id, _self.currentBetting.id, true);
       }, waitAnimationStep * i));
     }
-  };
-
-  p.playersBetting = function (slotBetting, value) {
-    var _self = this;
-    var listChip = this.convertValueToChips(value);
-    var waitAnimationStep = 300 / listChip.length;
-    listChip.forEach(function (item, index) {
-      _self.timeOutList.push(setTimeout(function () {
-//        _self.playerBetting(slotBetting);
-      }, waitAnimationStep * index));
-    });
   };
 
   p.convertValueToChips = function (value) {
@@ -342,7 +525,7 @@ this.TWIST = this.TWIST || {};
     for (var i = 0; i < quantityOfUnit; i++) {
       listChip.push(this.chipButtons[0].id);
     }
-    return listChip;
+    return Global.shuffle(listChip);
   };
 
   p.xocDia = function () {
@@ -368,24 +551,39 @@ this.TWIST = this.TWIST || {};
 
   p.openDisk = function (data) {
     var _self = this;
-    var newY = -100;
+    var newY = -150;
+    this.history.addResult(data.winnerSlots);
     var message, position;
     this.chipResultContainer.removeAllChildren();
     data.map.forEach(function (item, index) {
-      _self.createCanvas();
+      _self.createResultChip(item);
     });
-    this.disk.set({
-      y: initOptions.diskPosition.y,
+    this.bowl.set({
+      y: initOptions.bowlPosition.y,
       alpha: 1
     });
-    createjs.Tween.get(this.disk)
+    createjs.Tween.get(this.bowl)
             .to({
               y: newY,
               alpha: 0
-            }, 500)
+            }, 3000)
             .call(function () {
               _self.emit("openDiskComplete");
             });
+    this.bettingPositions.forEach(function (item, index) {
+      item.setStatus(data.winnerSlots);
+    });
+  };
+
+  p.createResultChip = function (isRed) {
+    var src = imagePath + (isRed ? "red.png" : "white.png");
+    var resultChip = new createjs.Bitmap(src);
+    resultChip.set({
+      x: Math.random() * (this.chipResultContainer.width - 13),
+      y: Math.random() * (this.chipResultContainer.height - 13)
+    });
+    this.chipResultContainer.addChild(resultChip);
+    return resultChip;
   };
 
   p.createChip = function (id) {
@@ -394,10 +592,13 @@ this.TWIST = this.TWIST || {};
     var chip = new createjs.Bitmap(src);
     chip.set({
       scaleX: scale,
-      scaleY: scale
+      scaleY: scale,
+      type: id
     });
     chip.move = function (fromPosition, toPosition, callback) {
       chip.set(fromPosition);
+      toPosition.x = toPosition.x + (Math.random() - 0.5) * 5;
+      toPosition.y = toPosition.y + (Math.random() - 0.5) * 5;
       createjs.Tween.get(chip)
               .to(toPosition, initOptions.moveChipAnimationTime)
               .call(function () {
@@ -412,23 +613,48 @@ this.TWIST = this.TWIST || {};
   p.renderUserInfo = function () {
     var avatarContainer = this.user.find('.avatar');
     var usernameContainer = this.user.find('.username');
-    var moneyContainer = this.user.find('.money');
     avatarContainer.css("background-image", "url(" + this.userInfo.avatar + ")");
     usernameContainer.text(this.userInfo.username);
-    var money = Global.numberWithDot(this.userInfo.money);
-    moneyContainer.text(money);
+    this.userMoney.runEffect(this.userInfo.money);
   };
 
   p.initHistory = function () {
+    var _self = this;
     this.history = $(TWIST.HTMLTemplate['xocDia/history']);
     this.wrapperTemplate.append(this.history);
-    this.history.addResult = function () {
+    this.historyList = [];
+    var mapName = {
+      2: 4,
+      3: 0,
+      4: 3,
+      5: 1,
+      6: 2
+    };
+    this.history.addResult = function (winnerSlots) {
+      var isOdd = winnerSlots.find(function (item, index) {
+        return item < 2;
+      });
+      var slotId = winnerSlots.find(function (item, index) {
+        return item > 1;
+      });
+      var resultChip = $(TWIST.HTMLTemplate['xocDia/resultChip']);
+      if (isOdd) {
+        resultChip.addClass('result-chip-odd');
+      }
+      resultChip.children().html(mapName[slotId]);
+      _self.historyList.push(resultChip);
+      _self.history.append(resultChip);
+      if (_self.historyList.length > 16) {
+        _self.historyList[0].remove();
+        _self.historyList.shift();
+      }
     };
   };
 
   p.initHost = function () {
     this.host = $(TWIST.HTMLTemplate['xocDia/host']);
     this.wrapperTemplate.append(this.host);
+    this.host.background = this.host.find('.host-background');
     this.host.hostName = this.host.find('.host-name');
     this.host.chatBox = this.host.find('.chat-box');
     this.host.hostMessage = this.host.find('.chat-box-inner');
@@ -443,7 +669,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setHost = function (hostname) {
-    console.log("hostname", hostname);
     this.host.hostName.removeClass('active');
     if (hostname) {
       this.host.hostName.addClass('active');
@@ -475,6 +700,8 @@ this.TWIST = this.TWIST || {};
   p.initProfile = function () {
     this.user = $(TWIST.HTMLTemplate['xocDia/user']);
     this.wrapperTemplate.append(this.user);
+    this.userMoney = this.user.find('.money');
+    this.addNumberEffect(this.userMoney);
   };
 
   p.initGameCanvas = function () {
@@ -496,13 +723,13 @@ this.TWIST = this.TWIST || {};
         id: 0,
         value: 1000,
         ratio: 1,
-        concentration: 2,
+        concentration: 1,
         template: this.chipWrapper.find('.chip-1st')
       }, {
         id: 1,
         value: 10000,
         ratio: 2,
-        concentration: 2,
+        concentration: 1,
         template: this.chipWrapper.find('.chip-2nd')
       }, {
         id: 2,
@@ -534,6 +761,30 @@ this.TWIST = this.TWIST || {};
 
     this.wrapperTemplate.append(buttonWrapper);
 
+    this.reBettingButton = buttonWrapper.find('#reBetting');
+    this.buttons.push(this.reBettingButton);
+
+    this.cancelBettingButton = buttonWrapper.find('#cancelBetting');
+    this.buttons.push(this.cancelBettingButton);
+
+    this.sellOddButton = buttonWrapper.find('#sellOdd');
+    this.buttons.push(this.sellOddButton);
+
+    this.resignationButton = buttonWrapper.find('#resignation');
+    this.buttons.push(this.resignationButton);
+
+    this.sellEvenButton = buttonWrapper.find('#sellEven');
+    this.buttons.push(this.sellEvenButton);
+
+    this.getHostButton = buttonWrapper.find('#getHost');
+    this.buttons.push(this.getHostButton);
+
+    this.buttons.hide = function () {
+      _self.buttons.forEach(function (item, index) {
+        item.hide();
+      });
+    };
+
     this.chipButtons.forEach(function (item, index) {
       item.template.on('click', function (event) {
         if (_self.status !== 'pause' && _self.status !== 'effecting')
@@ -550,12 +801,7 @@ this.TWIST = this.TWIST || {};
 
     this.disk = new createjs.Bitmap(imagePath + 'disk.png');
     this.chipResultContainer = new createjs.Container();
-    this.chipResultContainer.set({
-      x: 40,
-      y: 30,
-      width: 80,
-      height: 60
-    });
+    this.chipResultContainer.set(initOptions.chipResultPosition);
     this.bowl = new createjs.Bitmap(imagePath + 'bowl.png');
     this.bowl.set(initOptions.bowlPosition);
 
@@ -602,8 +848,20 @@ this.TWIST = this.TWIST || {};
         currentBettingId: _self.currentBetting.id,
         slotBettingId: data.id
       };
-      _self.emit('betting', emitData);
+      _self.emitBetting(emitData);
     });
+  };
+
+  p.emitBetting = function (emitData) {
+
+    if (this.userInfo.money < emitData.value) {
+      this.showError({
+        message: "Bạn không đủ tiền đặt cược !"
+      });
+      return;
+    }
+    this._listenChangeMoney = true;
+    this.emit('betting', emitData);
   };
 
   p.createBettingPosition = function (data) {
@@ -635,12 +893,29 @@ this.TWIST = this.TWIST || {};
       data.totalValue = betting;
     };
     data.setMineBetting = function (betting) {
-      this.template.mineBetting.runEffect(betting);
-      this.mineValue = betting;
+      if (_self.userInfo.isHost) {
+        this.template.mineBetting.html("");
+        this.mineValue = 0;
+      } else {
+        this.template.mineBetting.runEffect(betting);
+        this.mineValue = betting;
+      }
     };
     data.setTotalBetting = function (betting) {
       this.template.totalBetting.runEffect(betting);
       this.totalValue = betting;
+    };
+    data.setStatus = function (winnerSlots) {
+      data.template.removeClass('active disabled');
+      data.status = 0;
+      if (!winnerSlots)
+        return;
+      if (winnerSlots.indexOf(data.id) > -1) {
+        data.template.addClass('active');
+        data.status = 1;
+      } else {
+        data.template.addClass('disabled');
+      }
     };
     return bettingPosition;
   };
@@ -687,27 +962,40 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_WAITING_FOR_START = function () {
-//    this.buttonWrapper.hide();
-//    this.vitualButtonList.hide();
+    this.bettingPositions.forEach(function (item, index) {
+      item.template.removeClass('active disabled');
+    });
     this.host.setMessage("Chờ ván mới !");
+    this.buttons.hide();
   };
 
   p.STATUS_SHAKE_DISK = function () {
-    this.host.setMessage();
 //    this.vitualButtonList.hide();
     this.host.setMessage("Xóc, xóc !!!");
+    this.buttons.hide();
   };
 
   p.STATUS_BETTING = function () {
     this.host.setMessage("Đặt đi anh ơi");
+    this.buttons.hide();
+    if (!this.userInfo.isHost) {
+      this.cancelBettingButton.show();
+      this.reBettingButton.show();
+    }
   };
 
   p.STATUS_ARRANGING = function () {
     this.host.setMessage("Chờ nhà cái thừa thiếu");
+    this.buttons.hide();
+    if (this.userInfo.isHost) {
+      this.sellEvenButton.show();
+      this.sellOddButton.show();
+    }
   };
 
   p.END_GAME = function () {
     this.host.setMessage("Trả tiền !");
+    this.buttons.hide();
   };
 
   TWIST.XocDia = XocDia;
