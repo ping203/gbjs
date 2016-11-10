@@ -1024,12 +1024,14 @@ this.FATE = this.FATE || {};
 'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
 'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button blue button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button blue button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button blue button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
-'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">5K</div>\r\n    <div class="chip chip-2nd">10k</div>\r\n    <div class="chip chip-3rd">20k</div>\r\n    <div class="chip chip-4th">50k</div>\r\n</div>\r\n',
+'xocDia/changeMoney':'<div class="change-money"></div>\n',
+'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
 'xocDia/history':'<div class="history"></div>\n',
-'xocDia/host':'<div class="host-background"></div>\n<div class="host">\n    <div class="host-name">\n        Doreamon\n    </div>\n    <div class="chat-box">\n        <div class="chat-box-inner">\n          Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n        </div>\n    </div>\n</div>',
-'xocDia/inviteButton':'<div class="invite-button"></div>',
+'xocDia/host':'<div class="host-wrapper">\n    <div class="host-background"></div>\n    <div class="host">\n        <div class="host-name">\n            Doreamon\n        </div>\n        <div class="chat-box">\n            <div class="chat-box-inner">\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \n            </div>\n        </div>\n    </div>\n</div>',
+'xocDia/listPlayer':'<div class="list-player"></div>',
 'xocDia/resultChip':'<div class="result-chip">\n    <div class="inner-chip">\n        \n    </div>\n</div>',
+'xocDia/sellPopup':'<div class="sell-popup">\n    <div class="sell-popup-background"></div>\n    <div class="sell-popup-center">\n        <div class="sell-popup-title"></div>\n        <div class="sell-popup-close"></div>\n        <div class="sell-popup-content">\n            <div class="sell-popup-minus"></div>\n            <div class="sell-popup-plus"></div>\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\n                <div class="sell-popup-dragbar-inner"></div>\n                <div class="sell-popup-scroller" id="scroller"> \n                    <div class="sell-popup-scroller-content">\n                        0 V\n                    </div>\n                </div>\n            </div>\n            <div class="sell-popup-button-bar">\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\n            </div>\n        </div>\n    </div>\n</div>',
 'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
@@ -7970,12 +7972,11 @@ this.TWIST = this.TWIST || {};
 //      host : "tieukiemtien",
 //      betting : 10
 //    };
-  
-    this.userInfo.isHost = (data.host == this.userInfo.uuid);
+
+    this.setHost(data.host);
     this.changeStatus({
       newStatus: data.status
     });
-    this.setHost(data.host);
     this.setBettingChipValue(data.betting);
     this.setRemainingTime(data.remainingTime);
     this.drawBettingPositions(data.bettingPositions);
@@ -8007,6 +8008,8 @@ this.TWIST = this.TWIST || {};
     this.initInviteButton();
 
     this.initChipButton();
+
+    this.initSellPopup();
 
     this.wrapperTemplate.append(this.errorPanel);
 
@@ -8055,8 +8058,44 @@ this.TWIST = this.TWIST || {};
       _self.hostPaymentData = data;
     });
 
-    this.on("openDiskComplete", function (data) {
-      _self.hostPaymentPhase1();
+    this.on("changeHost", function (data) {
+      _self.setHost(data);
+    });
+
+    this.on("suggetstHost", function (data) {
+      _self.getHostButton.show();
+    });
+
+    this.on("reBettingResult", function (data) {
+      _self.reBetting(data);
+    });
+
+    this.on("resignationSuccess", function (data) {
+      _self.resignationButton.hide();
+      _self.setHost();
+    });
+
+    this.on("cancelBettingResult", function (data) {
+      _self.cancelBetting(data);
+    });
+
+    this.on("sellBettingResult", function (data) {
+      _self.showError({
+        message : "Bán cửa thành công !"
+      });
+    });
+  };
+
+  p.cancelBetting = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      var newTotal = (data.Item && data.totalBetting) ? data.totalBetting : (item.totalValue - item.mineValue);
+      _self.moveChipToPlayer(item.id, item.mineValue);
+      item.setMineBetting(0);
+      item.setTotalBetting(newTotal);
     });
   };
 
@@ -8080,7 +8119,9 @@ this.TWIST = this.TWIST || {};
     var data = this.hostPaymentData;
     if (!data)
       return;
-
+    if (this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
     this.bettingPositions.forEach(function (item, index) {
       if (item.status) {
         _self.paymentChipToSlotBetting(item.id, item.totalValue * item.ratio);
@@ -8090,8 +8131,28 @@ this.TWIST = this.TWIST || {};
     });
   };
 
+  p.showChangeMoney = function (data) {
+    this.userInfo.money = data.money;
+    this.userMoney.runEffect(this.userInfo.money);
+    var jElement = $(TWIST.HTMLTemplate['xocDia/changeMoney']);
+    this.user.append(jElement);
+    jElement.text(Global.numberWithDot(parseInt(data.changeMoney)));
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.remove();
+    });
+    if (data.changeMoney >= 0) {
+      jElement.addClass("plus");
+    }
+  };
+
   p.hostPaymentPhase3 = function () {
     var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    if (!this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
     this.bettingPositions.forEach(function (item, index) {
       if (item.status) {
         (function (mineValue, totalValue) {
@@ -8141,6 +8202,16 @@ this.TWIST = this.TWIST || {};
         });
       }, 300 / length * index);
     });
+  };
+
+  p.moveChipToPlayer = function (id, value) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var position = initOptions.userPosition;
+    this.moveChipsToPosition(value, listChip, position);
   };
 
   p.moveChipToPlayers = function (id, mineValue, totalValue) {
@@ -8220,6 +8291,19 @@ this.TWIST = this.TWIST || {};
     });
   };
 
+  p.reBetting = function (data) {
+    var _self = this;
+    this.reBettingButton.hide();
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      _self.userReBetting(item, dataItem.totalBetting - item.mineValue);
+    });
+  };
+
   p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
 
     var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
@@ -8277,16 +8361,13 @@ this.TWIST = this.TWIST || {};
 
   p.userReBetting = function (slotBetting, value) {
     var _self = this;
-    var unit = this.roomBetting;
-    var quantityOfUnit = parseInt(value / unit);
-    if (!quantityOfUnit)
-      return;
-    var waitAnimationStep = 200 / quantityOfUnit;
-    for (var i = 0; i < quantityOfUnit; i++) {
-      this.timeOutList.push(setTimeout(function () {
-        _self.bettingChipAction(slotBetting.id, _self.currentBetting.id, true);
-      }, waitAnimationStep * i));
-    }
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 500 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item, true);
+      }, waitAnimationStep * index));
+    });
   };
 
   p.convertValueToChips = function (value) {
@@ -8352,7 +8433,7 @@ this.TWIST = this.TWIST || {};
               alpha: 0
             }, 3000)
             .call(function () {
-              _self.emit("openDiskComplete");
+              _self.hostPaymentPhase1();
             });
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
@@ -8381,8 +8462,8 @@ this.TWIST = this.TWIST || {};
     });
     chip.move = function (fromPosition, toPosition, callback) {
       chip.set(fromPosition);
-      toPosition.x = toPosition.x + (Math.random() - 0.5) * 5;
-      toPosition.y = toPosition.y + (Math.random() - 0.5) * 5;
+      toPosition.x = toPosition.x + (Math.random() - 0.5) * 3;
+      toPosition.y = toPosition.y + (Math.random() - 0.5) * 3;
       createjs.Tween.get(chip)
               .to(toPosition, initOptions.moveChipAnimationTime)
               .call(function () {
@@ -8452,17 +8533,25 @@ this.TWIST = this.TWIST || {};
     };
   };
 
-  p.setHost = function (hostname) {
+  p.setHost = function (host) {
     this.host.hostName.removeClass('active');
-    if (hostname) {
+    this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
+    this.resignationButton.hide();
+    this.setShowChipButtons();
+    if (host && host.username) {
+      this.getHostButton.hide();
       this.host.hostName.addClass('active');
-      this.host.hostName.html(hostname);
+      this.host.hostName.html(host.username);
     }
   };
 
   p.initInviteButton = function () {
-    this.inviteButton = $(TWIST.HTMLTemplate['xocDia/inviteButton']);
-    this.wrapperTemplate.append(this.inviteButton);
+    var _self = this;
+    this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
+    this.wrapperTemplate.append(this.listPlayer);
+    this.listPlayer.on('click',function(){
+      _self.emit('getListPlayer');
+    });
   };
 
   p.initBettingPositionList = function () {
@@ -8531,9 +8620,100 @@ this.TWIST = this.TWIST || {};
     this.chipButtons.active = true;
     this.chipButtons.forEach(function (item, index) {
       item.template.on('click', function () {
+        TWIST.Sound.play("minigame/Common_Click");
         _self.setBetting(item);
       });
     });
+  };
+
+  p.initSellPopup = function () {
+    var _self = this;
+    this.sellPopup = $(TWIST.HTMLTemplate['xocDia/sellPopup']);
+    var bettingData;
+    this.sellPopup.initPopup = function(data){
+      bettingData = data;
+      var maxValue = data.totalValue;
+      _self.sellPopup.maxValue = maxValue;
+      _self.sellPopup.plusButton.html(maxValue );
+      _self.sellPopup.title.html(data.name);
+    };
+    this.wrapperTemplate.append(this.sellPopup);
+    var minLeft = 5;
+    var maxLeft = 256;
+    this.sellPopup.hide();
+    function hide() {
+      _self.sellPopup.hide();
+    }
+
+    function setMin() {
+      _self.sellPopup.scroller.css('left',0);
+      setRatio(0);
+    }
+
+    function setMax() {
+      _self.sellPopup.scroller.css('left',maxLeft);
+      setRatio(1);
+    }
+
+    function emitSell() {
+      var emitData = {
+        id : bettingData.id,
+        value : _self.sellPopup.currentValue
+      };
+      _self.emit("sellBetting",emitData);
+    }
+    
+    function setRatio(ratio){
+      _self.sellPopup.dragbarInner.css('width', ratio*maxLeft + minLeft);
+      var currentValue = parseInt(ratio * _self.sellPopup.maxValue);
+      _self.sellPopup.currentValue = currentValue;
+      _self.sellPopup.scrollerValue.html(currentValue);
+    }
+
+    this.sellPopup.title = this.sellPopup.find('.sell-popup-title');
+    this.sellPopup.background = this.sellPopup.find('.sell-popup-background');
+    this.sellPopup.background.on('click', hide);
+    this.sellPopup.cancel = this.sellPopup.find('#cancel');
+    this.sellPopup.cancel.on('click', hide);
+    this.sellPopup.accept = this.sellPopup.find('#accept');
+    this.sellPopup.accept.on('click', emitSell);
+    this.sellPopup.minusButton = this.sellPopup.find('.sell-popup-minus');
+    this.sellPopup.minusButton.on('click', setMin);
+    this.sellPopup.plusButton = this.sellPopup.find('.sell-popup-plus');
+    this.sellPopup.plusButton.on('click', setMax);
+    
+    this.sellPopup.dragbarInner = this.sellPopup.find('.sell-popup-dragbar-inner');
+
+    this.sellPopup.scroller = this.sellPopup.find('#scroller');
+    this.sellPopup.scrollerValue = this.sellPopup.scroller.find('.sell-popup-scroller-content');
+    var optionDraggable = {
+      axis: "x",
+      scroll: false,
+      containment: "#sell-popup-drag-container",
+      drag: function (event, ui) {
+        var ratio = ui.position.left/maxLeft;
+        setRatio(ratio);
+      }
+    };
+    this.sellPopup.scroller.draggable(optionDraggable);
+  };
+
+  p.showSellPopup = function () {
+    
+    var _self = this;
+    var selectedBetting = this.bettingPositions.find(function (item, index) {
+      return item.isSelected;
+    });
+    if (selectedBetting ) {
+      if(selectedBetting.totalValue){
+        this.sellPopup.show();
+        this.sellPopup.initPopup(selectedBetting);
+      }
+    }else{
+      this.showError({
+        message : "Chưa chọn cửa bán !"
+      });
+    }
   };
 
   p.initButton = function () {
@@ -8547,36 +8727,46 @@ this.TWIST = this.TWIST || {};
 
     this.reBettingButton = buttonWrapper.find('#reBetting');
     this.buttons.push(this.reBettingButton);
+    this.reBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
+      _self.emit("reBetting");
+    });
 
     this.cancelBettingButton = buttonWrapper.find('#cancelBetting');
     this.buttons.push(this.cancelBettingButton);
+    this.cancelBettingButton.on('click', function () {
+      _self.emit("cancelBetting");
+    });
 
     this.sellOddButton = buttonWrapper.find('#sellOdd');
     this.buttons.push(this.sellOddButton);
+    this.sellOddButton.on('click', function () {
+      _self.showSellPopup();
+    });
 
     this.resignationButton = buttonWrapper.find('#resignation');
     this.buttons.push(this.resignationButton);
+    this.resignationButton.on('click', function () {
+      _self.emit("resignation");
+    });
 
     this.sellEvenButton = buttonWrapper.find('#sellEven');
     this.buttons.push(this.sellEvenButton);
+    this.sellEvenButton.on('click', function () {
+      _self.showSellPopup();
+    });
 
     this.getHostButton = buttonWrapper.find('#getHost');
     this.buttons.push(this.getHostButton);
+    this.getHostButton.on('click', function () {
+      _self.emit("getHost");
+    });
 
     this.buttons.hide = function () {
       _self.buttons.forEach(function (item, index) {
         item.hide();
       });
     };
-
-    this.chipButtons.forEach(function (item, index) {
-      item.template.on('click', function (event) {
-        if (_self.status !== 'pause' && _self.status !== 'effecting')
-          return;
-        TWIST.Sound.play("minigame/Common_Click");
-        _self.setBetting(item);
-      });
-    });
   };
 
   p.initDisk = function () {
@@ -8627,13 +8817,24 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(vitualBetting);
     data.vitualBetting = vitualBetting;
     vitualBetting.on('click', function () {
-      var emitData = {
-        value: _self.currentBetting.value,
-        currentBettingId: _self.currentBetting.id,
-        slotBettingId: data.id
-      };
-      _self.emitBetting(emitData);
+      if (_self.userInfo.isHost) {
+        _self.setSelectedBetting(data);
+      } else {
+        var emitData = {
+          value: _self.currentBetting.value,
+          currentBettingId: _self.currentBetting.id,
+          slotBettingId: data.id
+        };
+        _self.emitBetting(emitData);
+      }
     });
+  };
+
+  p.setSelectedBetting = function (data) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+    data.setSelected(true);
   };
 
   p.emitBetting = function (emitData) {
@@ -8701,6 +8902,13 @@ this.TWIST = this.TWIST || {};
         data.template.addClass('disabled');
       }
     };
+    data.setSelected = function (flag) {
+      data.isSelected = flag;
+      data.template.removeClass('selected');
+      if (flag) {
+        data.template.addClass('selected');
+      }
+    };
     return bettingPosition;
   };
 
@@ -8745,32 +8953,81 @@ this.TWIST = this.TWIST || {};
     });
   };
 
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost();
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost;
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowVitualBettings = function (newStatus) {
+    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+    this.bettingPositions.forEach(function (item, index) {
+      if (flag) {
+        item.vitualBetting.show();
+      } else {
+        item.vitualBetting.hide();
+      }
+    });
+  };
+
+  p.removeSelectedBetting = function (newStatus) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+  };
+
+  p.changeStatus = function (data) {
+    this.buttons.hide();
+    this.setShowChipButtons();
+    this.setShowVitualBettings(data.newStatus);
+    this.removeSelectedBetting(data.newStatus);
+    this.setRemainingTime(data.remainingTime);
+    TWIST.InRoomGame.prototype.changeStatus.call(this, data);
+  };
+
   p.STATUS_WAITING_FOR_START = function () {
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
     });
     this.host.setMessage("Chờ ván mới !");
-    this.buttons.hide();
+    if (this.userInfo.isHost) {
+      this.cancelBettingButton.show();
+    }
   };
 
   p.STATUS_SHAKE_DISK = function () {
-//    this.vitualButtonList.hide();
+    this.host.background.show();
+    this.emit("xocDia");
     this.host.setMessage("Xóc, xóc !!!");
-    this.buttons.hide();
   };
 
   p.STATUS_BETTING = function () {
+    this.host.background.hide();
     this.host.setMessage("Đặt đi anh ơi");
-    this.buttons.hide();
     if (!this.userInfo.isHost) {
-      this.cancelBettingButton.show();
       this.reBettingButton.show();
+      this.cancelBettingButton.show();
     }
   };
 
   p.STATUS_ARRANGING = function () {
     this.host.setMessage("Chờ nhà cái thừa thiếu");
-    this.buttons.hide();
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
       this.sellOddButton.show();
@@ -8778,8 +9035,8 @@ this.TWIST = this.TWIST || {};
   };
 
   p.END_GAME = function () {
+    this.sellPopup.hide();
     this.host.setMessage("Trả tiền !");
-    this.buttons.hide();
   };
 
   TWIST.XocDia = XocDia;

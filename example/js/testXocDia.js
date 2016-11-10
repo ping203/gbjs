@@ -15,7 +15,7 @@
           10000: "4554522323",
           100000: "121212121"
         },
-        uuid : "1"
+        uuid: "2"
       },
       nextTime: 100
     }
@@ -32,7 +32,7 @@
           }, {
             id: 1,
             totalBetting: 1014,
-            mineBetting: 301,
+            mineBetting: 30100,
             ratio: 1
           }, {
             id: 2,
@@ -61,7 +61,10 @@
             ratio: 1
           }],
         remainingTime: 12,
-        host: "1",
+        host: {
+          uuid: "2",
+          username: "hahaa"
+        },
         betting: 100
       },
       nextTime: 1000
@@ -69,49 +72,43 @@
     , {
       event: "updateBettings",
       data: [{
-            id: 0, 
-            totalBetting: 10036
-          }, {
-            id: 1,
-            totalBetting: 15014
-          }, {
-            id: 2,
-            totalBetting: 17025
-          }, {
-            id: 3,
-            totalBetting: 14036
-          }, {
-            id: 4,
-            totalBetting: 19047
-          }, {
-            id: 5,
-            totalBetting: 41305
-          }, {
-            id: 6,
-            totalBetting: 15506
-          }],
+          id: 0,
+          totalBetting: 10036
+        }, {
+          id: 1,
+          totalBetting: 15014
+        }, {
+          id: 2,
+          totalBetting: 17025
+        }, {
+          id: 3,
+          totalBetting: 14036
+        }, {
+          id: 4,
+          totalBetting: 19047
+        }, {
+          id: 5,
+          totalBetting: 41305
+        }, {
+          id: 6,
+          totalBetting: 15506
+        }],
       nextTime: 1000
     }
-    , {
-      event: "error",
-      data: {
-        code: 2545,
-        message : "Hhihihii"
-      },
-      nextTime: 1000
-    }
+//    , {
+//      event: "error",
+//      data: {
+//        code: 2545,
+//        message: "Hhihihii"
+//      },
+//      nextTime: 1000
+//    }
     , {
       event: "changeStatus",
       data: {
         newStatus: 2
       },
       nextTime: 1000
-    }
-    , {
-      event: "xocDia",
-      data: {
-      },
-      nextTime: 100
     }
     , {
       event: "changeStatus",
@@ -121,10 +118,24 @@
       nextTime: 1000
     }
     , {
+      event: "changeStatus",
+      data: {
+        newStatus: 4
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: 5
+      },
+      nextTime: 20000
+    }
+    , {
       event: "openDisk",
       data: {
-        map: [0,1,0,1],
-        winnerSlots : [1,2]
+        map: [0, 1, 0, 1],
+        winnerSlots: [1, 2]
       },
       nextTime: 100
     },
@@ -132,60 +143,136 @@
       event: "hostPayment",
       data: {
         money: Math.random() * 20000,
-        winMoney : Math.random() * 2000,
-        slotWinMoneys : [{
-            id : 0,
-            money : Math.random() * 2000,
-        },{
-            id : 1,
-            money : Math.random() * 2000,
-        },{
-            id : 2,
-            money : Math.random() * 2000,
-        },{
-            id : 3,
-            money : Math.random() * 2000,
-        },{
-            id : 4,
-            money : Math.random() * 2000,
-        },{
-            id : 5,
-            money : Math.random() * 2000,
-        },{
-            id : 5,
-            money : Math.random() * 2000,
-        }]
+        changeMoney: (Math.random() - 0) * 4000,
+        slotWinMoneys: [{
+            id: 0,
+            money: Math.random() * 2000,
+          }, {
+            id: 1,
+            money: Math.random() * 2000,
+          }, {
+            id: 2,
+            money: Math.random() * 2000,
+          }, {
+            id: 3,
+            money: Math.random() * 2000,
+          }, {
+            id: 4,
+            money: Math.random() * 2000,
+          }, {
+            id: 5,
+            money: Math.random() * 2000,
+          }, {
+            id: 5,
+            money: Math.random() * 2000,
+          }]
       },
       nextTime: 100
     }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus : 1
-      },
-      nextTime: 1000
-    }
-//        , {
-//            event: "endSpin",
-//            data: {
-//                map: [1, 2, 3, 4, 5],
-//                cardListRank: 3,
-//                hightLightCards: [1, 1, 0, 1],
-//                rankOfVerticalGroup: 2
-//            },
-//            nextTime: 2000
-//        }
+//    , {
+//      event: "changeHost",
+//      data: {
+//        uuid: "3",
+//        username: "dgdg"
+//      },
+//      nextTime: 20000
+//    }
   ];
 
   var startTime = 0;
   var count = 0;
 
+  InstanceGame.on("cancelBetting", function (data) {
+    setTimeout(function () {
+      InstanceGame.emit("updateInfo", {
+        money: Math.random() * 100000
+      });
+      InstanceGame.emit("cancelBettingResult",[
+        {
+          id: 0,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 1,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 2,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 3,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 4,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 5,
+          totalBetting: Math.random() * 10000
+        }
+        ,{
+          id: 7,
+          totalBetting: Math.random() * 10000
+        }
+      ]);
+    }, 50);
+    count++;
+  });
+
+
+  InstanceGame.on("reBetting", function (data) {
+    setTimeout(function () {
+      InstanceGame.emit("updateInfo", {
+        money: Math.random() * 100000
+      });
+      InstanceGame.emit("reBettingResult", [
+        {
+          id: 0,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 1,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 2,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 3,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 4,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 5,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+        ,{
+          id: 7,
+          totalBetting: Math.random() * 10000,
+          mineBetting: Math.random() * 1000
+        }
+      ]);
+    }, 50);
+    count++;
+  });
 
 
   InstanceGame.on("betting", function (data) {
     setTimeout(function () {
       InstanceGame.emit("updateInfo", {
-        money : Math.random() * 100000
+        money: Math.random() * 100000
       });
       InstanceGame.emit("userBetting", {
         totalBetting: Math.random() * 10600,

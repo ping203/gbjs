@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .twist {
   /*
 To change this license header, choose License Headers in Project Properties.
@@ -1735,7 +1736,7 @@ and open the template in the editor.
           border-top-right-radius: 3px; }
         .twist .xocdia-wrapper .history .result-chip:nth-child(16) {
           border-bottom-right-radius: 3px; }
-    .twist .xocdia-wrapper .host-background {
+    .twist .xocdia-wrapper .host-wrapper .host-background {
       position: absolute;
       background-color: rgba(0, 0, 0, 0.7);
       width: 100%;
@@ -1743,7 +1744,7 @@ and open the template in the editor.
       top: 0;
       left: 0;
       display: none; }
-    .twist .xocdia-wrapper .host {
+    .twist .xocdia-wrapper .host-wrapper .host {
       width: 96px;
       height: 145px;
       background-image: url("images/xocdia/host.png");
@@ -1752,7 +1753,7 @@ and open the template in the editor.
       left: calc(50% - 48px);
       font-size: 16px;
       color: white; }
-      .twist .xocdia-wrapper .host .host-name {
+      .twist .xocdia-wrapper .host-wrapper .host .host-name {
         width: 162px;
         height: 31px;
         position: absolute;
@@ -1764,25 +1765,25 @@ and open the template in the editor.
         background-color: rgba(0, 0, 0, 0.5);
         text-align: center;
         display: none; }
-        .twist .xocdia-wrapper .host .host-name.active {
+        .twist .xocdia-wrapper .host-wrapper .host .host-name.active {
           display: block;
           box-shadow: inset 0 0px 0px transparent, inset 0 0 22px transparent, inset 0 0 5px transparent, inset 0 0 8px transparent;
           animation: xocdiaBoxShadowfec52e 1s;
           animation-iteration-count: 3; }
-      .twist .xocdia-wrapper .host .chat-box {
+      .twist .xocdia-wrapper .host-wrapper .host .chat-box {
         background-image: url("images/xocdia/chatbox.png");
         position: absolute;
         width: 148px;
         height: 62px;
         left: calc(50% + 25px);
         top: 5px; }
-        .twist .xocdia-wrapper .host .chat-box .chat-box-inner {
+        .twist .xocdia-wrapper .host-wrapper .host .chat-box .chat-box-inner {
           display: flex;
           margin: 0 5px 0 10px;
           justify-content: center;
           height: 100%;
           align-items: center; }
-    .twist .xocdia-wrapper .invite-button {
+    .twist .xocdia-wrapper .list-player {
       background-image: url("images/xocdia/players.png");
       position: absolute;
       width: 89px;
@@ -1799,6 +1800,8 @@ and open the template in the editor.
       background-color: rgba(254, 206, 47, 0.12);
       top: 140px;
       border: 1px solid #fece2f; }
+      .twist .xocdia-wrapper .betting-position.selected {
+        box-shadow: 0 0 5px orange, 0 0 10px orange,0 0 15px orange; }
       .twist .xocdia-wrapper .betting-position.active {
         animation: xocdiaBoxShadow 1s;
         animation-iteration-count: infinite; }
@@ -1837,6 +1840,8 @@ and open the template in the editor.
         background-color: #374077;
         border-radius: 22px;
         width: 110px; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position.selected {
+          box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4,0 0 15px #1c92c4,0 0 20px #1c92c4; }
         .twist .xocdia-wrapper .betting-position.small-betting-position .name {
           height: 105px;
           display: flex;
@@ -1977,12 +1982,12 @@ and open the template in the editor.
           .twist .xocdia-wrapper .profile .profile-right .avatar.avatar10 {
             /*background-image: url('images/player/avatars/10.png');*/
             /*background-image: url(https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80);*/ }
-      .twist .xocdia-wrapper .profile .win-money {
+      .twist .xocdia-wrapper .profile .change-money {
         position: absolute;
-        color: #f8ae00;
+        color: red;
         font-size: 34px;
         text-align: center;
-        width: 300px;
+        width: 200px;
         left: 0;
         text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
         top: 50px;
@@ -2002,8 +2007,10 @@ and open the template in the editor.
 @keyframes win-money {
   to {
     top: -50px; } }
-        .twist .xocdia-wrapper .profile .win-money:before {
-          content: "+"; }
+        .twist .xocdia-wrapper .profile .change-money.plus {
+          color: #f8ae00; }
+          .twist .xocdia-wrapper .profile .change-money.plus:before {
+            content: "+"; }
     .twist .xocdia-wrapper .chip-group {
       position: absolute;
       top: 450px;
@@ -2047,6 +2054,7 @@ and open the template in the editor.
       top: 490px;
       bottom: initial; }
       .twist .xocdia-wrapper .xocdia-button-bar .button {
+        display: none;
         /*            background-image: none;
                         text-shadow: 0 5px 4px rgba(0,0,0, 0.78), 0 0 22px rgba(21,118, 251, 0.80)
                             , 0 0 5px rgba(21,118, 251, 0.48), 0 0 8px rgba(21,118, 251, 0.68), 0 0 1px rgba(255,255,255,0.6);
@@ -2059,3 +2067,131 @@ and open the template in the editor.
       .twist .xocdia-wrapper .xocdia-button-bar .button-top {
         right: 100px;
         bottom: 15px; }
+    .twist .xocdia-wrapper .sell-popup {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .twist .xocdia-wrapper .sell-popup .sell-popup-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); }
+      .twist .xocdia-wrapper .sell-popup .sell-popup-center {
+        width: 480px;
+        height: 280px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        border: 1px solid #2fa5d2;
+        box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+        background-color: #29323f;
+        position: relative; }
+      .twist .xocdia-wrapper .sell-popup .sell-popup-title {
+        height: 50px;
+        position: relative;
+        background-color: #4d8fd1;
+        color: #c6e2fe;
+        font-size: 18px;
+        line-height: 50px;
+        text-align: center;
+        text-transform: uppercase; }
+        .twist .xocdia-wrapper .sell-popup .sell-popup-title:before {
+          content: 'Bán cửa '; }
+      .twist .xocdia-wrapper .sell-popup .sell-popup-close {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-weight: 100; }
+      .twist .xocdia-wrapper .sell-popup .sell-popup-content {
+        position: absolute;
+        top: 100px;
+        width: 100%;
+        left: 0;
+        height: 80px;
+        font-size: 18px;
+        color: #fedc32; }
+        .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-minus, .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus {
+          position: absolute;
+          top: 40px;
+          left: 10px;
+          width: 140px;
+          height: 30px;
+          text-align: center;
+          cursor: pointer; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-minus:after, .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus:after {
+            content: "0 V"; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-minus:before, .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus:before {
+            content: "";
+            position: absolute;
+            right: calc(50% - 12px);
+            top: -28px;
+            width: 24px;
+            height: 24px;
+            background-image: url("images/xocdia/minus-button.png"); }
+        .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus {
+          left: initial;
+          right: 10px; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus:after {
+            content: " V"; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-plus:before {
+            background-image: url("images/xocdia/plus-button.png"); }
+        .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-dragbar {
+          position: absolute;
+          top: 20px;
+          left: calc(50% - 140px);
+          height: 10px;
+          border-radius: 5px;
+          background-color: #1c2634;
+          width: 280px; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-dragbar .sell-popup-dragbar-inner {
+            min-width: 10px;
+            border-radius: 5px;
+            background-color: #ffde00;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0px;
+            height: 10px; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-dragbar .sell-popup-scroller {
+            position: absolute;
+            top: -6px;
+            left: 0px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-image: url(images/xocdia/2nd-chip.png);
+            background-size: cover;
+            box-sizing: border-box;
+            background-origin: border-box;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(254, 197, 46, 0.68), 0 0 10px rgba(254, 197, 46, 0.38), 0 0 15px rgba(252, 45, 28, 0.24); }
+            .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-dragbar .sell-popup-scroller .sell-popup-scroller-content {
+              position: absolute;
+              top: -30px;
+              width: 100px;
+              text-align: center;
+              left: -38px; }
+        .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-button-bar {
+          position: absolute;
+          top: 80px;
+          text-align: center;
+          width: 100%; }
+          .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-button-bar .sell-popup-button {
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            border-radius: 4px;
+            line-height: 40px;
+            background-color: #b9bfc4;
+            color: #5d6979;
+            cursor: pointer; }
+            .twist .xocdia-wrapper .sell-popup .sell-popup-content .sell-popup-button-bar .sell-popup-button:nth-child(2) {
+              margin-left: 20px;
+              background-color: #f0a12b;
+              color: white; }

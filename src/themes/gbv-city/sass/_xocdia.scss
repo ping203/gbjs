@@ -111,58 +111,60 @@ and open the template in the editor.
             }
         }
     }
-    .host-background{
-        position: absolute;
-        background-color: rgba(0,0,0,0.7);
-        width: 100%;
-        height: 100%;
-        top : 0;
-        left: 0;
-        display: none;
-    }
-    .host{
-        width : 96px;
-        height : 145px;
-        background-image:  url('#{$xocdiaImagePath}host.png');
-        position : absolute;
-        top : 0;
-        left : calc(50% - 48px);
-        font-size: 16px;
-        color: white;
-        .host-name{
-            width: 162px;
-            height: 31px;
+    .host-wrapper{
+        .host-background{
             position: absolute;
-            top : 90px;
-            left : calc(50% - 81px);
-            border-radius: 6px;
-            line-height: 31px;
-            font-weight: bold;
-            background-color: rgba(0,0,0,0.5);
-            text-align: center;
+            background-color: rgba(0,0,0,0.7);
+            width: 100%;
+            height: 100%;
+            top : 0;
+            left: 0;
             display: none;
-            &.active{
-                display: block;
-                @include xocdiaBoxShadow(fec52e);
-            }
         }
-        .chat-box{
-            background-image:  url('#{$xocdiaImagePath}chatbox.png');
-            position: absolute;
-            width: 148px;
-            height: 62px;
-            left : calc(50% + 25px);
-            top : 5px;
-            .chat-box-inner{
-                display: flex;
-                margin: 0 5px 0 10px;
-                justify-content: center;
-                height: 100%;
-                align-items: center;
+        .host{
+            width : 96px;
+            height : 145px;
+            background-image:  url('#{$xocdiaImagePath}host.png');
+            position : absolute;
+            top : 0;
+            left : calc(50% - 48px);
+            font-size: 16px;
+            color: white;
+            .host-name{
+                width: 162px;
+                height: 31px;
+                position: absolute;
+                top : 90px;
+                left : calc(50% - 81px);
+                border-radius: 6px;
+                line-height: 31px;
+                font-weight: bold;
+                background-color: rgba(0,0,0,0.5);
+                text-align: center;
+                display: none;
+                &.active{
+                    display: block;
+                    @include xocdiaBoxShadow(fec52e);
+                }
+            }
+            .chat-box{
+                background-image:  url('#{$xocdiaImagePath}chatbox.png');
+                position: absolute;
+                width: 148px;
+                height: 62px;
+                left : calc(50% + 25px);
+                top : 5px;
+                .chat-box-inner{
+                    display: flex;
+                    margin: 0 5px 0 10px;
+                    justify-content: center;
+                    height: 100%;
+                    align-items: center;
+                }
             }
         }
     }
-    .invite-button{
+    .list-player{
         background-image:  url('#{$xocdiaImagePath}players.png');
         position: absolute;
         width: 89px;
@@ -180,6 +182,9 @@ and open the template in the editor.
         background-color: rgba(254,206,47,0.12);
         top : 140px;
         border : 1px solid #fece2f;
+        &.selected{
+            box-shadow: 0 0 5px orange, 0 0 10px orange,0 0 15px orange;
+        }
         &.active{
             animation: xocdiaBoxShadow 1s;
             animation-iteration-count: infinite;
@@ -222,6 +227,9 @@ and open the template in the editor.
             background-color: #374077;
             border-radius: 22px;
             width: 110px;
+            &.selected{
+                box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4,0 0 15px #1c92c4,0 0 20px #1c92c4;
+            }
             .name{
                 height: 105px;
                 display: flex;
@@ -344,12 +352,12 @@ and open the template in the editor.
                 }
             }
         }
-        .win-money{
+        .change-money{
             position: absolute;
-            color: #f8ae00;
+            color: red;
             font-size: 34px;
             text-align: center;
-            width: 300px;
+            width: 200px;
             left : 0;
             text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000, 
                 1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;  
@@ -363,8 +371,11 @@ and open the template in the editor.
                     top : -50px;
                 }
             }
-            &:before{
-                content: "+"
+            &.plus{
+                color : #f8ae00;
+                &:before{
+                    content: "+"
+                }
             }
         }
     }
@@ -420,6 +431,7 @@ and open the template in the editor.
         top : 490px;
         bottom : initial;
         .button{
+            display: none;
             /*            background-image: none;
                         text-shadow: 0 5px 4px rgba(0,0,0, 0.78), 0 0 22px rgba(21,118, 251, 0.80)
                             , 0 0 5px rgba(21,118, 251, 0.48), 0 0 8px rgba(21,118, 251, 0.68), 0 0 1px rgba(255,255,255,0.6);
@@ -434,6 +446,154 @@ and open the template in the editor.
         .button-top{
             right: 100px;
             bottom: 15px;
+        }
+    }
+    .sell-popup{
+        position: absolute;
+        top : 0;
+        left : 0;
+        width: 100%;
+        height: 100%;
+        display : flex;
+        align-items: center;
+        justify-content: center;
+        .sell-popup-background{
+            position: absolute;
+            top : 0;
+            left : 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0,0,0.5);
+        }
+        .sell-popup-center{
+            width: 480px;
+            height: 280px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border : 1px solid #2fa5d2;
+            box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+            background-color: #29323f;
+            position: relative;
+        }
+        .sell-popup-title{
+            height: 50px;
+            position: relative;
+            background-color: #4d8fd1;
+            color : #c6e2fe;
+            font-size: 18px;
+            line-height: 50px;
+            text-align: center;
+            text-transform: uppercase;
+            &:before{
+                content : 'Bán cửa '
+            }
+        }
+        .sell-popup-close{
+            position: absolute;
+            top : 10px;
+            left : 10px;
+            font-weight: 100;
+        }
+        .sell-popup-content{
+            position: absolute;
+            top : 100px;
+            width: 100%;
+            left : 0;
+            height: 80px;
+            font-size : 18px;
+            color: #fedc32;
+            .sell-popup-minus, .sell-popup-plus{
+                position: absolute;
+                top : 40px;
+                left : 10px;
+                width : 140px;
+                height: 30px;
+                text-align : center;
+                cursor : pointer;
+                &:after{
+                    content: "0 V"
+                }
+                &:before{
+                    content: "";
+                    position:absolute;
+                    right : calc(50% - 12px);
+                    top : -28px;
+                    width : 24px;
+                    height: 24px;
+                    background-image: url('#{$xocdiaImagePath}minus-button.png');
+                }
+            }
+            .sell-popup-plus{
+                left : initial;
+                right : 10px;
+                &:after{
+                    content: " V";
+                }
+                &:before{
+                    background-image: url('#{$xocdiaImagePath}plus-button.png');
+                }
+            }
+            .sell-popup-dragbar{
+                position: absolute;
+                top : 20px;
+                left : calc(50% - 140px);
+                height: 10px;
+                border-radius: 5px;
+                background-color: #1c2634;
+                width: 280px;
+                .sell-popup-dragbar-inner{
+                    min-width: 10px;
+                    border-radius: 5px;
+                    background-color: #ffde00;
+                    position: absolute;
+                    left : 0;
+                    top : 0;
+                    width: 0px;
+                    height: 10px;
+                }
+                .sell-popup-scroller{
+                    position: absolute;
+                    top: -6px;
+                    left : 0px;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background-image: url(images/xocdia/2nd-chip.png);
+                    background-size: cover;
+                    box-sizing: border-box;
+                    background-origin: border-box;
+                    cursor: pointer;
+                    box-shadow : 0 0 5px rgba(254, 197, 46, 0.68), 0 0 10px rgba(254, 197, 46, 0.38), 0 0 15px rgba(252, 45, 28, 0.24);
+                    .sell-popup-scroller-content{
+                        position: absolute;
+                        top : -30px;
+                        width: 100px;
+                        text-align: center;
+                        left : -38px;
+                    }
+                }
+            }
+            .sell-popup-button-bar{
+                position: absolute;
+                top : 80px;
+                text-align: center;
+                width : 100%;
+                .sell-popup-button{
+                    display: inline-block;
+                    width: 120px;
+                    height: 40px;
+                    border-radius : 4px;
+                    line-height: 40px;
+                    background-color: #b9bfc4;
+                    color : #5d6979;
+                    cursor : pointer;
+                    &:nth-child(2){
+                        margin-left: 20px;
+                        background-color: #f0a12b;
+                        color : white;
+                    }
+                }
+            }
         }
     }
 }
