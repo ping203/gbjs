@@ -798,7 +798,7 @@ this.TWIST = this.TWIST || {};
 
     this.initMoveChipContainer();
 
-    this.stage.addChild(this.diskContainer, this.moveChipContainer);
+    this.stage.addChild(this.diskContainer, this.moveChipContainer, this.desk);
   };
 
   p.initChipButton = function () {
@@ -1146,8 +1146,10 @@ this.TWIST = this.TWIST || {};
   p.setRemainingTime = function (remainingTime) {
     if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
-        x: this.options.width / 2,
-        y: this.options.height / 2 + 120
+        x: this.options.width / 2 + 5,
+        y: this.options.height / 2 - 130,
+        font : "bold 25px Roboto Condensed",
+        color : "blue"
       });
     }
   };
@@ -1211,7 +1213,7 @@ this.TWIST = this.TWIST || {};
     this.setShowChipButtons();
     this.setShowVitualBettings(data.newStatus);
     this.removeSelectedBetting(data.newStatus);
-    this.setRemainingTime(data.remainingTime);
+    this.setRemainingTime(data.remainingTime || 15);
     TWIST.InRoomGame.prototype.changeStatus.call(this, data);
   };
 
