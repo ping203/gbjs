@@ -1705,7 +1705,7 @@ this.TWIST = this.TWIST || {};
     var miliseconTimeText = this.remainingTime;
     $.extend(miliseconTimeText, options);
     miliseconTimeText.visible = true;
-    if (miliseconTime > 0) {
+    if (miliseconTime >= 0) {
       if (this.remainingTimeTween) {
         this.remainingTimeTween.removeAllEventListeners();
         miliseconTimeText.text = "";
@@ -1718,7 +1718,7 @@ this.TWIST = this.TWIST || {};
       this.remainingTimeTween.addEventListener("change", function () {
         var currentTime = new Date().getTime();
         var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
-        miliseconTimeText.text = text > 0 ? text : "";
+        miliseconTimeText.text = text >= 0 ? text : "";
       });
     } else if (this.remainingTimeTween) {
       this.remainingTimeTween.removeAllEventListeners();
@@ -8091,13 +8091,13 @@ this.TWIST = this.TWIST || {};
   p.cancelBetting = function (data) {
     var _self = this;
     this.bettingPositions.forEach(function (item, index) {
-      var dataItem = data.find(function (_item, _index) {
-        return _item.id == item.id;
-      });
-      var newTotal = (data.Item && data.totalBetting) ? data.totalBetting : (item.totalValue - item.mineValue);
+//      var dataItem = data.find(function (_item, _index) {
+//        return _item.id == item.id;
+//      });
+//      var newTotal = (data.Item && data.totalBetting) ? data.totalBetting : (item.totalValue - item.mineValue);
       _self.moveChipToPlayer(item.id, item.mineValue);
       item.setMineBetting(0);
-      item.setTotalBetting(newTotal);
+      item.setTotalBetting(item.totalValue - item.mineValue);
     });
   };
 
@@ -8740,6 +8740,7 @@ this.TWIST = this.TWIST || {};
     this.cancelBettingButton = buttonWrapper.find('#cancelBetting');
     this.buttons.push(this.cancelBettingButton);
     this.cancelBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
       _self.emit("cancelBetting");
     });
 
