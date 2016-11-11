@@ -115,7 +115,8 @@ this.TWIST = this.TWIST || {};
     this.stage.addChild(this.desk, this.playersContainer);
     this.wrapper.css({
       width: canvas.width(),
-      height: canvas.height()
+      height: canvas.height(),
+      position : "relative"
     });
   };
 

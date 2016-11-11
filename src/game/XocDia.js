@@ -1214,7 +1214,12 @@ this.TWIST = this.TWIST || {};
     this.setShowVitualBettings(data.newStatus);
     this.removeSelectedBetting(data.newStatus);
     this.setRemainingTime(data.remainingTime || 15);
-    TWIST.InRoomGame.prototype.changeStatus.call(this, data);
+    this.status = this.statusList[data.newStatus];
+    var func = this[this.status];
+    if (typeof func === "function") {
+      func.call(this);
+    }
+    this.emit("ping");
   };
 
   p.STATUS_WAITING_FOR_START = function () {
