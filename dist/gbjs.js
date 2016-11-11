@@ -8091,13 +8091,9 @@ this.TWIST = this.TWIST || {};
   p.cancelBetting = function (data) {
     var _self = this;
     this.bettingPositions.forEach(function (item, index) {
-//      var dataItem = data.find(function (_item, _index) {
-//        return _item.id == item.id;
-//      });
-//      var newTotal = (data.Item && data.totalBetting) ? data.totalBetting : (item.totalValue - item.mineValue);
-      _self.moveChipToPlayer(item.id, item.mineValue);
-      item.setMineBetting(0);
+      _self.moveChipToUser(item.id, item.mineValue);
       item.setTotalBetting(item.totalValue - item.mineValue);
+      item.setMineBetting(0);
     });
   };
 
@@ -8206,7 +8202,7 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.moveChipToPlayer = function (id, value) {
+  p.moveChipToUser = function (id, value) {
     var _self = this;
     var chipContainer = this.moveChipContainer.children.find(function (item, index) {
       return item.name == id;
@@ -8401,12 +8397,12 @@ this.TWIST = this.TWIST || {};
     listChipValue.sort(function (a, b) {
       return b - a;
     });
-    var currentChipValue = listChipValue[0];
+    
+    var currentChipValue = getCurrentChipValue(initValue);
+    
     while (checkFlag()) {
       getChipTypeByValue();
     }
-
-    console.log("returnChips", returnChips);
 
     return returnChips;
 
@@ -8414,19 +8410,17 @@ this.TWIST = this.TWIST || {};
       flag = (currentValue >= currentChipValue);
       return flag;
     }
+    
+    function getCurrentChipValue(currentValue){
+      listChipValue = listChipValue.filter(function(item,index){
+        return currentValue >= item;
+      });
+      return listChipValue[0];
+    }
 
     function getChipTypeByValue() {
-      if (currentValue > currentChipValue) {
-        var nextChipIndex = listChipValue.findIndex(function (item, index) {
-          return item == currentChipValue;
-        });
-        if (nextChipIndex >= listChipValue.length || nextChipIndex == -1) {
-          currentChipValue = undefined;
-          return;
-        } else {
-          currentChipValue = listChipValue[nextChipIndex + 1];
-        }
-      }
+      currentChipValue = getCurrentChipValue(currentValue);
+      if(!currentChipValue) return;
       var newChip = listChip.find(function (item, index) {
         return (item.value == currentChipValue && !item._isChecked);
       });
@@ -8434,6 +8428,9 @@ this.TWIST = this.TWIST || {};
         currentValue -= currentChipValue;
         returnChips.push(newChip);
         newChip._isChecked = true;
+      }else{
+        listChipValue.shift();
+        getChipTypeByValue();
       }
     }
   };

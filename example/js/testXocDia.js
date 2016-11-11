@@ -90,6 +90,20 @@
         }],
       nextTime: 1000
     }
+    , {
+      event: "userBetting",
+      data: {
+        totalBetting: Math.random() * 10600,
+        mineBetting: Math.random() * 3611,
+        id: 0
+      },
+      nextTime: 1000
+    }
+    , {
+      event: "cancelBettingResult",
+      data: {},
+      nextTime: 1000
+    }
 //    , {
 //      event: "error",
 //      data: {
