@@ -5,7 +5,7 @@ this.TWIST = this.TWIST || {};
 
   var gameSize;
 
-  var imagePath = (TWIST.imagePath || (location.origin + location.pathname + '../src/images/')) + 'xocdia/';
+  var imagePath = location.origin + location.pathname + '../src/images/';
 
   var initOptions = {
     gameSize: {
@@ -667,7 +667,7 @@ this.TWIST = this.TWIST || {};
 
   p.createChip = function (id) {
     var scale = initOptions.chipSize.miniRatio;
-    var src = imagePath + initOptions.chipSrcList[id];
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + initOptions.chipSrcList[id];
     var chip = new createjs.Bitmap(src);
     chip.set({
       scaleX: scale,
@@ -987,10 +987,10 @@ this.TWIST = this.TWIST || {};
     this.diskContainer = new createjs.Container();
     this.diskContainer.set(initOptions.diskPosition);
 
-    this.disk = new createjs.Bitmap(imagePath + 'disk.png');
+    this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'disk.png');
     this.chipResultContainer = new createjs.Container();
     this.chipResultContainer.set(initOptions.chipResultPosition);
-    this.bowl = new createjs.Bitmap(imagePath + 'bowl.png');
+    this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'bowl.png');
     this.bowl.set(initOptions.bowlPosition);
 
     this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
