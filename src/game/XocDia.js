@@ -11,7 +11,7 @@ this.TWIST = this.TWIST || {};
     gameSize: {
       width: 900,
       height: 560,
-      position : "relative"
+      position: "relative"
     },
     chipSize: {
       width: 75,
@@ -296,7 +296,7 @@ this.TWIST = this.TWIST || {};
 
     this.on("sellBettingResult", function (data) {
       _self.showError({
-        message : "Bán cửa thành công !"
+        message: "Bán cửa thành công !"
       });
     });
   };
@@ -754,9 +754,12 @@ this.TWIST = this.TWIST || {};
     this.resignationButton.hide();
     this.setShowChipButtons();
     if (host && host.username) {
+      this.host.name = host.username;
       this.getHostButton.hide();
       this.host.hostName.addClass('active');
       this.host.hostName.html(host.username);
+    }else{
+      this.host.name = undefined;
     }
   };
 
@@ -764,7 +767,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
-    this.listPlayer.on('click',function(){
+    this.listPlayer.on('click', function () {
       _self.emit('getListPlayer');
     });
   };
@@ -845,11 +848,11 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.sellPopup = $(TWIST.HTMLTemplate['xocDia/sellPopup']);
     var bettingData;
-    this.sellPopup.initPopup = function(data){
+    this.sellPopup.initPopup = function (data) {
       bettingData = data;
       var maxValue = data.totalValue;
       _self.sellPopup.maxValue = maxValue;
-      _self.sellPopup.plusButton.html(maxValue );
+      _self.sellPopup.plusButton.html(maxValue);
       _self.sellPopup.title.html(data.name);
     };
     this.wrapperTemplate.append(this.sellPopup);
@@ -861,25 +864,25 @@ this.TWIST = this.TWIST || {};
     }
 
     function setMin() {
-      _self.sellPopup.scroller.css('left',0);
+      _self.sellPopup.scroller.css('left', 0);
       setRatio(0);
     }
 
     function setMax() {
-      _self.sellPopup.scroller.css('left',maxLeft);
+      _self.sellPopup.scroller.css('left', maxLeft);
       setRatio(1);
     }
 
     function emitSell() {
       var emitData = {
-        id : bettingData.id,
-        value : _self.sellPopup.currentValue
+        id: bettingData.id,
+        value: _self.sellPopup.currentValue
       };
-      _self.emit("sellBetting",emitData);
+      _self.emit("sellBetting", emitData);
     }
-    
-    function setRatio(ratio){
-      _self.sellPopup.dragbarInner.css('width', ratio*maxLeft + minLeft);
+
+    function setRatio(ratio) {
+      _self.sellPopup.dragbarInner.css('width', ratio * maxLeft + minLeft);
       var currentValue = parseInt(ratio * _self.sellPopup.maxValue);
       _self.sellPopup.currentValue = currentValue;
       _self.sellPopup.scrollerValue.html(currentValue);
@@ -896,7 +899,7 @@ this.TWIST = this.TWIST || {};
     this.sellPopup.minusButton.on('click', setMin);
     this.sellPopup.plusButton = this.sellPopup.find('.sell-popup-plus');
     this.sellPopup.plusButton.on('click', setMax);
-    
+
     this.sellPopup.dragbarInner = this.sellPopup.find('.sell-popup-dragbar-inner');
 
     this.sellPopup.scroller = this.sellPopup.find('#scroller');
@@ -906,7 +909,7 @@ this.TWIST = this.TWIST || {};
       scroll: false,
       containment: "#sell-popup-drag-container",
       drag: function (event, ui) {
-        var ratio = ui.position.left/maxLeft;
+        var ratio = ui.position.left / maxLeft;
         setRatio(ratio);
       }
     };
@@ -914,19 +917,19 @@ this.TWIST = this.TWIST || {};
   };
 
   p.showSellPopup = function () {
-    
+
     var _self = this;
     var selectedBetting = this.bettingPositions.find(function (item, index) {
       return item.isSelected;
     });
-    if (selectedBetting ) {
-      if(selectedBetting.totalValue){
+    if (selectedBetting) {
+      if (selectedBetting.totalValue) {
         this.sellPopup.show();
         this.sellPopup.initPopup(selectedBetting);
       }
-    }else{
+    } else {
       this.showError({
-        message : "Chưa chọn cửa bán !"
+        message: "Chưa chọn cửa bán !"
       });
     }
   };
@@ -1149,8 +1152,8 @@ this.TWIST = this.TWIST || {};
       this.desk.setRemainingTime(parseInt(remainingTime), {
         x: this.options.width / 2 + 5,
         y: this.options.height / 2 - 130,
-        font : "bold 25px Roboto Condensed",
-        color : "blue"
+        font: "bold 25px Roboto Condensed",
+        color: "blue"
       });
     }
   };
@@ -1216,9 +1219,9 @@ this.TWIST = this.TWIST || {};
     this.setShowChipButtons();
     this.setShowVitualBettings(data.newStatus);
     this.removeSelectedBetting(data.newStatus);
-    this.setRemainingTime(data.remainingTime || 15);
+    this.desk.setRemainingTime(0);
     if (typeof func === "function") {
-      func.call(this);
+      func.call(this, data);
     }
     this.emit("ping");
   };
@@ -1239,7 +1242,8 @@ this.TWIST = this.TWIST || {};
     this.host.setMessage("Xóc, xóc !!!");
   };
 
-  p.STATUS_BETTING = function () {
+  p.STATUS_BETTING = function (data) {
+    this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
     this.host.setMessage("Đặt đi anh ơi");
     if (!this.userInfo.isHost) {
@@ -1248,7 +1252,10 @@ this.TWIST = this.TWIST || {};
     }
   };
 
-  p.STATUS_ARRANGING = function () {
+  p.STATUS_ARRANGING = function (data) {
+    var defaultTime = 3;
+    if(this.host.name) defaultTime = 15;
+    this.setRemainingTime(data.remainingTime || defaultTime);
     this.host.setMessage("Chờ nhà cái thừa thiếu");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
