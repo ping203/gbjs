@@ -10,7 +10,7 @@
       data: {
         username: "User Index 1",
         money: "14000",
-        uuid: "2"
+        uuid: "1"
       },
       nextTime: 100
     }

@@ -8230,23 +8230,18 @@ this.TWIST = this.TWIST || {};
 
   p.moveChipsToPosition = function (value, listChip, position) {
     var _self = this;
-    var listChipMove = this.convertValueToChips(value);
-    var length = listChipMove.length;
-    listChipMove.forEach(function (item, index) {
-      var chip = listChip.find(function (_item, _index) {
-        return _item.type == item;
-      });
-      if (chip) {
-        var fromPosition = chip.localToGlobal(0, 0);
-        var toPosition = position;
-        chip.set(fromPosition);
-        _self.stage.addChild(chip);
-        setTimeout(function () {
-          chip.move(fromPosition, toPosition, function () {
-            _self.stage.removeChild(chip);
-          });
-        }, 300 / length * index);
-      }
+    var listReturnChip = this.convertValueToChipContainers(value, listChip);
+    var length = listReturnChip.length;
+    listReturnChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = position;
+      item.set(fromPosition);
+      _self.stage.addChild(item);
+      setTimeout(function () {
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+        });
+      }, 300 / length * index);
     });
   };
 
@@ -8395,6 +8390,54 @@ this.TWIST = this.TWIST || {};
     return Global.shuffle(listChip);
   };
 
+  p.convertValueToChipContainers = function (initValue, listChip) {
+    var returnChips = [];
+    var currentValue = initValue;
+    var flag = true;
+
+    var listChipValue = this.chipButtons.map(function (item, index) {
+      return item.value;
+    });
+    listChipValue.sort(function (a, b) {
+      return b - a;
+    });
+    var currentChipValue = listChipValue[0];
+    while (checkFlag()) {
+      getChipTypeByValue();
+    }
+
+    console.log("returnChips", returnChips);
+
+    return returnChips;
+
+    function checkFlag() {
+      flag = (currentValue >= currentChipValue);
+      return flag;
+    }
+
+    function getChipTypeByValue() {
+      if (currentValue > currentChipValue) {
+        var nextChipIndex = listChipValue.findIndex(function (item, index) {
+          return item == currentChipValue;
+        });
+        if (nextChipIndex >= listChipValue.length || nextChipIndex == -1) {
+          currentChipValue = undefined;
+          return;
+        } else {
+          currentChipValue = listChipValue[nextChipIndex + 1];
+        }
+      }
+      var newChip = listChip.find(function (item, index) {
+        return (item.value == currentChipValue && !item._isChecked);
+      });
+      if (newChip) {
+        currentValue -= currentChipValue;
+        returnChips.push(newChip);
+        newChip._isChecked = true;
+      }
+    }
+  };
+
   p.xocDia = function () {
     var _self = this;
     var message, position;
@@ -8454,13 +8497,18 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createChip = function (id) {
+    var _self = this;
     var scale = initOptions.chipSize.miniRatio;
     var src = (TWIST.imagePath || imagePath) + 'xocdia/' + initOptions.chipSrcList[id];
     var chip = new createjs.Bitmap(src);
+    var value = this.chipButtons.find(function (item, index) {
+      return item.id == id;
+    }).value;
     chip.set({
       scaleX: scale,
       scaleY: scale,
-      type: id
+      type: id,
+      value: value
     });
     chip.move = function (fromPosition, toPosition, callback) {
       chip.set(fromPosition);
@@ -8545,7 +8593,7 @@ this.TWIST = this.TWIST || {};
       this.getHostButton.hide();
       this.host.hostName.addClass('active');
       this.host.hostName.html(host.username);
-    }else{
+    } else {
       this.host.name = undefined;
     }
   };
@@ -9042,7 +9090,8 @@ this.TWIST = this.TWIST || {};
 
   p.STATUS_ARRANGING = function (data) {
     var defaultTime = 3;
-    if(this.host.name) defaultTime = 15;
+    if (this.host.name)
+      defaultTime = 15;
     this.setRemainingTime(data.remainingTime || defaultTime);
     this.host.setMessage("Chờ nhà cái thừa thiếu");
     if (this.userInfo.isHost) {
