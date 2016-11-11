@@ -2165,7 +2165,7 @@ and open the template in the editor.
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-image: url(images/xocdia/2nd-chip.png);
+            background-image: url("images/xocdia/2nd-chip.png");
             background-size: cover;
             box-sizing: border-box;
             background-origin: border-box;
