@@ -164,7 +164,7 @@ and open the template in the editor.
             }
         }
     }
-    .invite-button{
+    .list-player{
         background-image:  url('#{$xocdiaImagePath}players.png');
         position: absolute;
         width: 89px;
@@ -504,29 +504,32 @@ and open the template in the editor.
             color: #fedc32;
             .sell-popup-minus, .sell-popup-plus{
                 position: absolute;
-                top : 12px;
-                left : 0px;
-                width : 95px;
+                top : 40px;
+                left : 10px;
+                width : 140px;
                 height: 30px;
-                text-align : right;
+                text-align : center;
+                cursor : pointer;
                 &:after{
-                    content: "V"
+                    content: "0 V"
                 }
                 &:before{
                     content: "";
                     position:absolute;
-                    right : 0;
-                    top : 0;
+                    right : calc(50% - 12px);
+                    top : -28px;
                     width : 24px;
                     height: 24px;
                     background-image: url('#{$xocdiaImagePath}minus-button.png');
                 }
             }
             .sell-popup-plus{
-                right : 0px;
-                text-align: left;
+                left : initial;
+                right : 10px;
+                &:after{
+                    content: " V";
+                }
                 &:before{
-                    left : 0;
                     background-image: url('#{$xocdiaImagePath}plus-button.png');
                 }
             }
@@ -545,13 +548,13 @@ and open the template in the editor.
                     position: absolute;
                     left : 0;
                     top : 0;
-                    width: 100px;
+                    width: 0px;
                     height: 10px;
                 }
                 .sell-popup-scroller{
                     position: absolute;
                     top: -6px;
-                    left : calc(50% - 6px);
+                    left : 0px;
                     width: 24px;
                     height: 24px;
                     border-radius: 50%;
