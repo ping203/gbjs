@@ -8281,7 +8281,7 @@ this.TWIST = this.TWIST || {};
       });
       if (!dataItem)
         return;
-      _self.playersBetting(item, dataItem.totalBetting - item.totalBetting);
+      _self.playersBetting(item, dataItem.totalBetting - item.totalValue);
       item.setTotalBetting(dataItem.totalBetting);
     });
   };
