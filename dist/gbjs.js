@@ -7797,7 +7797,8 @@ this.TWIST = this.TWIST || {};
   var initOptions = {
     gameSize: {
       width: 900,
-      height: 560
+      height: 560,
+      position : "relative"
     },
     chipSize: {
       width: 75,
@@ -8996,13 +8997,13 @@ this.TWIST = this.TWIST || {};
   };
 
   p.changeStatus = function (data) {
+    this.status = this.statusList[data.newStatus];
+    var func = this[this.status];
     this.buttons.hide();
     this.setShowChipButtons();
     this.setShowVitualBettings(data.newStatus);
     this.removeSelectedBetting(data.newStatus);
     this.setRemainingTime(data.remainingTime || 15);
-    this.status = this.statusList[data.newStatus];
-    var func = this[this.status];
     if (typeof func === "function") {
       func.call(this);
     }
