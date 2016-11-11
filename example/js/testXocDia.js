@@ -60,7 +60,20 @@
           uuid: "2",
           username: "hahaa"
         },
-        betting: 100
+        betting: 100,
+        listBettingChip : [{
+            id : 0,
+            value : 4
+        },{
+            id : 1,
+            value : 5
+        },{
+            id : 2,
+            value : 6
+        },{
+            id : 4,
+            value : 7
+        }]
       },
       nextTime: 1000
     }

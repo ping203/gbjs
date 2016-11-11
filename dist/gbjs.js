@@ -7979,7 +7979,8 @@ this.TWIST = this.TWIST || {};
     this.changeStatus({
       newStatus: data.status
     });
-    this.setBettingChipValue(data.betting);
+    this.roomBetting = data.betting;
+    this.setBettingChipValue(data.listBettingChip);
     this.setRemainingTime(data.remainingTime);
     this.drawBettingPositions(data.bettingPositions);
   };
@@ -8365,21 +8366,20 @@ this.TWIST = this.TWIST || {};
 
   p.convertValueToChips = function (value) {
     var listChip = [];
-    var unit = this.roomBetting;
-    var totalRatio = 0;
+    var unit = this.chipButtons[0].value;
     var totalArray = [];
+    var totalValue = 0;
     this.chipButtons.forEach(function (item, index) {
-      totalRatio += item.ratio * item.concentration;
+      totalValue += item.value * item.concentration;
       for (var i = 0; i < item.concentration; i++) {
         totalArray.push(item.id);
       }
     });
-    var totalUnit = totalRatio * unit;
-    var quantityOfTotalUnit = parseInt(value / totalUnit);
+    var quantityOfTotalUnit = parseInt(value / totalValue);
     for (var i = 0; i < quantityOfTotalUnit; i++) {
       listChip = listChip.concat(totalArray);
     }
-    var quantityOfUnit = parseInt((value % totalUnit) / unit);
+    var quantityOfUnit = parseInt((value % totalValue) / unit);
     for (var i = 0; i < quantityOfUnit; i++) {
       listChip.push(this.chipButtons[0].id);
     }
@@ -8645,25 +8645,21 @@ this.TWIST = this.TWIST || {};
     this.chipButtons = [{
         id: 0,
         value: 1000,
-        ratio: 1,
         concentration: 1,
         template: this.chipWrapper.find('.chip-1st')
       }, {
         id: 1,
         value: 10000,
-        ratio: 2,
         concentration: 1,
         template: this.chipWrapper.find('.chip-2nd')
       }, {
         id: 2,
         value: 100000,
-        ratio: 4,
         concentration: 1,
         template: this.chipWrapper.find('.chip-3rd')
       }, {
         id: 3,
         value: 1000000,
-        ratio: 10,
         concentration: 1,
         template: this.chipWrapper.find('.chip-4th')
       }];
@@ -8971,11 +8967,12 @@ this.TWIST = this.TWIST || {};
     coinTittle.append(coinItem);
   };
 
-  p.setBettingChipValue = function (betting) {
-    this.roomBetting = betting;
-    betting = parseInt(betting);
+  p.setBettingChipValue = function (listBetting) {
     this.chipButtons.forEach(function (item, index) {
-      item.value = betting * item.ratio;
+      var dataItem = listBetting.find(function(_item,_index){
+        return item.id == _item.id;
+      });
+      item.value = dataItem.value;
       item.template.html(Global.numberWithDot2(item.value));
     });
   };
