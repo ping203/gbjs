@@ -200,7 +200,7 @@ this.TWIST = this.TWIST || {};
 
   p.initButtonBar = function () {};
 
-  p.initInviteList = function () {};
+  p.initListPlayer = function () {};
 
   p.initResultPanel = function () {};
 
@@ -697,7 +697,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createResultChip = function (isRed) {
-    var src = imagePath + (isRed ? "red.png" : "white.png");
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
     var resultChip = new createjs.Bitmap(src);
     resultChip.set({
       x: Math.random() * (this.chipResultContainer.width - 13),
@@ -809,7 +809,7 @@ this.TWIST = this.TWIST || {};
     }
   };
 
-  p.initInviteButton = function () {
+  p.initListPlayer = function () {
     var _self = this;
     this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
