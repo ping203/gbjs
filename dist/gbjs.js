@@ -7987,7 +7987,7 @@ this.TWIST = this.TWIST || {};
 
   p.initButtonBar = function () {};
 
-  p.initListPlayer = function () {};
+  p.initInviteList = function () {};
 
   p.initResultPanel = function () {};
 
@@ -8008,7 +8008,7 @@ this.TWIST = this.TWIST || {};
 
     this.initVitualBetting();
 
-    this.initInviteButton();
+    this.initListPlayer();
 
     this.initChipButton();
 
@@ -8484,7 +8484,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createResultChip = function (isRed) {
-    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
+    var src = imagePath + (isRed ? "red.png" : "white.png");
     var resultChip = new createjs.Bitmap(src);
     resultChip.set({
       x: Math.random() * (this.chipResultContainer.width - 13),
