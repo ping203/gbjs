@@ -697,7 +697,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createResultChip = function (isRed) {
-    var src = imagePath + (isRed ? "red.png" : "white.png");
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
     var resultChip = new createjs.Bitmap(src);
     resultChip.set({
       x: Math.random() * (this.chipResultContainer.width - 13),
