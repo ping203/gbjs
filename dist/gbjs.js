@@ -8301,8 +8301,9 @@ this.TWIST = this.TWIST || {};
       });
       if (!dataItem)
         return;
-      item.setMineBetting(dataItem.mineValue);
-      _self.userReBetting(item, dataItem.totalBetting - dataItem.mineValue);
+      item.setMineBetting(dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
     });
   };
 
