@@ -306,7 +306,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
-      item.setTotalBetting(item.totalValue - item.mineValue);
+//      item.setTotalBetting(item.totalValue - item.mineValue);
       item.setMineBetting(0);
     });
   };
