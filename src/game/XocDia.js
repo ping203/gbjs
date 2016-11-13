@@ -316,7 +316,7 @@ this.TWIST = this.TWIST || {};
     var data = this.hostPaymentData;
     if (!data)
       return;
-
+    this.bettingPositions.hasChipsMove = false;
     this.bettingPositions.forEach(function (item, index) {
       if (!item.status) {
         _self.moveChipToHost(item.id);
@@ -324,6 +324,9 @@ this.TWIST = this.TWIST || {};
         item.setTotalBetting(0);
       }
     });
+    if (!this.bettingPositions.hasChipsMove) {
+      _self.hostPaymentPhase2();
+    }
   };
 
   p.hostPaymentPhase2 = function () {
@@ -396,6 +399,8 @@ this.TWIST = this.TWIST || {};
     });
     var listChip = chipContainer.children;
     var length = listChip.length;
+    if (length > 0)
+      this.bettingPositions.hasChipsMove = true;
     _self._numberChipMove = _self._numberChipMove || 0;
     listChip.forEach(function (item, index) {
       var fromPosition = item.localToGlobal(0, 0);
@@ -613,9 +618,9 @@ this.TWIST = this.TWIST || {};
     listChipValue.sort(function (a, b) {
       return b - a;
     });
-    
+
     var currentChipValue = getCurrentChipValue(initValue);
-    
+
     while (checkFlag()) {
       getChipTypeByValue();
     }
@@ -626,9 +631,9 @@ this.TWIST = this.TWIST || {};
       flag = (currentValue >= currentChipValue);
       return flag;
     }
-    
-    function getCurrentChipValue(currentValue){
-      listChipValue = listChipValue.filter(function(item,index){
+
+    function getCurrentChipValue(currentValue) {
+      listChipValue = listChipValue.filter(function (item, index) {
         return currentValue >= item;
       });
       return listChipValue[0];
@@ -636,7 +641,8 @@ this.TWIST = this.TWIST || {};
 
     function getChipTypeByValue() {
       currentChipValue = getCurrentChipValue(currentValue);
-      if(!currentChipValue) return;
+      if (!currentChipValue)
+        return;
       var newChip = listChip.find(function (item, index) {
         return (item.value == currentChipValue && !item._isChecked);
       });
@@ -644,7 +650,7 @@ this.TWIST = this.TWIST || {};
         currentValue -= currentChipValue;
         returnChips.push(newChip);
         newChip._isChecked = true;
-      }else{
+      } else {
         listChipValue.shift();
         getChipTypeByValue();
       }
@@ -1063,6 +1069,7 @@ this.TWIST = this.TWIST || {};
         position.height -= 30;
       }
 
+      item.bettingSlot = bettingSlot;
       bettingSlot.set(position);
       moveChipContainer.addChild(bettingSlot);
     });
@@ -1185,7 +1192,7 @@ this.TWIST = this.TWIST || {};
 
   p.setBettingChipValue = function (listBetting) {
     this.chipButtons.forEach(function (item, index) {
-      var dataItem = listBetting.find(function(_item,_index){
+      var dataItem = listBetting.find(function (_item, _index) {
         return item.id == _item.id;
       });
       item.value = dataItem.value;
@@ -1275,6 +1282,9 @@ this.TWIST = this.TWIST || {};
   p.STATUS_WAITING_FOR_START = function () {
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
+      item.bettingSlot.removeAllChildren();
+      item.setMineBetting(0);
+      item.setTotalBetting(0);
     });
     this.bowl.set({
       y: initOptions.bowlPosition.y,
