@@ -26,6 +26,8 @@ this.TWIST = this.TWIST || {};
 
 
   var p = InRoomGame.prototype = new TWIST.BaseGame();
+  
+  p.statusList = $.extend({},InRoomGame.statusList);
 
   p.initInRoomGame = function () {
     this.initBaseGame();
@@ -36,8 +38,8 @@ this.TWIST = this.TWIST || {};
     this.initButtonBar();
     this.initResultPanel();
     this.observerEvent();
-    this.userInfo = {};
-    this.status = InRoomGame.statusList['0'];
+    this.userInfo = this.userInfo || {};
+    this.status = this.statusList['0'];
     this.model = this.model || {};
   };
 
@@ -79,7 +81,20 @@ this.TWIST = this.TWIST || {};
       0: "Lỗi hệ thống !",
       //sam Error
       34: "Không được để 2 cuối !",
-      1470: "Chưa chọn cây bài !"
+      1470: "Chưa chọn cây bài !",
+      //xocdia Error,
+      91: "Cược vượt quá cho phép",
+      92: "Cửa đặt không xác định",
+      93: "Không đủ tiền để làm nhà cái",
+      94: "User không phải nhà cái",
+      95: "Nhà cái đã tồn tại",
+      96: "Chưa sẵn sàng để đặt cược",
+      97: "Bán chẵn/lẻ không thành công",
+      98: "Bạn đã bán chẵn/lẻ rồi",
+      99: "Số tiền bán chẵn/lẻ không hợp lệ",
+      100: "Hủy cược không thành công",
+      101: "Nhà cái không thể đặt cược",
+      102: "Hủy cái không thành công."
     });
   };
 
@@ -100,7 +115,8 @@ this.TWIST = this.TWIST || {};
     this.stage.addChild(this.desk, this.playersContainer);
     this.wrapper.css({
       width: canvas.width(),
-      height: canvas.height()
+      height: canvas.height(),
+      position : "relative"
     });
   };
 
@@ -141,7 +157,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setUserInfo = function (data) {
-    this.userInfo = data || {};
+    this.userInfo = $.extend(this.userInfo, data);
     this.userInfo.uuid = this.userInfo.uuid || this.userInfo.id;
   };
 
@@ -209,9 +225,9 @@ this.TWIST = this.TWIST || {};
         if (Player) {
           this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
         }
-        if((Player.uuid == this.userInfo.uuid) && (this.status == "STATUS_WAITING_FOR_START")){
+        if ((Player.uuid == this.userInfo.uuid) && (this.status == "STATUS_WAITING_FOR_START")) {
           this.startButton.show();
-        }else{
+        } else {
           this.startButton.hide();
         }
       } else {
@@ -230,6 +246,10 @@ this.TWIST = this.TWIST || {};
     if (Player) {
       $.extend(Player, data);
       Player.render();
+    }
+    if(this._listenChangeMoney){
+      this._listenChangeMoney = false;
+      this.userMoney.runEffect(data.money);
     }
   };
 
@@ -259,7 +279,7 @@ this.TWIST = this.TWIST || {};
 
   p.changeStatus = function (data) {
     this.desk.setRemainingTime(parseInt(data.remainingTime));
-    this.status = InRoomGame.statusList[data.newStatus];
+    this.status = this.statusList[data.newStatus];
     var func = this[this.status];
     if (typeof func === "function") {
       func.call(this);
@@ -410,7 +430,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.getPlayerByUuid = function (uuid) {
-    var players = this.playersContainer.children || [];
+    var players = (this.playersContainer && this.playersContainer.children) || [];
     for (var i = 0, length = players.length; i < length; i++) {
       var player = players[i];
       if (player.uuid == uuid)
