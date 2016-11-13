@@ -287,7 +287,6 @@ this.TWIST = this.TWIST || {};
     });
 
     this.on("resignationSuccess", function (data) {
-      _self.resignationButton.hide();
       _self.setHost();
     });
 
