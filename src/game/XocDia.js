@@ -1293,7 +1293,7 @@ this.TWIST = this.TWIST || {};
     });
     this.host.setMessage("Chờ ván mới !");
     if (this.userInfo.isHost) {
-      this.cancelBettingButton.show();
+      this.resignationButton.show();
     }
   };
 
