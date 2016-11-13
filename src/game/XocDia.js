@@ -480,6 +480,7 @@ this.TWIST = this.TWIST || {};
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
+    this.reBettingButton.hide();
     bettingPosition.setMineBetting(data.mineBetting);
     bettingPosition.setTotalBetting(data.totalBetting);
     var currentBettingID = this.currentBetting.id;
@@ -508,7 +509,8 @@ this.TWIST = this.TWIST || {};
       });
       if (!dataItem)
         return;
-      _self.userReBetting(item, dataItem.totalBetting - item.mineValue);
+      item.setMineBetting(dataItem.mineValue);
+      _self.userReBetting(item, dataItem.totalBetting - dataItem.mineValue);
     });
   };
 
@@ -1263,7 +1265,7 @@ this.TWIST = this.TWIST || {};
     this.setShowChipButtons();
     this.setShowVitualBettings(data.newStatus);
     this.removeSelectedBetting(data.newStatus);
-    this.desk.setRemainingTime(0);
+    this.desk.setRemainingTime(-1);
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -1273,6 +1275,10 @@ this.TWIST = this.TWIST || {};
   p.STATUS_WAITING_FOR_START = function () {
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
+    });
+    this.bowl.set({
+      y: initOptions.bowlPosition.y,
+      alpha: 1
     });
     this.host.setMessage("Chờ ván mới !");
     if (this.userInfo.isHost) {
