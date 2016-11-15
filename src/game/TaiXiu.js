@@ -1256,6 +1256,7 @@ this.TWIST = this.TWIST || {};
       item.setTotalBetting(0);
     });
     this.bowl.set(initOptions.bowlPosition);
+    this.chipResultContainer.removeAllChildren();
     this.host.setMessage("Chờ ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
@@ -1282,7 +1283,7 @@ this.TWIST = this.TWIST || {};
     var defaultTime = 3;
     if (this.host.name)
       defaultTime = 15;
-    this.setRemainingTime(data.remainingTime || defaultTime);
+    this.setRemainingTime(this.host.name ? defaultTime : (data.remainingTime || defaultTime));
     this.host.setMessage("Chờ nhà cái thừa thiếu");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
