@@ -80,13 +80,13 @@ and open the template in the editor.
             font-size: 16px;
             color: white;
             .host-name{
-                width: 162px;
-                height: 31px;
+                width: 150px;
+                height: 25px;
                 position: absolute;
-                top : 90px;
-                left : calc(50% - 81px);
+                top : 54px;
+                left : calc(50% - 75px);
                 border-radius: 6px;
-                line-height: 31px;
+                line-height: 25px;
                 font-weight: bold;
                 background-color: rgba(0,0,0,0.5);
                 text-align: center;
@@ -135,7 +135,6 @@ and open the template in the editor.
     }
     .over-table{
         background-color: transparent;
-        display: none;
     }
     .betting-position{
         box-sizing: border-box;

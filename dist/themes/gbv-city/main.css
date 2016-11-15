@@ -1,5 +1,8 @@
 @charset "UTF-8";
 .twist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2407,8 +2410,7 @@ and open the template in the editor.
       background-color: #374077;
       border: 1px solid #20bbfc; }
     .twist #taixiu-wrapper .over-table {
-      background-color: transparent;
-      display: none; }
+      background-color: transparent; }
     .twist #taixiu-wrapper .betting-position {
       box-sizing: border-box;
       position: absolute;
