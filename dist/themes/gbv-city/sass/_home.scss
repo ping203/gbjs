@@ -1,6 +1,11 @@
 
 $twistImagePath :   "images/" !default; 
 
+body{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+
 @keyframes error-remove {
     0%{
         opacity: 1;
@@ -18,7 +23,8 @@ $twistImagePath :   "images/" !default;
 .wrapper,.twist.wrapper{
     -webkit-touch-callout: none;
     -webkit-user-select : none;
-    font-family: Roboto;
+    /*font-family: Roboto;*/
+    font-family: 'Roboto Condensed', sans-serif;
     position: relative;
 }
 .error-panel {

@@ -9,66 +9,69 @@ this.TWIST = this.TWIST || {};
 
   var initOptions = {
     gameSize: {
-      width: 900,
+      width: 870,
       height: 560,
       position: "relative"
     },
     chipSize: {
       width: 75,
       height: 75,
-      miniWidth: 24,
-      miniHeight: 24,
-      miniRatio: 0.33
+      miniWidth: 18,
+      miniHeight: 18,
+      miniRatio: 0.24
     },
-    bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
-      {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    bettingChipPositions: [{y: 487.5 - 11, x: 385 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 37.5 - 11},
+      {y: 487.5 - 11, x: 385 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 210 + 37.5 - 11}],
     playerPosition: {
-      y: 256,
-      x: 844
+      y: 266,
+      x: 835
     },
     hostPosition: {
-      x: 450,
-      y: 100
+      x: 385,
+      y: 50
     },
     userPosition: {
       y: 480,
-      x: 100
+      x: 50
     },
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
-    width: 900,
+    width: 870,
     height: 560,
     moveChipAnimationTime: 500,
     diskPosition: {
-      x: 360,
-      y: 120
+      x: 230,
+      y: 10,
+      scaleX: 0.6,
+      scaleY: 0.6
     },
     bowlPosition: {
       x: 11,
-      y: 3
+      y: 3,
+      alpha: 1
     },
     chipResultPosition: {
-      x: 40,
+      x: 55,
       y: 30,
       width: 80,
       height: 60
     }
   };
 
-  function XocDia(wrapper, options) {
+  function TaiXiu(wrapper, options) {
     this.wrapper = $(wrapper);
     this.options = $.extend(initOptions, options);
-    this.initXocDia();
+    this.initTaiXiu();
   }
 
-  var p = XocDia.prototype = new TWIST.InRoomGame();
+  var p = TaiXiu.prototype = new TWIST.InRoomGame();
 
-  p.initXocDia = function () {
+  p.initTaiXiu = function () {
     this.initInRoomGame();
     this.initVariable();
     this.initTemplate();
     this.initButton();
     this.bindButton();
-    this.pushXocDiaEvent();
+    this.pushTaiXiuEvent();
   };
 
   p.initVariable = function () {
@@ -82,77 +85,42 @@ this.TWIST = this.TWIST || {};
       money: 0,
       isHost: false
     });
-    this.bettingPositions = [{
-        name: "Bốn Trắng",
-        displayName: "1:10",
-        valueMap: [0, 0, 0, 0],
-        ratio: 10,
-        id: 2,
-        top: 290,
-        left: 130,
-        width: 110,
-        height: 115
-      }, {
-        name: "Bốn Đỏ",
-        displayName: "1:10",
-        valueMap: [1, 1, 1, 1],
-        ratio: 10,
-        id: 3,
-        top: 290,
-        left: 262.5,
-        width: 110,
-        height: 115
-      }, {
-        name: "Ba Trắng",
-        displayName: "1:3",
-        valueMap: [0, 0, 0, 1],
-        ratio: 3,
-        id: 4,
-        top: 290,
-        left: 395,
-        width: 110,
-        height: 115
-      }, {
-        name: "Ba đỏ",
-        displayName: "1:3",
-        valueMap: [0, 1, 1, 1],
-        ratio: 3,
-        id: 5,
-        top: 290,
-        left: 527.5,
-        width: 110,
-        height: 115
-      }, {
-        name: "Hai đỏ",
-        displayName: "1:1.5",
-        valueMap: [0, 0, 1, 1],
-        ratio: 1.5,
-        id: 6,
-        top: 290,
-        left: 660,
-        width: 110,
-        height: 115
-      }, {
-        name: "Chẵn",
-        displayName: "Chẵn",
-        valueMap: [0],
-        ratio: 1,
-        id: 0,
-        top: 140,
-        left: 150,
-        width: 160,
-        height: 115
-      }, {
-        name: "Lẻ",
-        displayName: "Lẻ",
-        valueMap: [1],
-        ratio: 1,
-        id: 1,
-        top: 140,
-        left: 590,
-        width: 160,
-        height: 115
-      }];
+    this.imagePath = (TWIST.imagePath || imagePath) + 'taixiu/';
+
+    this.bettingPositions = [{id: 0, name: "Tam nhất", top: 83, left: 0, width: 117, height: 103, types: [1, 'top-left', 'top', 'left']}
+      , {id: 1, name: "Tam nhị", top: 83, left: 117, width: 91, height: 103, types: [1, 'top']}
+      , {id: 2, name: "Tam tam", top: 83, left: 208, width: 91, height: 103, types: [1, 'top']}
+      , {id: 3, name: "Tam trùng", top: 83, left: 299, width: 172, height: 103, types: [2, 'top']}
+      , {id: 4, name: "Tam tứ", top: 83, left: 471, width: 91, height: 103, types: [1, 'top']}
+      , {id: 5, name: "Tam ngũ", top: 83, left: 562, width: 91, height: 103, types: [1, 'top']}
+      , {id: 6, name: "Tam lục", top: 83, left: 653, width: 117, height: 103, types: [1, 'top', 'right', 'top-right']}
+      , {id: 7, name: "Xỉu", top: 186, left: 0, width: 117, height: 152, types: [3, 'left']}
+      , {id: 8, name: "Bốn điểm", top: 186, left: 117, width: 76, height: 76, types: [4]}
+      , {id: 9, name: "Năm điểm", top: 186, left: 193, width: 76, height: 76, types: [4]}
+      , {id: 10, name: "Sáu điểm", top: 186, left: 269, width: 76, height: 76, types: [4]}
+      , {id: 11, name: "Bẩy điểm", top: 186, left: 345, width: 80, height: 76, types: [4]}
+      , {id: 12, name: "Tám điểm", top: 186, left: 425, width: 76, height: 76, types: [4]}
+      , {id: 13, name: "Chín điểm", top: 186, left: 501, width: 76, height: 76, types: [4]}
+      , {id: 14, name: "Mười điểm", top: 186, left: 577, width: 76, height: 76, types: [4]}
+      , {id: 15, name: "Tài", top: 186, left: 653, width: 117, height: 152, types: [3, 'right']}
+      , {id: 16, name: "Mười một điểm", top: 262, left: 117, width: 76, height: 76, types: [4]}
+      , {id: 17, name: "Mười hai điểm", top: 262, left: 193, width: 76, height: 76, types: [4]}
+      , {id: 18, name: "Mười ba điểm", top: 262, left: 269, width: 76, height: 76, types: [4]}
+      , {id: 19, name: "Mười bốn điểm", top: 262, left: 345, width: 80, height: 76, types: [4]}
+      , {id: 20, name: "Mười lăm điểm", top: 262, left: 425, width: 76, height: 76, types: [4]}
+      , {id: 21, name: "Mười sáu điểm", top: 262, left: 501, width: 76, height: 76, types: [4]}
+      , {id: 22, name: "Mười bẩy điểm", top: 262, left: 577, width: 76, height: 76, types: [4]}
+      , {id: 23, name: "Chẵn", top: 338, left: 0, width: 117, height: 75, types: [6, 'left', 'bottom-left', 'bottom']}
+      , {id: 24, name: "Nhất", top: 338, left: 117, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 25, name: "Nhị", top: 338, left: 206, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 26, name: "Tam", top: 338, left: 295, width: 90, height: 75, types: [5, 'bottom']}
+      , {id: 27, name: "Tứ", top: 338, left: 385, width: 90, height: 75, types: [5, 'bottom']}
+      , {id: 28, name: "Ngũ", top: 338, left: 475, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 29, name: "Lục", top: 338, left: 564, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 30, name: "Lẻ", top: 338, left: 653, width: 117, height: 75, types: [6, 'bottom', 'right', 'bottom-right']}
+    ];
+    
+    this.bettingPositions.reverse();
     this.statusList = {
       1: "STATUS_WAITING_FOR_START",
       2: "STATUS_SHAKE_DISK",
@@ -170,23 +138,12 @@ this.TWIST = this.TWIST || {};
     this.desk = new TWIST.Desk(this.options);
     this.desk.name = "desk";
     this.stage.addChild(this.desk);
-    this.wrapper.css(initOptions.gameSize);
+    this.wrapper.css($.extend(initOptions.gameSize, {
+      width: 770
+    }));
   };
 
   p.drawGameInfo = function (data) {
-//    data = {
-//      status : 1,
-//      bettingPositions : [{
-//          id : 1,//(0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
-//          //client (0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
-//          totalBetting : 1000,
-//          miniBetting : 299,
-//          ratio : 1
-//      }],
-//      remainingTime : 12,
-//      host : "tieukiemtien",
-//      betting : 10
-//    };
 
     this.setHost(data.host);
     this.changeStatus({
@@ -206,10 +163,11 @@ this.TWIST = this.TWIST || {};
 
   p.initTemplate = function () {
     var _self = this;
-    this.wrapperTemplate = $(TWIST.HTMLTemplate['xocDia/wrapper']);
-    this.wrapper.append(this.wrapperTemplate);
-
-    this.initHistory();
+    var wrapperTemplate = document.createElement('div');
+    wrapperTemplate.id = "taixiu-wrapper";
+    wrapperTemplate.className = "taixiu-wrapper";
+    this.wrapperTemplate = $(wrapperTemplate);
+    this.wrapper.append(wrapperTemplate);
 
     this.initBettingPositionList();
 
@@ -247,7 +205,7 @@ this.TWIST = this.TWIST || {};
     }
   };
 
-  p.pushXocDiaEvent = function () {
+  p.pushTaiXiuEvent = function () {
     var _self = this;
 
     this.on("userInfo", function () {
@@ -305,7 +263,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
-//      item.setTotalBetting(item.totalValue - item.mineValue);
       item.setMineBetting(0);
     });
   };
@@ -348,9 +305,9 @@ this.TWIST = this.TWIST || {};
   p.showChangeMoney = function (data) {
     this.userInfo.money = data.money;
     this.userMoney.runEffect(this.userInfo.money);
-    var jElement = $(TWIST.HTMLTemplate['xocDia/changeMoney']);
+    var jElement = $(TWIST.HTMLTemplate['taiXiu/changeMoney']);
     this.user.append(jElement);
-    jElement.text(Global.numberWithDot(parseInt(data.changeMoney)));
+    jElement.text(Global.numberWithDot3(parseInt(data.changeMoney)));
     jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
       jElement.remove();
     });
@@ -578,7 +535,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
-    console.log("listChip");
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -663,8 +619,8 @@ this.TWIST = this.TWIST || {};
     var message, position;
     if (this.status === 'STATUS_SHAKE_DISK') {
       position = {
-        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 10 + 10),
-        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 10)
+        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 5 + 5),
+        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 5)
       };
       message = 'xocDia';
     } else {
@@ -681,22 +637,18 @@ this.TWIST = this.TWIST || {};
 
   p.openDisk = function (data) {
     var _self = this;
-    var newY = -150;
-    this.history.addResult(data.winnerSlots);
+    var newX = -150;
     var message, position;
     this.chipResultContainer.removeAllChildren();
     data.map.forEach(function (item, index) {
-      _self.createResultChip(item);
+      _self.createResultDice(item, index);
     });
-    this.bowl.set({
-      y: initOptions.bowlPosition.y,
-      alpha: 1
-    });
+    this.bowl.set(initOptions.bowlPosition);
     createjs.Tween.get(this.bowl)
             .to({
-              y: newY,
+              x: newX,
               alpha: 0
-            }, 3000)
+            }, 2000)
             .call(function () {
               _self.hostPaymentPhase1();
             });
@@ -705,12 +657,15 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.createResultChip = function (isRed) {
-    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
+  p.createResultDice = function (id, index) {
+    var src = this.imagePath + "dice" + (id + 1) + ".png";
     var resultChip = new createjs.Bitmap(src);
+    var scale = initOptions.diskPosition.scaleX;
+    var positions = [{x: 12.5 / scale, y: 0}, {x: 0, y: 25 / scale}, {x: 25 / scale, y: 25 / scale}];
+    resultChip.set(positions[index]);
     resultChip.set({
-      x: Math.random() * (this.chipResultContainer.width - 13),
-      y: Math.random() * (this.chipResultContainer.height - 13)
+      scaleX: 1 / scale,
+      scaleY: 1 / scale
     });
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
@@ -718,22 +673,22 @@ this.TWIST = this.TWIST || {};
 
   p.createChip = function (id) {
     var _self = this;
-    var scale = initOptions.chipSize.miniRatio;
-    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + initOptions.chipSrcList[id];
-    var chip = new createjs.Bitmap(src);
+    var chipSize = initOptions.chipSize;
+    var image = this.chipImages[id];
+    var chip = new createjs.Bitmap(image);
     var value = this.chipButtons.find(function (item, index) {
       return item.id == id;
     }).value;
     chip.set({
-      scaleX: scale,
-      scaleY: scale,
+      scaleX: chipSize.miniRatio,
+      scaleY: chipSize.miniRatio,
       type: id,
       value: value
     });
     chip.move = function (fromPosition, toPosition, callback) {
       chip.set(fromPosition);
-      var newX = toPosition.x + (Math.random() - 0.5) * 3;
-      var newY = toPosition.y + (Math.random() - 0.5) * 3;
+      var newX = toPosition.x + (Math.random() - 0.5) * 5;
+      var newY = toPosition.y + (Math.random() - 0.5) * 5;
       createjs.Tween.get(chip)
               .to({
                 x : newX,
@@ -756,41 +711,8 @@ this.TWIST = this.TWIST || {};
     this.userMoney.runEffect(this.userInfo.money);
   };
 
-  p.initHistory = function () {
-    var _self = this;
-    this.history = $(TWIST.HTMLTemplate['xocDia/history']);
-    this.wrapperTemplate.append(this.history);
-    this.historyList = [];
-    var mapName = {
-      2: 4,
-      3: 0,
-      4: 3,
-      5: 1,
-      6: 2
-    };
-    this.history.addResult = function (winnerSlots) {
-      var isOdd = winnerSlots.find(function (item, index) {
-        return item < 2;
-      });
-      var slotId = winnerSlots.find(function (item, index) {
-        return item > 1;
-      });
-      var resultChip = $(TWIST.HTMLTemplate['xocDia/resultChip']);
-      if (isOdd) {
-        resultChip.addClass('result-chip-odd');
-      }
-      resultChip.children().html(mapName[slotId]);
-      _self.historyList.push(resultChip);
-      _self.history.append(resultChip);
-      if (_self.historyList.length > 16) {
-        _self.historyList[0].remove();
-        _self.historyList.shift();
-      }
-    };
-  };
-
   p.initHost = function () {
-    this.host = $(TWIST.HTMLTemplate['xocDia/host']);
+    this.host = $(TWIST.HTMLTemplate['taiXiu/host']);
     this.wrapperTemplate.append(this.host);
     this.host.background = this.host.find('.host-background');
     this.host.hostName = this.host.find('.host-name');
@@ -823,7 +745,7 @@ this.TWIST = this.TWIST || {};
 
   p.initListPlayer = function () {
     var _self = this;
-    this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
+    this.listPlayer = $(TWIST.HTMLTemplate['taiXiu/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
     this.listPlayer.on('click', function () {
       _self.emit('getListPlayer');
@@ -832,22 +754,41 @@ this.TWIST = this.TWIST || {};
 
   p.initBettingPositionList = function () {
     var _self = this;
+    this.table = $(TWIST.HTMLTemplate['taiXiu/table']);
+    this.wrapperTemplate.append(this.table);
     var bettingPositions = this.bettingPositions;
+    var fragment = document.createDocumentFragment();
     bettingPositions.forEach(function (item, index) {
-      _self.createBettingPosition(item);
+      var element = _self.createBettingPosition(item, index);
+      fragment.append(element);
     });
+    this.wrapperTemplate.append(fragment);
+
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.setBettingPositionsPrototype(item, index);
+    });
+
+    var overTable = $('<div class="over-table">');
+    this.wrapperTemplate.append(overTable);
   };
 
   p.initVitualBetting = function () {
     var _self = this;
     var bettingPositions = this.bettingPositions;
+    var fragment = document.createDocumentFragment();
     bettingPositions.forEach(function (item, index) {
-      _self.createVitualBetting(item);
+      var element = _self.createVitualBetting(item, index);
+      fragment.append(element);
+    });
+    this.wrapperTemplate.append(fragment);
+
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.setVitualBettingPrototype(item, index);
     });
   };
 
   p.initProfile = function () {
-    this.user = $(TWIST.HTMLTemplate['xocDia/user']);
+    this.user = $(TWIST.HTMLTemplate['taiXiu/user']);
     this.wrapperTemplate.append(this.user);
     this.userMoney = this.user.find('.money');
     this.addNumberEffect(this.userMoney);
@@ -860,13 +801,20 @@ this.TWIST = this.TWIST || {};
 
     this.initMoveChipContainer();
 
-    this.stage.addChild(this.diskContainer, this.moveChipContainer, this.desk);
+    this.stage.addChild(this.moveChipContainer, this.diskContainer, this.desk);
   };
 
   p.initChipButton = function () {
     var _self = this;
-    this.chipWrapper = $(TWIST.HTMLTemplate['xocDia/chips']);
+    this.chipWrapper = $(TWIST.HTMLTemplate['taiXiu/chips']);
     this.wrapperTemplate.append(this.chipWrapper);
+
+    this.chipImages = [new Image(), new Image(), new Image(), new Image()];
+    this.chipImages[0].src = this.imagePath + "1st-chip.png";
+    this.chipImages[1].src = this.imagePath + "2nd-chip.png";
+    this.chipImages[2].src = this.imagePath + "3rd-chip.png";
+    this.chipImages[3].src = this.imagePath + "4th-chip.png";
+
 
     this.chipButtons = [{
         id: 0,
@@ -900,7 +848,7 @@ this.TWIST = this.TWIST || {};
 
   p.initSellPopup = function () {
     var _self = this;
-    this.sellPopup = $(TWIST.HTMLTemplate['xocDia/sellPopup']);
+    this.sellPopup = $(TWIST.HTMLTemplate['taiXiu/sellPopup']);
     var bettingData;
     this.sellPopup.initPopup = function (data) {
       bettingData = data;
@@ -993,7 +941,7 @@ this.TWIST = this.TWIST || {};
 
     this.buttons = [];
 
-    var buttonWrapper = $(TWIST.HTMLTemplate['xocDia/buttons']);
+    var buttonWrapper = $(TWIST.HTMLTemplate['taiXiu/buttons']);
 
     this.wrapperTemplate.append(buttonWrapper);
 
@@ -1046,10 +994,10 @@ this.TWIST = this.TWIST || {};
     this.diskContainer = new createjs.Container();
     this.diskContainer.set(initOptions.diskPosition);
 
-    this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'disk.png');
+    this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'disk.png');
     this.chipResultContainer = new createjs.Container();
     this.chipResultContainer.set(initOptions.chipResultPosition);
-    this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'bowl.png');
+    this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'bowl.png');
     this.bowl.set(initOptions.bowlPosition);
 
     this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
@@ -1062,16 +1010,12 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       var bettingSlot = new createjs.Container();
       var position = {
-        x: item.left + 10,
+        x: item.left + 2,
         y: item.top,
-        width: item.width - 20,
-        height: item.height - 30,
+        width: item.width - 4,
+        height: item.height - 25,
         name: item.id
       };
-      if (item.id > 1) {
-        position.y += 30;
-        position.height -= 30;
-      }
 
       item.bettingSlot = bettingSlot;
       bettingSlot.set(position);
@@ -1080,28 +1024,13 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createVitualBetting = function (data) {
-    var _self = this;
-    var temp = TWIST.HTMLTemplate['xocDia/vitualBetting'];
-    var vitualBetting = $(temp);
-    if (data.id > 1) {
-      vitualBetting.addClass('small-vitual-betting');
-    }
-    vitualBetting.addClass("betting" + data.id);
 
-    this.wrapperTemplate.append(vitualBetting);
-    data.vitualBetting = vitualBetting;
-    vitualBetting.on('click', function () {
-      if (_self.userInfo.isHost) {
-        _self.setSelectedBetting(data);
-      } else {
-        var emitData = {
-          value: _self.currentBetting.value,
-          currentBettingId: _self.currentBetting.id,
-          slotBettingId: data.id
-        };
-        _self.emitBetting(emitData);
-      }
-    });
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['taiXiu/vitualBetting'];
+    var element = document.createElement('div');
+    element.className = "vitual-betting-position";
+    element.id = "vitualBetting" + data.id;
+    return element;
   };
 
   p.setSelectedBetting = function (data) {
@@ -1123,46 +1052,54 @@ this.TWIST = this.TWIST || {};
     this.emit('betting', emitData);
   };
 
-  p.createBettingPosition = function (data) {
+  p.createBettingPosition = function (data, index) {
     var _self = this;
-    var temp = TWIST.HTMLTemplate['xocDia/bettingPosition'];
-    var bettingPosition = $(temp);
-    if (data.id > 1) {
-      bettingPosition.addClass('small-betting-position');
-    }
+    var temp = TWIST.HTMLTemplate['taiXiu/bettingPosition'];
+    var element = document.createElement('div');
+    element.className = "betting-position";
+    element.id = "bettingPosition" + data.id;
+    element.innerHTML = temp;
+    return element;
+  };
+
+  p.setBettingPositionsPrototype = function (data) {
+    var _self = this;
+    var bettingPosition = $('#' + "bettingPosition" + data.id);
+    bettingPosition.css(data);
     data.template = bettingPosition;
-    this.wrapperTemplate.append(bettingPosition);
-    bettingPosition.addClass("betting" + data.id);
+    bettingPosition.addClass('type-id' + data.id);
+    data.types.forEach(function (item, index) {
+      bettingPosition.addClass('type-' + item);
+    });
     bettingPosition.mineBetting = bettingPosition.find('.mine-betting');
-    this.addNumberEffect(bettingPosition.mineBetting);
+    this.addNumberEffect(bettingPosition.mineBetting,3);
     bettingPosition.totalBetting = bettingPosition.find('.total-betting');
-    this.addNumberEffect(bettingPosition.totalBetting);
+    this.addNumberEffect(bettingPosition.totalBetting,3);
     bettingPosition.displayNameContainer = bettingPosition.find('.name');
     bettingPosition.displayNameContainer.html(data.displayName);
-    bettingPosition.coinTittle = bettingPosition.find('.coin-tittle');
-    data.valueMap.forEach(function (item, index) {
-      _self.addCoins(item, bettingPosition.coinTittle);
-    });
+    bettingPosition.ratioContainer = bettingPosition.find('.ratio');
+    bettingPosition.displayNameContainer.html(data.displayName);
     bettingPosition.setMineBetting = function (betting) {
-      this.mineBetting.html(Global.numberWithDot(betting));
+      this.mineBetting.html(Global.numberWithDot3(betting));
       data.mineValue = betting;
     };
     bettingPosition.setTotalBetting = function (betting) {
-      this.totalBetting.html(Global.numberWithDot(betting));
+      this.totalBetting.html(Global.numberWithDot3(betting));
       data.totalValue = betting;
     };
     data.setMineBetting = function (betting) {
       if (_self.userInfo.isHost) {
-        this.template.mineBetting.html("");
-        this.mineValue = 0;
+        data.template.mineBetting.hide();
+        data.mineValue = 0;
       } else {
-        this.template.mineBetting.runEffect(betting);
-        this.mineValue = betting;
+        data.template.mineBetting.show();
+        data.template.mineBetting.runEffect(betting);
+        data.mineValue = betting;
       }
     };
     data.setTotalBetting = function (betting) {
-      this.template.totalBetting.runEffect(betting);
-      this.totalValue = betting;
+      data.template.totalBetting.runEffect(betting);
+      data.totalValue = betting;
     };
     data.setStatus = function (winnerSlots) {
       data.template.removeClass('active disabled');
@@ -1183,11 +1120,38 @@ this.TWIST = this.TWIST || {};
         data.template.addClass('selected');
       }
     };
-    return bettingPosition;
+    data.setRatio = function (ratio) {
+      data.ratio = ratio;
+      data.template.ratioContainer.html(ratio);
+    };
+  };
+
+
+
+  p.setVitualBettingPrototype = function (data) {
+
+    var _self = this;
+    var vitualBetting = $('#' + "vitualBetting" + data.id);
+    vitualBetting.css(data);
+    data.vitualBetting = vitualBetting;
+    vitualBetting.on('click', function () {
+      if (_self.userInfo.isHost) {
+        _self.setSelectedBetting(data);
+      } else {
+        var emitData = {
+          value: _self.currentBetting.value,
+          currentBettingId: _self.currentBetting.id,
+          slotBettingId: data.id
+        };
+        _self.emitBetting(emitData);
+      }
+    });
+
+    vitualBetting.css(data);
   };
 
   p.addCoins = function (item, coinTittle) {
-    var coinItem = $(TWIST.HTMLTemplate['xocDia/coin-item']);
+    var coinItem = $(TWIST.HTMLTemplate['taiXiu/coin-item']);
     if (item) {
       coinItem.addClass("red-coin");
     }
@@ -1207,9 +1171,9 @@ this.TWIST = this.TWIST || {};
   p.setRemainingTime = function (remainingTime) {
     if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
-        x: this.options.width / 2 + 5,
-        y: this.options.height / 2 - 130,
-        font: "bold 25px Roboto Condensed",
+        x: 287,
+        y: 23,
+        font: "bold 20px Roboto Condensed",
         color: "blue"
       });
     }
@@ -1223,6 +1187,7 @@ this.TWIST = this.TWIST || {};
       });
       if (!dataItem)
         return;
+      item.setRatio(dataItem.ratio);
       item.setMineBetting(dataItem.mineBetting);
       _self.userReBetting(item, dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
@@ -1290,10 +1255,7 @@ this.TWIST = this.TWIST || {};
       item.setMineBetting(0);
       item.setTotalBetting(0);
     });
-    this.bowl.set({
-      y: initOptions.bowlPosition.y,
-      alpha: 1
-    });
+    this.bowl.set(initOptions.bowlPosition);
     this.host.setMessage("Chờ ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
@@ -1333,6 +1295,6 @@ this.TWIST = this.TWIST || {};
     this.host.setMessage("Trả tiền !");
   };
 
-  TWIST.XocDia = XocDia;
+  TWIST.TaiXiu = TaiXiu;
 
 })();

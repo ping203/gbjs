@@ -43,8 +43,17 @@ this.Global = this.Global || {};
       if (isNaN(x))
         return 0;
       var parts = x.toString().split(".");
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      return parts.join(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (parts[1])
+        parts[1] = parts[1].substring(0, 3);
+      var returnSting = parts.join(".");
+      while ((returnSting.length > parts[0].length || parts[0].length <= 3) && returnSting.length > 3) {
+        returnSting = returnSting.substring(0, returnSting.length - 1);
+      }
+      if (returnSting[returnSting.length - 1] == '.') {
+        returnSting = returnSting.substring(0, returnSting.length - 1);
+      }
+      return returnSting;
     },
     numberWithDot2: function (number) {
       if (isNaN(number)) {
@@ -57,6 +66,28 @@ this.Global = this.Global || {};
           character = "M";
         } else if (numberAbs >= 1000) {
           displayNumber = Global.numberWithDot(Math.floor(numberAbs / 1000));
+          character = "K";
+        } else {
+          displayNumber = Global.numberWithDot(numberAbs);
+          character = "";
+        }
+        if (number < 0) {
+          displayNumber = "-" + displayNumber;
+        }
+        return displayNumber + character;
+      }
+    },
+    numberWithDot3: function (number) {
+      if (isNaN(number)) {
+        return number;
+      } else {
+        var displayNumber, character;
+        var numberAbs = Math.abs(number);
+        if (numberAbs >= 1000000) {
+          displayNumber = Global.numberWithDot(numberAbs / 1000000);
+          character = "M";
+        } else if (numberAbs >= 1000) {
+          displayNumber = Global.numberWithDot(numberAbs / 1000);
           character = "K";
         } else {
           displayNumber = Global.numberWithDot(numberAbs);
