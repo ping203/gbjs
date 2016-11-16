@@ -26,8 +26,8 @@ this.TWIST = this.TWIST || {};
 
 
   var p = InRoomGame.prototype = new TWIST.BaseGame();
-  
-  p.statusList = $.extend({},InRoomGame.statusList);
+
+  p.statusList = $.extend({}, InRoomGame.statusList);
 
   p.initInRoomGame = function () {
     this.initBaseGame();
@@ -116,7 +116,7 @@ this.TWIST = this.TWIST || {};
     this.wrapper.css({
       width: canvas.width(),
       height: canvas.height(),
-      position : "relative"
+      position: "relative"
     });
   };
 
@@ -247,7 +247,7 @@ this.TWIST = this.TWIST || {};
       $.extend(Player, data);
       Player.render();
     }
-    if(this._listenChangeMoney){
+    if (this._listenChangeMoney) {
       this._listenChangeMoney = false;
       this.userMoney.runEffect(data.money);
     }
@@ -287,6 +287,17 @@ this.TWIST = this.TWIST || {};
     this.emit("ping");
   };
 
+  p.resetPlayerStatus = function (resetDefault) {
+    var players = (this.playersContainer && this.playersContainer.children) || [];
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      var options = {};
+      if (resetDefault)
+        options.default = "";
+      player.setPlayerStatus("", options);
+    }
+  };
+
   p.STATUS_WAITING_FOR_PLAYER = function () {
     this.buttonBar.hide();
   };
@@ -294,6 +305,7 @@ this.TWIST = this.TWIST || {};
   p.STATUS_WAITING_FOR_START = function () {
     this.buttonBar.show();
     this.buttonBar.find('.button').hide();
+    this.resetPlayerStatus(true);
 
     var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
     if (playerData && playerData.isRoomMaster) {

@@ -145,6 +145,7 @@ this.TWIST = this.TWIST || {};
     var Player = this.getPlayerByUuid(data.uuid);
     if (Player) {
       Player.clearTimer();
+      Player.setPlayerStatus("Bỏ lượt !");
       if (data.uuid === this.userInfo.uuid) {
         this.hitButton.hide();
         this.foldTurnButton.hide();
@@ -183,6 +184,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onEndTurn = function (data) {
+    this.resetPlayerStatus();
     this.desk.lastDraftCards = undefined;
     this.desk.clear();
     this.hitButton.hide();
@@ -253,7 +255,7 @@ this.TWIST = this.TWIST || {};
       });
       player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        player.gameResultString = player.gameResultString || "Thua";
+        player.gameResultString = player.gameResultString || ("Thua " + cardList.length + " lá!") ;
       } else if (parseInt(player.changeMoney) > 0) {
         if(player.uuid === this.userInfo.uuid){
           resultData.isWinner = true;
