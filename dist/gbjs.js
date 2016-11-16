@@ -2193,10 +2193,10 @@ this.TWIST = this.TWIST || {};
     var statusContainer = this.status;
     var statusText = statusContainer.getChildAt(1);
     var statusBg = statusContainer.getChildAt(0);
-    statusContainer.default = (options && options.default) || statusContainer.default;
-    status = status || statusContainer.default;
     options = options || {};
-    statusContainer.visible = (status == true);
+    statusContainer.default = (typeof options.default === "undefined") ? statusContainer.default : options.default;
+    status = status || statusContainer.default;
+    statusContainer.visible = status ? true : false;
     
     options.color = options.color || "yellowgreen";
     options.font = options.font || 'bold 20px Roboto Condensed';
