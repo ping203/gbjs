@@ -4102,7 +4102,7 @@ this.TWIST = this.TWIST || {};
         moneyChange: Global.numberWithDot(item.changeMoney),
         resultText: item.gameResultString,
         cardList: cardList,
-        isWinnerClass: item.isWinner ? "winner" : ""
+        isWinnerClass: item.isWinner ? "winner-player" : ""
       });
       container.append($(resultText));
     });
@@ -4391,14 +4391,12 @@ this.TWIST = this.TWIST || {};
       });
       player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        if (nomalWinType) {
-          player.gameResultString = "Thua " + cardList.length + " lá!";
-        } else {
-          player.gameResultString = player.gameResultString || "Thua";
+        player.gameResultString = player.gameResultString || "Thua";
+      } else if (parseInt(player.changeMoney) > 0) {
+        if(player.uuid === this.userInfo.uuid){
+          resultData.isWinner = true;
         }
-
-      } else if ((parseInt(player.changeMoney) > 0) && (player.uuid === this.userInfo.uuid)) {
-        resultData.isWinner = true;
+        player.isWinner = true;
         player.gameResultString = player.gameResultString || "Thắng";
       } else {
         player.gameResultString = player.gameResultString || "Hòa";

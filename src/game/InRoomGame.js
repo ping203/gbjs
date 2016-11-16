@@ -511,7 +511,7 @@ this.TWIST = this.TWIST || {};
         moneyChange: Global.numberWithDot(item.changeMoney),
         resultText: item.gameResultString,
         cardList: cardList,
-        isWinnerClass: item.isWinner ? "winner" : ""
+        isWinnerClass: item.isWinner ? "winner-player" : ""
       });
       container.append($(resultText));
     });

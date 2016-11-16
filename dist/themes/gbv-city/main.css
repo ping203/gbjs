@@ -237,9 +237,9 @@ and open the template in the editor.
     text-shadow: 0 0 15px #1476fb; }
   .twist .user-result-string {
     color: #93c6fd; }
-  .twist .winner .result-item-username, .twist .winner .user-result-string {
+  .twist .result-item.winner-player .result-item-username, .twist .winner .user-result-string {
     color: #fedc32; }
-  .twist .winner span.result-item-money {
+  .twist .result-item.winner-player span.result-item-money {
     text-shadow: 0 0 15px #fec52e; }
   .twist .result-card-list-container {
     display: inline-flex;

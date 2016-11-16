@@ -261,10 +261,10 @@ span.result-item-money {
 .user-result-string {
     color: #93c6fd;
 }
-.winner .result-item-username,.winner .user-result-string {
+.result-item.winner-player .result-item-username,.winner .user-result-string {
     color : #fedc32;
 }
-.winner span.result-item-money{
+.result-item.winner-player span.result-item-money{
     text-shadow: 0 0 15px #fec52e;
 }
 .result-card-list-container {
