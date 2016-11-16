@@ -289,15 +289,11 @@ this.TWIST = this.TWIST || {};
     var statusContainer = this.status;
     var statusText = statusContainer.getChildAt(1);
     var statusBg = statusContainer.getChildAt(0);
-    if (options) {
-      this.status.options = options;
-    }
-    if (!status || !status.length) {
-      status = (this.status.options && this.status.options.default) || "";
-      options = this.status.options;
-    }
-    if (!options)
-      options = {};
+    statusContainer.default = (options && options.default) || statusContainer.default;
+    status = status || statusContainer.default;
+    options = options || {};
+    statusContainer.visible = (status == true);
+    
     options.color = options.color || "yellowgreen";
     options.font = options.font || 'bold 20px Roboto Condensed';
     options.x = options.x || 0;
@@ -306,7 +302,6 @@ this.TWIST = this.TWIST || {};
     options.textBaseline = options.textBaseline || 'bottom';
     $.extend(statusText, options);
     $.extend(statusBg, options);
-    statusContainer.visible = true;
     statusText.text = statusBg.text = status;
     statusText.shadow = new createjs.Shadow('black', 0, 0, 10);
     statusBg.x = options.x + 1;
@@ -536,8 +531,8 @@ this.TWIST = this.TWIST || {};
       x: card.x + this.hand.x + this.x - draftPosition.x,
       y: card.y + this.hand.y + this.y - draftPosition.y,
       rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0,
-      scaleX : bai.scale,
-      scaleY : bai.scale
+      scaleX: bai.scale,
+      scaleY: bai.scale
     });
     draftCards.addChild(card);
     createjs.Tween.get(card).to({
@@ -1075,7 +1070,7 @@ this.TWIST = this.TWIST || {};
     var moneyChangeContainer = this.getChildByName('moneyChangeEffect');
     var startY = (options && options.startY) || ((type === "lose") ? 100 : 0);
     var endY = (options && options.endY) || ((type === "lose") ? 0 : 100);
-    moneyChangeContainer.set({visible: true, y: startY, alpha : 0.3});
+    moneyChangeContainer.set({visible: true, y: startY, alpha: 0.3});
     var moneyChangeBg = moneyChangeContainer.getChildAt(0);
     var moneyChangeText = moneyChangeContainer.getChildAt(1);
     var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
@@ -1086,7 +1081,7 @@ this.TWIST = this.TWIST || {};
       moneyChangeText.color = "yellow";
       moneyChangeBg.text = moneyChangeText.text = "+ " + absMoney;
     }
-    createjs.Tween.get(moneyChangeContainer).to({y: endY, alpha : 1}, _animationTime + 200).call(function () {
+    createjs.Tween.get(moneyChangeContainer).to({y: endY, alpha: 1}, _animationTime + 200).call(function () {
       setTimeout(function () {
         moneyChangeContainer.visible = false;
         moneyChangeText.text = '';
