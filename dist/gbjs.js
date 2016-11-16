@@ -4272,6 +4272,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onHitTurn = function (data) {
+    this._hasNewTurn = data._hasNewTurn;
     var currentUuid = data.uuid;
     var currentPlayer = this.getCurrentPlayer();
     if (currentPlayer.handCards.children.length > 0) {
@@ -4295,7 +4296,8 @@ this.TWIST = this.TWIST || {};
     var Player = this.getPlayerByUuid(data.uuid);
     if (Player) {
       Player.clearTimer();
-      Player.setPlayerStatus("Bỏ lượt !");
+      if(!this._hasNewTurn)
+        Player.setPlayerStatus("Bỏ lượt !");
       if (data.uuid === this.userInfo.uuid) {
         this.hitButton.hide();
         this.foldTurnButton.hide();
@@ -4334,6 +4336,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onEndTurn = function (data) {
+    data._hasNewTurn = true;
     this.resetPlayerStatus();
     this.desk.lastDraftCards = undefined;
     this.desk.clear();
