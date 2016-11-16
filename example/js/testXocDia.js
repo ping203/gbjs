@@ -71,7 +71,7 @@
             id : 2,
             value : 6
         },{
-            id : 4,
+            id : 3,
             value : 7
         }]
       },
@@ -103,20 +103,20 @@
         }],
       nextTime: 1000
     }
-    , {
-      event: "userBetting",
-      data: {
-        totalBetting: Math.random() * 10600,
-        mineBetting: Math.random() * 3611,
-        id: 0
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "cancelBettingResult",
-      data: {},
-      nextTime: 1000
-    }
+//    , {
+//      event: "userBetting",
+//      data: {
+//        totalBetting: Math.random() * 10600,
+//        mineBetting: Math.random() * 3611,
+//        id: 0
+//      },
+//      nextTime: 1000
+//    }
+//    , {
+//      event: "cancelBettingResult",
+//      data: {},
+//      nextTime: 1000
+//    }
 //    , {
 //      event: "error",
 //      data: {
@@ -125,13 +125,13 @@
 //      },
 //      nextTime: 1000
 //    }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus: 2
-      },
-      nextTime: 1000
-    }
+//    , {
+//      event: "changeStatus",
+//      data: {
+//        newStatus: 2
+//      },
+//      nextTime: 1000
+//    }
     , {
       event: "changeStatus",
       data: {
@@ -139,58 +139,58 @@
       },
       nextTime: 1000
     }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus: 4
-      },
-      nextTime: 1000
-    }
-    , {
-      event: "changeStatus",
-      data: {
-        newStatus: 5
-      },
-      nextTime: 20000
-    }
-    , {
-      event: "openDisk",
-      data: {
-        map: [0, 1, 0, 1],
-        winnerSlots: [1, 2]
-      },
-      nextTime: 100
-    },
-    , {
-      event: "hostPayment",
-      data: {
-        money: Math.random() * 20000,
-        changeMoney: (Math.random() - 0) * 4000,
-        slotWinMoneys: [{
-            id: 0,
-            money: Math.random() * 2000,
-          }, {
-            id: 1,
-            money: Math.random() * 2000,
-          }, {
-            id: 2,
-            money: Math.random() * 2000,
-          }, {
-            id: 3,
-            money: Math.random() * 2000,
-          }, {
-            id: 4,
-            money: Math.random() * 2000,
-          }, {
-            id: 5,
-            money: Math.random() * 2000,
-          }, {
-            id: 5,
-            money: Math.random() * 2000,
-          }]
-      },
-      nextTime: 100
-    }
+//    , {
+//      event: "changeStatus",
+//      data: {
+//        newStatus: 4
+//      },
+//      nextTime: 1000
+//    }
+//    , {
+//      event: "changeStatus",
+//      data: {
+//        newStatus: 5
+//      },
+//      nextTime: 20000
+//    }
+//    , {
+//      event: "openDisk",
+//      data: {
+//        map: [0, 1, 0, 1],
+//        winnerSlots: [1, 2]
+//      },
+//      nextTime: 100
+//    },
+//    , {
+//      event: "hostPayment",
+//      data: {
+//        money: Math.random() * 20000,
+//        changeMoney: (Math.random() - 0) * 4000,
+//        slotWinMoneys: [{
+//            id: 0,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 1,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 2,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 3,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 4,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 5,
+//            money: Math.random() * 2000,
+//          }, {
+//            id: 5,
+//            money: Math.random() * 2000,
+//          }]
+//      },
+//      nextTime: 100
+//    }
 //    , {
 //      event: "changeHost",
 //      data: {

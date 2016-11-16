@@ -1048,7 +1048,7 @@ this.FATE = this.FATE || {};
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
-'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button blue button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button blue button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button blue button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
 'taiXiu/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'taiXiu/coin-item':'<div class="coin-item"></div>',
@@ -1067,7 +1067,7 @@ this.FATE = this.FATE || {};
 'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
 'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
-'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button blue button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button blue button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button blue button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
 'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
@@ -4389,15 +4389,20 @@ this.TWIST = this.TWIST || {};
       cardList.sort(function (a, b) {
         return a - b;
       });
+      player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        if (cardList.length === this.options.numberCardsInHand) {
-          player.gameResultString = "Thua cóng";
-        } else
+        if (nomalWinType) {
           player.gameResultString = "Thua " + cardList.length + " lá!";
+        } else {
+          player.gameResultString = player.gameResultString || "Thua";
+        }
+
       } else if ((parseInt(player.changeMoney) > 0) && (player.uuid === this.userInfo.uuid)) {
         resultData.isWinner = true;
+        player.gameResultString = player.gameResultString || "Thắng";
+      } else {
+        player.gameResultString = player.gameResultString || "Hòa";
       }
-      player.gameResultString = winTypeMap[player.winType];
       var Player = this.getPlayerByUuid(player.uuid);
       if (Player) {
         Player.clearTimer();
@@ -9712,7 +9717,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
-    console.log("listChip");
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -10428,7 +10432,7 @@ this.TWIST = this.TWIST || {};
       y: initOptions.bowlPosition.y,
       alpha: 1
     });
-    this.host.setMessage("Chờ ván mới !");
+    this.host.setMessage("Chuẩn bị ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
     }
@@ -10437,13 +10441,13 @@ this.TWIST = this.TWIST || {};
   p.STATUS_SHAKE_DISK = function () {
     this.host.background.show();
     this.emit("xocDia");
-    this.host.setMessage("Xóc, xóc !!!");
+    this.host.setMessage("Xóc đĩa !");
   };
 
   p.STATUS_BETTING = function (data) {
     this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
-    this.host.setMessage("Đặt đi anh ơi");
+    this.host.setMessage("Đặt cược đi anh ơi !");
     if (!this.userInfo.isHost) {
       this.reBettingButton.show();
       this.cancelBettingButton.show();
@@ -10455,16 +10459,16 @@ this.TWIST = this.TWIST || {};
     if (this.host.name)
       defaultTime = 15;
     this.setRemainingTime(data.remainingTime || defaultTime);
-    this.host.setMessage("Chờ nhà cái thừa thiếu");
+    this.host.setMessage("Thời gian cái thừa thiếu !");
     if (this.userInfo.isHost) {
-      this.sellEvenButton.show();
+//      this.sellEvenButton.show();
       this.sellOddButton.show();
     }
   };
 
   p.END_GAME = function () {
     this.sellPopup.hide();
-    this.host.setMessage("Trả tiền !");
+    this.host.setMessage("Mở bát !");
   };
 
   TWIST.XocDia = XocDia;

@@ -251,15 +251,20 @@ this.TWIST = this.TWIST || {};
       cardList.sort(function (a, b) {
         return a - b;
       });
+      player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        if (cardList.length === this.options.numberCardsInHand) {
-          player.gameResultString = "Thua cóng";
-        } else
+        if (nomalWinType) {
           player.gameResultString = "Thua " + cardList.length + " lá!";
+        } else {
+          player.gameResultString = player.gameResultString || "Thua";
+        }
+
       } else if ((parseInt(player.changeMoney) > 0) && (player.uuid === this.userInfo.uuid)) {
         resultData.isWinner = true;
+        player.gameResultString = player.gameResultString || "Thắng";
+      } else {
+        player.gameResultString = player.gameResultString || "Hòa";
       }
-      player.gameResultString = winTypeMap[player.winType];
       var Player = this.getPlayerByUuid(player.uuid);
       if (Player) {
         Player.clearTimer();

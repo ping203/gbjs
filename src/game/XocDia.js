@@ -578,7 +578,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
-    console.log("listChip");
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -1294,7 +1293,7 @@ this.TWIST = this.TWIST || {};
       y: initOptions.bowlPosition.y,
       alpha: 1
     });
-    this.host.setMessage("Chờ ván mới !");
+    this.host.setMessage("Chuẩn bị ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
     }
@@ -1303,13 +1302,13 @@ this.TWIST = this.TWIST || {};
   p.STATUS_SHAKE_DISK = function () {
     this.host.background.show();
     this.emit("xocDia");
-    this.host.setMessage("Xóc, xóc !!!");
+    this.host.setMessage("Xóc đĩa !");
   };
 
   p.STATUS_BETTING = function (data) {
     this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
-    this.host.setMessage("Đặt đi anh ơi");
+    this.host.setMessage("Đặt cược đi anh ơi !");
     if (!this.userInfo.isHost) {
       this.reBettingButton.show();
       this.cancelBettingButton.show();
@@ -1321,16 +1320,16 @@ this.TWIST = this.TWIST || {};
     if (this.host.name)
       defaultTime = 15;
     this.setRemainingTime(data.remainingTime || defaultTime);
-    this.host.setMessage("Chờ nhà cái thừa thiếu");
+    this.host.setMessage("Thời gian cái thừa thiếu !");
     if (this.userInfo.isHost) {
-      this.sellEvenButton.show();
+//      this.sellEvenButton.show();
       this.sellOddButton.show();
     }
   };
 
   p.END_GAME = function () {
     this.sellPopup.hide();
-    this.host.setMessage("Trả tiền !");
+    this.host.setMessage("Mở bát !");
   };
 
   TWIST.XocDia = XocDia;
