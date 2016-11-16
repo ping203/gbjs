@@ -137,16 +137,18 @@ this.TWIST = this.TWIST || {};
   };
 
   p.onNotifyOne = function (data) {
-    var currentUuid = data.uuid;
-    var currentPlayer = this.getCurrentPlayer();
-    currentPlayer.setPlayerStatus("Báo 1 !");
+    var player = this.getPlayerByUuid(data.uuid);
+    if (player)
+      player.setPlayerStatus("Báo 1 !",{
+        default : "Báo 1 !"
+      });
   };
 
   p.foldTurn = function (data) {
     var Player = this.getPlayerByUuid(data.uuid);
     if (Player) {
       Player.clearTimer();
-      if(!this._hasNewTurn)
+      if (!this._hasNewTurn)
         Player.setPlayerStatus("Bỏ lượt !");
       if (data.uuid === this.userInfo.uuid) {
         this.hitButton.hide();
@@ -258,9 +260,9 @@ this.TWIST = this.TWIST || {};
       });
       player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        player.gameResultString = player.gameResultString || ("Thua " + cardList.length + " lá!") ;
+        player.gameResultString = player.gameResultString || ("Thua " + cardList.length + " lá!");
       } else if (parseInt(player.changeMoney) > 0) {
-        if(player.uuid === this.userInfo.uuid){
+        if (player.uuid === this.userInfo.uuid) {
           resultData.isWinner = true;
         }
         player.isWinner = true;
