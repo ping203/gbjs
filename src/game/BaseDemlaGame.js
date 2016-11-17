@@ -23,7 +23,7 @@ this.TWIST = this.TWIST || {};
 
   p.handCardSelected = function (card) {
     var lastDraftCard = this.desk.lastDraftCards;
-    if (card && lastDraftCard) {
+    if (card && lastDraftCard && lastDraftCard.length) {
       var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
       if (result.length > 0)
         card.removeAllSelected();
@@ -132,15 +132,17 @@ this.TWIST = this.TWIST || {};
 
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
-      this.foldTurnButton.show();
+      if (!data._hideFoldButton) {
+        this.foldTurnButton.show();
+      }
     }
   };
 
   p.onNotifyOne = function (data) {
     var player = this.getPlayerByUuid(data.uuid);
     if (player)
-      player.setPlayerStatus("Báo 1 !",{
-        default : "Báo 1 !"
+      player.setPlayerStatus("Báo 1 !", {
+        default: "Báo 1 !"
       });
   };
 
@@ -189,6 +191,7 @@ this.TWIST = this.TWIST || {};
 
   p.onEndTurn = function (data) {
     data._hasNewTurn = true;
+    data._hideFoldButton = true;
     this.resetPlayerStatus();
     this.desk.lastDraftCards = undefined;
     this.desk.clear();

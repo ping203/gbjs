@@ -54,7 +54,7 @@ this.TWIST = this.TWIST || {};
     this.desk.setRemainingTime(parseInt(data.remainingTime));
     this.callSamButton.show();
     this.foldSamButton.show();
-    this.sortCardButton.show();
+    this.sortCardButton.hide();
     this.userCallSam = null;
   };
 
