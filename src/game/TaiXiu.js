@@ -119,7 +119,7 @@ this.TWIST = this.TWIST || {};
       , {id: 29, name: "Lục", top: 338, left: 564, width: 89, height: 75, types: [5, 'bottom']}
       , {id: 30, name: "Lẻ", top: 338, left: 653, width: 117, height: 75, types: [6, 'bottom', 'right', 'bottom-right']}
     ];
-    
+
     this.bettingPositions.reverse();
     this.statusList = {
       1: "STATUS_WAITING_FOR_START",
@@ -147,7 +147,8 @@ this.TWIST = this.TWIST || {};
 
     this.setHost(data.host);
     this.changeStatus({
-      newStatus: data.status
+      newStatus: data.status,
+      disableRebetting : data.disableRebetting
     });
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
@@ -691,8 +692,8 @@ this.TWIST = this.TWIST || {};
       var newY = toPosition.y + (Math.random() - 0.5) * 5;
       createjs.Tween.get(chip)
               .to({
-                x : newX,
-                y : newY
+                x: newX,
+                y: newY
               }, initOptions.moveChipAnimationTime)
               .call(function () {
                 if (typeof callback === 'function') {
@@ -1072,9 +1073,9 @@ this.TWIST = this.TWIST || {};
       bettingPosition.addClass('type-' + item);
     });
     bettingPosition.mineBetting = bettingPosition.find('.mine-betting');
-    this.addNumberEffect(bettingPosition.mineBetting,3);
+    this.addNumberEffect(bettingPosition.mineBetting, 3);
     bettingPosition.totalBetting = bettingPosition.find('.total-betting');
-    this.addNumberEffect(bettingPosition.totalBetting,3);
+    this.addNumberEffect(bettingPosition.totalBetting, 3);
     bettingPosition.displayNameContainer = bettingPosition.find('.name');
     bettingPosition.displayNameContainer.html(data.displayName);
     bettingPosition.ratioContainer = bettingPosition.find('.ratio');
@@ -1274,7 +1275,9 @@ this.TWIST = this.TWIST || {};
     this.host.background.hide();
     this.host.setMessage("Đặt đi anh ơi");
     if (!this.userInfo.isHost) {
-      this.reBettingButton.show();
+      if (!data.disableRebetting) {
+        this.reBettingButton.show();
+      }
       this.cancelBettingButton.show();
     }
   };
