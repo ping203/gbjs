@@ -134,6 +134,9 @@ this.TWIST = this.TWIST || {};
       if (!data._hideFoldButton) {
         this.foldTurnButton.show();
       }
+    } else {
+      this.hitButton.hide();
+      this.foldTurnButton.hide();
     }
   };
 

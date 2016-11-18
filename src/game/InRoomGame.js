@@ -63,7 +63,7 @@ this.TWIST = this.TWIST || {};
       _self.inviteListTemplate.append(invitePosition);
       invitePosition.css({
         top: positionData.y,
-        left: positionData.x
+        left: positionData.x + 11
       });
       if (!index)
         invitePosition.hide();

@@ -740,6 +740,11 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
+    if(this.userInfo.isHost){
+      this.showError({
+        message : "Bạn đã làm nhà cái !"
+      });
+    }
     this.setShowChipButtons();
     if (host && host.username) {
       this.host.name = host.username;
@@ -931,6 +936,7 @@ this.TWIST = this.TWIST || {};
         id: bettingData.id,
         value: _self.sellPopup.currentValue
       };
+      _self.sellPopup.hide();
       _self.emit("sellBetting", emitData);
     }
 

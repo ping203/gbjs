@@ -3663,7 +3663,7 @@ this.TWIST = this.TWIST || {};
       _self.inviteListTemplate.append(invitePosition);
       invitePosition.css({
         top: positionData.y,
-        left: positionData.x
+        left: positionData.x + 11
       });
       if (!index)
         invitePosition.hide();
@@ -4294,6 +4294,9 @@ this.TWIST = this.TWIST || {};
       if (!data._hideFoldButton) {
         this.foldTurnButton.show();
       }
+    } else {
+      this.hitButton.hide();
+      this.foldTurnButton.hide();
     }
   };
 
@@ -7438,6 +7441,11 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
+    if(this.userInfo.isHost){
+      this.showError({
+        message : "Bạn đã làm nhà cái !"
+      });
+    }
     this.setShowChipButtons();
     if (host && host.username) {
       this.host.name = host.username;
@@ -7629,6 +7637,7 @@ this.TWIST = this.TWIST || {};
         id: bettingData.id,
         value: _self.sellPopup.currentValue
       };
+      _self.sellPopup.hide();
       _self.emit("sellBetting", emitData);
     }
 
@@ -9421,7 +9430,8 @@ this.TWIST = this.TWIST || {};
 
     this.setHost(data.host);
     this.changeStatus({
-      newStatus: data.status
+      newStatus: data.status,
+      disableRebetting: data.disableRebetting
     });
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
@@ -10040,6 +10050,11 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
+    if(this.userInfo.isHost){
+      this.showError({
+        message : "Bạn đã làm nhà cái !"
+      });
+    }
     this.setShowChipButtons();
     if (host && host.username) {
       this.host.name = host.username;
@@ -10162,6 +10177,7 @@ this.TWIST = this.TWIST || {};
         id: bettingData.id,
         value: _self.sellPopup.currentValue
       };
+      _self.sellPopup.hide();
       _self.emit("sellBetting", emitData);
     }
 
@@ -10541,7 +10557,9 @@ this.TWIST = this.TWIST || {};
     this.host.background.hide();
     this.host.setMessage("Đặt cược đi anh ơi !");
     if (!this.userInfo.isHost) {
-      this.reBettingButton.show();
+      if (!data.disableRebetting) {
+        this.reBettingButton.show();
+      }
       this.cancelBettingButton.show();
     }
   };
