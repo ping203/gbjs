@@ -755,12 +755,24 @@ this.TWIST = this.TWIST || {};
     for (var j = 0; j < draftCards.length; j++) {
       if (cardIndex == draftCards[j].cardValue) {
         var position = draftCards[j].localToGlobal(0, 0);
+        this.rePositionDraftCards(j);
         draftCards[j].x = position.x;
         draftCards[j].y = position.y;
         var card = draftCards.splice(j, 1)[0];
         return card;
       }
     }
+  };
+  
+  p.rePositionDraftCards = function(indexPosition){
+    var listCard = this.draftCards.children;
+    listCard.forEach(function(item,index){
+      if(index > indexPosition){
+        item.set({
+          x : listCard[index - 1].x
+        });
+      }
+    });
   };
 
   p.getDraftCardsAbsolutePosition = function () {
