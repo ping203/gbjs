@@ -126,16 +126,26 @@
       data: {
         newStatus: 5
       },
-      nextTime: 10000
+      nextTime: 1000
     }
     , {
       event: "openDisk",
       data: {
         map: [0, 1, 0],
-        winnerSlots: [20 , 21, 22,23,24,25,26,27,28,29,30]
+        winnerSlots: [15,20 , 21, 22,23,24,25,26,27,28,29,30]
       },
       nextTime: 100
     },
+    , {
+      event: "historyToggle",
+      data: {},
+      nextTime: 1000
+    },
+//    , {
+//      event: "historyToggle",
+//      data: {},
+//      nextTime: 2000
+//    },
     , {
       event: "hostPayment",
       data: {

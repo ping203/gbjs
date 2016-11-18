@@ -2362,6 +2362,123 @@ and open the template in the editor.
     box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
   100% {
     box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+    .twist #taixiu-wrapper .type-id0 .name {
+      background-image: url("images/taixiu//three-one.png"); }
+    .twist #taixiu-wrapper .type-id1 .name {
+      background-image: url("images/taixiu//three-two.png"); }
+    .twist #taixiu-wrapper .type-id2 .name {
+      background-image: url("images/taixiu//three-three.png"); }
+    .twist #taixiu-wrapper .type-id3 .name {
+      background-image: url("images/taixiu//dice-group.png"); }
+    .twist #taixiu-wrapper .type-id4 .name {
+      background-image: url("images/taixiu//three-four.png"); }
+    .twist #taixiu-wrapper .type-id5 .name {
+      background-image: url("images/taixiu//three-five.png"); }
+    .twist #taixiu-wrapper .type-id6 .name {
+      background-image: url("images/taixiu//three-six.png"); }
+    .twist #taixiu-wrapper .type-id24 .name {
+      background-image: url("images/taixiu//dice1.png"); }
+    .twist #taixiu-wrapper .type-id25 .name {
+      background-image: url("images/taixiu//dice2.png"); }
+    .twist #taixiu-wrapper .type-id26 .name {
+      background-image: url("images/taixiu//dice3.png"); }
+    .twist #taixiu-wrapper .type-id27 .name {
+      background-image: url("images/taixiu//dice4.png"); }
+    .twist #taixiu-wrapper .type-id28 .name {
+      background-image: url("images/taixiu//dice5.png"); }
+    .twist #taixiu-wrapper .type-id29 .name {
+      background-image: url("images/taixiu//dice6.png"); }
+    .twist #taixiu-wrapper .dice0 {
+      background-image: url("images/taixiu//dice1.png"); }
+    .twist #taixiu-wrapper .dice1 {
+      background-image: url("images/taixiu//dice2.png"); }
+    .twist #taixiu-wrapper .dice2 {
+      background-image: url("images/taixiu//dice3.png"); }
+    .twist #taixiu-wrapper .dice3 {
+      background-image: url("images/taixiu//dice4.png"); }
+    .twist #taixiu-wrapper .dice4 {
+      background-image: url("images/taixiu//dice5.png"); }
+    .twist #taixiu-wrapper .dice5 {
+      background-image: url("images/taixiu//dice6.png"); }
+    .twist #taixiu-wrapper .taixiu-history {
+      position: fixed;
+      z-index: 10;
+      width: 200px;
+      right: -200px;
+      height: 100%;
+      top: 0;
+      overflow: hidden;
+      transition: right 0.3s;
+      background-color: rgba(52, 67, 108, 0.9);
+      font-weight: bold; }
+      .twist #taixiu-wrapper .taixiu-history.active {
+        right: 0; }
+      .twist #taixiu-wrapper .taixiu-history .taixiu-history-title {
+        line-height: 40px;
+        height: 40px;
+        text-align: center;
+        font-size: 18px;
+        color: white;
+        position: relative;
+        font-weight: bold;
+        background-color: #6983c6;
+        cursor: pointer; }
+        .twist #taixiu-wrapper .taixiu-history .taixiu-history-title:before {
+          position: absolute;
+          left: 10px;
+          top: 0;
+          content: ">";
+          color: #4a65ab; }
+      .twist #taixiu-wrapper .taixiu-history .taixiu-history-content {
+        overflow: hidden;
+        height: calc(100% - 40px); }
+        .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item {
+          box-sizing: content-box;
+          height: 50px;
+          border-bottom: 1px solid #405385;
+          line-height: 50px;
+          position: relative;
+          font-size: 14px; }
+          .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-number {
+            border-radius: 15px;
+            height: 30px;
+            width: 30px;
+            line-height: 30px;
+            text-align: center;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            box-sizing: border-box;
+            border: 1px solid #405385;
+            color: #c4d0fd; }
+          .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-type {
+            top: 0;
+            left: 50px;
+            width: 40px;
+            text-align: center;
+            position: absolute; }
+            .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-type.tai:after {
+              content: "Tài";
+              color: #23cdfc; }
+            .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-type.xiu:after {
+              content: "Xỉu";
+              color: #fedc32; }
+          .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-dices {
+            top: 0;
+            right: 15px;
+            width: 100px;
+            text-align: center;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center; }
+            .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-dices .history-item-dice {
+              width: 23px;
+              height: 23px;
+              margin-right: 5px; }
+              .twist #taixiu-wrapper .taixiu-history .taixiu-history-content .history-item .history-item-dices .history-item-dice:last-child {
+                margin-right: 0; }
     .twist #taixiu-wrapper .gameCanvas {
       top: 0;
       left: 0;
@@ -2543,32 +2660,6 @@ and open the template in the editor.
         justify-content: center; }
         .twist #taixiu-wrapper .betting-position .ratio:before {
           content: "1:"; }
-      .twist #taixiu-wrapper .betting-position.type-id0 .name {
-        background-image: url("images/taixiu//three-one.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id1 .name {
-        background-image: url("images/taixiu//three-two.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id2 .name {
-        background-image: url("images/taixiu//three-three.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id3 .name {
-        background-image: url("images/taixiu//dice-group.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id4 .name {
-        background-image: url("images/taixiu//three-four.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id5 .name {
-        background-image: url("images/taixiu//three-five.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id6 .name {
-        background-image: url("images/taixiu//three-six.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id24 .name {
-        background-image: url("images/taixiu//dice1.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id25 .name {
-        background-image: url("images/taixiu//dice2.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id26 .name {
-        background-image: url("images/taixiu//dice3.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id27 .name {
-        background-image: url("images/taixiu//dice4.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id28 .name {
-        background-image: url("images/taixiu//dice5.png"); }
-      .twist #taixiu-wrapper .betting-position.type-id29 .name {
-        background-image: url("images/taixiu//dice6.png"); }
       .twist #taixiu-wrapper .betting-position.type-id7 .name:before {
         content: "Xỉu"; }
       .twist #taixiu-wrapper .betting-position.type-id8 .name:before {

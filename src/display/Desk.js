@@ -95,7 +95,7 @@ this.TWIST = this.TWIST || {};
     }else{
       this.deckCard.children.length = _value = value;
     } 
-    this.remainingCard.text = _value;
+    this.remainingCard.text = _value || "";
   };
 
   p.createDraftCards = function () {

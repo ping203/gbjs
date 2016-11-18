@@ -74,7 +74,6 @@ this.TWIST = this.TWIST || {};
       if (Player) {
         Player.handCards.cardList = handCards;
         Player.renderCards({
-          showPlayerCard: true,
           dragable: true
         });
       }

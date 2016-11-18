@@ -1016,7 +1016,7 @@ this.FATE = this.FATE || {};
 'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
 'buttonBar/entiretyButton':'<div class="button second red" id="entirety-card">\xD9</div>',
 'buttonBar/foldSamButton':'<div class="button third blue" id="fold-sam">B\u1ECF s\xE2m</div>',
-'buttonBar/foldTurnButton':'<div class="button fourth red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
+'buttonBar/foldTurnButton':'<div class="button second red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
 'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\u1ED1c b\xE0i</div>',
 'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
@@ -1047,11 +1047,19 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
 'taiXiu/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'taiXiu/coin-item':'<div class="coin-item"></div>',
+'taiXiu/history-item':'<div class="history-item">\n    <div class="history-item-number"></div>\n    <div class="history-item-type"></div>\n    <div class="history-item-dices">\n        <div class="history-item-dice" id="dice-position0"></div>\n        <div class="history-item-dice" id="dice-position1"></div>\n        <div class="history-item-dice" id="dice-position2"></div>\n    </div>\n</div>\n',
+'taiXiu/history':'<div class="taixiu-history">\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\n    <div class="taixiu-history-content">\n        <div class="taixiu-history-content-inner"></div>\n    </div>\n</div> \n',
 'taiXiu/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/listPlayer':'<div class="list-player"></div>',
 'taiXiu/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
@@ -1060,12 +1068,6 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
-'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
-'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
-'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
-'videoPoker/supportText':'<div class="support-text"></div>',
-'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
 'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1618,7 +1620,7 @@ this.TWIST = this.TWIST || {};
     }else{
       this.deckCard.children.length = _value = value;
     } 
-    this.remainingCard.text = _value;
+    this.remainingCard.text = _value || "";
   };
 
   p.createDraftCards = function () {
@@ -2331,7 +2333,7 @@ this.TWIST = this.TWIST || {};
           _self.sortCard();
         }
       } else {
-        this.visible = options.showPlayerCard;
+        this.visible = _self.showPlayerCard;
         if (options.openCard) {
           this.openCard(this.cardValue);
         }
@@ -4011,6 +4013,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawPlayer = function (playerData) {
     playerData.config = playerData.config || {};
+    $.extend(playerData,this.options.playerConfig);
     playerData.index = playerData.index || 0;
 
     var newPlayer = new TWIST.Player(playerData);
@@ -4219,7 +4222,6 @@ this.TWIST = this.TWIST || {};
       if (Player) {
         Player.handCards.cardList = handCards;
         Player.renderCards({
-          showPlayerCard: true,
           dragable: true
         });
       }
@@ -6576,7 +6578,11 @@ this.TWIST = this.TWIST || {};
   var initOptions = {
     maxPlayers: 5,
     numberCardsInHand: 10,
-    turnTime: 20000
+    turnTime: 20000,
+    playerConfig: {
+      showCardLength: false,
+      showPlayerCard: false
+    }
   };
   function SamGame(wrapper, options) {
     this.wrapper = $(wrapper);
@@ -6828,7 +6834,7 @@ this.TWIST = this.TWIST || {};
     this.setHost(data.host);
     this.changeStatus({
       newStatus: data.status,
-      disableRebetting : data.disableRebetting
+      disableRebetting: data.disableRebetting
     });
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
@@ -6849,6 +6855,8 @@ this.TWIST = this.TWIST || {};
     wrapperTemplate.className = "taixiu-wrapper";
     this.wrapperTemplate = $(wrapperTemplate);
     this.wrapper.append(wrapperTemplate);
+
+    this.initHistory();
 
     this.initBettingPositionList();
 
@@ -6937,6 +6945,10 @@ this.TWIST = this.TWIST || {};
       _self.showError({
         message: "Bán cửa thành công !"
       });
+    });
+
+    this.on("historyToggle", function (data) {
+      _self.history.toggle();
     });
   };
 
@@ -7320,6 +7332,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var newX = -150;
     var message, position;
+    this.history.addResult(data);
     this.chipResultContainer.removeAllChildren();
     data.map.forEach(function (item, index) {
       _self.createResultDice(item, index);
@@ -7431,6 +7444,49 @@ this.TWIST = this.TWIST || {};
     this.listPlayer.on('click', function () {
       _self.emit('getListPlayer');
     });
+  };
+
+  p.initHistory = function () {
+    var _self = this;
+    this.history = $(TWIST.HTMLTemplate['taiXiu/history']);
+    this.wrapperTemplate.append(this.history);
+    this.historyList = this.history.find('.taixiu-history-content');
+    this.historyListInner = this.history.find('.taixiu-history-content-inner');
+    var height = this.history.css('height');
+    this.historyListScroll = new IScroll(this.historyList[0], {scrollX: true, freeScroll: true});
+    this.historyListScroll.refresh();
+
+
+    this.historyTitle = this.history.find('.taixiu-history-title');
+
+    this.history.toggle = function () {
+      _self.history.toggleClass('active');
+    };
+    this.historyTitle.on('click', this.history.toggle);
+
+    this.history.addResult = function (data) {
+      var isTai = data.winnerSlots.find(function (item, index) {
+        return item == 15;
+      });
+      var isXiu = data.winnerSlots.find(function (item, index) {
+        return item == 7;
+      });
+      var resultTemplate = $(TWIST.HTMLTemplate['taiXiu/history-item']);
+      var itemType = resultTemplate.find('.history-item-type');
+      isTai && itemType.addClass('tai');
+      isXiu && itemType.addClass('xiu');
+
+      var itemNumber = resultTemplate.find('.history-item-number');
+      var resultNumber = 0;
+      data.map.forEach(function (item, index) {
+        resultNumber += (item + 1);
+        var dicePosition = resultTemplate.find('#dice-position' + index);
+        dicePosition.addClass("dice" + item);
+      });
+      itemNumber.html(resultNumber);
+      _self.historyListInner.append(resultTemplate);
+      _self.historyListScroll.refresh();
+    };
   };
 
   p.initBettingPositionList = function () {
@@ -7990,7 +8046,11 @@ this.TWIST = this.TWIST || {};
     var initOptions = {
         maxPlayers: 4,
         numberCardsInHand: 13,
-        turnTime: 20000
+        turnTime: 20000,
+        playerConfig : {
+          showCardLength : true,
+          showPlayerCard : true
+        }
     };
 
     function TLMNDemlaGame(wrapper, options) {

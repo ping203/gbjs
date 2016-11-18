@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    var game = new TWIST.HightLowGame('.wrapper');
+    var game = new TWIST.TLMNDemlaGame('.wrapper');
     TWIST.Sound.init();
 
 

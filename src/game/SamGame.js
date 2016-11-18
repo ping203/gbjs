@@ -6,7 +6,11 @@ this.TWIST = this.TWIST || {};
   var initOptions = {
     maxPlayers: 5,
     numberCardsInHand: 10,
-    turnTime: 20000
+    turnTime: 20000,
+    playerConfig: {
+      showCardLength: false,
+      showPlayerCard: false
+    }
   };
   function SamGame(wrapper, options) {
     this.wrapper = $(wrapper);

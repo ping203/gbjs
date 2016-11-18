@@ -6,7 +6,11 @@ this.TWIST = this.TWIST || {};
     var initOptions = {
         maxPlayers: 4,
         numberCardsInHand: 13,
-        turnTime: 20000
+        turnTime: 20000,
+        playerConfig : {
+          showCardLength : true,
+          showPlayerCard : true
+        }
     };
 
     function TLMNDemlaGame(wrapper, options) {

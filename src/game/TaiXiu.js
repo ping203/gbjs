@@ -148,7 +148,7 @@ this.TWIST = this.TWIST || {};
     this.setHost(data.host);
     this.changeStatus({
       newStatus: data.status,
-      disableRebetting : data.disableRebetting
+      disableRebetting: data.disableRebetting
     });
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
@@ -169,6 +169,8 @@ this.TWIST = this.TWIST || {};
     wrapperTemplate.className = "taixiu-wrapper";
     this.wrapperTemplate = $(wrapperTemplate);
     this.wrapper.append(wrapperTemplate);
+
+    this.initHistory();
 
     this.initBettingPositionList();
 
@@ -257,6 +259,10 @@ this.TWIST = this.TWIST || {};
       _self.showError({
         message: "Bán cửa thành công !"
       });
+    });
+
+    this.on("historyToggle", function (data) {
+      _self.history.toggle();
     });
   };
 
@@ -640,6 +646,7 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var newX = -150;
     var message, position;
+    this.history.addResult(data);
     this.chipResultContainer.removeAllChildren();
     data.map.forEach(function (item, index) {
       _self.createResultDice(item, index);
@@ -751,6 +758,49 @@ this.TWIST = this.TWIST || {};
     this.listPlayer.on('click', function () {
       _self.emit('getListPlayer');
     });
+  };
+
+  p.initHistory = function () {
+    var _self = this;
+    this.history = $(TWIST.HTMLTemplate['taiXiu/history']);
+    this.wrapperTemplate.append(this.history);
+    this.historyList = this.history.find('.taixiu-history-content');
+    this.historyListInner = this.history.find('.taixiu-history-content-inner');
+    var height = this.history.css('height');
+    this.historyListScroll = new IScroll(this.historyList[0], {scrollX: true, freeScroll: true});
+    this.historyListScroll.refresh();
+
+
+    this.historyTitle = this.history.find('.taixiu-history-title');
+
+    this.history.toggle = function () {
+      _self.history.toggleClass('active');
+    };
+    this.historyTitle.on('click', this.history.toggle);
+
+    this.history.addResult = function (data) {
+      var isTai = data.winnerSlots.find(function (item, index) {
+        return item == 15;
+      });
+      var isXiu = data.winnerSlots.find(function (item, index) {
+        return item == 7;
+      });
+      var resultTemplate = $(TWIST.HTMLTemplate['taiXiu/history-item']);
+      var itemType = resultTemplate.find('.history-item-type');
+      isTai && itemType.addClass('tai');
+      isXiu && itemType.addClass('xiu');
+
+      var itemNumber = resultTemplate.find('.history-item-number');
+      var resultNumber = 0;
+      data.map.forEach(function (item, index) {
+        resultNumber += (item + 1);
+        var dicePosition = resultTemplate.find('#dice-position' + index);
+        dicePosition.addClass("dice" + item);
+      });
+      itemNumber.html(resultNumber);
+      _self.historyListInner.append(resultTemplate);
+      _self.historyListScroll.refresh();
+    };
   };
 
   p.initBettingPositionList = function () {

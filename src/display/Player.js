@@ -427,7 +427,7 @@ this.TWIST = this.TWIST || {};
           _self.sortCard();
         }
       } else {
-        this.visible = options.showPlayerCard;
+        this.visible = _self.showPlayerCard;
         if (options.openCard) {
           this.openCard(this.cardValue);
         }

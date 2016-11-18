@@ -425,6 +425,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawPlayer = function (playerData) {
     playerData.config = playerData.config || {};
+    $.extend(playerData,this.options.playerConfig);
     playerData.index = playerData.index || 0;
 
     var newPlayer = new TWIST.Player(playerData);
