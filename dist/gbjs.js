@@ -4425,13 +4425,13 @@ this.TWIST = this.TWIST || {};
       });
       player.gameResultString = winTypeMap[player.winType];
       if (parseInt(player.changeMoney) < 0) {
-        player.gameResultString = player.gameResultString || ("Thua " + cardList.length + " lá!");
+        player.gameResultString = player.gameResultString || ("Thua " + (nomalWinType ? cardList.length + " lá!" : " !"));
       } else if (parseInt(player.changeMoney) > 0) {
         if (player.uuid === this.userInfo.uuid) {
           resultData.isWinner = true;
         }
         player.isWinner = true;
-        player.gameResultString = player.gameResultString || "Thắng";
+        player.gameResultString = player.gameResultString || winTypeMap[data.winType] || "Thắng";
       } else {
         player.gameResultString = player.gameResultString || "Hòa";
       }
