@@ -67,7 +67,7 @@ this.TWIST = this.TWIST || {};
 
         canvasSize = {width: 480, height: 220};
 
-        mainCardSize = {width: 129, height: 169};
+        mainCardSize = {width: 98, height: 128};
 
         winCardSize = {width: 30, height: 39};
 
