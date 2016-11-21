@@ -2,7 +2,7 @@
 
 (function () {
     "use strict";
-    var MiniPoker = new TWIST.MiniPoker('.wrapper');
+    var MiniPoker = new TWIST.VideoPoker('.wrapper');
 
     var mockupData = [{
             event: "userInfo",

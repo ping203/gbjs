@@ -1,0 +1,40 @@
+$invite-size : 78px;
+$inner-size : $invite-size - 8px;
+.invite-wrapper{
+    position: absolute;
+    top : 0; 
+    left : 0;
+    .invite-item{
+        position: absolute;
+        width: #{$invite-size};
+        height: #{$invite-size};
+        border : 3px solid greenyellow;
+        line-height: $invite-size - 6px;
+        border-radius : 50%;
+        cursor : pointer;
+        box-sizing : border-box;
+        border : 2px solid rgba(255,255,255,0.12);
+        .invite-item-inner{
+            position: absolute;
+            background-color : #8398c5;
+            width: $inner-size;
+            height: $inner-size; 
+            top : 2px;
+            left: 2px;
+            border-radius : 50%;
+            &:after, &:before {
+                content: "";
+                position: absolute;
+                width: 28px;
+                height: 5px; 
+                top : $inner-size/2 - 2.5px;
+                left : $inner-size/2 - 14px;
+                background-color: #7286b2;
+            }
+            &:after{
+                @include transform(rotate(90deg))
+            }
+        }
+
+    }
+}

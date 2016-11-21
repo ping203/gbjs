@@ -19,6 +19,7 @@ $twistImagePath :   "images/" !default;
     -webkit-touch-callout: none;
     -webkit-user-select : none;
     font-family: Roboto;
+    position: relative;
 }
 .error-item {
     margin: 20px auto 0;
@@ -56,7 +57,7 @@ $twistImagePath :   "images/" !default;
     position: absolute;
     bottom: 0;
 }
-.button.fist{
+.button.first{
     right: 100px;
 }
 .button.second{

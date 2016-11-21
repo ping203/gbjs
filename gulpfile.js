@@ -2,24 +2,16 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var Server = require('karma').Server;
+var sourcemaps = require('gulp-sourcemaps');
 var config = require('./config');
 var templateCache = require('gulp-angular-templatecache');
 var sass = require('gulp-sass'),
 	path = require('path'),
 	args = require('minimist')(process.argv.slice(2));
 
-var theme    = args.theme || 'gb-web';
+var theme = args.theme || 'gb-web';
 
-
-
-gulp.task('build.dev', function () {
-  var target = gulp.src(config.source.concat([
-    '!src/**/*.spec.js'
-  ]));
-  return target.pipe(concat('gbjs.js'))
-    .pipe(gulp.dest('./dist'));
-});
-
+console.log("theme",theme);
 
 gulp.task('build.tpl', function() {
   return gulp.src('src/themes/'+theme+'/tpl/**/*.html')
@@ -31,7 +23,8 @@ gulp.task('build.tpl', function() {
         return url.replace(/.html$/, '');
     }
    }))
-   .pipe(gulp.dest('dist/themes/' + theme));
+   .pipe(gulp.dest('dist/themes/' + theme))
+   .pipe(gulp.dest('src/display/'));
 });
 
 gulp.task('build.sound', function() {
@@ -50,10 +43,20 @@ gulp.task('build.sound', function() {
 
 gulp.task('build.scss', function() {
   return gulp.src('src/themes/'+theme+'/sass/main.scss')
+    .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write())
+    .pipe(concat('app.css'))
     .pipe(gulp.dest('dist/themes/'+theme));
 });
 
+gulp.task('build.dev', function () {
+  var target = gulp.src(config.source.concat([
+    '!src/**/*.spec.js'
+  ]));
+  return target.pipe(concat('gbjs.js'))
+    .pipe(gulp.dest('./dist'));
+});
 
 gulp.task('build.js', function () {
   var target = gulp.src(config.source.concat([
@@ -83,6 +86,7 @@ gulp.task('build', [
 	'copy.scss',
 	'copy.images',
 	'build.js',
+        'build.dev'
 ]);
 
 /**
@@ -97,6 +101,6 @@ gulp.task('test', function (done) {
 
 gulp.task('watch', function () {
     gulp.watch(config.source, ['build.dev']);
-    gulp.watch('src/themes/**/*.html', ['build.tpl']);
-		gulp.watch('src/themes/**/*.scss', ['build.scss']);
+    gulp.watch('src/themes/'+theme+'/**/*.html', ['build.tpl']);
+    gulp.watch('src/themes/'+theme+'/**/*.scss', ['build.scss']);
 });

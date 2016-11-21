@@ -1,0 +1,351 @@
+.mini-poker-bg{
+    background-image: url('#{$twistImagePath}miniPoker/background.png');
+    width: 726px;
+    height: 326px;
+    background-repeat: no-repeat;
+    position : relative;
+    display : inline-block;
+    vertical-align : top;
+    margin-left : 275px;
+    canvas{
+        position : absolute;
+        left : calc(50% - 315px);
+        top : 57px;
+    }
+    .result-text{
+        position: absolute;
+        line-height: 45px;
+        font-size: 24px;
+        width: 280px;
+        left : calc(50% - 140px);
+        color: white;
+        top : 0px;
+        font-weight: bold;
+        text-align: center;
+        text-shadow : 0 0 12px rgba(254,197,46, 0.68), 0 0 48px rgba(254,197,46, 0.38), 0 0 35px rgba(252,45,28, 0.24),0 3px 4px rgba(0,0,0, 0.78);
+    }
+    .pot{
+        width: 240px;
+        position: absolute;
+        top : 250px;
+        left : 40px;
+        text-align: center;
+        color:  white;
+        font-size : 18.5px;
+        .pot-value{
+            font-weight: bold;
+            font-size: 29px;
+            font-weight: bold;
+            text-shadow : 0 0 8px rgba(20,118,251, 0.68), 0 0 5px rgba(20,118,251, 0.18), 0 0 18px rgba(20,118,251, 0.24),0 5px 4px rgba(0,0,0, 0.78);
+        }
+    }
+    .button-spin{
+        background-image: url('#{$twistImagePath}miniPoker/button-spin1.png');
+        width: 221px;
+        height: 90px;
+        position: absolute;
+        left: calc(50% - 110.5px);
+        top : 236px;
+        cursor : pointer;
+        animation : button-spin 0.5s infinite;
+        @keyframes button-spin { 
+            0% {
+                background-image: url('#{$twistImagePath}miniPoker/button-spin1.png');
+            }
+            50%{
+                background-image: url('#{$twistImagePath}miniPoker/button-spin2.png');
+            }
+            100%{
+                background-image: url('#{$twistImagePath}miniPoker/button-spin1.png');
+            }
+        }
+        &:active{
+            transform: scale(0.98);
+        }
+        &.disabled{
+            &:active{
+                transform: none;
+            }
+            animation :  none;
+            filter : grayscale(100%);
+            -webkit-filter : grayscale(100%);
+
+        }
+    }
+    .autospin{
+        position: absolute;
+        left : 444px;
+        top : 266px;
+        font-size: 20px;
+        color : white;
+        text-align: center;
+        text-indent : 70px;   
+        filter : drop-shadow(0 0 8px rgba(20,118,251, 0.68)) drop-shadow(0 0 5px rgba(20,118,251, 0.18)) 
+            drop-shadow(0 0 18px rgba(20,118,251, 0.24)) drop-shadow(0 5px 4px rgba(0,0,0, 0.78));
+        -webkit-filter : drop-shadow(0 0 8px rgba(20,118,251, 0.68)) drop-shadow(0 0 5px rgba(20,118,251, 0.18)) 
+            drop-shadow(0 0 18px rgba(20,118,251, 0.24)) drop-shadow(0 5px 4px rgba(0,0,0, 0.78));
+        input{
+            display: none;
+            &:checked+label{
+                &:after{
+                    content: "";
+                    box-sizing: border-box;
+                    @include transform(rotate(45deg));
+                    position: absolute;
+                    left: 37.5%;
+                    top: 17.5%;
+                    width: 25%;
+                    height: 50%;
+                    border-width: 3px;
+                    border-style: solid;
+                    border-top: 0;
+                    border-left: 0;
+                    border-color: white;
+                }
+            }
+        }
+        label{
+            display: inline-block;
+            width : 34px;
+            height : 34px;
+            box-sizing: border-box;
+            border-radius : 8px;
+            vertical-align: middle;
+            border : 3px solid white;
+            position: relative;
+            cursor : pointer;
+        }
+    }
+
+    .chip-group{
+        position: absolute;
+        top : 450px;
+        right : 000px;
+        text-align: center;
+        width : 100%;
+        .chip{
+            position: absolute;
+            bottom: 0;
+            width : 75px;
+            height : 75px;
+            line-height:  75px;
+            border-radius : 50%;
+            background-image: url('#{$twistImagePath}hightLow/chip100k.png');
+            background-size : cover;
+            box-sizing: border-box;
+            background-origin: border-box;
+            color : white;
+            transition : all 0.1s linear;
+            font-size : 17.5px;
+            cursor : pointer;
+            font-weight : bold;
+            opacity : 0.5;
+            &:first-child{
+                right : calc(50% - 37.5px + 105px);
+            }
+            &:nth-child(2){
+                right : calc(50% - 37.5px);
+            }
+            &:nth-child(3){
+                right : calc(50% - 37.5px - 105px);
+            }
+            &.violet{
+                background-image: url('#{$twistImagePath}hightLow/chip1k.png');
+            }
+            &.green{
+                background-image: url('#{$twistImagePath}hightLow/chip10k.png');
+            }
+            &.pink{
+                background-image: url('#{$twistImagePath}miniPoker/chipPink_small.png');
+            }
+            &.red{
+                background-image: url('#{$twistImagePath}miniPoker/chipRed_small.png');
+            }
+            &.active{
+                bottom : 25px;
+                opacity: 1;
+                border : 2px solid #ffed8a;
+                box-shadow: 0 0 12px rgba(254,197,46, 0.68), 0 0 48px rgba(254,197,46, 0.38), 0 0 35px rgba(252,45,28, 0.24),0 3px 4px rgba(0,0,0, 0.78);
+
+            }
+        }
+    }
+    .error-panel-mini{
+        width: 700px;
+        position: absolute;
+        text-align: center;
+        top : 140px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #f5f5f5;
+        line-height: 70px;
+        left :calc(50% - 350px);
+        min-height: 70px;
+        @include linear-gradient(left, transparent, rgba(0,0,0,0.2), rgba(0,0,0,0.8), rgba(0,0,0,0.2), transparent);
+        transition: opacity 0.2s linear;
+        &:after,&:before{
+            position: absolute;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 2px;
+            @include linear-gradient(left, transparent, white, transparent);
+        }
+        &:before{
+            top: 0;
+        }
+        &:position{
+            bottom: 0;
+        }
+        .error-item-mini {
+            @include animation-name(error-remove-mini);
+            @include animation-duration(3s);
+            @include animation-timing-function(linear);
+            @include animation-iteration-count(1);
+        }
+
+        @keyframes error-remove-mini { 
+            0%{
+                opacity: 1;
+            }
+
+            80%{
+                opacity:0.3;
+                font-size:20px;
+            }
+            100%{
+                opacity:0;
+                font-size:3px;
+            }
+        }
+    }
+
+    .result-mini-poker-tab{
+        width: 260px;
+        vertical-align: top;
+        position : absolute;
+        left : -275px;
+        top : 10px;
+        .result-mini-item{
+            height: 30px;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 4px;
+            position: relative;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #ffffab;
+            text-transform: uppercase;
+            text-indent: 30px;
+            line-height: 30px;
+            text-align : left;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            @keyframes hightlightResult{
+                0%{
+                    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+                    @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02));
+                }
+                50%{box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4;
+                    @include  linear-gradient(bottom, rgba(255,238,0,0.07), rgba(255,238,0,0.05))}
+                100%{box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4;
+                     @include  linear-gradient(bottom, rgba(255,238,0,0.05), rgba(255,238,0,0.02))}
+            }
+            &.active{
+                @include animation(hightlightResult 3s linear infinite);
+            }
+            .icon{
+                display: inline-block;
+                margin-left : 10px;
+                margin-right: 10px;
+                width: 21px;
+                height: 22px;
+                background-image: url('#{$twistImagePath}miniPoker/chip-mini.png');
+            }
+            .value{
+                position: absolute;
+                top : 0;
+                right: 10px;
+                text-align: right;
+                color : #1c92c4;
+            }
+        }
+    }
+    .profile{
+        position: absolute;
+        left: -250px;
+        top : 400px;
+        .profile-left{
+            position: absolute;
+            top  : 0px;
+            left: 0px;
+            .avatar{
+                width: 87px;
+                height: 88px;
+                background-color: rgba(0, 0, 0, 0.5);
+                border : 2px solid rgba(0, 0, 0, 0.5);
+                border-radius: 50%;
+                overflow: hidden;
+                background-size: cover;
+                background-position: center;
+                @for $i from 0 through 10{
+                    &.avatar#{$i}{
+                        background-image: url('#{$twistImagePath}player/avatars/#{$i}.png');
+                    }
+                }
+            }
+        }
+        .profile-right{
+            position: absolute;
+            top  : 10px;
+            left: 100px;
+            width : 200px;
+            text-align: center;
+            font-size : 20px;
+            line-height : 30px;
+            .username{
+                color : white;
+            }
+            .money{
+                color: #ffc200;
+                &:after{
+                    content: " V"
+                }
+            }
+        }
+        .win-money{
+            position: absolute;
+            color: #f8ae00;
+            font-size: 34px;
+            text-align: center;
+            width: 300px;
+            left : 0;
+            text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000, 
+                1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;  
+            top : 50px;
+            @include animation-name(win-money);
+            @include animation-duration(2s);
+            @include animation-timing-function(linear);
+            @include animation-iteration-count(1);
+            @keyframes win-money { 
+                to {
+                    top : -50px;
+                }
+            }
+            &:before{
+                content: "+"
+            }
+        }
+    }
+    .session-id{
+        position: absolute;
+        right: 10px;
+        text-align: right;
+        top : 400px;
+        font-size : 22px;
+        color : #EEE;
+        &:before{
+            content: "ID : "
+        }
+    }
+}

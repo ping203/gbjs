@@ -4,114 +4,185 @@
 this.Global = this.Global || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    /**
-     * Static class utils
-     * the library.
-     * @object utils
-     **/
+  /**
+   * Static class utils
+   * the library.
+   * @object utils
+   **/
 
-    Global = {
-        autoFit: function () {
-            var width = 1280, height = 720;
-            _autoFit = function () {
-                var windowWidth = window.innerWidth;
-                var windowHeight = window.innerHeight;
-                var wRatio = windowWidth / width;
-                var hRatio = windowHeight / height;
-                var zoom = (wRatio > hRatio) ? hRatio : wRatio;
-                zoom = zoom > 1 ? 1 : zoom;
-                var content = $("#main");
-                var gameplayCanvas = $("#gameplayStage");
-                var left = (windowWidth - 1000 * zoom) / 2;
-                gameplayCanvas.css({"width": width * zoom, "height": height * zoom, left: left + "px"});
-                content.css("zoom", zoom);
-                return {"zoom": zoom};
-            };
-            _autoFit();
-            window.removeEventListener("resize", _autoFit, true);
-            window.addEventListener("resize", _autoFit, true);
-        },
-        getParameterByName: function (name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                    results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        },
-        numberWithDot: function (x) {
-            if (isNaN(x))
-                return 0;
-            var parts = x.toString().split(".");
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            return parts.join(".");
-        },
-        _generateUniqueId: function () {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-            }
-            return (function () {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-            })();
-        },
-        getUniqueId: function () {
-            var uniqueId = localStorage.getItem("___uniqueId___");
-            if (!uniqueId) {
-                uniqueId = this._generateUniqueId();
-                localStorage.setItem("___uniqueId___", uniqueId);
-            }
-            return uniqueId;
-        },
-        converEsObject: function (EsObject) {
-            var data = EsObject.data;
-            if (!data)
-                data = EsObject;
-            if (!data)
-                return;
-            var dataJSON = '{';
-            for (var proName in data) {
-                if (dataJSON != '{') {
-                    dataJSON += ',';
-                }
-                var propertier = data[proName];
-                dataJSON = dataJSON + '"' + proName + '":' + JSON.stringify(propertier.value);
-            }
-            dataJSON += '}';
-            return JSON.parse(dataJSON);
-        },
-        convertData: function (data) {
-            var dataConverted = {};
-            for (var key in data) {
-                dataConverted[AppKeysConvert[key] ? AppKeysConvert[key] : key] = data[key];
-            }
-            return dataConverted;
-        },
-        md5Avatar: function (username) {
-            var avatarHash = md5(username);
-            return parseInt((avatarHash.match(/\d+/)[0] || 1)[0]);
-        },
-        convertBettingToChip: function (betting, unit) {
-            if (isNaN(betting) || isNaN(unit))
-                return [1];
-            var multiples = Math.floor(betting / unit);
-            var biggestChipIndex = ChipRatio.findIndex(function (item) {
-                return multiples >= item;
-            });
-            if (biggestChipIndex < 0)
-                biggestChipIndex = ChipRatio.length;
-            var chipArray = [];
-            for (var i = ChipRatio.length; i > 0; i--) {
-                var numberChip = Math.floor(multiples / ChipRatio[i - 1]);
-                if (numberChip > 0) {
-                    chipArray.push({
-                        type: i - 1,
-                        number: numberChip
-                    });
-                }
-            }
-            return chipArray;
+  Global = {
+    autoFit: function () {
+      var width = 1280, height = 720;
+      _autoFit = function () {
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+        var wRatio = windowWidth / width;
+        var hRatio = windowHeight / height;
+        var zoom = (wRatio > hRatio) ? hRatio : wRatio;
+        zoom = zoom > 1 ? 1 : zoom;
+        var content = $("#main");
+        var gameplayCanvas = $("#gameplayStage");
+        var left = (windowWidth - 1000 * zoom) / 2;
+        gameplayCanvas.css({"width": width * zoom, "height": height * zoom, left: left + "px"});
+        content.css("zoom", zoom);
+        return {"zoom": zoom};
+      };
+      _autoFit();
+      window.removeEventListener("resize", _autoFit, true);
+      window.addEventListener("resize", _autoFit, true);
+    },
+    getParameterByName: function (name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    },
+    numberWithDot: function (x) {
+      if (isNaN(x))
+        return 0;
+      var parts = x.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (parts[1])
+        parts[1] = parts[1].substring(0, 3);
+      var returnSting = parts.join(".");
+      while ((returnSting.length > parts[0].length || parts[0].length <= 3) && returnSting.length > 3) {
+        returnSting = returnSting.substring(0, returnSting.length - 1);
+      }
+      if (returnSting[returnSting.length - 1] == '.') {
+        returnSting = returnSting.substring(0, returnSting.length - 1);
+      }
+      return returnSting;
+    },
+    numberWithDot2: function (number) {
+      if (isNaN(number)) {
+        return number;
+      } else {
+        var displayNumber, character;
+        var numberAbs = Math.abs(number)
+        if (numberAbs >= 100000000) {
+          displayNumber = Global.numberWithDot(Math.floor(numberAbs / 1000000));
+          character = "M";
+        } else if (numberAbs >= 1000) {
+          displayNumber = Global.numberWithDot(Math.floor(numberAbs / 1000));
+          character = "K";
+        } else {
+          displayNumber = Global.numberWithDot(numberAbs);
+          character = "";
         }
-    };
+        if (number < 0) {
+          displayNumber = "-" + displayNumber;
+        }
+        return displayNumber + character;
+      }
+    },
+    numberWithDot3: function (number) {
+      if (isNaN(number)) {
+        return number;
+      } else {
+        var displayNumber, character;
+        var numberAbs = Math.abs(number);
+        if (numberAbs >= 1000000) {
+          displayNumber = Global.numberWithDot(numberAbs / 1000000);
+          character = "M";
+        } else if (numberAbs >= 1000) {
+          displayNumber = Global.numberWithDot(numberAbs / 1000);
+          character = "K";
+        } else {
+          displayNumber = Global.numberWithDot(numberAbs);
+          character = "";
+        }
+        if (number < 0) {
+          displayNumber = "-" + displayNumber;
+        }
+        return displayNumber + character;
+      }
+    },
+    shuffle: function (array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    },
+    _generateUniqueId: function () {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+      }
+      return (function () {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      })();
+    },
+    getUniqueId: function () {
+      var uniqueId = localStorage.getItem("___uniqueId___");
+      if (!uniqueId) {
+        uniqueId = this._generateUniqueId();
+        localStorage.setItem("___uniqueId___", uniqueId);
+      }
+      return uniqueId;
+    },
+    converEsObject: function (EsObject) {
+      var data = EsObject.data;
+      if (!data)
+        data = EsObject;
+      if (!data)
+        return;
+      var dataJSON = '{';
+      for (var proName in data) {
+        if (dataJSON != '{') {
+          dataJSON += ',';
+        }
+        var propertier = data[proName];
+        dataJSON = dataJSON + '"' + proName + '":' + JSON.stringify(propertier.value);
+      }
+      dataJSON += '}';
+      return JSON.parse(dataJSON);
+    },
+    convertData: function (data) {
+      var dataConverted = {};
+      for (var key in data) {
+        dataConverted[AppKeysConvert[key] ? AppKeysConvert[key] : key] = data[key];
+      }
+      return dataConverted;
+    },
+    md5Avatar: function (username) {
+      var avatarHash = md5(username);
+      return parseInt((avatarHash.match(/\d+/)[0] || 1)[0]);
+    },
+    convertBettingToChip: function (betting, unit) {
+      if (isNaN(betting) || isNaN(unit))
+        return [1];
+      var multiples = Math.floor(betting / unit);
+      var biggestChipIndex = ChipRatio.findIndex(function (item) {
+        return multiples >= item;
+      });
+      if (biggestChipIndex < 0)
+        biggestChipIndex = ChipRatio.length;
+      var chipArray = [];
+      for (var i = ChipRatio.length; i > 0; i--) {
+        var numberChip = Math.floor(multiples / ChipRatio[i - 1]);
+        if (numberChip > 0) {
+          chipArray.push({
+            type: i - 1,
+            number: numberChip
+          });
+        }
+      }
+      return chipArray;
+    }
+  };
 })();
 /*
  * JavaScript MD5
@@ -410,8 +481,8 @@ this.TWIST = this.TWIST || {};
 
     p.init = function (options) {
         options = options || {};
-        this.settings = options && options.settings;
-        var src = (options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/sounds/';
+        this.settings = options && options.settings || {};
+        var src = ((options && options.assetPath) || TWIST.assetPath || '../src/themes/gb-web/') + 'sounds/';
         createjs.Sound.registerSounds(this._sounds, src);
         this._isInited = true;
     };
@@ -424,6 +495,11 @@ this.TWIST = this.TWIST || {};
         var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
         instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
         return instance;
+    };
+
+
+    p.stop = function (src) {
+        createjs.Sound.stop(src);  //
     };
 
     p._sounds = [
@@ -934,808 +1010,826 @@ this.FATE = this.FATE || {};
 
         FATE.MockupServer = MockupServer;
 })();
+;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" width="1000" height="580" ></canvas>',
+'errorPanel':'<div class="error-panel">\r\n    \r\n</div>',
+'buttonBar/callSamButton':'<div class="button fourth red" id="call-sam">B\xE1o s\xE2m</div>',
+'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
+'buttonBar/entiretyButton':'<div class="button second red" id="entirety-card">\xD9</div>',
+'buttonBar/foldSamButton':'<div class="button third blue" id="fold-sam">B\u1ECF s\xE2m</div>',
+'buttonBar/foldTurnButton':'<div class="button second red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
+'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\u1ED1c b\xE0i</div>',
+'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
+'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
+'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
+'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
+'buttonBar/startButton':'<div class="button first green" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
+'buttonBar/wrapper':'<div class="button-bar"></div>',
+'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
+'effect/wrapper':'<div class="effect"></div>',
+'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
+'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
+'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
+'hightLow/wrapper':'<div class="hight-low"></div>\n',
+'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
+'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
+'miniPoker/button':'<div class="button-spin"></div>',
+'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
+'miniPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
+'miniPoker/pot':'<div class="pot">\n    H\u0169 th\u01B0\u1EDFng\n    <div class="pot-value"></div>\n</div>',
+'miniPoker/resultItem':'<div class="result-mini-item">\n    <span class="icon"></span>\n    <%- name %> \n    <div class="value"><%- value %> </div>\n</div>',
+'miniPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'miniPoker/resultText':'<div class="result-text"></div>',
+'miniPoker/sessionId':'<div class="session-id"></div>',
+'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
+'miniPoker/winMoney':'<div class="win-money"></div>',
+'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
+'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
+'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
+'taiXiu/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
+'taiXiu/coin-item':'<div class="coin-item"></div>',
+'taiXiu/history-item':'<div class="history-item">\n    <div class="history-item-number"></div>\n    <div class="history-item-type"></div>\n    <div class="history-item-dices">\n        <div class="history-item-dice" id="dice-position0"></div>\n        <div class="history-item-dice" id="dice-position1"></div>\n        <div class="history-item-dice" id="dice-position2"></div>\n    </div>\n</div>\n',
+'taiXiu/history':'<div class="taixiu-history">\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\n    <div class="taixiu-history-content">\n        <div class="taixiu-history-content-inner"></div>\n    </div>\n</div> \n',
+'taiXiu/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'taiXiu/listPlayer':'<div class="list-player"></div>',
+'taiXiu/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
+'taiXiu/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'taiXiu/table':'<div class="table">\n    \n</div>',
+'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
+'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
+'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
+'tinyHightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
+'tinyHightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
+'tinyHightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
+'tinyHightLow/wrapper':'<div class="tiny-hight-low"></div>\n',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
+'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
+'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
+'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
+'xocDia/coin-item':'<div class="coin-item"></div>',
+'xocDia/history':'<div class="history"></div>\n',
+'xocDia/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'xocDia/listPlayer':'<div class="list-player"></div>',
+'xocDia/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
+'xocDia/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
+'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/';
+  var imagePath = location.origin + location.pathname + '../src/images/';
 
-    function Card(position) {
-        if (typeof position !== 'number' || position < 0 || position > 51)
-            position = -1;
-        this.initialize(position);
+  function Card(position) {
+    if (typeof position !== 'number' || position < 0 || position > 51)
+      position = -1;
+    this.initialize(position);
+  }
+
+  Card.size = {width: 88, height: 115};
+  Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6, seperator: 54};
+  Card.userCard.scale = Card.userCard.width / Card.size.width;
+
+  Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+  Card.playerCard.scale = Card.playerCard.width / Card.size.width;
+
+  Card.deckCard = {width: 40, seperator: 0.1};
+  Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+
+  Card.draftCard = {width: 30, height: 40, seperator: 31};
+  Card.draftCard.scale = Card.draftCard.width / Card.size.width;
+
+  Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
+  Card.threeCards.scale = Card.threeCards.width / Card.size.width;
+
+  Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
+  Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
+
+  Card.miniPoker = {width: 102, height: 133};
+  Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
+
+  Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
+
+  Card.Suite = {
+    3: 0, //co = 39/13
+    2: 1, // ro = 26/13
+    1: 3, //nhep = 13/13
+    0: 2, //bich = 0/13
+    4: 4
+  };
+
+  Card.NumberCardInHand = 13;
+  Card.SuitMap = ["♠", "♣", "♦", "♥"];
+  Card.SuitNameMap = ["b", "t", "r", "c"];
+  Card.SuitImageIndex = ["♠", "♣", "♦", "♥"];
+
+  var p = Card.prototype = new createjs.Container();
+  p.container_initialize = p.initialize;
+
+
+  function getRankSuite(cardValue) {
+    var cardRank = Math.floor(cardValue / 4);
+    var cardSuite = Math.floor(cardValue % 4);
+
+    if (cardValue < 0 || cardValue >= 52) {
+      cardRank = -1;
+      cardSuite = 4;
     }
-
-    Card.size = {width: 90, height: 123};
-    Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
-    Card.userCard.scale = Card.userCard.width / Card.size.width;
-
-    Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
-    Card.playerCard.scale = Card.playerCard.width / Card.size.width;
-
-    Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
-    Card.draftCard.scale = Card.draftCard.width / Card.size.width;
-
-    Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
-    Card.threeCards.scale = Card.threeCards.width / Card.size.width;
-
-    Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
-    Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
-
-    Card.miniPoker = {width: 130, height: 180, scale: 1.6};
-    Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
-
-    Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
-
-    Card.Suite = {
-        3: 0, //co = 39/13
-        2: 1, // ro = 26/13
-        1: 3, //nhep = 13/13
-        0: 2, //bich = 0/13
-        4: 4
+    return {
+      rank: cardRank,
+      suite: cardSuite
     };
+  }
 
-    Card.NumberCardInHand = 13;
-    Card.SuitMap = ["♠", "♣", "♦", "♥"];
-    Card.SuitNameMap = ["b", "t", "r", "c"];
-    Card.SuitImageIndex = ["♠", "♣", "♦", "♥"];
+  p.initialize = function (value) {
+    this.container_initialize();
+    this._init();
+    this.setValue(value);
+  };
 
-    var p = Card.prototype = new createjs.Container();
-    p.container_initialize = p.initialize;
+  p._init = function () {
+    var cards = new Image();
+    this.image = cards;
+    cards.src = (TWIST.imagePath || imagePath) + 'card/-1.png';
+    var bg = new createjs.Bitmap(cards);
+    this.bg = bg;
+//    bg.sourceRect = $.extend({}, Card.size);
+//    bg.sourceRect.x = 0;
+//    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
 
+    this.inPhom = new createjs.Shape();
+    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
+    this.inPhom.set({
+      x: Card.size.width / 2 - 15,
+      y: Card.size.height + 2
+    });
+    this.inPhom.visible = false;
 
-    function getRankSuite(cardValue) {
-        var cardRank = Math.floor(cardValue / 4);
-        var cardSuite = Math.floor(cardValue % 4);
+    this.eatEffect = new createjs.Shape();
+    this.eatEffect.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
+    this.eatEffect.set({
+      alpha: 0.5
+    });
+    this.eatEffect.visible = this.showEatEffect;
+    this.addChild(bg, this.inPhom, this.eatEffect);
+  };
 
-        if (cardValue < 0 || cardValue >= 52) {
-            cardRank = -1;
-            cardSuite = 4;
-        }
-        return {
-            rank: cardRank,
-            suite: cardSuite
-        };
+  p.setValue = function (value) {
+    var rankSuite = getRankSuite(value);
+    this.cardValue = value;
+    this.rank = rankSuite.rank;
+    this.suite = rankSuite.suite;
+
+    var bg = this.bg;
+    var srcValue = -1;
+//    bg.sourceRect = $.extend({}, Card.size);
+    if (value !== -1) {
+      Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+      var rankName = Card.RankMapIndex[rankSuite.rank];
+      var suidName = Card.SuitMap[rankSuite.suite];
+      srcValue = (rankName - 1) * 4 + rankSuite.suite;
+//      bg.sourceRect.x = (rankName - 1) * Card.size.width;
+//      bg.sourceRect.y = rankSuite.suite * Card.size.height;
+    } else {
+//      bg.sourceRect.x = 0;
+//      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
+    this.image.src = (TWIST.imagePath || imagePath) + 'card/' + srcValue + '.png';
+  };
 
-    p.initialize = function (value) {
-        this.container_initialize();
-        this.setValue(value);
-    };
+  p.getValue = function () {
+    return this.cardValue;
+  };
 
-    p.setValue = function (value) {
-        var rankSuite = getRankSuite(value);
-        this.cardValue = value;
-        this.rank = rankSuite.rank;
-        this.suite = rankSuite.suite;
+  p.removeAllSelected = function () {
+    this.parent.children.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+  };
+
+  p.openCard = function (cardValue, cardType) {
+    var oldX = this.x;
+    var _self = this;
+    cardType = cardType || Card.userCard;
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
+            .call(function () {
+              this.setValue(cardValue);
+              this.cardValue = cardValue;
+              try {
+                this.updateCache();
+              } catch (e) {
+
+              }
+            })
+            .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
+
+      if (this.isTracking) {
+        TWIST.Observer.emit('cardOpened', this);
+      }
+      this.setInPhom(this.isInPhom);
+      //this.updateCache();
+    });
+  };
+
+  p.upSideDown = function (cardType) {
+    var oldX = this.x;
+    var _self = this;
+    cardType = cardType || Card.userCard;
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
+            .call(function () {
+              this.cardValue = -1;
+              this.setValue(-1);
+              try {
+                this.updateCache();
+              } catch (e) {
+
+              }
+            })
+            .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
 
 
-        var cards = new Image();
-        cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
-        var bg = new createjs.Bitmap(cards);
-        this.bg = bg;
-        bg.sourceRect = $.extend({}, Card.size);
-        if (value !== -1) {
-            Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
-            var rankName = Card.RankMapIndex[rankSuite.rank];
-            var suidName = Card.SuitMap[rankSuite.suite];
-            bg.sourceRect.x = (rankName - 1) * Card.size.width;
-            bg.sourceRect.y = rankSuite.suite * Card.size.height;
-        } else {
-            bg.sourceRect.x = 0;
-            bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
-        }
+    });
+  };
 
-        this.inPhom = new createjs.Bitmap(cards);
-        this.inPhom.sourceRect = {
-            width: 25,
-            height: 25,
-            x: Card.size.width * 1,
-            y: Card.size.height * Card.SuitNameMap.length
-        };
-        this.inPhom.set({
-            x: 55,
-            y: 10
-        });
-        this.inPhom.visible = false;
+  p.tipOff = function () {
+    if (this.IsFlip === false)
+      return;
 
-        this.border = new createjs.Bitmap(cards);
-        this.border.sourceRect = {
-            width: Card.size.width + 4,
-            height: Card.size.height + 3,
-            x: Card.size.width * 2,
-            y: Card.size.height * Card.SuitNameMap.length
-        };
-        this.border.set({
-            x: -2,
-            y: -1.5
-        });
-        this.border.visible = this.showBorder;
-        this.addChild(bg, this.border);
-    };
+    var newX = this.x;
 
-    p.getValue = function () {
-        return this.cardValue;
-    };
+    this.removeAllEventListeners();
 
-    p.removeAllSelected = function () {
-        this.parent.children.forEach(function (item, index) {
-            item.setSelected(false);
-        })
+    return createjs.Tween.get(this)
+            .to({scaleX: 0.1, x: newX + this.width / 2}, 150)
+            .call(function () {
+              this.setValue(-1);
+            })
+            .to({scaleX: Card.draftCard.scale, x: newX}, 150)
+            .call(function () {
+              this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
+              try {
+                this.updateCache();
+              } catch (e) {
+                console.log(e);
+              }
+            });
+  };
+
+  p.movePosition = function (newPosition) {
+    if (!this.parent)
+      return;
+
+    createjs.Tween.get(this).to({x: newPosition.x, y: newPosition.y}, 150).call(function () {});
+  }
+
+  p.setSelected = function (isSelect) {
+    if (isSelect) {
+      var newY = -Card.userCard.selectedHeight;
+      createjs.Tween.get(this).to({y: newY}, 100).call(function () {
+        this.selected = true;
+      });
+    } else {
+      this.selected = false;
+      this.y = 0;
     }
+  };
 
-    p.baiTrenTay = function (card, handCards, isCurrent) {
-        if (!handCards)
-            return;
+  p.toggedSelected = function () {
+    var _self = this;
+    if (this.isSelected) {
+      this.isSelected = false;
+      this.y = this.y + 15;
+      _self.parent.swapCardX = undefined;
+      _self.parent.swapCardY = undefined;
+      _self.parent.selectedCard = undefined;
+    } else {
+      var newY = this.y - 15;
+      _self.parent.setChildIndex(_self, 12);
+      _self.isSelected = true;
+      createjs.Tween.get(this).to({y: newY}, 100).call(function () {
+        _self.parent.selectedCard = _self;
+      });
 
-        var cardValue = (card.cardValue ? card.cardValue : Card.baiLoc.defaultValue),
-                position = this.pos || handCards.children.length,
-                cardName = 'card' + cardValue;
-        if (isCurrent) {
-            var newX = 0 + position * Card.bai.seperator,
-                    newY = this.selected ? -Card.bai.selectedHeight : 0;
-
-            if (handCards.multiSelectCard) {
-                card.IsDraggable = true;
-                this.multiSelect = true;
-            }
-            ;
-            this.set({
-                name: cardName,
-                cardValue: cardValue,
-                x: newX,
-                y: newY,
-                width: Card.baiOther.width,
-                height: Card.baiOther.height,
-                scaleX: Card.baiOther.width / Card.image.width,
-                scaleY: Card.baiOther.height / Card.image.height
-            });
-
-//                if (card.IsInPhom || card.IsBaiAn) {
-//                    if (card.IsBaiAn)
-//                        this.shadow = Card.shadowBold;
-//                    else
-//                        this.shadow = Card.shadow;
-//                }
-//                console.log("log before this is clicj function"); 
-//                this.addEventListener("click", function (){
-//                   console.log("this is clicj function"); 
-//                });
-            this.bindEventListener();
-//                this.updateCache();
-        } else {
-            if (card && card.IsFlip) {
-                this.name = cardName;
-                this.setValue(cardValue);
-            } else {
-                this.name = position;
-            }
-
-            var new_X = 0 + position * Card.baiOther.seperator;
-            this.set({
-                x: new_X,
-                y: 0,
-                cardValue: cardValue,
-                width: Card.baiOther.width,
-                height: Card.baiOther.height,
-                scaleX: Card.baiOther.width / Card.image.width,
-                scaleY: Card.baiOther.height / Card.image.height
-            });
-            //this.updateCache();
-        }
-        this.pos = position;
-        handCards.addChildAt(this, position);
-    };
-
-    p.danhBai = function (cardValue, draftCards, isCurrent) {
-        if (!draftCards)
-            return;
-
-//            if (typeof cardValue == 'undefined' || cardValue < 0)
-//                cardValue = Card.baiLoc.defaultValue;
-
-        var dropCards = draftCards.children,
-                count = dropCards.length;
-
-        this.removeAllEventListeners();
-        this.set({
-//                name: 'card' + cardValue,
-//                sourceRect: Card.cropImage(cardValue),
-            x: count * Card.baiDraft.seperator,
-            y: 0,
-            width: Card.baiDraft.width,
-            height: Card.baiDraft.height,
-            scaleX: Card.baiDraft.width / Card.image.width,
-            scaleY: Card.baiDraft.height / Card.image.height
-        });
-        //this.updateCache();
-        draftCards.addChild(this);
-//            console.log(draftCards);
-    };
-
-    p.openCard = function (cardValue, cardType) {
-        var oldX = this.x;
-        var _self = this;
-        cardType = cardType || Card.userCard;
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
-//                        .set({sourceRect: Card.cropImage(cardValue)})
-                .call(function () {
-                    this.setValue(cardValue);
-                    this.cardValue = cardValue;
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-
-                    }
-                })
-                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
-            if (this.isTracking) {
-                TWIST.Observer.emit('cardOpened', this);
-            }
-            this.setInPhom(this.isInPhom);
-            //this.updateCache();
-        });
-    };
-
-    p.upSideDown = function (cardType) {
-        var oldX = this.x;
-        var _self = this;
-        cardType = cardType || Card.userCard;
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: oldX + cardType.width / 2}, 150)
-                .call(function () {
-                    this.cardValue = -1;
-                    this.setValue(-1);
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-
-                    }
-                })
-                .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
-
-
-        });
-    };
-
-    p.tipOff = function () {
-        if (this.IsFlip === false)
-            return;
-
-        var newX = this.x;
-
-        this.removeAllEventListeners();
-
-        return createjs.Tween.get(this)
-                .to({scaleX: 0.1, x: newX + this.width / 2}, 150)
-                .call(function () {
-                    this.setValue(-1);
-                })
-                .to({scaleX: Card.draftCard.scale, x: newX}, 150)
-                .call(function () {
-                    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
-                    try {
-                        this.updateCache();
-                    } catch (e) {
-                        console.log(e);
-                    }
-                });
-    };
-
-    p.movePosition = function (newPosition) {
-        if (!this.parent)
-            return;
-
-        createjs.Tween.get(this).to({x: newPosition.x, y: newPosition.y}, 150).call(function () {});
     }
+  };
 
-    p.setSelected = function (isSelect) {
-        if (isSelect) {
-            var newY = -Card.userCard.selectedHeight;
-            createjs.Tween.get(this).to({y: newY}, 100).call(function () {
-                this.selected = true;
-            });
-        } else {
-            this.selected = false;
-            this.y = 0;
-        }
-    };
-
-    p.toggedSelected = function () {
-        var _self = this;
-        if (this.isSelected) {
-            this.isSelected = false;
-            this.y = this.y + 15;
-            _self.parent.swapCardX = undefined;
-            _self.parent.swapCardY = undefined;
-            _self.parent.selectedCard = undefined;
-        } else {
-            var newY = this.y - 15;
-            _self.parent.setChildIndex(_self, 12);
-            _self.isSelected = true;
-            createjs.Tween.get(this).to({y: newY}, 100).call(function () {
-                _self.parent.selectedCard = _self;
-            });
-
-        }
-    };
-
-    p.setDraggable = function (draggable) {
-        var _self = this;
-        this.removeAllEventListeners("mousedown");
-        this.removeAllEventListeners("pressmove");
-        this.removeAllEventListeners("pressup");
+  p.setDraggable = function (draggable) {
+    var _self = this;
+    this.removeAllEventListeners("mousedown");
+    this.removeAllEventListeners("pressmove");
+    this.removeAllEventListeners("pressup");
 
 //                this.parent.
-        if (draggable) {
-            this.addEventListener('mousedown', function (evt) {
-                _self.startPositionX = _self.x;
-                _self.startPositionY = _self.y;
-                _self.startMousePositionX = evt.stageX;
-                _self.startMousePositionY = evt.stageY;
-                _self.parent.addChild(_self);
-            });
-            this.addEventListener('pressmove', function (evt) {
-                _self.parent.addChild(_self);
-                var distanceX = (evt.stageX - _self.startMousePositionX);
-                var distanceY = (evt.stageY - _self.startMousePositionY);
-                if ((Math.abs(distanceX) + Math.abs(distanceY)) <= 10)
-                    return;
-                _self.isDragging = true;
-                _self.x = _self.startPositionX + distanceX;
-                _self.y = _self.startPositionY + distanceY;
-                var handCards = _self.parent;
-                var indexLeft = handCards.indexLeft;
-                var pointerPosition = handCards.globalToLocal(evt.stageX - indexLeft, evt.stageY);
-                if (pointerPosition.y > 0 && pointerPosition.y <= _self.height) {
-                    var curPosition = Math.floor(pointerPosition.x / _self.seperator);
-                    curPosition = (curPosition < 0) ? 0 : ((curPosition >= handCards.children.length - 1) ? handCards.children.length - 1 : curPosition);
-                    if (curPosition != _self.position) {
-                        var length = Math.abs(curPosition - _self.position);
-                        var direction = (curPosition - _self.position) / Math.abs(curPosition - _self.position);
+    if (draggable) {
+      this.addEventListener('mousedown', function (evt) {
+        _self.startPositionX = _self.x;
+        _self.startPositionY = _self.y;
+        _self.startMousePositionX = evt.stageX;
+        _self.startMousePositionY = evt.stageY;
+        _self.parent.addChild(_self);
+      });
+      this.addEventListener('pressmove', function (evt) {
+        _self.parent.addChild(_self);
+        var distanceX = (evt.stageX - _self.startMousePositionX);
+        var distanceY = (evt.stageY - _self.startMousePositionY);
+        if ((Math.abs(distanceX) + Math.abs(distanceY)) <= 10)
+          return;
+        _self.isDragging = true;
+        _self.x = _self.startPositionX + distanceX;
+        _self.y = _self.startPositionY + distanceY;
+        var handCards = _self.parent;
+        var indexLeft = handCards.indexLeft;
+        var pointerPosition = handCards.globalToLocal(evt.stageX - indexLeft, evt.stageY);
+        if (pointerPosition.y > 0 && pointerPosition.y <= _self.height) {
+          var curPosition = Math.floor(pointerPosition.x / _self.seperator);
+          curPosition = (curPosition < 0) ? 0 : ((curPosition >= handCards.children.length - 1) ? handCards.children.length - 1 : curPosition);
+          if (curPosition != _self.position) {
+            var length = Math.abs(curPosition - _self.position);
+            var direction = (curPosition - _self.position) / Math.abs(curPosition - _self.position);
 
-                        var cardPositions = handCards.children.forEach(function (item, index) {
-                            if ((item.position - curPosition) * (item.position - _self.position) <= 0 && (item.position != _self.position)) {
-                                item.position -= direction;
-                                item.moveToPosition(item.position);
-                            }
-                        });
-                    }
-                    ;
-                    _self.position = curPosition;
-                }
+            var cardPositions = handCards.children.forEach(function (item, index) {
+              if ((item.position - curPosition) * (item.position - _self.position) <= 0 && (item.position != _self.position)) {
+                item.position -= direction;
+                item.moveToPosition(item.position);
+              }
             });
-            this.addEventListener('pressup', function (evt) {
-                if (_self.isDragging) {
-                    _self.selected = false;
-                    _self.moveToPosition(_self.position);
-                    _self.parent.children.sort(function (a, b) {
-                        return a.position - b.position
-                    });
-                }
-                _self.isDragging = false;
-            });
+          }
+          ;
+          _self.position = curPosition;
         }
-    };
+      });
+      this.addEventListener('pressup', function (evt) {
+        if (_self.isDragging) {
+          _self.selected = false;
+          _self.moveToPosition(_self.position);
+          _self.parent.children.sort(function (a, b) {
+            return a.position - b.position
+          });
+        }
+        _self.isDragging = false;
+      });
+    }
+  };
 
-    p.moveTo = function (x, y, options) {
-        createjs.Tween.get(this).to({
-            x: x,
-            y: y
-        }, 100, createjs.Ease.sineOut()).call(function () {
+  p.moveTo = function (x, y, options) {
+    createjs.Tween.get(this).to({
+      x: x,
+      y: y
+    }, 100, createjs.Ease.sineOut()).call(function () {
 //                    this.tween = undefined;
 //                    this.parent.setChildIndex(this, this.position);
-        });
-    };
+    });
+  };
 
-    p.moveToPosition = function (position, options) {
-        position = position || this.position || 0;
-        var indexLeft = this.parent.indexLeft || 0;
-        var seperator = this.seperator || Card.userCard.seperator;
-        var newX = indexLeft + seperator * position;
-        this.moveTo(newX, 0, options);
-    };
+  p.moveToPosition = function (position, options) {
+    position = position || this.position || 0;
+    var indexLeft = this.parent.indexLeft || 0;
+    var seperator = this.seperator || Card.userCard.seperator;
+    var newX = indexLeft + seperator * position;
+    this.moveTo(newX, 0, options);
+  };
 
-    p.setInPhom = function (value) {
-        if (value) {
-            this.inPhom.visible = true;
-        } else {
-            this.inPhom.visible = false;
-        }
-    };
-
-    p.setClick = function (clickable) {
-        var _self = this;
-
-        this.removeAllEventListeners("click");
-        if (clickable) {
-            this.addEventListener('click', function (e) {
-                var card = e.target.parent;
-                if (!card.isDragging) {
-                    if (card.parent.selectedCard && card.parent.selectedCard.cardValue != card.cardValue) {
-                        $rootScope.playerEvent = {evt: "swapSelected", data: [card.parent.selectedCard.cardValue, card.cardValue]};
-                        $rootScope.digest();
-                    } else {
-                        card.toggedSelected();
-                    }
-                }
-            });
-        }
-    };
-
-    p.bindMouseOver = function (mouseOver) {
-        var _self = this;
-
-        this.removeAllEventListeners("mouseover");
-        this.removeAllEventListeners("mouseout");
-
-        if (mouseOver) {
-            this.addEventListener('mouseover', function (evt) {
-                console.log("moserOver ", _self.cardValue);
-                return;
-                _self.cursor = "pointer";
-                _self.Overlay();
-            });
-            return;
-            this.addEventListener('mouseout', function (evt) {
-                _self.cursor = undefined;
-                _self.UnOverlay()
-            });
-        }
-    };
-
-    p.bindEventListener = function () {
-        this.removeAllEventListeners("click");
-        var _self = this;
-        this.addEventListener('click', function (e) {
-            if (!_self.isDragging) {
-                if (!_self.selected) {
-                    TWIST.Observer.emit("cardSelected", _self);
-                }
-                _self.setSelected(!_self.selected);
-
-            }
-        });
-    };
-
-    p.bindOpenCard = function () {
-        this.removeAllEventListeners("click");
-        var _self = this;
-        this.addEventListener('click', function (e) {
-            try {
-                if (!_self.isDragging) {
-                    _self.openCard(_self.cardValue);
-                }
-            } catch (e) {
-                console.warn(e);
-            }
-        });
+  p.setInPhom = function (value) {
+    if (value) {
+      this.inPhom.visible = true;
+    } else {
+      this.inPhom.visible = false;
     }
+    try {
+      this.updateCache();
+    } catch (e) {
+    }
+  };
 
-    p.Overlay = function () {
-        this.isOverlay = true;
-        this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
-        this.cache(0, 0, Card.size.width, Card.size.height);
-        console.log("isOverlay",this.isOverlay)
-        try {
-            this.updateCache();
-        } catch (e) {
+  p.setClick = function (clickable) {
+    var _self = this;
 
+    this.removeAllEventListeners("click");
+    if (clickable) {
+      this.addEventListener('click', function (e) {
+        var card = e.target.parent;
+        if (!card.isDragging) {
+          if (card.parent.selectedCard && card.parent.selectedCard.cardValue != card.cardValue) {
+            $rootScope.playerEvent = {evt: "swapSelected", data: [card.parent.selectedCard.cardValue, card.cardValue]};
+            $rootScope.digest();
+          } else {
+            card.toggedSelected();
+          }
         }
-    };
+      });
+    }
+  };
 
-    p.UnOverlay = function () {
-        this.isOverlay = false;
-        this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
-        try {
-            this.updateCache();
-        } catch (e) {
+  p.bindMouseOver = function (mouseOver) {
+    var _self = this;
 
+    this.removeAllEventListeners("mouseover");
+    this.removeAllEventListeners("mouseout");
+
+    if (mouseOver) {
+      this.addEventListener('mouseover', function (evt) {
+        return;
+        _self.cursor = "pointer";
+        _self.Overlay();
+      });
+      return;
+      this.addEventListener('mouseout', function (evt) {
+        _self.cursor = undefined;
+        _self.UnOverlay()
+      });
+    }
+  };
+
+  p.bindEventListener = function () {
+    this.removeAllEventListeners("click");
+    var _self = this;
+    this.addEventListener('click', function (e) {
+      if (!_self.isDragging) {
+        if (!_self.selected) {
+          TWIST.Observer.emit("cardSelected", _self);
         }
-    };
+        _self.setSelected(!_self.selected);
 
-    p.addMouseMoveEvent = function () {
-        if (this.card.IsDraggable && !this.card.IsInPhom) {
-            this.addEventListener('mouseover', function (evt) {
+      }
+    });
+  };
+
+  p.bindOpenCard = function () {
+    this.removeAllEventListeners("click");
+    var _self = this;
+    this.addEventListener('click', function (e) {
+      try {
+        if (!_self.isDragging) {
+          _self.openCard(_self.cardValue);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    });
+  }
+
+  p.Overlay = function () {
+    this.isOverlay = true;
+    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
+    this.cache(0, 0, Card.size.width, Card.size.height);
+    try {
+      this.updateCache();
+    } catch (e) {
+
+    }
+  };
+
+  p.UnOverlay = function () {
+    this.isOverlay = false;
+    this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
+    try {
+      this.updateCache();
+    } catch (e) {
+
+    }
+  };
+
+  p.addMouseMoveEvent = function () {
+    if (this.card.IsDraggable && !this.card.IsInPhom) {
+      this.addEventListener('mouseover', function (evt) {
 //                    evt.target.shadow = Card.shadowHover;
-            });
+      });
 
-            this.addEventListener('mouseout', function (evt) {
+      this.addEventListener('mouseout', function (evt) {
 //                    evt.target.shadow = null;
-            });
-        }
-    };
-
-    p.hightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = true;
-        this.border.visible = true;
+      });
     }
+  };
 
-    p.unHightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = false;
-        this.border.visible = false;
-    }
+  p.hightLight = function () {
+    this.showEatEffect = true;
+    this.eatEffect.visible = true;
+  }
 
-    TWIST.Card = Card;
+  p.unHightLight = function () {
+    this.showEatEffect = false;
+    this.eatEffect.visible = false;
+  }
+
+  TWIST.Card = Card;
 })();
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
-    var imagePath, CONFIG;
-    var imagePath = location.origin + location.pathname + '../src/images/';
+  "use strict";
+  var imagePath, CONFIG;
+  var imagePath = location.origin + location.pathname + '../src/images/';
 
-    function Desk(gameType) {
-        this.initialize(gameType);
-    }
+  function Desk(gameType) {
+    this.initialize(gameType);
+  }
 
-    Desk.playerPositions = {
-        4: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 450, y: 17}, {x: 110, y: 160}],
-        2: [{x: 12, y: 410}, {x: 450, y: 17}],
-        5: [{x: 12, y: 410}, {x: 1110, y: 184}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 193}],
-        9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
-        6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
-    };
+  Desk.playerPositions = {
+       4: [{x: 12, y: 430}, {x: 840, y: 190}, {x: 450, y: 17}, {x: 70, y: 190}],
+    2: [{x: 12, y: 410}, {x: 450, y: 17}],
+    5: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 350, y: 17}, {x: 650, y: 17}, {x: 110, y: 160}],
+    9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
+    6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
+  };
 
-    Desk.handPositions = {
-        center: {x: 150, y: -110, align: 'center'},
+  Desk.handPositions = {
+    center: {x: 150, y: -110, align: 'center'},
         left: {x: -50, y: 20, align: 'left'},
         right: {x: 150, y: -110, align: 'center'}
-    };
+  };
 
-    Desk.draftPositions = {
-        
-    };
+  Desk.draftPositionList = {
+//        4: [{x: 300, y: -70}, {x: -350, y: TWIST.Card.draftCard.height},
+//            {x: 50, y: TWIST.Card.draftCard.height}, {x: 50, y: TWIST.Card.draftCard.height}]
+  };
 
-    var p = Desk.prototype = new createjs.Container();
-    p.container_initialize = p.initialize;
+  var p = Desk.prototype = new createjs.Container();
+  p.container_initialize = p.initialize;
 
 
-    Desk.width = 1000;
-    Desk.height = 580;
+  Desk.width = 1000;
+  Desk.height = 580;
 
-    // vi tri gua ban
-    Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
+  // vi tri gua ban
+  Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
 
-    Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
+  Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
-    p.initialize = function (gameType) {
-        this.container_initialize();
-        var _self = this;
-        this.gameType = gameType || {};
-        this.config = {};
-        this.initPosition(gameType);
+  p.initialize = function (gameType) {
+    this.container_initialize();
+    var _self = this;
+    this.gameType = gameType || {};
+    this.config = {};
+    this.initPosition(gameType);
 
-        var deckCard = this.createDeckCard();
-        var remainingTime = this.createRemainingTime();
-        var remainingCard = this.createRemainingCard();
-        var draftCards = this.createDraftCards();
-        this.addChild(deckCard, draftCards, remainingTime, remainingCard);
+    var deckCard = this.createDeckCard();
+    var remainingTime = this.createRemainingTime();
+    var remainingCard = this.createRemainingCard();
+    var draftCards = this.createDraftCards();
+    this.addChild(deckCard, draftCards, remainingTime, remainingCard);
 
-    };
+  };
 
-    p.createDeckCard = function () {
-        this.deckCard = new createjs.Container();
-        this.deckCard.set({
-            x: Desk.position.x - 20,
-            y: Desk.position.y - 60,
-            visible: false
+  p.createDeckCard = function () {
+    this.deckCard = new createjs.Container();
+    this.deckCard.set({
+      x: Desk.position.x - (TWIST.Card.userCard.width) / 2,
+      y: Desk.position.y - (TWIST.Card.userCard.height) / 2,
+      visible: false
+    });
+    return this.deckCard;
+  };
+
+  p.createRemainingTime = function () {
+    this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
+    this.remainingTime.set({
+      x: Desk.position.x,
+      y: Desk.position.y,
+      visible: false,
+      textAlign: "center",
+      textBaseLine: "top"
+    });
+    return this.remainingTime;
+  };
+
+  p.createRemainingCard = function () {
+    this.remainingCard = new createjs.Text('', 'bold 30px Roboto Condensed', 'greenyellow');
+    this.remainingCard.set({
+      x: Desk.position.x,
+      y: Desk.position.y,
+      textAlign: "center",
+      textBaseline: 'middle'
+    });
+    return this.remainingCard;
+  };
+
+  p.showRemainingDeckCard = function (value) {
+    var _value;
+    if (typeof value === "undefined") {
+      var _value = this.deckCard.children.length;
+    }else{
+      this.deckCard.children.length = _value = value;
+    } 
+    this.remainingCard.text = _value || "";
+  };
+
+  p.createDraftCards = function () {
+    this.draftCards = new createjs.Container();
+    this.draftCards.set({
+      x: Desk.draftPosition.x,
+      y: Desk.draftPosition.y
+    });
+    return this.draftCards;
+  };
+
+  p.initPosition = function (gameType) {
+    var maxPlayers = gameType.maxPlayers || 4;
+
+    var playerPosition = new Array(maxPlayers);
+    var handPosition = new Array(maxPlayers);
+    var draftPosition = new Array(maxPlayers);
+
+    for (var i = 0; i < maxPlayers; i++) {
+      handPosition[i] = {
+        x: 63,
+        y: 30,
+        align: 'left'
+      };
+      draftPosition[i] = {x: handPosition[i].x + TWIST.Card.draftCard.width * 1.5, y: handPosition[i].y};
+    }
+
+    playerPosition = Desk.playerPositions[maxPlayers];
+//        draftPosition = Desk.draftPosition[maxPlayers] || [];
+    handPosition[0] = {x: 150, y: -50, align: 'center'};
+
+    if (maxPlayers === 4) {
+      handPosition[1] = {x: 6, y: 30, align: 'center'};
+      draftPosition[0] = {
+        x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[0].x,
+        y: -100,
+        align: 'left'
+      };
+      draftPosition[1].x = -340;
+      draftPosition[1].align = 'right';
+      draftPosition[2] = {
+        x: (Desk.width / 2 - TWIST.Card.draftCard.width * 2) - playerPosition[2].x,
+        y: 120,
+        align: 'left'
+      };
+    }
+
+
+    this.config.playerPositions = playerPosition;
+    this.config.handPositions = handPosition;
+    this.config.draftPositions = draftPosition;
+  };
+
+  p.generateCards = function (numberCards, cardType) {
+    var currentCards = this.deckCard.children.length;
+    var numberCardAdd = numberCards - currentCards;
+    if (numberCardAdd > 0) {
+      for (var i = 0; i < numberCardAdd; i++) {
+        var cardImage = new TWIST.Card();
+        var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
+        cardImage.set({
+          scaleX: scale,
+          scaleY: scale
         });
-        return this.deckCard;
-    };
-
-    p.createRemainingTime = function () {
-        this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
-        this.remainingTime.set({
-            x: Desk.width /2,
-            y: Desk.height/2,
-            visible: false,
-            textAlign: "center"
-        });
-        return this.remainingTime;
-    };
-
-    p.createRemainingCard = function () {
-        this.remainingCard = new createjs.Text('', 'bold 30px Roboto Condensed', 'greenyellow');
-        this.remainingCard.set({
-            x: this.deckCard.x + 35,
-            y: this.deckCard.y + 65,
-            textAlign: "center",
-            textBaseline: 'bottom'
-        });
-        return this.remainingCard;
-    };
-
-    p.createDraftCards = function () {
-        this.draftCards = new createjs.Container();
-        this.draftCards.set({
-            x: Desk.draftPosition.x,
-            y: Desk.draftPosition.y
-        });
-        return this.draftCards;
-    };
-
-    p.initPosition = function (gameType) {
-        var maxPlayers = gameType.maxPlayers || 4;
-
-        var playerPosition = new Array(maxPlayers);
-        var handPosition = new Array(maxPlayers);
-        var draftPosition = new Array(maxPlayers);
-
-        for (var i = 0; i < maxPlayers; i++) {
-            playerPosition[i] = {x: 0, y: 0};
-            draftPosition[i] = {x: 50, y: 50};
-            handPosition[i] = {
-                x: 90,
-                y: 20,
-                align: 'left'
-            };
-        }
-
-        playerPosition = Desk.playerPositions[maxPlayers];
-        handPosition[0] = {x: 150, y: -50, align: 'center'};
-        
-        if (maxPlayers === 4) {
-            handPosition[1] = {x: -30, y: 20, align: 'right'};
-        }
-        
-
-        this.config.playerPositions = playerPosition;
-        this.config.handPositions = handPosition;
-        this.config.draftPositions = draftPosition;
-    };
-
-    p.generateCards = function (numberCards) {
-        numberCards = numberCards || 0;
-        for (var i = 0; i < numberCards; i++) {
-            var cardImage = new TWIST.Card();
-            var scale = TWIST.Card.playerCard.scale;
-            cardImage.set({
-                scaleX: scale,
-                scaleY: scale
-            });
-            this.deckCard.addChild(cardImage);
-        }
-        this.deckCard.visible = true;
-    };
+        this.deckCard.addChild(cardImage);
+      }
+    } else {
+      this.deckCard.children.splice(0, -numberCardAdd);
+    }
+    this.deckCard.visible = true;
+  };
 
 
-    p.createLastDraftCards = function (cardList) {
-        var draftCards = this.draftCards;
-        var cardType = TWIST.Card.draftCard;
-        cardList.forEach(function (item, index) {
-            var card = new TWIST.Card(item);
-            card.set({
-                x: (index - cardList.length * 0.5) * cardType.seperator,
-                rotation: (Math.random() - 0.5) * 30,
-                scaleX: cardType.scale,
-                scaleY: cardType.scale
-            });
-            draftCards.addChild(card);
-        });
-    };
+  p.createLastDraftCards = function (cardList) {
+    var draftCards = this.draftCards;
+    var cardType = TWIST.Card.draftCard;
+    cardList.forEach(function (item, index) {
+      var card = new TWIST.Card(item);
+      card.set({
+        x: (index - cardList.length * 0.5) * cardType.seperator,
+        rotation: (Math.random() - 0.5) * 30,
+        scaleX: cardType.scale,
+        scaleY: cardType.scale
+      });
+      draftCards.addChild(card);
+    });
+  };
 
-    p.scaleDeckCard = function (numberPlayer) {
-        var deckCardList = this.deckCard.children;
-        for (var i = 0; i < deckCardList.length; i++) {
-            var card = deckCardList[i];
-            card.set({
-                scaleX: 0.3,
-                scaleY: 0.3
-            });
-        }
-        ;
-    };
+  p.scaleDeckCard = function (numberPlayer) {
+    var deckCardList = this.deckCard.children;
+    for (var i = 0; i < deckCardList.length; i++) {
+      var card = deckCardList[i];
+      card.set({
+        scaleX: 0.3,
+        scaleY: 0.3
+      });
+    }
+  };
 
-    p.renderDraftCards = function (cards) {
-        for (var i = 0; i < cards.length; i++) {
-            var cardImage = new TWIST.Card(cards[i]);
+  p.renderDraftCards = function (cards) {
+    for (var i = 0; i < cards.length; i++) {
+      var cardImage = new TWIST.Card(cards[i]);
 
-            var newX = TWIST.Card.baiDraft.seperator * i,
-                    newY = 0;
-            cardImage.set({
-                x: newX,
-                y: newY,
-                scaleX: TWIST.Card.baiDraft.width / TWIST.Card.image.width,
-                scaleY: TWIST.Card.baiDraft.height / TWIST.Card.image.height
-            });
-            TWIST.Card.addChild(cardImage);
-        }
-    };
+      var newX = TWIST.Card.baiDraft.seperator * i,
+              newY = 0;
+      cardImage.set({
+        x: newX,
+        y: newY,
+        scaleX: TWIST.Card.baiDraft.width / TWIST.Card.image.width,
+        scaleY: TWIST.Card.baiDraft.height / TWIST.Card.image.height
+      });
+      TWIST.Card.addChild(cardImage);
+    }
+  };
 
-    p.getCard = function () {
-        var card;
-        card = this.deckCard.children.pop();
-        if (card)
-            card.set({x: this.deckCard.x, y: this.deckCard.y});
+  p.getCard = function () {
+    var card;
+    card = this.deckCard.children.pop();
+    if (card)
+      card.set({x: this.deckCard.x, y: this.deckCard.y});
 
-        return card;
-    };
+    return card;
+  };
 
-    p.setRemainingTime = function (time) {
-        var miliseconTime = time > 1000 ? time : time * 1000;
-        var startTime = new Date().getTime();
-        var miliseconTimeText = this.remainingTime;
-        miliseconTimeText.visible = true;
-        if (miliseconTime > 0) {
-            if (this.remainingTimeTween) {
-                this.remainingTimeTween.removeAllEventListeners();
+  p.setRemainingTime = function (time, options) {
+    var miliseconTime = time > 1000 ? time : time * 1000;
+    var startTime = new Date().getTime();
+    var miliseconTimeText = this.remainingTime;
+    $.extend(miliseconTimeText, options);
+    miliseconTimeText.visible = true;
+    if (miliseconTime >= 0) {
+      if (this.remainingTimeTween) {
+        this.remainingTimeTween.removeAllEventListeners();
+        miliseconTimeText.text = "";
+      }
+      this.remainingTimeTween = createjs.Tween.get(miliseconTimeText)
+              .to({}, miliseconTime, createjs.Ease.linear)
+              .call(function () {
                 miliseconTimeText.text = "";
-            }
-            this.remainingTimeTween = createjs.Tween.get(miliseconTimeText)
-                    .to({}, miliseconTime, createjs.Ease.linear)
-                    .call(function () {
-                        miliseconTimeText.text = "";
-                    });
-            this.remainingTimeTween.addEventListener("change", function () {
-                var currentTime = new Date().getTime();
-                var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
-                miliseconTimeText.text = text > 0 ? text : "";
-            });
-        } else if (this.remainingTimeTween) {
-            this.remainingTimeTween.removeAllEventListeners();
-            miliseconTimeText.text = "";
-        }
-        var _self = this;
-    };
+              });
+      this.remainingTimeTween.addEventListener("change", function () {
+        var currentTime = new Date().getTime();
+        var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
+        miliseconTimeText.text = text >= 0 ? text : "";
+      });
+    } else if (this.remainingTimeTween) {
+      this.remainingTimeTween.removeAllEventListeners();
+      miliseconTimeText.text = "";
+    }
+    var _self = this;
+  };
 
 
-    p.clearRemainingTime = function () {
-        if (this.remainingTimeTween) {
-            this.remainingTimeTween.removeAllEventListeners();
-        }
-        this.remainingTime.text = "";
-    };
+  p.clearRemainingTime = function () {
+    if (this.remainingTimeTween) {
+      this.remainingTimeTween.removeAllEventListeners();
+    }
+    this.remainingTime.text = "";
+  };
 
-    p.clear = function () {
-        this.deckCard.removeAllChildren();
-        this.draftCards.removeAllChildren();
-        this.deckCard.visible = false;
-        this.remainingCard.text = '';
-    };
+  p.clear = function () {
+    this.deckCard.removeAllChildren();
+    this.draftCards.removeAllChildren();
+    this.deckCard.visible = false;
+    this.remainingCard.text = '';
+  };
 
-    p.tipOff = function () {
-        var draftCardList = this.draftCards.children;
-        for (var i = 0; i < draftCardList.length; i++) {
-            if (draftCardList[i].cardValue > -1) {
-                draftCardList[i].tipOff();
-            }
-        }
-    };
+  p.tipOff = function () {
+    var draftCardList = this.draftCards.children;
+    for (var i = 0; i < draftCardList.length; i++) {
+      if (draftCardList[i].cardValue > -1) {
+        draftCardList[i].tipOff();
+      }
+    }
+  };
 
-    p.overlayDraftCards = function () {
-        var draftCardList = this.draftCards.children;
-        for (var i = 0; i < draftCardList.length; i++) {
-            if (draftCardList[i].cardValue > -1) {
-                draftCardList[i].Overlay();
-            }
-        }
-    };
+  p.overlayDraftCards = function () {
+    var draftCardList = this.draftCards.children;
+    for (var i = 0; i < draftCardList.length; i++) {
+      if (draftCardList[i].cardValue > -1) {
+        draftCardList[i].Overlay();
+      }
+    }
+  };
 
-    p.removeOverlayCards = function () {
-        var draftCardList = this.draftCards.children;
+  p.removeOverlayCards = function () {
+    var draftCardList = this.draftCards.children;
 
-        for (var i = 0, length = draftCardList.length; i < length; i++) {
-            if (draftCardList[i] && draftCardList[i].isOverlay) {
-                draftCardList.splice(i, 1)
-                i--;
-            }
-        }
-    };
+    for (var i = 0, length = draftCardList.length; i < length; i++) {
+      if (draftCardList[i] && draftCardList[i].isOverlay) {
+        draftCardList.splice(i, 1)
+        i--;
+      }
+    }
+  };
 
-    p.setZeroVetical = function () {
-        var draftCard = this.draftCard;
-        var draftCardList = this.draftCards.children;
-        draftCardList.forEach(function (item, index) {
-            item.moveTo(item.x, 0);
-        });
-    };
+  p.setZeroVetical = function () {
+    var draftCard = this.draftCard;
+    var draftCardList = this.draftCards.children;
+    draftCardList.forEach(function (item, index) {
+      item.moveTo(item.x, 0);
+    });
+  };
 
-    TWIST.Desk = Desk;
+  TWIST.Desk = Desk;
 })();
 this.TWIST = this.TWIST || {};
 
@@ -1817,1225 +1911,1241 @@ this.TWIST = this.TWIST || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var imagePath = location.origin + location.pathname + '../src/images/';
-    var _animationTime = 300;
+  var imagePath = location.origin + location.pathname + '../src/images/';
+  var _animationTime = 300;
+  var DESK = TWIST.Desk;
 
+  function Player(playerData) {
+    this.initialize(playerData);
+  }
 
-    function Player(playerData) {
-        this.initialize(playerData);
+  Player.Defaults = {
+    UserName: 'username',
+    Position: 0
+  };
+
+  Player.usernameConfig = {x: 0, y: 70, width: 100, height: 40};
+
+  Player.avatarConfig = {x: 15, y: 0, radius: 35, innerRadius: 33, AvatarDefault: imagePath + 'avatars/1.png'};
+
+  Player.handConfig = {x: 100, y: 100};
+
+  Player.draftCardsConfig = {x: 100, y: 100, align: "left"};
+
+  var p = Player.prototype = new createjs.Container();
+
+  p.contructor_initialize = p.initialize;
+
+  p.initialize = function (data) {
+    this.contructor_initialize();
+    $.extend(this, data);
+    this.initCanvas();
+  };
+
+  p.initCanvas = function () {
+    var self = this;
+    var config = this.config || {};
+    var avatarConfig = $.extend(Player.avatarConfig, config.avartar);
+
+    this.initUsername(config, self);
+    this.initAvatar(config, self);
+    this.initDraftCards(config, self);
+    this.initHandCards(config, self);
+    this.initChatMessage(config, self);
+    this.initMoneyEffect(config, self);
+    this.initStatus(config, self);
+    this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y, radius: avatarConfig.radius, strokeThick: 10});
+
+    this.addChild(this.timer, this.avatarContainer, this.usernameContainer, this.draftCards, this.hand, this.status, this.chat, this.moneyChangeEffect);
+    this.render();
+  };
+
+  p.initUsername = function (config, self) {
+    var usernameContainer = new createjs.Container();
+    var usernameConfig = config.username || Player.usernameConfig;
+    $.extend(usernameContainer, usernameConfig);
+
+    var usernameText = new createjs.Text(this.username, '18px Roboto Condensed', 'white');
+    usernameText.set({x: 50, y: 20, textAlign: 'center', textBaseline: 'bottom'});
+    var moneyText = new createjs.Text(this.money, '14px Roboto Condensed', '#f3ba04');
+    moneyText.set({x: 50, y: 40, textAlign: 'center', textBaseline: 'bottom'});
+    var usernameBg = new createjs.Shape();
+    usernameBg.graphics.beginFill("black").drawRoundRectComplex(0, 0, usernameConfig.width, usernameConfig.height, 10, 10, 10, 10);
+    usernameBg.alpha = 0.2;
+    usernameContainer.addChild(usernameBg, usernameText, moneyText);
+    this.usernameContainer = usernameContainer;
+  };
+
+  p.initAvatar = function (config, self) {
+    //        avatar container
+
+    var avatarContainer = new createjs.Container();
+    var avatarConfig = $.extend(Player.avatarConfig, config.avartar);
+    var avatarImageDiameter = avatarConfig.innerRadius * 2;
+    $.extend(avatarContainer, avatarConfig);
+
+    var avatarImage = new Image();
+    var avatarNumber = Global.md5Avatar(this.username) || 10;
+    avatarImage.src = this.avatarSrc || ((TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png');
+    var avatarBitmap = new createjs.Bitmap(avatarImage);
+    avatarImage.onload = function () {
+      avatarBitmap.set({
+        width: avatarImageDiameter,
+        height: avatarImageDiameter,
+        scaleX: avatarImageDiameter / avatarImage.width,
+        scaleY: avatarImageDiameter / avatarImage.height
+      });
+    };
+    avatarBitmap.set({x: avatarConfig.radius - avatarConfig.innerRadius, y: avatarConfig.radius - avatarConfig.innerRadius})
+
+    var maskShape = new createjs.Shape();
+    maskShape.graphics.drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.innerRadius);
+    avatarBitmap.mask = maskShape;
+
+    var avatarBg = new createjs.Shape();
+    avatarBg.graphics.beginFill('#000').drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.radius);
+    avatarBg.set({alpha: 0.7});
+
+    var roomMasterImage = new Image();
+    roomMasterImage.src = (TWIST.imagePath || imagePath) + 'player/' + 'icon_chuphong.png';
+    var roomMaster = new createjs.Bitmap(roomMasterImage);
+    roomMaster.set({x: avatarImageDiameter * 0.7, y: avatarImageDiameter * 0.7,
+      name: "roomMaster", visible: this.isRoomMaster
+    });
+    var roomMasterSize = avatarImageDiameter * 0.3;
+    roomMasterImage.onload = function () {
+      roomMaster.set({
+        width: roomMasterSize,
+        height: roomMasterSize,
+        scaleX: roomMasterSize / roomMasterImage.width,
+        scaleY: roomMasterSize / roomMasterImage.height
+      });
+    };
+
+    var avatarHit = new createjs.Shape();
+    avatarHit.graphics.beginFill('#fff').drawRect(0, 0, avatarImageDiameter, avatarImageDiameter);
+    avatarContainer.hitArea = avatarHit;
+
+    avatarContainer.addChild(avatarBg, avatarBitmap, roomMaster);
+    this.avatarContainer = avatarContainer;
+  };
+
+  p.initDraftCards = function (config, self) {
+    //        draft cards
+
+    var draftCardsConfig = config.draftPositions || Player.draftCardsConfig;
+    this.draftCards = new createjs.Container();
+    $.extend(this.draftCards, draftCardsConfig);
+  };
+
+  p.initHandCards = function (config, self) {
+    //        hand container
+    var handConfig = config.handPositions || Player.handConfig;
+    this.hand = new createjs.Container();
+    $.extend(this.hand, handConfig);
+    var card = TWIST.Card.playerCard;
+    var radius = (card.width - 3) / 2;
+
+    this.handCards = new createjs.Container();
+    this.numberOfCards = new createjs.Container();
+    this.numberOfCards.set({x: 0, y: 0});
+    var numberOfCardsBg = new createjs.Shape();
+    numberOfCardsBg.graphics.beginFill('#000').drawCircle(card.width / 2, card.height / 2, radius);
+    numberOfCardsBg.set({alpha: 0.3, visible: false});
+    var numberOfCards = new createjs.Text("", (radius * 1.5) + 'px Roboto Condensed', '#7fc100');
+    numberOfCards.set({x: card.width / 2, y: card.height / 2, textAlign: 'center', visible: false, name: "numberOfCard", textBaseline: 'middle'});
+    this.numberOfCards.addChild(numberOfCardsBg, numberOfCards);
+
+    this.hand.addChild(this.handCards, this.numberOfCards);
+  };
+
+  p.initChatMessage = function (config, self) {
+    //show chat message
+    this.chat = new createjs.Container();
+    this.chat.set({name: 'chat'});
+    var chatText = new createjs.Text('', '22px Roboto Condensed', '#000');
+    chatText.set({textAlign: 'center', textBaseline: 'bottom'});
+    var chatBg = new createjs.Shape();
+    this.chat.addChild(chatBg, chatText);
+  };
+
+  p.initMoneyEffect = function (config, self) {
+    //show change money effect
+    this.moneyChangeEffect = new createjs.Container();
+    this.moneyChangeEffect.set({name: 'moneyChangeEffect', x: 50, y: 50});
+    var moneyChangeBg = new createjs.Text("", "bold 24px Roboto Condensed", "black");
+    moneyChangeBg.set({x: 1, y: 11, textAlign: 'center', textBaseline: 'bottom'});
+    var moneyChangeText = new createjs.Text("", "bold 24px Roboto Condensed");
+    moneyChangeText.set({x: 0, y: 10, textAlign: 'center', textBaseline: 'bottom'});
+    moneyChangeText.shadow = new createjs.Shadow("#000", 0, 0, 10);
+    this.moneyChangeEffect.addChild(moneyChangeBg, moneyChangeText);
+  };
+
+  p.initStatus = function (config, self) {
+    //player status
+    this.status = new createjs.Container();
+    var radius = (config.avartar || Player.avatarConfig).radius;
+    this.status.set({x: 50, y: 40});
+    var statusBg = new createjs.Text();
+    var statusText = new createjs.Text();
+    this.status.addChild(statusBg, statusText);
+  };
+
+  p.render = function () {
+    this.setPlayerName(this.username);
+    this.setMoney(this.money);
+    this.setRoomMaster(this.isRoomMaster);
+    return;
+  };
+
+  p.setRemainingTime = function (remainingTime, totalTime) {
+    remainingTime = remainingTime || 20000;
+    if (remainingTime < 50)
+      remainingTime *= 1000;
+    totalTime = totalTime || 20000;
+    if (totalTime < 50)
+      totalTime *= 1000;
+    this.timer.startTimer(totalTime, remainingTime);
+  };
+
+  p.clearTimer = function (remainingTime, totalTime) {
+    this.timer.clearTimer();
+  };
+
+  p.setPlayerName = function (name) {
+
+    var usernameContainer = this.usernameContainer;
+    var usernameText = usernameContainer.getChildAt(1);
+    usernameText.text = name;
+    var measuredWidth = usernameText.getMeasuredWidth();
+    var usernameMaxWidth = Player.usernameConfig.width;
+    if (measuredWidth > usernameMaxWidth) {
+      var ratio = usernameMaxWidth / measuredWidth;
+      var newLength = Math.round(usernameText.text.length * ratio) - 3;
+      usernameText.text = usernameText.text.substring(0, newLength) + "...";
+    }
+  };
+
+  p.setMoney = function (money) {
+    var usernameContainer = this.usernameContainer;
+    this.money = parseInt(money);
+    var moneyText = usernameContainer.getChildAt(2);
+    moneyText.text = Global.numberWithDot(money);
+  };
+
+  p.setRoomMaster = function (roomMaster, oldRoomMasterPosition) {
+    if (typeof roomMaster === undefined)
+      roomMaster = this.isRoomMaster;
+    else
+      this.isRoomMaster = roomMaster;
+    var roomMasterItem = this.avatarContainer.getChildByName("roomMaster");
+    roomMasterItem.visible = roomMaster;
+    if (roomMaster) {
+      var oldScale = {
+        scaleX: roomMasterItem.scaleX,
+        scaleY: roomMasterItem.scaleY
+      };
+      roomMasterItem.set({scaleX: 1, scaleY: 1});
+      var initGlobalPosition = roomMasterItem.globalPosition = roomMasterItem.globalToLocal(0, 0);
+      roomMasterItem.set(oldScale);
+
+      if (oldRoomMasterPosition) {
+        var initPosition = {
+          x: roomMasterItem.x,
+          y: roomMasterItem.y
+        };
+        var currentPosition = {
+          x: initPosition.x + initGlobalPosition.x - oldRoomMasterPosition.x,
+          y: initPosition.y + initGlobalPosition.y - oldRoomMasterPosition.y
+        };
+        roomMasterItem.set(currentPosition);
+        createjs.Tween.get(roomMasterItem)
+                .to({
+                  x: initPosition.x,
+                  y: initPosition.y
+                }, _animationTime).call(function () {
+        });
+
+      }
     }
 
-    Player.Defaults = {
-        UserName: 'username',
-        Position: 0
-    };
+    return roomMasterItem;
+  };
 
-    Player.usernameConfig = {x: 0, y: 70, width: 100, height: 40};
+  p.clearHand = function () {
+    this.handCards.removeAllChildren();
+    var cardNumberBg = this.numberOfCards.getChildAt(0);
+    var cardNumber = this.numberOfCards.getChildAt(1);
+    cardNumberBg.visible = false;
+    cardNumber.visible = false;
+  };
 
-    Player.avatarConfig = {x: 15, y: 0, radius: 35, innerRadius: 33, AvatarDefault: imagePath + 'avatars/1.png'};
+  p.clearDraftCards = function () {
+    if (this.draftCards) {
+      this.draftCards.removeAllChildren();
+    }
+  };
 
-    Player.handConfig = {x: 100, y: 100};
+  p.clearShowPhomArea = function () {
+    if (this.showPhomArea) {
+      this.showPhomArea.removeAllChildren();
+    }
+  };
 
-    Player.draftCardsConfig = {x: 100, y: 100, align: "left"};
 
-    var p = Player.prototype = new createjs.Container();
-
-    p.contructor_initialize = p.initialize;
-
-    p.initialize = function (data) {
-        this.contructor_initialize();
-        $.extend(this, data);
-        this.initCanvas();
-    };
-
-    p.initCanvas = function () {
-        var self = this;
-        var config = this.config || {};
-        var avatarConfig = config.avartar || Player.avatarConfig;
-
-        this.initUsername(config, self);
-        this.initAvatar(config, self);
-        this.initDraftCards(config, self);
-        this.initHandCards(config, self);
-        this.initChatMessage(config, self);
-        this.initMoneyEffect(config, self);
-        this.initStatus(config, self);
-        this.timer = new TWIST.Timer({x: avatarConfig.x, y: avatarConfig.y, radius : avatarConfig.radius,strokeThick : 10 });
-
-        this.addChild(this.timer, this.avatarContainer, this.usernameContainer, this.draftCards, this.hand, this.status, this.chat, this.moneyChangeEffect);
-        this.render();
-    };
-
-    p.initUsername = function (config, self) {
-        var usernameContainer = new createjs.Container();
-        var usernameConfig = config.username || Player.usernameConfig;
-        $.extend(usernameContainer, usernameConfig);
-
-        var usernameText = new createjs.Text(this.username, '18px Roboto Condensed', 'white');
-        usernameText.set({x: 50, y: 20, textAlign: 'center', textBaseline: 'bottom'});
-        var moneyText = new createjs.Text(this.money, '14px Roboto Condensed', '#f3ba04');
-        moneyText.set({x: 50, y: 40, textAlign: 'center', textBaseline: 'bottom'});
-        var usernameBg = new createjs.Shape();
-        usernameBg.graphics.beginFill("black").drawRoundRectComplex(0, 0, usernameConfig.width, usernameConfig.height, 10, 10, 10, 10);
-        usernameBg.alpha = 0.2;
-        usernameContainer.addChild(usernameBg, usernameText, moneyText);
-        this.usernameContainer = usernameContainer;
-    };
-
-    p.initAvatar = function (config, self) {
-        //        avatar container
-
-        var avatarContainer = new createjs.Container();
-        var avatarConfig = config.avartar || Player.avatarConfig;
-        var avatarImageDiameter = avatarConfig.innerRadius * 2;
-        $.extend(avatarContainer, avatarConfig);
-
-        var avatarImage = new Image();
-//        var avatarHash = md5(this.username);
-//        var avatarNumber = parseInt((avatarHash.match(/\d+/)[0] || 1)[0]) || 10;
-        var avatarNumber = Global.md5Avatar(this.username) || 10;
-        avatarImage.src = (TWIST.imagePath || imagePath) + 'player/avatars/' + avatarNumber + '.png';
-        var avatarBitmap = new createjs.Bitmap(avatarImage);
-        avatarImage.onload = function () {
-            avatarBitmap.set({
-                width: avatarImageDiameter,
-                height: avatarImageDiameter,
-                scaleX: avatarImageDiameter / avatarImage.width,
-                scaleY: avatarImageDiameter / avatarImage.height
-            });
-        };
-        avatarBitmap.set({x : avatarConfig.radius - avatarConfig.innerRadius, y : avatarConfig.radius - avatarConfig.innerRadius})
-
-        var maskShape = new createjs.Shape();
-        maskShape.graphics.drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.innerRadius);
-        avatarBitmap.mask = maskShape;
-
-        var avatarBg = new createjs.Shape();
-        avatarBg.graphics.beginFill('#000').drawCircle(avatarConfig.radius, avatarConfig.radius, avatarConfig.radius);
-        avatarBg.set({alpha: 0.7});
-
-        var roomMasterImage = new Image();
-        roomMasterImage.src = (TWIST.imagePath || imagePath) + 'player/' + 'icon_chuphong.png';
-        var roomMaster = new createjs.Bitmap(roomMasterImage);
-        roomMaster.set({x: avatarImageDiameter * 0.7, y: avatarImageDiameter * 0.7,
-            name: "roomMaster", visible: this.isRoomMaster
-        });
-        var roomMasterSize = avatarImageDiameter * 0.3;
-        roomMasterImage.onload = function () {
-            roomMaster.set({
-                width: roomMasterSize,
-                height: roomMasterSize,
-                scaleX: roomMasterSize / roomMasterImage.width,
-                scaleY: roomMasterSize / roomMasterImage.height
-            });
-        };
-
-        var avatarHit = new createjs.Shape();
-        avatarHit.graphics.beginFill('#fff').drawRect(0, 0, avatarImageDiameter, avatarImageDiameter);
-        avatarContainer.hitArea = avatarHit;
-
-        avatarContainer.addChild(avatarBg, avatarBitmap, roomMaster);
-        this.avatarContainer = avatarContainer;
-    };
-
-    p.initDraftCards = function (config, self) {
-        //        draft cards
-
-        var draftCardsConfig = config.draftCards || Player.draftCardsConfig;
-        this.draftCards = new createjs.Container();
-        $.extend(this.draftCards, draftCardsConfig);
-    };
-
-    p.initHandCards = function (config, self) {
-        //        hand container
-        var handConfig = config.handPositions || Player.handConfig;
-        this.hand = new createjs.Container();
-        $.extend(this.hand, handConfig);
-        var card = TWIST.Card.playerCard;
-        var radius = (card.width - 3) / 2;
-
-        this.handCards = new createjs.Container();
-        this.numberOfCards = new createjs.Container();
-        this.numberOfCards.set({x: 0, y: 0});
-        var numberOfCardsBg = new createjs.Shape();
-        numberOfCardsBg.graphics.beginFill('#000').drawCircle(card.width / 2, card.height / 2, radius);
-        numberOfCardsBg.set({alpha: 0.3, visible: false});
-        var numberOfCards = new createjs.Text("", (radius * 1.5) + 'px Roboto Condensed', '#7fc100');
-        numberOfCards.set({x: card.width / 2, y: card.height / 2, textAlign: 'center', visible: false, name: "numberOfCard", textBaseline: 'middle'});
-        this.numberOfCards.addChild(numberOfCardsBg, numberOfCards);
-
-        this.hand.addChild(this.handCards, this.numberOfCards);
-    };
-
-    p.initChatMessage = function (config, self) {
-        //show chat message
-        this.chat = new createjs.Container();
-        this.chat.set({name: 'chat'});
-        var chatText = new createjs.Text('', '22px Roboto Condensed', '#000');
-        chatText.set({textAlign: 'center', textBaseline: 'bottom'});
-        var chatBg = new createjs.Shape();
-        this.chat.addChild(chatBg, chatText);
-    };
-
-    p.initMoneyEffect = function (config, self) {
-        //show change money effect
-        this.moneyChangeEffect = new createjs.Container();
-        this.moneyChangeEffect.set({name: 'moneyChangeEffect', x: 50, y: 50});
-        var moneyChangeBg = new createjs.Text("", "30px Roboto Condensed", "black");
-        moneyChangeBg.set({x: 1, y: 11, textAlign: 'center', textBaseline: 'bottom'});
-        var moneyChangeText = new createjs.Text("", "30px Roboto Condensed");
-        moneyChangeText.set({x: 0, y: 10, textAlign: 'center', textBaseline: 'bottom'});
-        moneyChangeText.shadow = new createjs.Shadow("#000", 0, 0, 10);
-        this.moneyChangeEffect.addChild(moneyChangeBg, moneyChangeText);
-    };
-
-    p.initStatus = function (config, self) {
-        //player status
-        this.status = new createjs.Container();
-        this.status.set({x: 50, y: 50});
-        var statusBg = new createjs.Text();
-        var statusText = new createjs.Text();
-        this.status.addChild(statusBg, statusText);
-    };
-
-    p.render = function () {
-        this.setPlayerName(this.username);
-        this.setMoney(this.money);
-        this.setRoomMaster(this.isRoomMaster);
-        return;
-    };
-
-    p.setRemainingTime = function (remainingTime, totalTime) {
-        remainingTime = remainingTime || 20000;
-        if(remainingTime < 50) remainingTime *= 1000;
-        totalTime = totalTime || 20000;
-        if(totalTime < 50) totalTime *= 1000;
-        this.timer.startTimer(totalTime, remainingTime);
-    };
+  p.setPlayerStatus = function (status, options) {
+    var statusContainer = this.status;
+    var statusText = statusContainer.getChildAt(1);
+    var statusBg = statusContainer.getChildAt(0);
+    options = options || {};
+    statusContainer.default = (typeof options.default === "undefined") ? statusContainer.default : options.default;
+    status = status || statusContainer.default;
+    statusContainer.visible = status ? true : false;
     
-    p.clearTimer = function (remainingTime, totalTime) {
-        this.timer.clearTimer();
-    };
-
-    p.setPlayerName = function (name) {
-
-        var usernameContainer = this.usernameContainer;
-        var usernameText = usernameContainer.getChildAt(1);
-        usernameText.text = name;
-        var measuredWidth = usernameText.getMeasuredWidth();
-        var usernameMaxWidth = Player.usernameConfig.width;
-        if (measuredWidth > usernameMaxWidth) {
-            var ratio = usernameMaxWidth / measuredWidth;
-            var newLength = Math.round(usernameText.text.length * ratio) - 3;
-            usernameText.text = usernameText.text.substring(0, newLength) + "...";
-        }
-    };
-
-    p.setMoney = function (money) {
-        var usernameContainer = this.usernameContainer;
-        this.money = parseInt(money);
-        var moneyText = usernameContainer.getChildAt(2);
-        moneyText.text = Global.numberWithDot(money);
-    };
-
-    p.setRoomMaster = function (roomMaster, oldRoomMasterPosition) {
-        if (typeof roomMaster === undefined)
-            roomMaster = this.isRoomMaster;
-        else
-            this.isRoomMaster = roomMaster;
-        var roomMasterItem = this.avatarContainer.getChildByName("roomMaster");
-        roomMasterItem.visible = roomMaster;
-        if (roomMaster) {
-            var oldScale = {
-                scaleX: roomMasterItem.scaleX,
-                scaleY: roomMasterItem.scaleY
-            };
-            roomMasterItem.set({scaleX: 1, scaleY: 1});
-            var initGlobalPosition = roomMasterItem.globalPosition = roomMasterItem.globalToLocal(0, 0);
-            roomMasterItem.set(oldScale);
-
-            if (oldRoomMasterPosition) {
-                var initPosition = {
-                    x: roomMasterItem.x,
-                    y: roomMasterItem.y
-                };
-                var currentPosition = {
-                    x: initPosition.x + initGlobalPosition.x - oldRoomMasterPosition.x,
-                    y: initPosition.y + initGlobalPosition.y - oldRoomMasterPosition.y
-                };
-                roomMasterItem.set(currentPosition);
-                createjs.Tween.get(roomMasterItem)
-                        .to({
-                            x: initPosition.x,
-                            y: initPosition.y
-                        }, _animationTime).call(function () {
-
-                });
-
-            }
-        }
-
-        return roomMasterItem;
-    };
-
-    p.clearHand = function () {
-        this.handCards.removeAllChildren();
-        var cardNumberBg = this.hand.getChildAt(1);
-        var cardNumber = this.hand.getChildAt(2);
-        cardNumberBg.visible = false;
-        cardNumber.visible = false;
-    };
-
-    p.clearDraftCards = function () {
-        if (this.draftCards) {
-            this.draftCards.removeAllChildren();
-        }
-    };
-
-    p.clearShowPhomArea = function () {
-        if (this.showPhomArea) {
-            this.showPhomArea.removeAllChildren();
-        }
-    };
+    options.color = options.color || "yellowgreen";
+    options.font = options.font || 'bold 20px Roboto Condensed';
+    options.x = options.x || 0;
+    options.y = options.y || 10;
+    options.textAlign = options.textAlign || 'center';
+    options.textBaseline = options.textBaseline || 'bottom';
+    $.extend(statusText, options);
+    $.extend(statusBg, options);
+    statusText.text = statusBg.text = status;
+    statusText.shadow = new createjs.Shadow('black', 0, 0, 10);
+    statusBg.x = options.x + 1;
+    statusBg.y = options.y + 1;
+    statusBg.color = "black";
+  };
 
 
-    p.setPlayerStatus = function (status, options) {
-        var statusContainer = this.status;
-        var statusText = statusContainer.getChildAt(1);
-        var statusBg = statusContainer.getChildAt(0);
+  p.renderCards = function (options) {
+    var hand = this.hand;
+    hand.visible = true;
 
-        if (!status || !status.length) {
-            statusContainer.visible = false;
-            return;
-        }
-        if (!options)
-            options = {};
-        options.color = options.color || "yellowgreen";
-        options.font = options.font || 'bold 20px Roboto Condensed';
-        options.x = options.x || 0;
-        options.y = options.y || 10;
-        options.textAlign = options.textAlign || 'center';
-        options.textBaseline = options.textBaselinex || 'bottom';
-        $.extend(statusText, options);
-        $.extend(statusBg, options);
-        statusContainer.visible = true;
-        statusText.text = statusBg.text = status;
-        statusText.shadow = new createjs.Shadow('black', 0, 0, 10);
-        statusBg.x = options.x + 1;
-        statusBg.y = options.y + 1;
-        statusBg.color = "black";
-    };
+    this._renderHandCards(this.handCards.cardList, options);
+    var _self = this;
+    if (this.showCardLength) {
+      setTimeout(function () {
+        _self.setNumberCards(_self.handCards.cardList.length);
+      }, 1000);
+    } else {
+      this.numberOfCards.visible = false;
+    }
 
+  };
 
-    p.renderCards = function (options) {
-        var hand = this.hand;
-        hand.visible = true;
+  p._renderHandCards = function (listCard, options) {
+    var _self = this;
+    options = options || {};
 
-        this._renderHandCards(this.handCards.cardList, options);
-        var _self = this;
-        if (this.hideCardLength) {
-            this.numberOfCards.visible = false;
+    this.handCards.removeAllChildren();
+
+    var handCards = this.handCards,
+            cardType = options.cardType || (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.playerCard),
+            numberCard = listCard.length,
+            desk = this.parent.parent.getChildByName('desk'),
+            dealTimeAnimation = 150,
+            eachCardDelay = 30,
+            animationTime,
+            setReSort = !(typeof (options.reSort) == "undefined");
+    for (var i = 0; i < numberCard; i++) {
+      var card = listCard[i], cardImage;
+      cardImage = desk.getCard();
+      if (!cardImage)
+        cardImage = new TWIST.Card();
+      cardImage.cardValue = listCard[i];
+      cardImage.position = i;
+      animationTime = dealTimeAnimation + i * eachCardDelay;
+      $.extend(options, {
+        animationTime: animationTime
+      });
+      if ((i == numberCard - 1) && !setReSort) {
+        options.reSort = true
+      }
+      this.addHandCards(cardImage, options);
+    }
+  };
+
+  p.setNumberCards = function (numOfCards) {
+
+    var cardNumberBg = this.numberOfCards.getChildAt(0);
+    var cardNumber = this.numberOfCards.getChildAt(1);
+    if (this.position !== 0 && numOfCards > 0) {
+      cardNumberBg.visible = true;
+      cardNumber.visible = true;
+      cardNumber.text = numOfCards;
+
+    } else {
+      cardNumberBg.visible = false;
+      cardNumber.visible = false;
+    }
+  };
+
+  p.addHandCards = function (card, options) {
+    var animationTime = options.animationTime || _animationTime;
+    var reSort = options.reSort || false;
+    var handCards = this.handCards;
+    var _self = this;
+    var bai = TWIST.Card.draftCard;
+
+    var position = card.pos || handCards.children.length,
+            oldX = card.x,
+            oldY = card.y,
+            cardType = options.cardType || (this.position === 0 ? TWIST.Card.userCard : TWIST.Card.playerCard);
+    card.set({
+      x: card.x - this.x - this.hand.x,
+      y: card.y - this.y - this.hand.y,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    });
+    if (this.listPhom && this.listPhom.length && !isNaN(card.cardValue) && this.position == 0) {
+      var cardsInPhom = [];
+      this.listPhom.forEach(function (item, index) {
+        cardsInPhom = cardsInPhom.concat(item);
+      });
+      card.isInPhom = cardsInPhom.indexOf(card.cardValue) > -1;
+    }
+    handCards.addChild(card);
+    createjs.Tween.get(card).to({
+      x: isNaN(options.x) ? cardType.seperator * handCards.getNumChildren() : options.x,
+      y: isNaN(options.y) ? 0 : options.y,
+      width: cardType.width,
+      height: cardType.height,
+      position: handCards.getNumChildren() - 1,
+      seperator: cardType.seperator,
+      scaleX: cardType.scale,
+      scaleY: cardType.scale
+    }, animationTime, createjs.Ease.sineOut()).call(function () {
+      if (_self.position == 0) {
+        if (!options.sideDown) {
+          this.bindEventListener();
+          if (options.dragable) {
+            this.setDraggable(true);
+          }
         } else {
-            setTimeout(function () {
-                _self.setNumberCards(_self.handCards.cardList.length);
-            }, 1000);
+          this.bindOpenCard();
         }
-
-    };
-
-    p._renderHandCards = function (listCard, options) {
-        var _self = this;
-        options = options || {};
-
-        this.handCards.removeAllChildren();
-
-        var handCards = this.handCards,
-                cardType = options.cardType || (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.playerCard),
-                numberCard = listCard.length,
-                desk = this.parent.parent.getChildAt(1),
-                dealTimeAnimation = 150,
-                eachCardDelay = 30,
-                animationTime,
-                setReSort = !(typeof (options.reSort) == "undefined");
-        for (var i = 0; i < numberCard; i++) {
-            var card = listCard[i], cardImage;
-            cardImage = desk.getCard();
-            if (!cardImage)
-                cardImage = new TWIST.Card();
-            cardImage.cardValue = listCard[i];
-            cardImage.position = i;
-            animationTime = dealTimeAnimation + i * eachCardDelay;
-            $.extend(options, {
-                animationTime: animationTime
-            });
-            if ((i == numberCard - 1) && !setReSort) {
-                options.reSort = true
-            }
-            this.addHandCards(cardImage, options);
+        if (!options.sideDown) {
+          this.openCard(this.cardValue);
         }
-    };
-
-    p.setNumberCards = function (numOfCards) {
-
-        var cardNumberBg = this.numberOfCards.getChildAt(0);
-        var cardNumber = this.numberOfCards.getChildAt(1);
-        if (this.position !== 0 && numOfCards > 0) {
-            cardNumberBg.visible = true;
-            cardNumber.visible = true;
-            cardNumber.text = numOfCards;
-
-        } else {
-            cardNumberBg.visible = false;
-            cardNumber.visible = false;
+        if (options.sortPhom) {
+          _self.sortPhom();
         }
-    };
-
-    p.addHandCards = function (card, options) {
-        var animationTime = options.animationTime || _animationTime;
-        var reSort = options.reSort || false;
-        var handCards = this.handCards;
-        var _self = this;
-        var bai = TWIST.Card.draftCard;
-
-        var position = card.pos || handCards.children.length,
-                oldX = card.x,
-                oldY = card.y,
-                cardType = options.cardType || (this.position === 0 ? TWIST.Card.userCard : TWIST.Card.playerCard);
-        card.set({
-            x: card.x - this.x - this.hand.x,
-            y: card.y - this.y - this.hand.y,
-            scaleX: bai.scale,
-            scaleY: bai.scale
-        });
-        if (this.listPhom && this.listPhom.length && card.cardValue && this.position == 0) {
-            var cardsInPhom = [];
-            this.listPhom.forEach(function (item, index) {
-                cardsInPhom = cardsInPhom.concat(item.meldItem);
-            });
-            card.isInPhom = cardsInPhom.indexOf(card.cardValue) > -1;
+        if (reSort) {
+          _self.sortCard();
         }
-        handCards.addChild(card);
-        createjs.Tween.get(card).to({
-            x: isNaN(options.x) ? cardType.seperator * handCards.getNumChildren() : options.x,
-            y: isNaN(options.y) ? 0 : options.y,
-            width: cardType.width,
-            height: cardType.height,
-            position: handCards.getNumChildren() - 1,
-            seperator: cardType.seperator,
-            scaleX: cardType.scale,
-            scaleY: cardType.scale
-        }, animationTime, createjs.Ease.sineOut()).call(function () {
-            if (_self.position == 0) {
-                if (!options.sideDown) {
-                    this.bindEventListener();
-                    if (options.dragable) {
-                        this.setDraggable(true);
-                    }
-                } else {
-                    this.bindOpenCard();
-                }
-                if (!options.sideDown) {
-                    this.openCard(this.cardValue);
-                }
-                if (options.sortPhom) {
-                    _self.sortPhom();
-                }
-                if (reSort) {
-                    _self.sortCard();
-                }
-            } else {
-                this.visible = options.showPlayerCard;
-                if (options.openCard) {
-                    this.openCard(this.cardValue);
-                }
-            }
-        });
-    };
-
-    p.showThreeCards = function () {
-        var cards = this.handCards.children;
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            card.openCard(card.cardValue);
-            card.removeAllEventListeners();
+      } else {
+        this.visible = _self.showPlayerCard;
+        if (options.openCard) {
+          this.openCard(this.cardValue);
         }
+      }
+    });
+  };
+
+  p.showThreeCards = function () {
+    var cards = this.handCards.children;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      card.openCard(card.cardValue);
+      card.removeAllEventListeners();
+    }
+  };
+
+
+  p.getDeckCard = function (cardValue, options) {
+    options = options || {};
+    var desk = this.parent.parent.getChildByName('desk');
+    var cardImage = desk.getCard();
+    cardImage.cardValue = cardValue;
+    $.extend(options, {
+      animationTime: 200,
+      reSort: true,
+      dragable: true
+    });
+    this.addHandCards(cardImage, options);
+    this.markEatedCard();
+  };
+
+  p.getChuong = function (options) {
+    var _self = this;
+    options = options || {};
+    var avatarContainer = this.avatarContainer;
+    var chuongIcon = avatarContainer.getChildByName("chuongIcon");
+
+    if (options.isChuong) {
+      var newX = chuongIcon.x, newY = chuongIcon.y;
+      var oldGlobalX = options.x || 640;
+      var oldGlobalY = options.y || 360;
+      var oldX = oldGlobalX - this.x - this.avatarContainer.x;
+      var oldY = oldGlobalY - this.y - this.avatarContainer.y;
+      chuongIcon.set({
+        x: oldX,
+        y: oldY,
+        visible: true
+      });
+      createjs.Tween.get(chuongIcon).to({
+        x: newX,
+        y: newY
+      }, _animationTime).call(function () {
+        _self.playerModel.isBanker = true;
+      });
+    } else {
+      _self.playerModel.isBanker = false;
+      chuongIcon.set({visible: false});
+    }
+  };
+
+  p.draftCardsInHand = function (cardList, options) {
+    var options = options || {},
+            cardsToDrash = [],
+            bai = options.cardType || TWIST.Card.draftCard,
+            cardsToDrash = this.getCardsInHand(cardList),
+            draftCards = options.draftCards || this.draftCards;
+    var newPosition = options.position || {
+      x: draftCards.children.length * bai.seperator,
+      y: 0
     };
+    if (this.draftCards.align === "right" && !options.position) {
+      newPosition.x = 300 - newPosition.x;
+    }
+    for (var i = 0, length = cardsToDrash.length; i < length; i++) {
+      var card = cardsToDrash[i];
+      card.cardValue = cardList[i];
+      var newOptions = $.extend(options, {
+        draftCards: draftCards,
+        position: newPosition,
+        reSort: i === length - 1
+      });
+      this.draftSingleCard(card, newOptions);
+      if (this.draftCards.align == "right" && !options.position) {
+        newPosition.x -= bai.seperator;
+      } else {
+        newPosition.x += bai.seperator;
+      }
+    }
+    this.setNumberCards(this.handCards.children.length);
+  };
 
+  p.draftSingleCard = function (card, options) {
+    card.visible = true;
+    card.removeAllEventListeners();
+    var _self = this,
+            bai = options.cardType || TWIST.Card.draftCard,
+            draftCards = options.draftCards || this.draftCards;
 
-    p.getDeckCard = function (cardValue, options) {
-        options = options || {};
-        var desk = this.parent.parent.getChildByName('desk'),
-                cardImage = desk.getCard();
-        cardImage.cardValue = cardValue;
-        $.extend(options, {
-            animationTime: 200,
-            reSort: true,
-            dragable: true
-        });
-        this.addHandCards(cardImage, options);
-        this.markEatedCard();
-    };
+    var draftPosition = draftCards.localToGlobal(0, 0);
+    card.set({
+      x: card.x + this.hand.x + this.x - draftPosition.x,
+      y: card.y + this.hand.y + this.y - draftPosition.y,
+      rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    });
+    draftCards.addChild(card);
+    createjs.Tween.get(card).to({
+      scaleX: card.scaleX * 1.2,
+      scaleY: card.scaleY * 1.2
+    }, _animationTime * 1 / 2).to({
+      x: options.position.x, y: options.position.y,
+      width: bai.width,
+      height: bai.height,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    }, _animationTime * 1 / 2).call(function () {
+      if (_self.position !== 0) {
+        this.openCard(this.cardValue, bai);
+      } else if (options.reSort) {
+        this.setInPhom(false);
+        _self.sortCard();
+      }
+    });
+  };
+  p.sortDraftCards = function () {
 
-    p.getChuong = function (options) {
-        var _self = this;
-        options = options || {};
-        var avatarContainer = this.avatarContainer;
-        var chuongIcon = avatarContainer.getChildByName("chuongIcon");
+    var cards = this.draftCards.children;
+    var _self = this;
 
-        if (options.isChuong) {
-            var newX = chuongIcon.x, newY = chuongIcon.y;
-            var oldGlobalX = options.x || 640;
-            var oldGlobalY = options.y || 360;
-            var oldX = oldGlobalX - this.x - this.avatarContainer.x;
-            var oldY = oldGlobalY - this.y - this.avatarContainer.y;
-            chuongIcon.set({
-                x: oldX,
-                y: oldY,
-                visible: true
-            });
-            createjs.Tween.get(chuongIcon).to({
-                x: newX,
-                y: newY
-            }, _animationTime).call(function () {
-                _self.playerModel.isBanker = true;
-            });
-        } else {
-            _self.playerModel.isBanker = false;
-            chuongIcon.set({visible: false});
-        }
-    };
+    var length = cards.length;
+    var indexLeft = (DESK.width - length * TWIST.Card.draftCard.seperator - (this.draftCards.x + this.x) * 2) / 2;
 
-    p.draftCardsInHand = function (cardList, options) {
-        var options = options || {},
-                cardsToDrash = [],
-                bai = TWIST.Card.draftCard,
-                cardsToDrash = this.getCardsInHand(cardList),
-                draftCards = options.draftCards || this.draftCards;
-        var newPosition = options.position || {
-            x: draftCards.children.length * bai.seperator,
-            y: 0
-        };
-        if (this.draftCards.align === "right" && !options.position) {
-            newPosition.x = 300 - newPosition.x;
-        }
-        for (var i = 0, length = cardsToDrash.length; i < length; i++) {
-            var card = cardsToDrash[i];
-            card.cardValue = cardList[i];
-            var newOptions = $.extend(options, {
-                draftCards: draftCards,
-                position: newPosition,
-                reSort: i === length - 1
-            });
-            this.draftSingleCard(card, newOptions);
-            if (this.draftCards.align == "right" && !options.position) {
-                newPosition.x -= bai.seperator;
-            } else {
-                newPosition.x += bai.seperator;
-            }
-        }
-        this.setNumberCards(this.handCards.children.length);
-    };
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var newX = indexLeft + i * TWIST.Card.draftCard.seperator;
 
-    p.draftSingleCard = function (card, options) {
-        card.visible = true;
-        card.removeAllEventListeners();
-        var _self = this,
-                bai = TWIST.Card.draftCard,
-                draftCards = options.draftCards || this.draftCards;
-
-        var draftPosition = draftCards.localToGlobal(0, 0);
-        card.set({
-            x: card.x + this.hand.x + this.x - draftPosition.x,
-            y: card.y + this.hand.y + this.y - draftPosition.y,
-            rotation: options.rotateAble ? (Math.random() - 0.5) * 30 : 0
-        });
-        draftCards.addChild(card);
-        createjs.Tween.get(card).to({
-            scaleX: card.scaleX * 1.2,
-            scaleY: card.scaleY * 1.2
-        }, _animationTime * 1 / 2).to({
-            x: options.position.x, y: options.position.y,
-            width: bai.width,
-            height: bai.height,
-            scaleX: bai.scale,
-            scaleY: bai.scale
-        }, _animationTime * 1 / 2).call(function () {
-            if (_self.position !== 0) {
-                this.openCard(this.cardValue,bai);
-            } else if (options.reSort) {
-                this.setInPhom(false);
-                _self.sortCard();
-            }
-        });
-    };
-    p.sortDraftCards = function () {
-
-        var cards = this.draftCards.children;
-        var _self = this;
-
-        var length = cards.length;
-        var indexLeft = (1280 - length * TWIST.Card.draftCard.seperator - (this.draftCards.x + this.x) * 2) / 2;
-
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var newX = indexLeft + i * TWIST.Card.draftCard.seperator;
-
-            createjs.Tween.get(card).to({
-                x: newX
-            }, _animationTime, createjs.Ease.sineOut()).call(function () {});
-        }
-    };
-    p.getCardsInHand = function (cardList) {
-        if (!cardList)
-            return;
-        var cards = [];
-        var handCards = this.handCards.children;
+      createjs.Tween.get(card).to({
+        x: newX
+      }, _animationTime, createjs.Ease.sineOut()).call(function () {});
+    }
+  };
+  p.getCardsInHand = function (cardList) {
+    if (!cardList)
+      return;
+    var cards = [];
+    var handCards = this.handCards.children;
+    var handCardValue = handCards.map(function (item) {
+      return item.cardValue
+    });
+    if (this.position != 0) {
+      for (var i = 0; i < cardList.length; i++) {
+        var cardValue = cardList[i];
         var handCardValue = handCards.map(function (item) {
-            return item.cardValue
+          return item.cardValue
         });
-        if (this.position != 0) {
-            for (var i = 0; i < cardList.length; i++) {
-                var cardIndex = cardList[i];
-                var handCardValue = handCards.map(function (item) {
-                    return item.cardValue
-                });
-                if (handCardValue.indexOf(cardIndex) > -1) {
-                    var sliceCards = handCards.splice(handCardValue.indexOf(cardIndex), 1);
-                } else {
-                    var sliceCards = handCards.splice(handCardValue.indexOf(undefined), 1);
-                }
-                if (!sliceCards[0]) {
-                    sliceCards[0] = new TWIST.Card();
-                }
-                cards = cards.concat(sliceCards);
-            }
+        var cardIndex = handCardValue.indexOf(cardValue);
+        if (cardIndex > -1) {
+          var sliceCards = handCards.splice(cardIndex, 1);
+        } else {
+          var sliceCards = handCards.splice(handCardValue.indexOf(undefined), 1);
+        }
+        if (!sliceCards[0]) {
+          sliceCards[0] = new TWIST.Card();
+        }
+        cards = cards.concat(sliceCards);
+      }
 //                    cards = handCards.slice(0, cardList.length);
-        } else {
-            for (var i = 0; i < cardList.length; i++) {
-                for (var j = 0; j < handCards.length; j++) {
-                    if (cardList[i] == handCards[j].cardValue) {
-                        cards = cards.concat(handCards.splice(j, 1));
-                        j--;
-                    }
-                }
-            }
+    } else {
+      for (var i = 0; i < cardList.length; i++) {
+        for (var j = 0; j < handCards.length; j++) {
+          if (cardList[i] == handCards[j].cardValue) {
+            cards = cards.concat(handCards.splice(j, 1));
+            j--;
+          }
         }
-        handCards.sort(function (a, b) {
-            return a.position - b.position;
-        });
-        handCards.forEach(function (item, index) {
-            item.position = index;
-        });
-        cards.sort(function (a, b) {
-            return a.cardValue - b.cardValue;
-        });
-        return cards;
-    };
-
-    p.getSelectedCards = function () {
-        var selectedCards = [];
-        var cards = this.handCards.children;
-
-        for (var i in cards) {
-            if (cards[i] && cards[i].selected == true)
-                selectedCards.push(cards[i].cardValue);
-        }
-        return selectedCards;
-    };
-
-    p.sortPhom = function (phomList) {
-        if (!phomList)
-            phomList = this.listPhom;
-        if (!phomList)
-            phomList = [];
-        phomList = phomList;
-        var cards = this.handCards.children;
-        var cardsInPhom = [];
-        for (var i = 0; i < phomList.length; i++) {
-            var phom = phomList[i].meldItem;
-            phom.sort(function (a, b) {
-                return a - b
-            });
-            for (var j = 0; j < phom.length; j++) {
-                cardsInPhom.push(phom[j]);
-            }
-        }
-        if (!this.handCards.sortType) {
-            this.handCards.sortType = ""
-        }
-        if (this.handCards.sortType == "rankSort") {
-            this.handCards.sortType = "suiteSort"
-        } else
-            this.handCards.sortType = "rankSort";
-        var _self = this;
-
-        cards.forEach(function (item, index) {
-            item.setInPhom(cardsInPhom.indexOf(item.cardValue) > -1);
-        });
-
-        cards.sort(function (a, b) {
-            if (cardsInPhom.indexOf(a.cardValue) > -1 && !(cardsInPhom.indexOf(b.cardValue) > -1)) {
-                return false
-            } else if (cardsInPhom.indexOf(b.cardValue) > -1 && !(cardsInPhom.indexOf(a.cardValue) > -1)) {
-                return true;
-            } else if (cardsInPhom.indexOf(a.cardValue) > -1 && cardsInPhom.indexOf(b.cardValue) > -1) {
-                return cardsInPhom.indexOf(a.cardValue) - cardsInPhom.indexOf(b.cardValue);
-            }
-            if (_self.handCards.sortType == "rankSort") {
-                return a.cardValue - b.cardValue;
-            } else {
-                if (a.suite == b.suite) {
-                    return a.rank - b.rank
-                }
-                return a.suite - b.suite
-            }
-
-        });
-    };
-
-    p.sortTL = function () {
-        var cards = this.handCards.children;
-        this.handCards.sortType = (this.handCards.sortType == "rankSort") ? "suiteSort" : "rankSort";
-        var _self = this;
-        cards.sort(function (a, b) {
-            if (_self.handCards.sortType == "rankSort") {
-                return a.cardValue - b.cardValue;
-            } else {
-                return a.suite - b.suite || a.cardValue - b.cardValue
-            }
-
-        });
-        this.sortCard();
-    };
-
-    p.sortCard = function () {
-        var cards = this.handCards.children;
-        var _self = this;
-        setTimeout(_sortCard, 100);
-        function _sortCard() {
-            var length = cards.length;
-            var indexLeft = (TWIST.Desk.width - length * TWIST.Card.userCard.seperator - (_self.hand.x + _self.x) * 2) / 2;
-            _self.handCards.indexLeft = indexLeft;
-
-            for (var i = 0; i < cards.length; i++) {
-                var card = cards[i];
-                if (card.isDragging) {
-                    card.isDragging = false;
-                }
-                card.selected = false;
-                var newX = indexLeft + i * TWIST.Card.userCard.seperator;
-                card.position = i;
-                createjs.Tween.get(card).to({
-                    y: 0,
-                    x: newX
-                }, _animationTime, createjs.Ease.sineOut()).call(function () {
-                });
-            }
-        }
-    };
-
-    p.preparedShowPhom = function () {
-        var phomList = this.listPhom;
-        var cardsInPhom = [];
-        phomList = phomList;
-        for (var i = 0; i < phomList.length; i++) {
-            var phom = phomList[i].meldItem;
-            phom.sort(function (a, b) {
-                return a - b
-            });
-            for (var j = 0; j < phom.length; j++) {
-                cardsInPhom.push(phom[j]);
-            }
-        }
-
-        var cards = this.handCards.children;
-
-        for (var i = 0; i < cards.length; i++) {
-            if (i < cardsInPhom.length) {
-                (function (card) {
-                    setTimeout(function () {
-                        card.setSelected(true);
-                    }, 500);
-                })(cards[i])
-            } else {
-                cards[i].setSelected(false);
-            }
-        }
-    };
-
-    p.preparedSendCard = function (sendList) {
-        var cards = this.handCards.children;
-        for (var i = 0; i < cards.length; i++) {
-            cards[i].setSelected(false);
-            for (var j = 0; j < sendList.length; j++) {
-                if (cards[i].cardValue == sendList[j]) {
-                    (function (card) {
-                        setTimeout(function () {
-                            card.setSelected(true);
-                        }, 500);
-                    })(cards[i])
-                }
-            }
-        }
-    };
-
-    p.getLastDraftCards = function (cardList) {
-        if (!cardList)
-            return;
-        var cards = [];
-        var _self = this;
-        var draftCards = this.draftCards.children;
-        for (var i = 0; i < cardList.length; i++) {
-            for (var j = 0; j < draftCards.length; j++) {
-                if (cardList[i] == draftCards[j].cardValue) {
-                    var position = draftCards[j].localToGlobal(0, 0);
-                    draftCards[j].x = position.x;
-                    draftCards[j].y = position.y;
-                    cards = cards.concat(draftCards.splice(j, 1));
-                    j--;
-                }
-            }
-        }
-        return cards;
-    };
-
-    p.getDraftCardsAbsolutePosition = function () {
-        return {
-            x: this.x + this.draftCards.x,
-            y: this.y + this.draftCards.y
-        };
-    };
-
-    p.eatCard = function (card, position, cardSordList) {
-        var _self = this;
-        this.playerModel.numberEatedCard++;
-        var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
-
-        card.hightLight();
-        if (this.position == 0) {
-            this.addHandCards(card, {
-                animationTime: 200,
-                reSort: true,
-                sortPhom: true,
-                dragable: true
-            });
-            this.markEatedCard();
-        } else {
-            var newX = bai.seperator * this.draftCards.children.length,
-                    newY = 0;
-            this.handCards.addChild(card);
-            card.set({x: card.x - this.hand.x - this.x, y: card.y - this.hand.y - this.y});
-            newY = 0;
-            if (this.draftCards.align == "right") {
-                newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.playerModel.numberEatedCard - 1) * bai.seperator;
-            } else {
-                newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.playerModel.numberEatedCard - 1);
-            }
-            createjs.Tween.get(card).to({
-                x: newX, y: newY,
-                width: bai.width,
-                height: bai.height,
-                scaleX: bai.scale,
-                scaleY: bai.scale
-            }, _animationTime, createjs.Ease.sineOut()).call(function () {});
-        }
-    };
-
-    p.markEatedCard = function () {
-        var cardsInPhom = [];
-        if (!this.listPhom)
-            return;
-        this.listPhom.forEach(function (item, index) {
-            cardsInPhom = cardsInPhom.concat(item.meldItem);
-        });
-
-        var cards = this.handCards.children;
-        for (var i = 0; i < cards.length; i++) {
-            cards[i].isInPhom = cardsInPhom.indexOf(cards[i].cardValue) > -1;
-            cards[i].setInPhom(cards[i].isInPhom);
-        }
+      }
     }
+    handCards.sort(function (a, b) {
+      return a.position - b.position;
+    });
+    handCards.forEach(function (item, index) {
+      item.position = index;
+    });
+    cards.sort(function (a, b) {
+      return a.cardValue - b.cardValue;
+    });
+    return cards;
+  };
 
-    p.moveDraftCard = function (cards, position) {
-        this.cardsEated++;
-        var bai = TWIST.Card.draftCard;
+  p.getSelectedCards = function () {
+    var selectedCards = [];
+    var cards = this.handCards.children;
 
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var oldX = card.x,
-                    oldY = card.y,
-                    newX = bai.seperator * this.draftCards.children.length,
-                    newY = 0;
-            this.draftCards.addChild(card);
-            card.set({x: card.x + position.x - this.draftCards.x - this.x, y: card.y + position.y - this.draftCards.y - this.y});
+    for (var i in cards) {
+      if (cards[i] && cards[i].selected == true)
+        selectedCards.push(cards[i].cardValue);
+    }
+    return selectedCards;
+  };
 
-            if (this.draftCards.align == "right") {
-                newX = 300 - bai.seperator * (this.draftCards.children.length - 1)
-            }
-            var _self = this;
-            createjs.Tween.get(card).to({
-                x: newX, y: newY,
-                width: bai.width,
-                height: bai.height,
-                scaleX: bai.scale,
-                scaleY: bai.scale
-            }, _animationTime, createjs.Ease.sineOut()).call(function () {
-
-            });
-        }
-    };
-
-    p.showPhom = function (phoms) {
-        var cardsToDrash = [];
-        for (var i = 0; i < phoms.length; i++) {
-            var phom = phoms[i].meldItem;
-            this.showSinglePhom(phom, i);
-        }
-        ;
-        var _self = this;
-        setTimeout(function () {
-            _self.sortPhomArea();
-        }, 550);
-    };
-
-    p.addShowPhomArea = function (player) {
-        var desk = this.parent.parent.getChildByName('desk'),
-                draftPosition = desk.draftPosition[this.position];
-        var newY = 0;
-        if (this.position == 0) {
-            newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
-        }
-        this.showPhomArea = new createjs.Container();
-        this.showPhomArea.set({
-            name: "showPhomArea",
-            x: draftPosition.x,
-            y: newY
+  p.sortPhom = function (listCard) {
+    var cards = this.handCards.children;
+    var cardsInPhom = [];
+    if (listCard) {
+      cardsInPhom = listCard.sort(function (a, b) {
+        return a - b;
+      });
+    } else {
+      var listPhom = this.listPhom || [];
+      for (var i = 0; i < listPhom.length; i++) {
+        var phom = listPhom[i];
+        phom.sort(function (a, b) {
+          return a - b;
         });
-        this.addChild(this.showPhomArea);
-    };
-
-    p.addChipContainer = function (player) {
-        var desk = this.parent.parent.getChildByName('desk');
-        var chipPosition = desk.chipPosition[this.position];
-        this.chipContainer = new createjs.Container();
-        this.chipContainer.set({
-            name: "chipContainer",
-            x: chipPosition.x,
-            y: chipPosition.y,
-            width: 117,
-            height: 42,
-            visible: true
-        });
-        var chipContainerBg = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'player/' + 'money-container.png');
-        var chipContainerValue = new createjs.Text("0", '20px Roboto Condensed', 'white');
-        chipContainerValue.set({x: 45, y: 30, textAlign: 'center', textBaseline: 'bottom'});
-        this.chipContainer.addChild(chipContainerBg, chipContainerValue);
-        this.addChild(this.chipContainer);
-    };
-
-    p.pushChip = function (type, number, options) {
-        var _self = this;
-        for (var i = 0; i < number; i++) {
-            var chipIcon = new TWIST.Chip(type);
-            this.chipContainer.addChild(chipIcon);
-            var newX = this.chipContainer.width - chipIcon.width;
-            chipIcon.set({
-                x: 50 - this.chipContainer.x,
-                y: 10 - this.chipContainer.y
-            })
-            createjs.Tween.get(chipIcon)
-                    .wait(100 * i)
-                    .to({x: newX, y: 0}, 200)
-                    .call(function () {
-                        var textObject = _self.chipContainer.getChildAt(1);
-                        var current = isNaN(parseInt(textObject.text)) ? 0 : parseInt(textObject.text);
-                        textObject.text = current + ChipValues[type];
-                    });
+        for (var j = 0; j < phom.length; j++) {
+          cardsInPhom.push(phom[j]);
         }
-    };
+      }
+    }
+    this.handCards.sortType = this.handCards.sortType ? "" : "rankSort";
+    var _self = this;
 
+    cards.forEach(function (item, index) {
+      item.setInPhom(cardsInPhom.indexOf(item.cardValue) > -1);
+    });
 
-    p.pushChicken = function (chipArray, options) {
-        var _self = this;
-        var desk = this.parent.parent.getChildByName('desk');
-        var waitTime = 0;
-        desk.chickenTotal.visible = true;
-        console.log("chipArray", chipArray);
-        for (var j = 0; j < chipArray.length; j++) {
-            _pushChicken(chipArray[j].number, chipArray[j].type)
+    cards.sort(function (a, b) {
+      if (cardsInPhom.indexOf(a.cardValue) > -1 && !(cardsInPhom.indexOf(b.cardValue) > -1)) {
+        return false;
+      } else if (cardsInPhom.indexOf(b.cardValue) > -1 && !(cardsInPhom.indexOf(a.cardValue) > -1)) {
+        return true;
+      } else if (cardsInPhom.indexOf(a.cardValue) > -1 && cardsInPhom.indexOf(b.cardValue) > -1) {
+        return cardsInPhom.indexOf(a.cardValue) - cardsInPhom.indexOf(b.cardValue);
+      }
+      if (_self.handCards.sortType == "rankSort") {
+        return a.cardValue - b.cardValue;
+      } else {
+        if (a.suite == b.suite) {
+          return a.rank - b.rank;
         }
-        function _pushChicken(number, type) {
-            for (var i = 0; i < number; i++) {
-                var chipIcon = new TWIST.Chip(type);
-                desk.chickenTotal.addChild(chipIcon);
-                var chickenTotalPosition = desk.chickenTotal.localToGlobal(0, 0);
-                var userPosition = _self.localToGlobal(50, 10);
-                chipIcon.set({
-                    x: userPosition.x - chickenTotalPosition.x,
-                    y: userPosition.y - chickenTotalPosition.y
-                });
-                createjs.Tween.get(chipIcon)
-                        .wait(waitTime += 100)
-                        .to({x: 140, y: 50}, 200)
-                        .call(function () {
-                            desk.chickenTotal.removeChild(this);
-                            var textObject = desk.chickenTotal.getChildAt(1);
-                            var current = isNaN(parseInt(textObject.value)) ? 0 : parseInt(textObject.value);
-                            textObject.value = current + ChipValues[type];
-                            textObject.text = "Tổng gà : " + textObject.value;
-                        });
-            }
+        return a.suite - b.suite;
+      }
+
+    });
+  };
+
+  p.sortTL = function () {
+    var cards = this.handCards.children;
+    this.handCards.sortType = this.handCards.sortType ? "" : "rankSort";
+    var _self = this;
+    cards.sort(function (a, b) {
+      if (_self.handCards.sortType == "rankSort") {
+        return a.cardValue - b.cardValue;
+      } else {
+        return a.suite - b.suite || a.cardValue - b.cardValue
+      }
+
+    });
+    this.sortCard();
+  };
+
+  p.sortCard = function () {
+    var cards = this.handCards.children;
+    var _self = this;
+    setTimeout(_sortCard, 100);
+    function _sortCard() {
+      var length = cards.length;
+      var indexLeft = (TWIST.Desk.width - length * TWIST.Card.userCard.seperator - (_self.hand.x + _self.x) * 2) / 2;
+      _self.handCards.indexLeft = indexLeft;
+
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        if (card.isDragging) {
+          card.isDragging = false;
         }
-    };
-
-    p.showSinglePhom = function (cardList, position) {
-        if (!cardList)
-            return;
-        var cards = this.getCardsInHand(cardList);
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            card.visible = true;
-            card.cardValue = cardList[i];
-            var _self = this;
-            var bai = TWIST.Card.draftCard,
-                    draftCards = this.showPhomArea;
-
-            var newX = bai.seperator * draftCards.children.length,
-                    newY = 0;
-            if (this.draftCards.align == "right") {
-                newX = 300 - bai.seperator * draftCards.children.length
-            }
-            this.showPhomArea.addChild(card);
-
-            card.set({x: card.x + this.hand.x - draftCards.x, y: card.y + this.hand.y - draftCards.y});
-            card.removeAllEventListeners();
-
-            createjs.Tween.get(card).to({
-                x: newX, y: newY,
-                width: bai.width,
-                height: bai.height,
-                scaleX: bai.scale,
-                scaleY: bai.scale
-            }, _animationTime, createjs.Ease.sineOut()).call(function () {
-                this.setInPhom(false);
-                if (_self.position != 0) {
-                    this.openCard(this.cardValue);
-                }
-            });
-        }
-        return cards;
-    };
-
-    p.addCardInShowPhom = function (card, position) {
-        var bai = TWIST.Card.draftCard,
-                _self = this,
-                oldX = card.x,
-                oldY = card.y,
-                newX = bai.seperator * this.showPhomArea.children.length,
-                newY = 0,
-                draftCards = this.showPhomArea;
-
-        this.showPhomArea.addChild(card);
-        card.set({x: oldX + position.x - this.showPhomArea.x - this.x, y: oldY + position.y - this.showPhomArea.y - this.y, visible: true});
-
-        if (this.draftCards.align == "right") {
-            newX = 300 - bai.seperator * (draftCards.children.length - 1)
-        }
-        card.removeAllEventListeners();
+        card.selected = false;
+        var newX = indexLeft + i * TWIST.Card.userCard.seperator;
+        card.position = i;
         createjs.Tween.get(card).to({
-            x: newX, y: newY,
-            width: bai.width,
-            height: bai.height,
-            scaleX: bai.scale,
-            scaleY: bai.scale
+          y: 0,
+          x: newX
         }, _animationTime, createjs.Ease.sineOut()).call(function () {
-            this.openCard(this.cardValue);
         });
+      }
+    }
+  };
+
+  p.preparedShowPhom = function (cardsInPhom) {
+
+    var cards = this.handCards.children;
+
+    for (var i = 0; i < cards.length; i++) {
+      if (i < cardsInPhom.length) {
+        (function (card) {
+          setTimeout(function () {
+            card.setSelected(true);
+          }, 500);
+        })(cards[i])
+      } else {
+        cards[i].setSelected(false);
+      }
+    }
+  };
+
+  p.preparedSendCard = function (sendList) {
+    var cards = this.handCards.children;
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].setSelected(false);
+      for (var j = 0; j < sendList.length; j++) {
+        if (cards[i].cardValue == sendList[j]) {
+          (function (card) {
+            setTimeout(function () {
+              card.setSelected(true);
+            }, 500);
+          })(cards[i])
+        }
+      }
+    }
+  };
+
+  p.getLastDraftCards = function (cardIndex) {
+    var _self = this;
+    var draftCards = this.draftCards.children;
+    for (var j = 0; j < draftCards.length; j++) {
+      if (cardIndex == draftCards[j].cardValue) {
+        var position = draftCards[j].localToGlobal(0, 0);
+        this.rePositionDraftCards(j);
+        draftCards[j].x = position.x;
+        draftCards[j].y = position.y;
+        var card = draftCards.splice(j, 1)[0];
+        return card;
+      }
+    }
+  };
+  
+  p.rePositionDraftCards = function(indexPosition){
+    var listCard = this.draftCards.children;
+    listCard.forEach(function(item,index){
+      if(index > indexPosition){
+        item.set({
+          x : listCard[index - 1].x
+        });
+      }
+    });
+  };
+
+  p.getDraftCardsAbsolutePosition = function () {
+    return {
+      x: this.x + this.draftCards.x,
+      y: this.y + this.draftCards.y
     };
+  };
 
-    p.sortPhomArea = function () {
-        var cards = this.showPhomArea.children;
-        var _self = this;
-
-        var length = cards.length;
-        var bai = TWIST.Card.draftCard;
-        var seperator = bai.seperator;
-        var width = length * seperator;
-        var isCurrent = this.isCurrent;
-        if (width > 300)
-            width = 300;
-        var indexLeft = 0;
-        if (this.position == 0) {
-            indexLeft = (1280 - width - (this.showPhomArea.x + this.x) * 2) / 2;
+  p.eatCard = function (card, position, cardSordList) {
+    var _self = this;
+    this.numberEatedCard = this.numberEatedCard || 0;
+    this.numberEatedCard++;
+    var bai = (this.position == 0 ? TWIST.Card.userCard : TWIST.Card.draftCard);
+    card.hightLight();
+    if (this.position == 0) {
+      this.addHandCards(card, {
+        animationTime: 200,
+        reSort: true,
+        sortPhom: true,
+        dragable: true
+      });
+    } else {
+      var newX = bai.seperator * this.draftCards.children.length,
+              newY = 0;
+      this.handCards.addChild(card);
+      card.set({x: card.x - this.hand.x - this.x, y: card.y - this.hand.y - this.y});
+      if (this.position == 2) {
+        newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
+        newY = 0;
+      } else {
+        newY = -45;
+        if (this.draftCards.align == "right") {
+          newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
+        } else {
+          newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
         }
+      }
+      createjs.Tween.get(card).to({
+        x: newX, y: newY,
+        width: bai.width,
+        height: bai.height,
+        scaleX: bai.scale,
+        scaleY: bai.scale
+      }, _animationTime, createjs.Ease.sineOut()).call(function () {});
+    }
+  };
 
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var newX = indexLeft + i * width / length;
+  p.markEatedCard = function () {
+    var cardsInPhom = [];
+    if (!this.listPhom)
+      return;
+    this.listPhom.forEach(function (item, index) {
+      cardsInPhom = cardsInPhom.concat(item);
+    });
 
-            if (this.draftCards.align == "right") {
-                newX = 300 - width / length * i;
-            }
+    var cards = this.handCards.children;
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].isInPhom = cardsInPhom.indexOf(cards[i].cardValue) > -1;
+      cards[i].setInPhom(cards[i].isInPhom);
+    }
+  }
 
-            createjs.Tween.get(card).to({
-                x: newX
-            }, 100, createjs.Ease.sineOut()).call(function () {});
+  p.moveDraftCard = function (card, fromPlayer) {
+    var bai = TWIST.Card.draftCard;
+    var self = this;
+    var draftCardsPosition = this.draftCards.localToGlobal(0, 0);
+    var newX = bai.seperator * this.draftCards.children.length, newY = 0;
+    if (this.draftCards.align == "right") {
+      newX = 300 - bai.seperator * (this.draftCards.children.length)
+    }
+    card.set({
+      x: card.x - draftCardsPosition.x,
+      y: card.y - draftCardsPosition.y
+    });
+    self.draftCards.addChild(card);
+
+    createjs.Tween.get(card).to({
+      x: newX,
+      y: newY,
+      width: bai.width,
+      height: bai.height,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    }, _animationTime, createjs.Ease.sineOut());
+  };
+
+  p.showPhom = function (phoms) {
+    var cardsToDrash = [];
+    for (var i = 0; i < phoms.length; i++) {
+      var phom = phoms[i];
+      this.showSinglePhom(phom, i);
+    }
+    var _self = this;
+    setTimeout(function () {
+      _self.sortPhomArea();
+    }, 550);
+  };
+
+  p.addShowPhomArea = function (player) {
+    var desk = this.parent.parent.getChildByName('desk');
+    var draftPosition = desk.config.draftPositions[this.position];
+
+    var newY = 0;
+    var newX = 0;
+    if (this.position == 0) {
+      newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
+      newX = draftPosition.x;
+    } else if (this.position == 2) {
+      newX = this.hand.x + 37;
+      newY = this.hand.y;
+    } else {
+      newY = draftPosition.y - 45;
+      if (this.draftCards.align == "right") {
+        newX = this.draftCards.x;
+      } else {
+        newX = this.draftCards.x;
+      }
+    }
+    this.showPhomArea = new createjs.Container();
+    this.showPhomArea.set({
+      name: "showPhomArea",
+      x: newX,
+      y: newY
+    });
+    this.addChild(this.showPhomArea);
+  };
+
+  p.addChipContainer = function (player) {
+    var desk = this.parent.parent.getChildByName('desk');
+    var chipPosition = desk.chipPosition[this.position];
+    this.chipContainer = new createjs.Container();
+    this.chipContainer.set({
+      name: "chipContainer",
+      x: chipPosition.x,
+      y: chipPosition.y,
+      width: 117,
+      height: 42,
+      visible: true
+    });
+    var chipContainerBg = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'player/' + 'money-container.png');
+    var chipContainerValue = new createjs.Text("0", '20px Roboto Condensed', 'white');
+    chipContainerValue.set({x: 45, y: 30, textAlign: 'center', textBaseline: 'bottom'});
+    this.chipContainer.addChild(chipContainerBg, chipContainerValue);
+    this.addChild(this.chipContainer);
+  };
+
+  p.pushChip = function (type, number, options) {
+    var _self = this;
+    for (var i = 0; i < number; i++) {
+      var chipIcon = new TWIST.Chip(type);
+      this.chipContainer.addChild(chipIcon);
+      var newX = this.chipContainer.width - chipIcon.width;
+      chipIcon.set({
+        x: 50 - this.chipContainer.x,
+        y: 10 - this.chipContainer.y
+      })
+      createjs.Tween.get(chipIcon)
+              .wait(100 * i)
+              .to({x: newX, y: 0}, 200)
+              .call(function () {
+                var textObject = _self.chipContainer.getChildAt(1);
+                var current = isNaN(parseInt(textObject.text)) ? 0 : parseInt(textObject.text);
+                textObject.text = current + ChipValues[type];
+              });
+    }
+  };
+
+
+  p.pushChicken = function (chipArray, options) {
+    var _self = this;
+    var desk = this.parent.parent.getChildByName('desk');
+    var waitTime = 0;
+    desk.chickenTotal.visible = true;
+    for (var j = 0; j < chipArray.length; j++) {
+      _pushChicken(chipArray[j].number, chipArray[j].type)
+    }
+    function _pushChicken(number, type) {
+      for (var i = 0; i < number; i++) {
+        var chipIcon = new TWIST.Chip(type);
+        desk.chickenTotal.addChild(chipIcon);
+        var chickenTotalPosition = desk.chickenTotal.localToGlobal(0, 0);
+        var userPosition = _self.localToGlobal(50, 10);
+        chipIcon.set({
+          x: userPosition.x - chickenTotalPosition.x,
+          y: userPosition.y - chickenTotalPosition.y
+        });
+        createjs.Tween.get(chipIcon)
+                .wait(waitTime += 100)
+                .to({x: 140, y: 50}, 200)
+                .call(function () {
+                  desk.chickenTotal.removeChild(this);
+                  var textObject = desk.chickenTotal.getChildAt(1);
+                  var current = isNaN(parseInt(textObject.value)) ? 0 : parseInt(textObject.value);
+                  textObject.value = current + ChipValues[type];
+                  textObject.text = "Tổng gà : " + textObject.value;
+                });
+      }
+    }
+  };
+
+  p.showSinglePhom = function (cardList, position) {
+    var cards = this.getCardsInHand(cardList);
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      card.visible = true;
+      card.cardValue = cardList[i];
+      var _self = this;
+      var bai = TWIST.Card.draftCard,
+              draftCards = this.showPhomArea;
+
+      var newX = bai.seperator * draftCards.children.length,
+              newY = 0;
+      if (this.draftCards.align == "right") {
+        newX = 300 - bai.seperator * draftCards.children.length
+      }
+      this.showPhomArea.addChild(card);
+
+      card.set({x: card.x + this.hand.x - draftCards.x, y: card.y + this.hand.y - draftCards.y});
+      card.removeAllEventListeners();
+
+      createjs.Tween.get(card, {override: true}).to({
+        x: newX, y: newY,
+        width: bai.width,
+        height: bai.height,
+        scaleX: bai.scale,
+        scaleY: bai.scale
+      }, _animationTime, createjs.Ease.sineOut()).call(function () {
+        this.isInPhom = false;
+        if (_self.position != 0) {
+          this.openCard(this.cardValue, bai);
+        } else {
+          this.setInPhom(false);
         }
-        ;
+      });
+    }
+    return cards;
+  };
+
+  p.addCardInShowPhom = function (card, otherPlayerSend) {
+    var _self = this;
+    var bai = TWIST.Card.draftCard,
+            _self = this,
+            oldX = card.x,
+            oldY = card.y,
+            newX = bai.seperator * this.showPhomArea.children.length,
+            newY = 0,
+            draftCards = this.showPhomArea;
+
+    if (this.draftCards.align == "right") {
+      newX = 300 - bai.seperator * (draftCards.children.length - 1)
+    }
+    var showPhomGlobal = _self.showPhomArea.localToGlobal(0, 0);
+    card.set({
+      x: card.x - showPhomGlobal.x,
+      y: card.y - showPhomGlobal.y
+    });
+    _self.showPhomArea.addChild(card);
+    card.removeAllEventListeners();
+    card.setInPhom(false);
+    createjs.Tween.get(card).to({
+      x: newX,
+      y: newY,
+      width: bai.width,
+      height: bai.height,
+      scaleX: bai.scale,
+      scaleY: bai.scale
+    }, _animationTime).call(function () {
+      if (otherPlayerSend) {
+        this.openCard(this.cardValue, bai);
+      }
+    });
+  };
+
+  p.sortPhomArea = function () {
+    var cards = this.showPhomArea.children;
+    var _self = this;
+
+    var length = cards.length;
+    var bai = TWIST.Card.draftCard;
+    var seperator = bai.seperator;
+    var width = length * seperator;
+    var isCurrent = this.isCurrent;
+    if (width > 300)
+      width = 300;
+    var indexLeft = 0;
+    if (this.position == 0) {
+      indexLeft = (DESK.width - width - (this.showPhomArea.x + this.x) * 2) / 2;
     }
 
-    p.showMoneyExchageEffect = function (money, type, options) {
-        var moneyChangeContainer = this.getChildByName('moneyChangeEffect');
-        moneyChangeContainer.set({visible: true, y: 50});
-        var moneyChangeBg = moneyChangeContainer.getChildAt(0);
-        var moneyChangeText = moneyChangeContainer.getChildAt(1);
-        var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
-        if (type === "lose") {
-            moneyChangeText.color = "red";
-            moneyChangeBg.text = moneyChangeText.text = "- " + absMoney;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var newX = indexLeft + i * width / length;
+
+      if (this.draftCards.align == "right") {
+        newX = 300 - width / length * i;
+      }
+
+      createjs.Tween.get(card).to({
+        x: newX
+      }, 100, createjs.Ease.sineOut()).call(function () {});
+    }
+    ;
+  }
+
+  p.showMoneyExchageEffect = function (money, type, options) {
+    var moneyChangeContainer = this.getChildByName('moneyChangeEffect');
+    var startY = (options && options.startY) || ((type === "lose") ? 100 : 0);
+    var endY = (options && options.endY) || ((type === "lose") ? 0 : 100);
+    moneyChangeContainer.set({visible: true, y: startY, alpha: 0.3});
+    var moneyChangeBg = moneyChangeContainer.getChildAt(0);
+    var moneyChangeText = moneyChangeContainer.getChildAt(1);
+    var absMoney = Global.numberWithDot(Math.abs(parseInt(money)));
+    if (type === "lose") {
+      moneyChangeText.color = "red";
+      moneyChangeBg.text = moneyChangeText.text = "- " + absMoney;
+    } else {
+      moneyChangeText.color = "yellow";
+      moneyChangeBg.text = moneyChangeText.text = "+ " + absMoney;
+    }
+    createjs.Tween.get(moneyChangeContainer).to({y: endY, alpha: 1}, _animationTime + 200).call(function () {
+      setTimeout(function () {
+        moneyChangeContainer.visible = false;
+        moneyChangeText.text = '';
+      }, 2000);
+    });
+  };
+
+  p.setHandCardsValue = function (cardList) {
+    var cards = this.handCards.children;
+    for (var i = 0; i < cardList.length; i++) {
+      var card = cards[i];
+      if (card) {
+        card.cardValue = cardList[i];
+      }
+    }
+    ;
+  };
+
+  p.getHandCardAbsolutePosition = function () {
+    return {
+      x: this.x + this.hand.x + this.handCards.x,
+      y: this.y + this.hand.y + this.handCards.y
+    };
+  };
+
+  p.rerenderDraftPhom = function (cardList) {
+    if (!cardList)
+      return;
+    var cards = [], bai = TWIST.Card.draftCard;
+
+    for (var i = 0; i < cardList.length; i++) {
+      var card = new TWIST.Card(cardList[i]);
+
+      var newX = bai.seperator * i, newY = 0;
+      if (this.draftCards.align == "right") {
+        newX = 300 - bai.seperator * i
+      }
+      card.set({
+        x: newX,
+        y: newY,
+        scaleX: bai.scale,
+        scaleY: bai.scale
+      });
+      this.draftCards.addChild(card);
+    }
+    return cards;
+  };
+
+  p.hightLightEatCards = function (cardList) {
+    var cards = this.handCards.children;
+    for (var i = 0; i < cards.length; i++) {
+      if (cardList.indexOf(cards[i].cardValue) > -1)
+        cards[i].hightLight();
+    }
+    var cards = this.showPhomArea.children;
+    for (var i = 0; i < cards.length; i++) {
+      if (cardList.indexOf(cards[i].cardValue) > -1)
+        cards[i].hightLight();
+    }
+  };
+
+  p.reEatCards = function (cardList) {
+    if (!cardList)
+      return;
+    this.numberEatedCard = 0;
+    var cards = [], bai = TWIST.Card.draftCard;
+
+    for (var i = 0; i < cardList.length; i++) {
+      var card = new TWIST.Card(cardList[i]);
+      var newX = bai.seperator * i, newY = 0;
+      if (this.position == 2) {
+        newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
+        newY = 0;
+      } else {
+        newY = -45;
+        if (this.draftCards.align == "right") {
+          newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
         } else {
-            moneyChangeText.color = "yellow";
-            moneyChangeBg.text = moneyChangeText.text = "+ " + absMoney;
+          newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
         }
-        createjs.Tween.get(moneyChangeContainer).to({y: (options && options.y) ? options.y : -20}, _animationTime).call(function () {
-            setTimeout(function () {
-                moneyChangeContainer.visible = false;
-                moneyChangeText.text = '';
-            }, 2000);
-        });
-    };
+      }
+      card.set({
+        x: newX,
+        y: newY,
+        scaleX: bai.scale,
+        scaleY: bai.scale
+      });
+      this.numberEatedCard++;
+      this.handCards.addChild(card);
+    }
+    return cards;
+  };
 
-    p.setHandCardsValue = function (cardList) {
-        var cards = this.handCards.children;
-        for (var i = 0; i < cardList.length; i++) {
-            var card = cards[i];
-            if (card) {
-                card.cardValue = cardList[i];
-            }
-        }
-        ;
-    };
-
-    p.getHandCardAbsolutePosition = function () {
-        return {
-            x: this.x + this.hand.x + this.handCards.x,
-            y: this.y + this.hand.y + this.handCards.y
-        };
-    };
-
-    p.rerenderDraftPhom = function (cardList) {
-        if (!cardList)
-            return;
-        console.log(cardList);
-        var cards = [], bai = TWIST.Card.draftCard;
-
-        for (var i = 0; i < cardList.length; i++) {
-            var card = new TWIST.Card(cardList[i]);
-
-            var newX = bai.seperator * i, newY = 0;
-            if (this.draftCards.align == "right") {
-                newX = 300 - bai.seperator * i
-            }
-            card.set({
-                x: newX,
-                y: newY,
-                scaleX: bai.scale,
-                scaleY: bai.scale
-            });
-            this.draftCards.addChild(card);
-        }
-        return cards;
-    };
-
-    p.hightLightEatCards = function (cardList) {
-        var cards = this.handCards.children;
-        for (var i = 0; i < cards.length; i++) {
-            if (cardList.indexOf(cards[i].cardValue) > -1)
-                cards[i].hightLight();
-        }
-        var cards = this.showPhomArea.children;
-        for (var i = 0; i < cards.length; i++) {
-            if (cardList.indexOf(cards[i].cardValue) > -1)
-                cards[i].hightLight();
-        }
-    };
-
-    p.reEatCards = function (cardList) {
-        if (!cardList)
-            return;
-        var cards = [], bai = TWIST.Card.draftCard;
-
-        for (var i = 0; i < cardList.length; i++) {
-            var card = new TWIST.Card(cardList[i]);
-
-            var newX = bai.seperator * i, newY = 0;
-            if (this.draftCards.align == "right") {
-                newX = -0 - this.handCards.x - this.hand.x + this.draftCards.x + 300 - i * bai.seperator;
-            } else {
-                newX = 0 - this.handCards.x - this.hand.x + this.draftCards.x + i * bai.seperator
-            }
-            card.set({
-                x: newX,
-                y: newY,
-                scaleX: bai.scale,
-                scaleY: bai.scale
-            });
-            this.handCards.addChild(card);
-        }
-        return cards;
-    };
-
-    p.showMessage = function (msg) {
-        var chat = this.getChildByName('chat'),
+  p.showMessage = function (msg) {
+    var chat = this.getChildByName('chat'),
 //                        textColor = 'rgba(23, 2, 37, 1)',
 //                        bgColor = 'rgba(190, 190, 190, 1)',
 //                        borderColor = 'rgba(23, 2, 37, 1)',
-                textColor = 'rgba(255, 255, 0, 1)',
-                bgColor = 'rgba(0, 0, 0, 1)',
-                borderColor = 'rgba(0, 0, 0, 1)',
-                chatText,
-                chatBg,
-                textPosition = {};
+            textColor = 'rgba(255, 255, 0, 1)',
+            bgColor = 'rgba(0, 0, 0, 1)',
+            borderColor = 'rgba(0, 0, 0, 1)',
+            chatText,
+            chatBg,
+            textPosition = {};
 
-        chatBg = chat.getChildAt(0);
-        chatText = chat.getChildAt(1);
+    chatBg = chat.getChildAt(0);
+    chatText = chat.getChildAt(1);
 
-        chatBg.graphics.c();
-        chatText.set({color: textColor, text: msg});
+    chatBg.graphics.c();
+    chatText.set({color: textColor, text: msg});
 
-        textPosition.x = chatText.getMeasuredWidth();
-        textPosition.y = chatText.getMeasuredHeight();
+    textPosition.x = chatText.getMeasuredWidth();
+    textPosition.y = chatText.getMeasuredHeight();
 
-        if (msg && msg.length > 28) {
-            var positionSplit = msg.indexOf(' ', 25);
-            if (positionSplit < 25 || positionSplit > 35)
-                positionSplit = 28;
-            msg = msg.substring(0, positionSplit) + '\n' + msg.substring(positionSplit);
-            chatText.text = msg;
+    if (msg && msg.length > 28) {
+      var positionSplit = msg.indexOf(' ', 25);
+      if (positionSplit < 25 || positionSplit > 35)
+        positionSplit = 28;
+      msg = msg.substring(0, positionSplit) + '\n' + msg.substring(positionSplit);
+      chatText.text = msg;
 
-            var tempText = chatText.clone();
-            tempText.text = msg.substring(0, positionSplit);
-            textPosition.x = tempText.getMeasuredWidth();
-            textPosition.y = chatText.getMeasuredHeight();
-        }
-
-        chatText.set({x: textPosition.x / 2, y: (textPosition.y + 10) / 5 + 18});
-        chatBg.graphics.beginFill(bgColor).beginStroke(borderColor).setStrokeStyle(1).drawRoundRect(-10, -10, textPosition.x + 20, textPosition.y + 20, 20);
-
-        var x = this.hand.x < 0 ? -(textPosition.x + 20) : 120,
-                y = 0;
-        chat.set({x: x, y: y, visible: true});
-
-        createjs.Tween.get(chat).to({alpha: 1}, _animationTime)
-                .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
-                .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
-                .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
-                .wait(3500).to({alpha: 0, visible: false}, 500);
+      var tempText = chatText.clone();
+      tempText.text = msg.substring(0, positionSplit);
+      textPosition.x = tempText.getMeasuredWidth();
+      textPosition.y = chatText.getMeasuredHeight();
     }
 
-    TWIST.Player = Player;
+    chatText.set({x: textPosition.x / 2, y: (textPosition.y + 10) / 5 + 18});
+    chatBg.graphics.beginFill(bgColor).beginStroke(borderColor).setStrokeStyle(1).drawRoundRect(-10, -10, textPosition.x + 20, textPosition.y + 20, 20);
+
+    var x = this.hand.x < 0 ? -(textPosition.x + 20) : 120,
+            y = 0;
+    chat.set({x: x, y: y, visible: true});
+
+    createjs.Tween.get(chat).to({alpha: 1}, _animationTime)
+            .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
+            .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
+            .to({x: x + 1, y: y + 1}, 100).to({x: x - 1, y: y - 2}, 100)
+            .wait(3500).to({alpha: 0, visible: false}, 500);
+  }
+
+  TWIST.Player = Player;
 
 })();
 /**
@@ -3275,976 +3385,1073 @@ this.gbjs = this.gbjs || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    function BaseGame() {}
+  function BaseGame() {}
 
-    var initOptions = {
-        width: 1000,
-        height: 580
-    };
-    var p = BaseGame.prototype = new EventEmitter();
+  var initOptions = {
+    width: 1000,
+    height: 580
+  };
+  var p = BaseGame.prototype = new EventEmitter();
 
-    p.initBaseGame = function () {
+  p.initBaseGame = function () {
 
-        //Event List
+    //Event List
 //        this.events = {
 ////            info: "drawInfo"
 //        };
 
-        this.initEvent();
-        this.initCanvas();
-        this.wrapper.append(this.canvas);
-        this.initStage();
-    };
+    this.initEvent();
+    this.initCanvas();
+    this.wrapper.append(this.canvas);
+    this.initStage();
+  };
 
-    p.initCanvas = function () {
-        var canvas = $(TWIST.HTMLTemplate.canvas);
-        canvas.attr({
-            width: this.options.width || initOptions.width,
-            height: this.options.height || initOptions.height
-        });
-        canvas.addClass('twist');
-        this.canvas = canvas;
-        return canvas;
-    };
+  p.initCanvas = function () {
+    var canvas = $(TWIST.HTMLTemplate.canvas);
+    canvas.attr({
+      width: this.options.width || initOptions.width,
+      height: this.options.height || initOptions.height
+    });
+//        canvas.addClass('twist');
+    this.canvas = canvas;
+    return canvas;
+  };
 
-    p.initStage = function () {
-        var _self = this;
-        var stage = new createjs.Stage(this.canvas[0]);
-        stage.enableMouseOver(20);
-        var context = stage.canvas.getContext("2d");
-        context.mozImageSmoothingEnabled = true;
-        createjs.Touch.enable(stage);
-        createjs.Ticker.setFPS(60);
-        stage.width = this.canvas.width;
-        stage.height = this.canvas.height;
-        createjs.Ticker.addEventListener("tick", onUpdateStage);
-        this.on('destroy', function () {
-            createjs.Ticker.removeEventListener("tick", onUpdateStage);
-            _self.removeAllListeners();
-            _self.timeOutList.forEach(function(item,index){
-                clearTimeout(item);
-            });
-        });
-        this.stage = stage;
+  p.initStage = function () {
+    var _self = this;
+    var stage = new createjs.Stage(this.canvas[0]);
+    stage.enableMouseOver(20);
+    var context = stage.canvas.getContext("2d");
+    context.mozImageSmoothingEnabled = true;
+    createjs.Touch.enable(stage);
+    createjs.Ticker.setFPS(60);
+    stage.width = this.canvas.width;
+    stage.height = this.canvas.height;
+    createjs.Ticker.addEventListener("tick", onUpdateStage);
+    this.on('destroy', function () {
+      createjs.Ticker.removeEventListener("tick", onUpdateStage);
+      _self.removeAllListeners();
+      _self.timeOutList.forEach(function (item, index) {
+        clearTimeout(item);
+      });
+    });
+    this.stage = stage;
 
-        function onUpdateStage() {
-            stage.update();
+    function onUpdateStage() {
+      stage.update();
+    }
+  };
+
+  p.initEvent = function () {
+    this.timeOutList = [];
+    this.on('destroy', function () {
+      createjs.Tween.removeAllTweens();
+      TWIST.Sound.stop();
+    });
+  };
+
+  p.addNumberEffect = function (el, type) {
+
+    var jElement = el;
+    var _self = this;
+    var numberWithDotType = "numberWithDot" + (type || "");
+
+    var oldValue = jElement.text();
+    oldValue = parseInt(oldValue.replace(/\./g, ""));
+    if (isNaN(oldValue))
+      oldValue = 0;
+    jElement.prop('_counter', oldValue);
+
+    jElement.runEffect = function (newValue, options) {
+      jElement.finish();
+      jElement.isDone = true;
+      var initOptions = {
+        duration: 1000,
+        step: function (now) {
+          jElement.text(Global[numberWithDotType](Math.ceil(now)));
+        },
+        done: function () {
+          jElement.endEffect();
         }
+      };
+      $.extend(initOptions, options);
+      this.animate({
+        _counter: newValue
+      }, initOptions);
     };
 
-    p.initEvent = function () {
-        this.timeOutList = [];
-        this.on('destroy', function () {
-            createjs.Tween.removeAllTweens();
+    jElement.endEffect = function () {
+      jElement.finish();
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.addRemainTimeEffect = function (el, options) {
+
+    var jElement = el;
+    var _self = this;
+    var remainInterval;
+    var endRemainTime = 0;
+
+    jElement.options = options;
+    function setRemainTime() {
+      var now = endRemainTime - new Date().getTime();
+      if (now > 0) {
+        var minutes = Math.floor(now / 60000);
+        if (minutes < 10)
+          minutes = "0" + minutes;
+        var secons = Math.floor((now % 60000) / 1000);
+        if (secons < 10)
+          secons = "0" + secons;
+        jElement.text(minutes + " : " + secons);
+      } else {
+        jElement.endEffect();
+      }
+    }
+
+    jElement.runEffect = function (remainTime) {
+      clearInterval(remainInterval);
+      remainTime = isNaN(parseInt(remainTime)) ? 0 : parseInt(remainTime);
+      endRemainTime = new Date().getTime() + remainTime;
+      setRemainTime();
+      remainInterval = setInterval(setRemainTime, 100);
+    };
+
+    jElement.endEffect = function () {
+      clearInterval(remainInterval);
+      jElement.text("");
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("timeOut", jElement);
+      }
+    };
+
+    return jElement;
+  };
+
+  p.addDisbaleEffect = function (el, options) {
+
+    var jElement = el;
+    var _self = this;
+
+    jElement.setDisabled = function (flag) {
+      jElement.disabled = flag;
+      if (flag) {
+        jElement.addClass('disabled');
+      } else {
+        jElement.removeClass('disabled');
+      }
+    };
+
+    jElement.runEffect = function () {
+      jElement.setDisabled(true);
+    };
+
+    jElement.endEffect = function () {
+      jElement.setDisabled(false);
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("timeOut", jElement);
+      }
+    };
+
+    return jElement;
+  };
+
+  p.addChipEffect = function (el) {
+    var _self = this;
+    var jElement = el;
+
+    jElement.runEffect = function (plus) {
+      this.isDone = true;
+      this.removeClass('plus decrease');
+      var className = plus ? "plus" : "decrease";
+      this.show();
+      var length = jElement.find('i').length;
+      var count = 0;
+      jElement.find('i').show();
+      this.addClass(className);
+      jElement.find('i').each(function (index) {
+        var item = this;
+        $(this).one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+          $(this).hide();
+          count++;
+          if (count == length)
+            jElement.endEffect();
         });
+      });
     };
 
-    p.addNumberEffect = function (el) {
-
-        var jElement = el;
-        var _self = this;
-
-        var oldValue = jElement.text();
-        oldValue = parseInt(oldValue.replace(/\./g, ""));
-        if (isNaN(oldValue))
-            oldValue = 0;
-        jElement.prop('_counter', oldValue);
-
-        jElement.runEffect = function (newValue, options) {
-            jElement.finish();
-            jElement.isDone = true;
-            var initOptions = {
-                duration: 1000,
-                step: function (now) {
-                    jElement.text(Global.numberWithDot(Math.ceil(now)));
-                },
-                done: function () {
-                    jElement.endEffect();
-                }
-            };
-            $.extend(initOptions, options);
-            this.animate({
-                _counter: newValue
-            }, initOptions);
-        };
-
-        jElement.endEffect = function () {
-            jElement.finish();
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
+    jElement.endEffect = function () {
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("_moveChipComplete", jElement);
+      }
     };
 
-    p.addRemainTimeEffect = function (el, options) {
+    return jElement;
+  };
 
-        var jElement = el;
-        var _self = this;
-        var remainInterval;
-        var endRemainTime = 0;
-
-        jElement.options = options;
-        function setRemainTime() {
-            var now = endRemainTime - new Date().getTime();
-            if (now > 0) {
-                var minutes = Math.floor(now / 60000);
-                if (minutes < 10)
-                    minutes = "0" + minutes;
-                var secons = Math.floor((now % 60000) / 1000);
-                if (secons < 10)
-                    secons = "0" + secons;
-                jElement.text(minutes + " : " + secons);
-            } else {
-                jElement.endEffect();
-            }
-        }
-
-        jElement.runEffect = function (remainTime) {
-            clearInterval(remainInterval);
-            remainTime = isNaN(parseInt(remainTime)) ? 0 : parseInt(remainTime);
-            endRemainTime = new Date().getTime() + remainTime;
-            setRemainTime();
-            remainInterval = setInterval(setRemainTime, 100);
-        };
-
-        jElement.endEffect = function () {
-            clearInterval(remainInterval);
-            jElement.text("");
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("timeOut", jElement);
-            }
-        };
-
-        return jElement;
-    };
-
-    p.addDisbaleEffect = function (el, options) {
-
-        var jElement = el;
-        var _self = this;
-
-        jElement.setDisabled = function (flag) {
-            jElement.disabled = flag;
-            if (flag) {
-                jElement.addClass('disabled');
-            } else {
-                jElement.removeClass('disabled');
-            }
-        };
-
-        jElement.runEffect = function () {
-            jElement.setDisabled(true);
-        };
-
-        jElement.endEffect = function () {
-            jElement.setDisabled(false);
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("timeOut", jElement);
-            }
-        };
-
-        return jElement;
-    };
-
-    p.addChipEffect = function (el) {
-        var _self = this;
-        var jElement = el;
-
-        jElement.runEffect = function (plus) {
-            this.isDone = true;
-            this.removeClass('plus decrease');
-            var className = plus ? "plus" : "decrease";
-            this.show();
-            var length = jElement.find('i').length;
-            var count = 0;
-            jElement.find('i').show();
-            this.addClass(className);
-            jElement.find('i').each(function (index) {
-                var item = this;
-                $(this).one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-                    $(this).hide();
-                    count ++;
-                    if(count == length) jElement.endEffect();
-                });
-            });
-        };
-
-        jElement.endEffect = function () {
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("_moveChipComplete", jElement);
-            }
-        };
-
-        return jElement;
-    };
-
-    TWIST.BaseGame = BaseGame;
+  TWIST.BaseGame = BaseGame;
 
 })();
 
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    function InRoomGame() {}
+  function InRoomGame() {}
 
-    InRoomGame.statusList = {
-        '0': 'STATUS_WAITING_FOR_PLAYER',
-        '1': 'STATUS_WAITING_FOR_START',
-        '2': 'STATUS_PLAYING',
-        '3': 'STATUS_ENDING',
-        '4': 'STATUS_WAITING_FOR_READY',
-        '6': 'STATUS_WAITING_FOR_DEALING',
-        '7': 'STATUS_DEALING',
-        '8': 'STATUS_SHAKE_DISK',
-        '9': 'STATUS_BETTING',
-        '10': 'STATUS_END_BETTING',
-        '11': 'STATUS_OPEN_DISK',
-        '12': 'STATUS_CLOSE_DISK',
-        '13': 'STATUS_ARRANGING',
-        '14': 'STATUS_NOTIFY_SAM',
-        '15': 'STATUS_DEAL_MASTER'
-    };
+  InRoomGame.statusList = {
+    '0': 'STATUS_WAITING_FOR_PLAYER',
+    '1': 'STATUS_WAITING_FOR_START',
+    '2': 'STATUS_PLAYING',
+    '3': 'STATUS_ENDING',
+    '4': 'STATUS_WAITING_FOR_READY',
+    '6': 'STATUS_WAITING_FOR_DEALING',
+    '7': 'STATUS_DEALING',
+    '8': 'STATUS_SHAKE_DISK',
+    '9': 'STATUS_BETTING',
+    '10': 'STATUS_END_BETTING',
+    '11': 'STATUS_OPEN_DISK',
+    '12': 'STATUS_CLOSE_DISK',
+    '13': 'STATUS_ARRANGING',
+    '14': 'STATUS_NOTIFY_SAM',
+    '15': 'STATUS_DEAL_MASTER'
+  };
 
 
-    var p = InRoomGame.prototype = new TWIST.BaseGame();
+  var p = InRoomGame.prototype = new TWIST.BaseGame();
 
-    p.initInRoomGame = function () {
-        this.initBaseGame();
-        this.drawRoom();
-        this.pushInRoomGameEvent();
-        this.initErrotPanel();
-        this.initButtonBar();
-        this.initResultPanel();
-        this.observerEvent();
-        this.userInfo = {};
-        this.status = InRoomGame.statusList['0'];
-        this.model = this.model || {};
-    };
+  p.statusList = $.extend({}, InRoomGame.statusList);
 
-    p.initErrotPanel = function () {
-        this.errorPanel = $(TWIST.HTMLTemplate.errorPanel);
-        this.wrapper.append(this.errorPanel);
-        this.errorList = this.errorList || {};
-        $.extend(this.errorList, {
-            0: "Lỗi hệ thống !",
-            //sam Error
-            34: "Không được để 2 cuối !",
-            1470: "Chưa chọn cây bài !"
-        });
-    };
+  p.initInRoomGame = function () {
+    this.initBaseGame();
+    this.drawRoom();
+    this.pushInRoomGameEvent();
+    this.initInviteList();
+    this.initErrotPanel();
+    this.initButtonBar();
+    this.initResultPanel();
+    this.observerEvent();
+    this.userInfo = this.userInfo || {};
+    this.status = this.statusList['0'];
+    this.model = this.model || {};
+  };
 
-    p.initButtonBar = function () {
-        this.buttonBar = $(TWIST.HTMLTemplate.buttonBar.wrapper);
-        this.wrapper.append(this.buttonBar);
-        this.startButton = $(TWIST.HTMLTemplate.buttonBar.startButton);
-        this.buttonBar.append(this.startButton);
-        this.buttonBar.hide();
-    };
+  p.initInviteList = function () {
+    var _self = this;
 
-    p.drawRoom = function () {
-        var canvas = this.wrapper.find('canvas');
-        canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) 143px 55px no-repeat");
-        this.playersContainer = new createjs.Container();
-        this.desk = new TWIST.Desk(this.options);
-        this.stage.addChild(this.playersContainer, this.desk);
-        this.wrapper.css({
-            width: canvas.width(),
-            height: canvas.height()
-        });
-    };
+    this.inviteListTemplate = $(TWIST.HTMLTemplate['inviteList/wrapper']);
+    this.wrapper.append(this.inviteListTemplate);
 
-    p.pushInRoomGameEvent = function () {
-        this.on("userInfo", this.setUserInfo);
+    var playerPositions = this.desk.config.playerPositions;
 
-        this.on("gameInfo", this.drawGameInfo);
+    this.inviteList = [];
 
-        this.on("userJoin", this.addPlayer);
+    playerPositions.forEach(function (item, index) {
+      drawInvitePosition(item, index);
+    });
 
-        this.on("userQuit", this.removePlayer);
+    function drawInvitePosition(positionData, index) {
+      var invitePosition = $(TWIST.HTMLTemplate['inviteList/inviteItem']);
+      _self.inviteList.push(invitePosition);
+      _self.inviteListTemplate.append(invitePosition);
+      invitePosition.css({
+        top: positionData.y,
+        left: positionData.x + 11
+      });
+      if (!index)
+        invitePosition.hide();
+      invitePosition.on('click', function () {
+        _self.emit('invitePlayer');
+      });
+    }
+  };
 
-        this.on("error", this.showError);
+  p.initErrotPanel = function () {
+    this.errorPanel = $(TWIST.HTMLTemplate.errorPanel);
+    this.wrapper.append(this.errorPanel);
+    this.errorList = this.errorList || {};
+    $.extend(this.errorList, {
+      0: "Lỗi hệ thống !",
+      //sam Error
+      34: "Không được để 2 cuối !",
+      1470: "Chưa chọn cây bài !",
+      //xocdia Error,
+      91: "Cược vượt quá cho phép",
+      92: "Cửa đặt không xác định",
+      93: "Không đủ tiền để làm nhà cái",
+      94: "User không phải nhà cái",
+      95: "Nhà cái đã tồn tại",
+      96: "Chưa sẵn sàng để đặt cược",
+      97: "Bán chẵn/lẻ không thành công",
+      98: "Bạn đã bán chẵn/lẻ rồi",
+      99: "Số tiền bán chẵn/lẻ không hợp lệ",
+      100: "Hủy cược không thành công",
+      101: "Nhà cái không thể đặt cược",
+      102: "Hủy cái không thành công."
+    });
+  };
 
-        this.on("changeMaster", this.changeRoomMaster);
+  p.initButtonBar = function () {
+    this.buttonBar = $(TWIST.HTMLTemplate['buttonBar/wrapper']);
+    this.wrapper.append(this.buttonBar);
+    this.startButton = $(TWIST.HTMLTemplate['buttonBar/startButton']);
+    this.buttonBar.append(this.startButton);
+    this.buttonBar.hide();
+  };
 
-        this.on("isolateUpdateMoney", this.isolateUpdateMoney);
+  p.drawRoom = function () {
+    var canvas = this.wrapper.find('canvas');
+    canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
+    this.playersContainer = new createjs.Container();
+    this.desk = new TWIST.Desk(this.options);
+    this.desk.name = "desk";
+    this.stage.addChild(this.desk, this.playersContainer);
+    this.wrapper.css({
+      width: canvas.width(),
+      height: canvas.height(),
+      position: "relative"
+    });
+  };
 
-        this.on("userChat", this.userChat);
+  p.pushInRoomGameEvent = function () {
+    this.on("userInfo", this.setUserInfo);
 
-        this.on("changeStatus", this.changeStatus);
+    this.on("gameInfo", this.drawGameInfo);
 
-        this.on("updateInfo", this.updateInfo);
+    this.on("userJoin", this.addPlayer);
+
+    this.on("userQuit", this.removePlayer);
+
+    this.on("error", this.showError);
+
+    this.on("changeMaster", this.changeRoomMaster);
+
+    this.on("isolateUpdateMoney", this.isolateUpdateMoney);
+
+    this.on("userChat", this.userChat);
+
+    this.on("changeStatus", this.changeStatus);
+
+    this.on("updateInfo", this.updateInfo);
 
 //        gameplayer Event
 
-        this.on("dealCards", this.dealCards);
+    this.on("dealCards", this.dealCards);
 
-        this.on("setDealCards", this.setDealCards);
+    this.on("endGame", this.endGame);
 
-        this.on("hitTurn", this.onHitTurn);
+    this.on("draftCards", this.onDraftCards);
 
-        this.on("draftCards", this.onDraftCards);
+    this.on("hitTurn", this.onHitTurn);
 
-        this.on("endTurn", this.onEndTurn);
+    this.on("reconnect", this.reconnect);
 
-        this.on("foldTurn", this.foldTurn);
+    this.on("updateUuid", this.updateUuid);
+  };
 
-        this.on("endGame", this.endGame);
+  p.setUserInfo = function (data) {
+    this.userInfo = $.extend(this.userInfo, data);
+    this.userInfo.uuid = this.userInfo.uuid || this.userInfo.id;
+  };
 
-        this.on("reconnect", this.reconnect);
+  p.observerEvent = function () {
+    var _self = this;
+    TWIST.Observer.on("cardSelected", function (card) {
+      _self.handCardSelected(card);
+    });
+  };
 
-        this.on("updateUuid", this.updateUuid);
+  p.drawGameInfo = function (data) {
+    this.model = this.model || {};
+    $.extend(this.model, data);
+    var playerList = this.model.players;
+    for (var i = 0, length = playerList.length; i < length; i++) {
+      if (playerList[i].username === this.userInfo.username) {
+        this.userInfo.uuid = playerList[i].uuid;
+      }
+    }
 
-        this.on("notifyOne", this.onNotifyOne);
-    };
+    this.drawPlayers();
 
-    p.setUserInfo = function (data) {
-        this.userInfo = data || {};
-        this.userInfo.uuid = data.uuid || data.id;
-    };
+    if (data.status) {
+      this.changeStatus({
+        newStatus: data.status
+      });
+      if (this.status === 'STATUS_PLAYING') {
+        this.drawPlayingState(data);
+      }
+    }
+  };
 
-    p.observerEvent = function () {
-        var _self = this;
-        TWIST.Observer.on("cardSelected", function (card) {
-            _self.handCardSelected(card);
-        });
-    };
+  p.removePlayer = function (data) {
+    var player = this.getPlayerByUuid(data.uuid);
+    if (player) {
+      var playerPosition = player.position;
+      this.inviteList[playerPosition] && this.inviteList[playerPosition].show();
+      this.playersContainer.removeChild(player);
+    }
+    var playerData = this.removePlayerData(data.uuid);
+  };
 
-    p.drawGameInfo = function (data) {
-        this.model = this.model || {};
-        $.extend(this.model, data);
-        var playerList = this.model.players;
-        for (var i = 0, length = playerList.length; i < length; i++) {
-            if (playerList[i].username === this.userInfo.username) {
-                this.userInfo.uuid = playerList[i].uuid;
-            }
-        }
+  p.showError = function (data) {
+    var message = this.errorList[data.code];
+    message = message || data.message;
+    var errorItem = $('<div class="error-item">' + message + '</div>');
+    $(errorItem).css({margin: "0 auto", display: "inline-block"});
+    this.errorPanel.empty();
+    this.errorPanel.append(errorItem);
+    var _self = this;
+    errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      $(errorItem).remove();
+    });
+  };
 
-        this.drawPlayers();
-
-        if (this.status === 'STATUS_PLAYING') {
-            this.drawPlayingState(data);
-        } else if (this.status === 'STATUS_WAITING_FOR_START') {
-            var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
-            if (playerData && playerData.isRoomMaster) {
-                this.startButton.show();
-            }
-        }
-        if (data.remainingTime) {
-            this.desk.setRemainingTime(data.remainingTime);
-        }
-    };
-
-    p.removePlayer = function (data) {
-        var player = this.getPlayerByUuid(data.uuid);
-        if (player) {
-            this.playersContainer.removeChild(player);
-        }
-        var playerData = this.removePlayerData(data.uuid);
-    };
-
-    p.showError = function (data) {
-        var message = this.errorList[data.code];
-        message = message || data.message;
-        var errorItem = $('<div class="error-item">' + message + '</div>');
-        $(errorItem).css({margin: "0 auto", display: "inline-block"});
-        this.errorPanel.empty();
-        this.errorPanel.append(errorItem);
-        var _self = this;
-        errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            $(errorItem).remove();
-        });
-    };
-
-    p.changeRoomMaster = function (data) {
-        var oldRoomMasterPosition = this.roomMasterIcon.globalPosition;
-        var uuid = data.uuid;
-        var players = this.model.players || [];
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (player.uuid === uuid) {
-                player.isRoomMaster = true;
-                if (Player) {
-                    this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
-                }
-            } else {
-                player.isRoomMaster = false;
-                if (Player)
-                    Player.setRoomMaster(false);
-            }
-        }
-    };
-
-    p.updateInfo = function (data) {
-        var player = this.getPlayerDataByUuid(this.userInfo.uuid);
-        $.extend(player, data);
-        var Player = this.getPlayerByUuid(this.userInfo.uuid);
-        var _self = this;
+  p.changeRoomMaster = function (data) {
+    var oldRoomMasterPosition = this.roomMasterIcon.globalPosition;
+    var uuid = data.uuid;
+    var players = this.model.players || [];
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      var Player = this.getPlayerByUuid(player.uuid);
+      if (player.uuid === uuid) {
+        player.isRoomMaster = true;
         if (Player) {
-            $.extend(Player, data);
-            Player.render();
+          this.roomMasterIcon = Player.setRoomMaster(true, oldRoomMasterPosition);
         }
-    };
-
-    p.isolateUpdateMoney = function (data) {
-        var players = data.players;
-        var _self = this;
-        players.forEach(function (item, index) {
-            var playerData = _self.getPlayerDataByUuid(item.uuid);
-            if (playerData) {
-                playerData.money = parseInt(item.money);
-                var Player = _self.getPlayerByUuid(item.uuid);
-                if (Player) {
-                    Player.setMoney(playerData.money);
-                    var type = item.changeMoney < 0 ? "lose" : "win";
-                    Player.showMoneyExchageEffect(item.changeMoney, type);
-                }
-            }
-        });
-    };
-
-    p.userChat = function (data) {
-
-    };
-
-    p.changeStatus = function (data) {
-        this.desk.setRemainingTime(parseInt(data.remainingTime));
-        this.status = InRoomGame.statusList[data.newStatus];
-        var func = this[this.status];
-        if (typeof func === "function") {
-            func.call(this);
-        }
-        this.emit("ping");
-    };
-
-    p.endGame = function (data) {
-
-    };
-
-    p.reconnect = function (data) {
-
-    };
-
-    p.addPlayer = function (data) {
-
-        var userPosition = this.userInfo.indexPosition;
-        var playerPosition = data.indexPosition - userPosition;
-        if (playerPosition < 0)
-            playerPosition += this.options.maxPlayers;
-        var config = this.desk.config;
-
-        var currenConfig = {};
-        for (var pro in config) {
-            currenConfig[pro] = config[pro][playerPosition];
-        }
-        data.config = currenConfig;
-
-        var playerPositions = this.desk.config.playerPositions;
-
-        $.extend(data, playerPositions[playerPosition]);
-        data.position = playerPosition;
-        this.model.players.push(data);
-        if (this.playersContainer.children.length < this.options.maxPlayers) {
-            this.drawPlayer(data);
-        }
-    };
-
-    p.drawPlayers = function () {
-        var players = this.model.players || [];
-        var _self = this;
-        var userPosition = 0;
-        players.forEach(function (item, index) {
-            if (item.uuid === _self.userInfo.uuid) {
-                userPosition = item.indexPosition;
-                $.extend(_self.userInfo, item);
-            }
-        });
-        players.sort(function (a, b) {
-            var fistPosition = a.indexPosition - userPosition;
-            if (fistPosition < 0) {
-                fistPosition += _self.options.maxPlayers;
-            }
-            var seconPosition = b.indexPosition - userPosition;
-            if (seconPosition < 0) {
-                seconPosition += _self.options.maxPlayers;
-            }
-            return fistPosition - seconPosition;
-        });
-
-        var config = this.desk.config;
-        players.forEach(function (item, index) {
-            var currenConfig = {};
-            item.position = item.indexPosition - userPosition;
-            if (item.position < 0) {
-                item.position += _self.options.maxPlayers;
-            }
-            for (var pro in config) {
-                currenConfig[pro] = config[pro][item.position];
-            }
-            item.config = currenConfig;
-            $.extend(item, config.playerPositions[item.position]);
-            _self.drawPlayer(item);
-        });
-    };
-
-    p.drawPlayer = function (playerData) {
-        playerData.config = playerData.config || {};
-        playerData.index = playerData.index || 0;
-
-        var newPlayer = new TWIST.Player(playerData);
-        this.playersContainer.addChild(newPlayer);
-
-        if (playerData.isRoomMaster) {
-            this.roomMasterIcon = newPlayer.setRoomMaster(true);
-        }
-    };
-
-    p.getPlayerByUuid = function (uuid) {
-        var players = this.playersContainer.children || [];
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player.uuid === uuid)
-                return player;
-        }
-    };
-
-    p.getPlayerDataByUuid = function (uuid) {
-        var players = this.model.players || [];
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player.uuid === uuid)
-                return player;
-        }
-    };
-
-    p.getCurrentPlayer = function (uuid) {
-        var currentUuid = this.userInfo.uuid;
-        return this.getPlayerByUuid(currentUuid);
-    };
-
-    p.removePlayerData = function (uuid) {
-        var players = this.model.players || [];
-        var index = players.length;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player.uuid === uuid) {
-                index = i;
-                break;
-            }
-        }
-        players.splice(index, 1);
-    };
-
-    p.initResultPanel = function () {
-        var _self = this;
-        
-        this.resultPanel = $(TWIST.HTMLTemplate.resultPanel.wrapper);
-        this.wrapper.append(this.resultPanel);
-
-        var resultPanelCotainer = this.resultPanel.find('.container')[0];
-        this.resultPanel.find('.container').css("height", "320px");
-        this.resultPanel.hide();
-        this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
-        this.resultPanelScroll.refresh();
-        
-        var closeButton = this.resultPanel.find('.close-popup');
-        var popupMask = this.resultPanel.find('.global-mask');
-        closeButton.on('click', function(){
-            _self.resultPanel.hide();
-        });
-        popupMask.on('click', function(){
-            _self.resultPanel.hide();
-        });
-    };
-
-    p.showResult = function (resultData) {
-        var _self = this;
-        this.resultPanel.show();
-        var resultIcon = this.resultPanel.find('.popup-icon');
-        if (resultData.isWinner) {
-            resultIcon.removeClass('lose');
+        if ((Player.uuid == this.userInfo.uuid) && (this.status == "STATUS_WAITING_FOR_START")) {
+          this.startButton.show();
         } else {
-            resultIcon.addClass('lose');
+          this.startButton.hide();
         }
-        
-        var container = this.resultPanel.find('.container>div');
-        
-        resultData.listPlayers.forEach(function (item, index) {
-            var cardList = "";
-            var cardListIndex = item.remainCards;
-            cardListIndex.forEach(function(item,index){
-                var template = _.template(TWIST.HTMLTemplate.resultPanel.card);
-                var resultTemplate = template({
-                    id : item
-                });
-                cardList += resultTemplate;
-            });
-            
-            var compiled = _.template(TWIST.HTMLTemplate.resultPanel.user);
-            var resultText = compiled({
-                username : item.username,
-                moneyChange : Global.numberWithDot(item.changeMoney),
-                resultText : item.gameResultString,
-                cardList : cardList,
-                isWinnerClass : item.isWinner ? "winner" : ""
-            });
-            
-            container.append($(resultText));
+      } else {
+        player.isRoomMaster = false;
+        if (Player)
+          Player.setRoomMaster(false);
+      }
+    }
+  };
+
+  p.updateInfo = function (data) {
+    var player = this.getPlayerDataByUuid(this.userInfo.uuid);
+    $.extend(player, data);
+    var Player = this.getPlayerByUuid(this.userInfo.uuid);
+    var _self = this;
+    if (Player) {
+      $.extend(Player, data);
+      Player.render();
+    }
+    if (this._listenChangeMoney) {
+      this._listenChangeMoney = false;
+      this.userMoney.runEffect(data.money);
+    }
+  };
+
+  p.isolateUpdateMoney = function (data) {
+    var players = data.players;
+    var _self = this;
+    players.forEach(function (item, index) {
+      var playerData = _self.getPlayerDataByUuid(item.uuid);
+      if (playerData) {
+        playerData.money = parseInt(item.money);
+        var Player = _self.getPlayerByUuid(item.uuid);
+        if (Player) {
+          Player.setMoney(playerData.money);
+          var type = item.changeMoney < 0 ? "lose" : "win";
+          Player.showMoneyExchageEffect(item.changeMoney, type);
+        }
+      }
+    });
+  };
+
+  p.userChat = function (data) {
+    var player = this.getPlayerByUuid(data.uuid);
+    if (player) {
+      player.showMessage(data.message);
+    }
+  };
+
+  p.changeStatus = function (data) {
+    this.desk.setRemainingTime(parseInt(data.remainingTime));
+    this.status = this.statusList[data.newStatus];
+    var func = this[this.status];
+    if (typeof func === "function") {
+      func.call(this);
+    }
+    this.emit("ping");
+  };
+
+  p.resetPlayerStatus = function (resetDefault) {
+    var players = (this.playersContainer && this.playersContainer.children) || [];
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      var options = {};
+      if (resetDefault)
+        options.default = "";
+      player.setPlayerStatus("", options);
+    }
+  };
+
+  p.STATUS_WAITING_FOR_PLAYER = function () {
+    this.buttonBar.hide();
+  };
+
+  p.STATUS_WAITING_FOR_START = function () {
+    this.buttonBar.show();
+    this.buttonBar.find('.button').hide();
+    this.resetPlayerStatus(true);
+
+    var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
+    if (playerData && playerData.isRoomMaster) {
+      this.startButton.show();
+    }
+  };
+
+  p.STATUS_PLAYING = function () {
+    this.buttonBar.show();
+    this.buttonBar.find('.button').hide();
+    var players = this.model.players || [];
+    players.forEach(function (item, index) {
+      item.status = "STATUS_PLAYING";
+    });
+    this.desk.clear();
+  };
+
+  p.endGame = function (data) {
+
+  };
+
+  p.reconnect = function (data) {
+
+  };
+
+  p.addPlayer = function (data) {
+
+    var userPosition = this.userInfo.indexPosition;
+    var playerPosition = data.indexPosition - userPosition;
+    if (playerPosition < 0)
+      playerPosition += this.options.maxPlayers;
+    var config = this.desk.config;
+
+    var currenConfig = {};
+    for (var pro in config) {
+      currenConfig[pro] = config[pro][playerPosition];
+    }
+    data.config = currenConfig;
+
+    var playerPositions = this.desk.config.playerPositions;
+
+    $.extend(data, playerPositions[playerPosition]);
+    data.position = playerPosition;
+    this.model.players.push(data);
+    if (this.playersContainer.children.length < this.options.maxPlayers) {
+      this.inviteList[playerPosition] && this.inviteList[playerPosition].hide();
+      this.drawPlayer(data);
+    }
+  };
+
+  p.drawPlayers = function () {
+    var players = this.model.players || [];
+    var _self = this;
+    var userPosition = 0;
+    players.forEach(function (item, index) {
+      if (item.uuid === _self.userInfo.uuid) {
+        userPosition = item.indexPosition;
+        $.extend(_self.userInfo, item);
+      }
+    });
+    players.sort(function (a, b) {
+      var firstPosition = a.indexPosition - userPosition;
+      if (firstPosition < 0) {
+        firstPosition += _self.options.maxPlayers;
+      }
+      var seconPosition = b.indexPosition - userPosition;
+      if (seconPosition < 0) {
+        seconPosition += _self.options.maxPlayers;
+      }
+      return firstPosition - seconPosition;
+    });
+
+    var config = this.desk.config;
+
+    players.forEach(function (item, index) {
+      var currenConfig = {};
+      item.position = item.indexPosition - userPosition;
+      if (item.position < 0) {
+        item.position += _self.options.maxPlayers;
+      }
+      for (var pro in config) {
+        currenConfig[pro] = config[pro][item.position];
+      }
+      item.config = currenConfig;
+      $.extend(item, config.playerPositions[item.position]);
+    });
+
+    var playerPositions = config.playerPositions;
+
+    playerPositions.forEach(function (item, index) {
+      var player = players.find(function (_item, _index) {
+        return index == _item.position;
+      });
+      if (player) {
+        _self.drawPlayer(player);
+        _self.inviteList[index].hide();
+      } else {
+        _self.inviteList[index].show();
+      }
+    });
+  };
+
+  p.setPlayerTurn = function (uuid, remainingTime) {
+    var totalTime = this.model.turningTime;
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player) {
+        if (player.uuid === uuid) {
+          player.setRemainingTime(remainingTime, totalTime);
+        } else {
+          player.clearTimer();
+        }
+      }
+    }
+  };
+
+  p.drawPlayer = function (playerData) {
+    playerData.config = playerData.config || {};
+    $.extend(playerData,this.options.playerConfig);
+    playerData.index = playerData.index || 0;
+
+    var newPlayer = new TWIST.Player(playerData);
+    this.playersContainer.addChild(newPlayer);
+
+    if (playerData.isRoomMaster) {
+      this.roomMasterIcon = newPlayer.setRoomMaster(true);
+    }
+    return newPlayer;
+  };
+
+  p.getPlayerByUuid = function (uuid) {
+    var players = (this.playersContainer && this.playersContainer.children) || [];
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player.uuid == uuid)
+        return player;
+    }
+  };
+
+  p.getPlayerDataByUuid = function (uuid) {
+    var players = this.model.players || [];
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player.uuid === uuid)
+        return player;
+    }
+  };
+
+  p.getCurrentPlayer = function (uuid) {
+    var currentUuid = this.userInfo.uuid;
+    return this.getPlayerByUuid(currentUuid);
+  };
+
+  p.removePlayerData = function (uuid) {
+    var players = this.model.players || [];
+    var index = players.length;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player.uuid === uuid) {
+        index = i;
+        break;
+      }
+    }
+    players.splice(index, 1);
+  };
+
+  p.initResultPanel = function () {
+    var _self = this;
+
+    this.resultPanel = $(TWIST.HTMLTemplate['resultPanel/wrapper']);
+    this.wrapper.append(this.resultPanel);
+
+    var resultPanelCotainer = this.resultPanel.find('.container')[0];
+    this.resultPanel.find('.container').css("height", "320px");
+    this.resultPanel.hide();
+    this.resultPanelScroll = new IScroll(resultPanelCotainer, {scrollX: true, freeScroll: true});
+    this.resultPanelScroll.refresh();
+
+    var closeButton = this.resultPanel.find('.close-popup');
+    var popupMask = this.resultPanel.find('.global-mask');
+    closeButton.on('click', function () {
+      _self.resultPanel.hide();
+    });
+    popupMask.on('click', function () {
+      _self.resultPanel.hide();
+    });
+  };
+
+  p.showResult = function (resultData) {
+    var _self = this;
+    this.resultPanel.show();
+    var resultIcon = this.resultPanel.find('.popup-icon');
+    if (resultData.isWinner) {
+      resultIcon.removeClass('lose');
+    } else {
+      resultIcon.addClass('lose');
+    }
+
+    var container = this.resultPanel.find('.container>div');
+    container.empty();
+    resultData.listPlayers.forEach(function (item, index) {
+      var cardList = "";
+      var cardListIndex = item.remainCards;
+      cardListIndex.forEach(function (item, index) {
+        var template = _.template(TWIST.HTMLTemplate['resultPanel/card']);
+        var resultTemplate = template({
+          id: item
         });
-        this.resultPanelScroll.refresh();
-    };
-    
-    p.endIngameEvent = function (){
-        this.desk.setRemainingTime(0);
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-    };
+        cardList += resultTemplate;
+      });
 
-    p.updateUuid = function (data) {
-        var username = data.username;
-        if (!this.model || !this.model.players)
-            return;
-        var playerList = this.model.players;
-        for (var i = 0, length = playerList.length; i < length; i++) {
-            if (playerList[i].username === username) {
-                playerList[i].uuid = data.uuid;
-            }
-        }
-        var PlayerList = this.playersContainer.children;
-        for (var i = 0, length = PlayerList.length; i < length; i++) {
-            if (PlayerList[i].username === username) {
-                PlayerList[i].uuid = data.uuid;
-            }
-        }
-    };
+      var compiled = _.template(TWIST.HTMLTemplate['resultPanel/user']);
+      var resultText = compiled({
+        username: item.username,
+        moneyChange: Global.numberWithDot(item.changeMoney),
+        resultText: item.gameResultString,
+        cardList: cardList,
+        isWinnerClass: item.isWinner ? "winner-player" : ""
+      });
+      container.append($(resultText));
+    });
+    this.resultPanelScroll.refresh();
+  };
 
-    TWIST.InRoomGame = InRoomGame;
+  p.endIngameEvent = function () {
+    this.desk.setRemainingTime(0);
+    this.buttonBar.hide();
+    this.errorPanel.empty();
+  };
+
+  p.updateUuid = function (data) {
+    var username = data.username;
+    if (!this.model || !this.model.players)
+      return;
+    var playerList = this.model.players;
+    for (var i = 0, length = playerList.length; i < length; i++) {
+      if (playerList[i].username === username) {
+        playerList[i].uuid = data.uuid;
+      }
+    }
+    var PlayerList = this.playersContainer.children;
+    for (var i = 0, length = PlayerList.length; i < length; i++) {
+      if (PlayerList[i].username === username) {
+        PlayerList[i].uuid = data.uuid;
+      }
+    }
+  };
+
+  TWIST.InRoomGame = InRoomGame;
 
 })();
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    function BaseDemlaGame(wrapper, options) {}
+  function BaseDemlaGame(wrapper, options) {}
 
-    var p = BaseDemlaGame.prototype = new TWIST.InRoomGame();
+  var p = BaseDemlaGame.prototype = new TWIST.InRoomGame();
 
-    p.initBaseDemlaGame = function (wrapper) {
-        TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
-        this.initInRoomGame();
-        this.pushTLMNDemlaEvent();
-        this.bindButton();
-    };
+  p.initBaseDemlaGame = function (wrapper) {
+    TWIST.Card.RankMapIndex = ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "1", "2"];
+    this.initInRoomGame();
+    this.pushTLMNDemlaEvent();
+    this.bindButton();
+  };
 
-    p.pushTLMNDemlaEvent = function () {
+  p.pushTLMNDemlaEvent = function () {
 
-    };
+    this.on("endTurn", this.onEndTurn);
 
-    p.STATUS_WAITING_FOR_PLAYER = function () {
-        this.buttonBar.hide();
-    };
+    this.on("foldTurn", this.foldTurn);
+  };
 
-    p.STATUS_WAITING_FOR_START = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
+  p.handCardSelected = function (card) {
+    var lastDraftCard = this.desk.lastDraftCards;
+    if (card && lastDraftCard && lastDraftCard.length) {
+      var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
+      if (result.length > 0)
+        card.removeAllSelected();
+      result.forEach(function (item, index) {
+        item.setSelected(true);
+      });
+    }
+  };
 
-        var playerData = this.getPlayerDataByUuid(this.userInfo.uuid);
-        if (playerData && playerData.isRoomMaster) {
-            this.startButton.show();
-        }
-    };
+  p.drawPlayingState = function (data) {
+    var players = data.players || [];
+    var _self = this;
 
-    p.handCardSelected = function (card) {
-        var lastDraftCard = this.desk.lastDraftCards;
-        if (card && lastDraftCard) {
-            var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
-            if (result.length > 0)
-                card.removeAllSelected();
-            result.forEach(function (item, index) {
-                item.setSelected(true);
-            });
-        }
-    };
+    var playingPlayer = data.playingPlayer;
+    var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
+    if (PlayingPlayer) {
+      PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
+      if (PlayingPlayer.uuid === this.userInfo.uuid) {
+        this.hitButton.show();
+        this.foldTurnButton.show();
+      }
+    }
 
-    p.STATUS_PLAYING = function () {
-        this.buttonBar.show();
-        this.buttonBar.find('.button').hide();
-        var players = this.model.players || [];
-        players.forEach(function (item, index) {
-            item.status = "STATUS_PLAYING";
+    if (data.lastDraftCards) {
+      this.desk.lastDraftCards = data.lastDraftCards;
+      this.desk.createLastDraftCards(data.lastDraftCards);
+    }
+
+    players.forEach(function (item, index) {
+      var handCards = [];
+
+      if (item.uuid === _self.userInfo.uuid) {
+        handCards = data.userListCard || [];
+        handCards.sort(function (a, b) {
+          return a - b;
         });
-    };
-
-    p.drawPlayingState = function (data) {
-        var players = data.players || [];
-        var _self = this;
-
-        var playingPlayer = data.playingPlayer;
-        var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
-        if (PlayingPlayer) {
-            PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
-            if (PlayingPlayer.uuid === this.userInfo.uuid) {
-                this.hitButton.show();
-                this.foldTurnButton.show();
-            }
+        if (handCards.length > 0) {
+          _self.sortCardButton.show();
+        } else {
+          _self.showError({
+            message: "Ván chơi đang diễn ra !"
+          });
         }
-
-        if (data.lastDraftCards) {
-            this.desk.lastDraftCards = data.lastDraftCards;
-            this.desk.createLastDraftCards(data.lastDraftCards);
-        }
-
-        players.forEach(function (item, index) {
-            var handCards = [];
-
-            if (item.uuid === _self.userInfo.uuid) {
-                handCards = data.userListCard || [];
-                handCards.sort(function (a, b) {
-                    return a - b;
-                });
-                if (handCards.length > 0) {
-                    _self.sortCardButton.show();
-                }
-            } else {
-                handCards.length = item.numberCardsInHand;
-            }
-            var Player = _self.getPlayerByUuid(item.uuid);
-            if (Player) {
-                Player.handCards.cardList = handCards;
-                Player.renderCards({
-                    showPlayerCard: true,
-                    dragable: true
-                });
-            }
+      } else {
+        handCards.length = item.numberCardsInHand;
+      }
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        Player.handCards.cardList = handCards;
+        Player.renderCards({
+          dragable: true
         });
+      }
+    });
 
-    };
+  };
 
-    p.dealCards = function (data) {
-        var cardList = data.cardList;
-        var players = this.model.players;
-        var numberPlayer = 0;
-        players.forEach(function (item, index) {
-            if (item.status === "STATUS_PLAYING") {
-                numberPlayer++;
-            }
+  p.dealCards = function (data) {
+    var cardList = data.cardList;
+    var players = this.model.players;
+    var numberPlayer = 0;
+    players.forEach(function (item, index) {
+      if (item.status === "STATUS_PLAYING") {
+        numberPlayer++;
+      }
+    });
+    var numberCards = numberPlayer * this.options.numberCardsInHand;
+    var _self = this;
+
+    this.desk.generateCards(numberCards);
+
+    players.forEach(function (item, index) {
+      var handCards = [];
+      if (item.status !== "STATUS_PLAYING")
+        return;
+      if (item.uuid === _self.userInfo.uuid) {
+        handCards = cardList;
+        handCards.sort(function (a, b) {
+          return a - b;
         });
-        var numberCards = numberPlayer * this.options.numberCardsInHand;
-        var _self = this;
+      }
 
-        this.desk.generateCards(numberCards);
-
-        players.forEach(function (item, index) {
-            var handCards = [];
-            if (item.status !== "STATUS_PLAYING")
-                return;
-            if (item.uuid === _self.userInfo.uuid) {
-                handCards = cardList;
-                handCards.sort(function (a, b) {
-                    return a - b;
-                });
-            }
-
-            var Player = _self.getPlayerByUuid(item.uuid);
-            if (Player) {
-                handCards.length = handCards.length || _self.options.numberCardsInHand;
-                Player.handCards.cardList = handCards;
-                Player.renderCards({
-                    showPlayerCard: true,
-                    dragable: true
-                });
-            }
-
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        handCards.length = handCards.length || _self.options.numberCardsInHand;
+        Player.handCards.cardList = handCards;
+        Player.renderCards({
+          showPlayerCard: true,
+          dragable: true
         });
+      }
 
-    };
+    });
 
-    p.onHitTurn = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        if (currentPlayer.handCards.children.length > 0) {
-            this.sortCardButton.show();
-        }
-        this.setPlayerTurn(data.uuid);
+  };
 
-        if (data.uuid === this.userInfo.uuid) {
-            this.hitButton.show();
-            this.foldTurnButton.show();
-        }
-    };
+  p.onHitTurn = function (data) {
+    this._hasNewTurn = data._hasNewTurn;
+    var currentUuid = data.uuid;
+    var currentPlayer = this.getCurrentPlayer();
+    if (currentPlayer.handCards.children.length > 0) {
+      this.sortCardButton.show();
+    }
+    this.setPlayerTurn(data.uuid);
 
-    p.onNotifyOne = function (data) {
-        var currentUuid = data.uuid;
-        var currentPlayer = this.getCurrentPlayer();
-        currentPlayer.setPlayerStatus("Báo 1 !");
-    };
+    if (data.uuid === this.userInfo.uuid) {
+      this.hitButton.show();
+      if (!data._hideFoldButton) {
+        this.foldTurnButton.show();
+      }
+    } else {
+      this.hitButton.hide();
+      this.foldTurnButton.hide();
+    }
+  };
 
-    p.setPlayerTurn = function (uuid, remainingTime) {
-        var totalTime = this.model.turningTime;
-        var players = this.playersContainer.children;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player) {
-                if (player.uuid === uuid) {
-                    player.setRemainingTime(remainingTime, totalTime);
-                } else {
-                    player.clearTimer();
-                }
-            }
-        }
-    };
+  p.onNotifyOne = function (data) {
+    var player = this.getPlayerByUuid(data.uuid);
+    if (player)
+      player.setPlayerStatus("Báo 1 !", {
+        default: "Báo 1 !"
+      });
+  };
 
-    p.foldTurn = function (data) {
-        var Player = this.getPlayerByUuid(data.uuid);
-        if (Player) {
-            Player.clearTimer();
-            if (data.uuid === this.userInfo.uuid) {
-                this.hitButton.hide();
-                this.foldTurnButton.hide();
-            }
-        }
-    };
-
-    p.onDraftCards = function (data) {
-        var cards = data.cardList;
-        var userID = data.uuid;
-        this.desk.lastDraftCards = data.cardList;
-        var Player = this.getPlayerByUuid(userID);
-        if (!Player) {
-            this.showError({code: 0});
-            return;
-        }
-        if (userID === this.userInfo.uuid) {
-            this.hitButton.hide();
-            this.foldTurnButton.hide();
-        }
-        this.desk.removeOverlayCards();
-        this.desk.setZeroVetical();
-        this.desk.overlayDraftCards();
-        var cardType = TWIST.Card.userCard;
-        var position = {};
-        position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
-        position.y = cardType.height * 0.8;
-
-        Player.draftCardsInHand(cards, {
-            draftCards: this.desk.draftCards,
-            position: position,
-            rotateAble: true
-        });
-    };
-
-    p.onEndTurn = function (data) {
-        this.desk.lastDraftCards = undefined;
-        this.desk.clear();
+  p.foldTurn = function (data) {
+    var Player = this.getPlayerByUuid(data.uuid);
+    if (Player) {
+      Player.clearTimer();
+      if (!this._hasNewTurn)
+        Player.setPlayerStatus("Bỏ lượt !");
+      if (data.uuid === this.userInfo.uuid) {
         this.hitButton.hide();
         this.foldTurnButton.hide();
-        this.onHitTurn(data);
+      }
+    }
+  };
+
+  p.onDraftCards = function (data) {
+    TWIST.Sound.play('danh_bai');
+    var cards = data.cardList;
+    var userID = data.uuid;
+    this.desk.lastDraftCards = data.cardList;
+    var Player = this.getPlayerByUuid(userID);
+    if (!Player) {
+      this.showError({code: 0});
+      return;
+    }
+    if (userID === this.userInfo.uuid) {
+      this.hitButton.hide();
+      this.foldTurnButton.hide();
+    }
+    this.desk.removeOverlayCards();
+    this.desk.setZeroVetical();
+    this.desk.overlayDraftCards();
+    var cardType = TWIST.Card.userCard;
+    var position = {};
+    position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
+    position.y = cardType.height * 0.8;
+
+    Player.draftCardsInHand(cards, {
+      cardType: TWIST.Card.userCard,
+      draftCards: this.desk.draftCards,
+      position: position,
+      rotateAble: true
+    });
+  };
+
+  p.onEndTurn = function (data) {
+    data._hasNewTurn = true;
+    data._hideFoldButton = true;
+    this.resetPlayerStatus();
+    this.desk.lastDraftCards = undefined;
+    this.desk.clear();
+    this.hitButton.hide();
+    this.foldTurnButton.hide();
+    this.onHitTurn(data);
+  };
+
+  p.bindButton = function () {
+    var _self = this;
+
+    this.startButton.unbind('click');
+    this.startButton.click(function () {
+      _self.emit("start", _self.model.players);
+    });
+
+    this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
+    this.buttonBar.append(this.hitButton);
+    this.hitButton.unbind('click');
+    this.hitButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('hitCards', {
+        cards: cards
+      });
+    });
+
+    this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
+    this.buttonBar.append(this.sortCardButton);
+    this.sortCardButton.unbind('click');
+    this.sortCardButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      Player.sortTL();
+    });
+
+    this.foldTurnButton = $(TWIST.HTMLTemplate['buttonBar/foldTurnButton']);
+    this.buttonBar.append(this.foldTurnButton);
+    this.foldTurnButton.unbind('click');
+    this.foldTurnButton.click(function () {
+      _self.emit('userFold');
+    });
+  };
+
+  p.STATUS_ENDING = function () {
+    this.buttonBar.hide();
+    this.errorPanel.empty();
+    this.desk.lastDraftCards = undefined;
+    this.setPlayerTurn();
+  };
+
+  p.endDemlaGame = function (data, winTypeMap, nomalWinType) {
+    var _self = this;
+    var resultData = {
+      isWinner: false,
+      listPlayers: []
     };
-
-    p.bindButton = function () {
-        var _self = this;
-
-        this.startButton.unbind('click');
-        this.startButton.click(function () {
-            _self.emit("start", _self.model.players);
-        });
-
-        this.hitButton = $(TWIST.HTMLTemplate.buttonBar.hitButton);
-        this.buttonBar.append(this.hitButton);
-        this.hitButton.unbind('click');
-        this.hitButton.click(function () {
-            var Player = _self.getCurrentPlayer();
-            var cards = Player.getSelectedCards();
-            if (cards.length === 0) {
-                _self.showError({
-                    code: 1470
-                });
-                return;
-            }
-            _self.emit('hitCards', {
-                cards: cards
-            });
-        });
-
-        this.sortCardButton = $(TWIST.HTMLTemplate.buttonBar.sortCardButton);
-        this.buttonBar.append(this.sortCardButton);
-        this.sortCardButton.unbind('click');
-        this.sortCardButton.click(function () {
-            var Player = _self.getCurrentPlayer();
-            Player.sortTL();
-        });
-
-        this.foldTurnButton = $(TWIST.HTMLTemplate.buttonBar.foldTurnButton);
-        this.buttonBar.append(this.foldTurnButton);
-        this.foldTurnButton.unbind('click');
-        this.foldTurnButton.click(function () {
-            _self.emit('userFold');
-        });
-    };
-
-    p.STATUS_ENDING = function () {
-        this.buttonBar.hide();
-        this.errorPanel.empty();
-        this.desk.lastDraftCards = undefined;
-        this.setPlayerTurn();
-    };
-
-    p.endDemlaGame = function (data, winTypeMap, nomalWinType) {
-        var _self = this;
-        var resultData = {
-            isWinner: false,
-            listPlayers: []
-        };
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
-            });
-            if (parseInt(player.changeMoney) < 0) {
-                if (data.winType === nomalWinType) {
-                    if (cardList.length === this.options.numberCardsInHand) {
-                        player.gameResultString = "Thua cóng";
-                    } else
-                        player.gameResultString = "Thua " + cardList.length + " lá!";
-                } else {
-                    player.gameResultString = "Thua !";
-                }
-            } else if (parseInt(player.changeMoney) > 0) {
-                player.gameResultString = winTypeMap[data.winType];
-                player.isWinner = true;
-                if (player.uuid === this.userInfo.uuid) {
-                    resultData.isWinner = true;
-                }
-            } else {
-                player.gameResultString = "Hòa";
-            }
-
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
-            }
+    resultData.listPlayers = data.listPlayers;
+    for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
+      var player = resultData.listPlayers[i];
+      var cardList = player.remainCards;
+      cardList.sort(function (a, b) {
+        return a - b;
+      });
+      player.gameResultString = winTypeMap[player.winType];
+      if (parseInt(player.changeMoney) < 0) {
+        player.gameResultString = player.gameResultString || ("Thua " + (nomalWinType ? cardList.length + " lá!" : " !"));
+      } else if (parseInt(player.changeMoney) > 0) {
+        if (player.uuid === this.userInfo.uuid) {
+          resultData.isWinner = true;
         }
-        setTimeout(function () {
-            _self.showResult(resultData);
-        }, 2000);
-    };
+        player.isWinner = true;
+        player.gameResultString = player.gameResultString || winTypeMap[data.winType] || "Thắng";
+      } else {
+        player.gameResultString = player.gameResultString || "Hòa";
+      }
+      var Player = this.getPlayerByUuid(player.uuid);
+      if (Player) {
+        Player.clearTimer();
+        Player.setMoney(player.money);
+        Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+      }
+    }
+    setTimeout(function () {
+      _self.showResult(resultData);
+    }, 2000);
+  };
 
-    TWIST.BaseDemlaGame = BaseDemlaGame;
+  TWIST.BaseDemlaGame = BaseDemlaGame;
 
 })();
 this.TWIST = this.TWIST || {};
@@ -4985,7 +5192,7 @@ this.TWIST = this.TWIST || {};
 
         stepValue = 1;
 
-        itemSize = {width: 160, height: 205, padding: 10};
+        itemSize = {width: 126, height: 168, padding: 10};
 
         gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 
@@ -5130,6 +5337,8 @@ this.TWIST = this.TWIST || {};
         });
 
         this.buttonSpin.on('click', function (event) {
+            if (_self.buttonSpin.hasClass('disabled'))
+                return;
             _self.checkStart();
         });
     };
@@ -5194,7 +5403,6 @@ this.TWIST = this.TWIST || {};
         var _self = this;
         if (_self.status !== 'pause' && _self.status !== 'effecting')
             return;
-        if(this.buttonSpin.hasClass('disabled')) return;
         var _self = this;
         var flag = false;
         if (this.userInfo.money < this.info.betting) {
@@ -5744,134 +5952,2744 @@ this.TWIST = this.TWIST || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
+  "use strict";
+
+  var initOptions = {
+    maxPlayers: 4,
+    numberCardsInHand: 9,
+    turnTime: 20000,
+    numberCardsRender: 13,
+    renderCardOptions: {
+      showPlayerCard: true,
+      dragable: true
+    }
+  };
+  function PhomGame(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initPhomGame();
+  }
+
+  var p = PhomGame.prototype = new TWIST.InRoomGame();
+
+  p.initPhomGame = function (wrapper) {
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+    this.initInRoomGame();
+    this.bindButton();
+    this.pushPhomEvent();
+  };
+
+  p.pushPhomEvent = function () {
+
+    this.on('getTurn', function (data) {
+      this.onGetTurn(data);
+    });
+
+    this.on('getCardComplete', function (data) {
+      this.getCardComplete(data);
+    });
+
+    this.on('enableEatCard', function (data) {
+      this.enableEatCard(data);
+    });
+
+    this.on('enableU', function (data) {
+      this.enableU(data);
+    });
+
+    this.on('enableShowPhom', function (data) {
+      this.enableShowPhom(data);
+    });
+
+    this.on('enableSendCard', function (data) {
+      this.enableSendCard(data);
+    });
+
+    this.on('eatCardSuccess', function (data) {
+      this.eatCardSuccess(data);
+    });
+
+    this.on('moveDraftCard', function (data) {
+      this.moveDraftCard(data);
+    });
+
+    this.on('showPhomComplete', function (data) {
+      this.showPhom(data);
+    });
+
+    this.on('sendCardComplete', function (data) {
+      this.sendCard(data);
+    });
+
+    this.on('entiretyCard', function (data) {
+      this.entiretyCard(data);
+    });
+
+    this.on('setRemainCards', function (data) {
+      this.setRemainCards(data);
+    });
+  };
+
+  p.onGetTurn = function (data) {
+    var currentUuid = data.uuid;
+    var currentPlayer = this.getCurrentPlayer();
+    if (currentPlayer.handCards.children.length > 0) {
+      this.sortCardButton.show();
+    }
+    this.hitButton.hide();
+    if (data.uuid === this.userInfo.uuid) {
+      this.getCardButton.show();
+    }
+    this.setPlayerTurn(data.uuid, data.remainingTime);
+  };
+
+  p.onHitTurn = function (data) {
+    var currentUuid = data.uuid;
+    var currentPlayer = this.getCurrentPlayer();
+    if (currentPlayer.handCards.children.length > 0) {
+      this.sortCardButton.show();
+    }
+    this.getCardButton.hide();
+    this.eatCardButton.hide();
+    if (data.uuid === this.userInfo.uuid) {
+      this.hitButton.show();
+    }else{
+      this.hitButton.hide();
+    }
+    this.setPlayerTurn(data.uuid, data.remainingTime);
+  };
+
+  p.getCardComplete = function (data) {
+    this.getCardButton.hide();
+    var card = data.cardIndex;
+    var userID = data.uuid;
+    var listPhom = data.listPhom;
+    var player = this.getPlayerByUuid(userID);
+    player.listPhom = listPhom;
+    player.getDeckCard(card, listPhom);
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
+  };
+
+  p.enableEatCard = function () {
+    this.eatCardButton.show();
+  };
+
+  p.enableU = function () {
+    this.entiretyButton.show();
+  };
+
+  p.enableShowPhom = function (data) {
+    var _self = this;
+    var player = this.getCurrentPlayer();
+    player.handCards.sortType = "suiteSort";
+    player.sortPhom(data['listCard']);
+    setTimeout(function () {
+      player.preparedShowPhom(data['listCard']);
+      _self.showPhomButton.show();
+    }, 500);
+  };
+
+  p.enableSendCard = function (data) {
+    var _self = this;
+    var player = this.getCurrentPlayer();
+    player.preparedSendCard(data['listCard']);
+    setTimeout(function () {
+      _self.sendCardButton.show();
+    }, 500);
+  };
+
+  p.eatCardSuccess = function (data) {
+    this.eatCardButton.hide();
+    var hitPlayer = this.getPlayerByUuid(data.hitPlayer);
+    var eatPlayer = this.getPlayerByUuid(data.eatPlayer);
+    var player = this.getCurrentPlayer()
+    if (eatPlayer) {
+      var card;
+      if (!hitPlayer) {
+        card = new TWIST.Card(parseInt(data.cardIndex));
+      } else {
+        card = hitPlayer.getLastDraftCards(data.cardIndex);
+      }
+      eatPlayer.listPhom = data.listPhom;
+      eatPlayer.eatCard(card);
+      //this.desk.affterEatCard = true; // ????
+    }
+  };
+
+  p.moveDraftCard = function (data) {
+    var fromPlayer = this.getPlayerByUuid(data.fromPlayer);
+    var toPlayer = this.getPlayerByUuid(data.toPlayer);
+    if (fromPlayer && toPlayer) {
+      var card = fromPlayer.getLastDraftCards(data.cardIndex);
+      toPlayer.moveDraftCard(card, fromPlayer);
+    }
+  };
+
+  p.onDraftCards = function (data) {
+    TWIST.Sound.play('danh_bai');
+    this.hitButton.hide();
+    this.sendCardButton.hide();
+    this.showPhomButton.hide();
+    this.entiretyButton.hide();
+    var cards = [data.cardIndex];
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.listPhom = data.listPhom || player.listPhom;
+    player.draftCardsInHand(cards);
+    player.markEatedCard();
+    this.desk.lastActivePlayer = data.uuid;
+    this.desk.lastDraftCard = cards;
+  };
+
+  p.drawPlayingState = function (data) {
+    var players = data.players || [];
+    var _self = this;
+
+    var playingPlayer = data.playingPlayer;
+    var PlayingPlayer = this.getPlayerByUuid(playingPlayer.uuid);
+    if (PlayingPlayer) {
+      PlayingPlayer.setRemainingTime(playingPlayer.remainingTime, this.model.turningTime);
+      if (PlayingPlayer.uuid === this.userInfo.uuid) {
+        this.hitButton.show();
+      }
+    }
+    this.desk.generateCards(52, TWIST.Card.userCard);
+
+    players.forEach(function (item, index) {
+      var handCards = [];
+      var listPhom = [];
+
+      if (item.uuid === _self.userInfo.uuid) {
+        handCards = data.userListCard || [];
+        handCards.sort(function (a, b) {
+          return a - b;
+        });
+        if (handCards.length > 0) {
+          _self.sortCardButton.show();
+        } else {
+          _self.showError({
+            message: "Ván chơi đang diễn ra !"
+          });
+        }
+        listPhom = data.listPhom;
+      } else {
+        handCards.length = item.numberCardsInHand || initOptions.numberCardsInHand;
+      }
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        Player.handCards.cardList = handCards;
+        Player.listPhom = listPhom;
+        Player.renderCards(initOptions.renderCardOptions);
+        if (Player.position != 0) {
+          Player.reEatCards(item.eatedCards);
+        }
+        Player.rerenderDraftPhom(item.drarfCards);
+        item.listPhom && item.listPhom.forEach(function (phom, _index) {
+          Player.showSinglePhom(phom);
+          (function (Player) {
+            setTimeout(function () {
+              Player.sortPhomArea();
+            }, 550);
+          })(Player);
+        });
+        if (item.eatedCards) {
+          Player.hightLightEatCards(item.eatedCards);
+        }
+      }
+    });
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
+  };
+
+  p.dealCards = function (data) {
+    var cardList = data.cardList;
+    var players = this.model.players;
+    var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
+    var _self = this;
+
+    this.desk.generateCards(numberCards, TWIST.Card.userCard);
+
+    players.forEach(function (item, index) {
+      var handCards = [];
+      if (item.status !== "STATUS_PLAYING")
+        return;
+      if (item.uuid === _self.userInfo.uuid && cardList) {
+        handCards = cardList || [];
+        handCards.sort(function (a, b) {
+          return a - b;
+        });
+      }
+
+      if (data.firstPlayer && data.firstPlayer.uuid && item.uuid == data.firstPlayer.uuid) {
+        handCards.length = _self.options.numberCardsInHand + 1;
+      }
+
+      var Player = _self.getPlayerByUuid(item.uuid);
+      if (Player) {
+        handCards.length = handCards.length || _self.options.numberCardsInHand;
+        if (Player.position == 0) {
+          Player.listPhom = data.listPhom
+        }
+        Player.handCards.cardList = handCards;
+        Player.renderCards(initOptions.renderCardOptions);
+      }
+    });
+    this.desk.showRemainingDeckCard(data.deckCardRemain);
+  };
+
+  p.setPlayerTurn = function (uuid, remainingTime) {
+    var totalTime = this.model.turningTime;
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player) {
+        if (player.uuid === uuid) {
+          player.setRemainingTime(remainingTime, totalTime);
+        } else {
+          player.clearTimer();
+        }
+      }
+    }
+  };
+
+  p.bindButton = function () {
+    var _self = this;
+
+    this.startButton.unbind('click');
+    this.startButton.click(function () {
+      _self.emit("start", _self.model.players);
+    });
+
+    this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
+    this.buttonBar.append(this.hitButton);
+    this.hitButton.unbind('click');
+    this.hitButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('hitCards', {
+        cards: cards
+      });
+    });
+
+    this.sortCardButton = $(TWIST.HTMLTemplate['buttonBar/sortCardButton']);
+    this.buttonBar.append(this.sortCardButton);
+    this.sortCardButton.unbind('click');
+    this.sortCardButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      Player.sortPhom();
+      Player.sortCard();
+    });
+
+    this.getCardButton = $(TWIST.HTMLTemplate['buttonBar/getCardButton']);
+    this.buttonBar.append(this.getCardButton);
+    this.getCardButton.unbind('click');
+    this.getCardButton.click(function () {
+      _self.emit('getCard');
+    });
+
+    this.eatCardButton = $(TWIST.HTMLTemplate['buttonBar/eatCardButton']);
+    this.buttonBar.append(this.eatCardButton);
+    this.eatCardButton.unbind('click');
+    this.eatCardButton.click(function () {
+      _self.emit('eatCard');
+    });
+
+    this.entiretyButton = $(TWIST.HTMLTemplate['buttonBar/entiretyButton']);
+    this.buttonBar.append(this.entiretyButton);
+    this.entiretyButton.unbind('click');
+    this.entiretyButton.click(function () {
+      _self.emit('entirety');
+    });
+
+    this.sendCardButton = $(TWIST.HTMLTemplate['buttonBar/sendCardButton']);
+    this.buttonBar.append(this.sendCardButton);
+    this.sendCardButton.unbind('click');
+    this.sendCardButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('sendCard', {
+        cards: cards
+      });
+    });
+
+    this.showPhomButton = $(TWIST.HTMLTemplate['buttonBar/showPhomButton']);
+    this.buttonBar.append(this.showPhomButton);
+    this.showPhomButton.unbind('click');
+    this.showPhomButton.click(function () {
+      var Player = _self.getCurrentPlayer();
+      var cards = Player.getSelectedCards();
+      if (cards.length === 0) {
+        _self.showError({
+          code: 1470
+        });
+        return;
+      }
+      _self.emit('showPhom', {
+        cards: cards
+      });
+    });
+
+  };
+
+  p.handCardSelected = function (card) {
+
+  };
+
+  p.STATUS_ENDING = function () {
+    this.buttonBar.hide();
+    this.errorPanel.empty();
+    this.desk.lastDraftCards = undefined;
+    this.setPlayerTurn();
+  };
+
+  p.showPhom = function (data) {
+    var phoms = data.phoms;
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.showPhom(phoms);
+    if (player.position == 0) {
+      player.sortCard();
+    }
+    this.showPhomButton.hide();
+  };
+
+  p.drawPlayer = function (playerData) {
+    var newPlayer = TWIST.InRoomGame.prototype.drawPlayer.call(this, playerData);
+    newPlayer.addShowPhomArea();
+  };
+
+  p.sendCard = function (data) {
+    var cardsSend = data.cardsSend;
+    var sendPlayer = this.getPlayerByUuid(data.cardsSend[0].transFrom);
+    var otherPlayerSend = (sendPlayer.position != 0);
+    for (var i = 0; i < cardsSend.length; i++) {
+      var dataItem = cardsSend[i];
+      var receivePlayer = this.getPlayerByUuid(dataItem.transTo);
+      if (receivePlayer && sendPlayer) {
+        var cardList = sendPlayer.getCardsInHand(dataItem.cardList);
+        cardList.forEach(function (card, index) {
+          card.set({
+            x: card.x + sendPlayer.x + sendPlayer.hand.x,
+            y: card.y + sendPlayer.y + sendPlayer.hand.y
+          });
+          card.cardValue = dataItem.cardList[index];
+          receivePlayer.addCardInShowPhom(card, otherPlayerSend);
+        });
+      }
+    }
+    this.playersContainer.children.forEach(function (item, index) {
+      setTimeout(function () {
+        item.sortPhomArea();
+      }, 700);
+    });
+    if (sendPlayer.position == 0) {
+      sendPlayer.sortCard();
+    }
+    this.sendCardButton.hide();
+  };
+
+  p.entiretyCard = function (data) {
+    var phoms = data.phoms;
+    var userID = data.uuid;
+    var player = this.getPlayerByUuid(userID);
+    player.showPhom(phoms);
+    player.setPlayerStatus("Ù");
+    this.buttonBar.children().hide();
+    var _self = this;
+    setTimeout(function () {
+      player.sortPhomArea();
+    }, 550);
+  };
+
+  p.setRemainCards = function (data) {
+    var remainCards = data.remainCards;
+    this.desk.showRemainingDeckCard(data.remainCards);
+  };
+
+  p.STATUS_PLAYING = function () {
+    TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
+    this.playersContainer.children.forEach(function (item, index) {
+      if (!item)
+        return;
+      item.clearDraftCards();
+      item.clearHand();
+      item.clearShowPhomArea();
+      item.setPlayerStatus("");
+      item.numberEatedCard = 0;
+    });
+  };
+
+  p.endGame = function (data, result, nomalWinType) {
+
+    function convertRemainCards(item) {
+      return item > 7 ? item - 8 : item + 44;
+    }
+
+    var winTypeMap = {
+      0: "Nhất",
+      1: "Nhì",
+      2: "Ba",
+      3: "Bét",
+      4: "Móm"
+    };
+    var _self = this;
+    var resultData = {
+      isWinner: false,
+      listPlayers: []
+    };
+    resultData.listPlayers = data.listPlayers;
+    for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
+      var player = resultData.listPlayers[i];
+      var cardList = player.remainCards;
+      cardList.sort(function (a, b) {
+        return a - b;
+      });
+      player.remainCards = cardList.map(convertRemainCards);
+      if (parseInt(player.changeMoney) < 0) {
+        player.gameResultString = player.playerResult;
+      } else if (parseInt(player.changeMoney) > 0) {
+        player.gameResultString = player.playerResult;
+        player.isWinner = true;
+        if (player.uuid === this.userInfo.uuid) {
+          resultData.isWinner = true;
+        }
+      } else {
+        player.gameResultString = "Hòa";
+      }
+
+      if (player.showPoint && player.totalPoint) {
+        player.gameResultString = player.gameResultString + " " + player.totalPoint + " điểm !";
+      }
+
+      var Player = this.getPlayerByUuid(player.uuid);
+      if (Player) {
+        Player.setPlayerStatus(player.playerResult);
+        Player.clearTimer();
+        Player.setMoney(player.money);
+        Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+      }
+    }
+    setTimeout(function () {
+      _self.showResult(resultData);
+    }, 2000);
+  };
+
+  TWIST.PhomGame = PhomGame;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
+  "use strict";
+
+  var initOptions = {
+    maxPlayers: 5,
+    numberCardsInHand: 10,
+    turnTime: 20000,
+    playerConfig: {
+      showCardLength: false,
+      showPlayerCard: false
+    }
+  };
+  function SamGame(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initSamGame();
+  }
+  var p = SamGame.prototype = new TWIST.BaseDemlaGame();
+
+  p.initSamGame = function (wrapper) {
+    this.initBaseDemlaGame();
+    this.pushSamGameEvent();
+    this.bindSamButton();
+  };
+
+  p.pushSamGameEvent = function () {
+    this.on("inviteSam", this.onInviteSam);
+    this.on("endInviteSam", this.onEndInviteSam);
+    this.on("foldSam", this.onFoldSam);
+    this.on("callSam", this.onCallSam);
+    this.on("notifyOne", this.onNotifyOne);
+  };
+
+  p.bindSamButton = function () {
+    var _self = this;
+
+    this.callSamButton = $(TWIST.HTMLTemplate['buttonBar/callSamButton']);
+    this.buttonBar.append(this.callSamButton);
+    this.callSamButton.unbind('click');
+    this.callSamButton.click(function () {
+      _self.emit("call-sam");
+      _self.callSamButton.hide();
+    });
+
+    this.foldSamButton = $(TWIST.HTMLTemplate['buttonBar/foldSamButton']);
+    this.buttonBar.append(this.foldSamButton);
+    this.foldSamButton.unbind('click');
+    this.foldSamButton.click(function () {
+      _self.emit("fold-sam");
+      _self.foldSamButton.hide();
+    });
+  };
+
+  p.onInviteSam = function (data) {
+    this.desk.clear();
+    this.desk.setRemainingTime(parseInt(data.remainingTime));
+    this.callSamButton.show();
+    this.foldSamButton.show();
+    this.sortCardButton.hide();
+    this.userCallSam = null;
+  };
+
+  p.onEndInviteSam = function () {
+    this.desk.setRemainingTime(0);
+    this.callSamButton.hide();
+    this.foldSamButton.hide();
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      if (player && player.uuid !== this.userCallSam) {
+        player.setPlayerStatus("");
+      }
+    }
+  };
+
+  p.onFoldSam = function (data) {
+    var player = this.getPlayerByUuid(data.uuid);
+    player.setPlayerStatus("Hủy sâm !");
+  };
+
+  p.onCallSam = function (data) {
+    var player = this.getPlayerByUuid(data.uuid);
+    player.setPlayerStatus("Báo sâm !", {
+      color: "red"
+    });
+    this.userCallSam = data.uuid;
+  };
+
+  p.endGame = function (data) {
+    this.endIngameEvent();
+    var winTypeMap = {
+      0: "Năm đôi",
+      1: "3 sám cô",
+      2: "Đồng màu",
+      3: "Tứ 2",
+      4: "Sảnh rồng",
+      13: "Thắng",
+      15: "Hòa",
+      16: "Bị ăn sâm",
+      17: "Bị bắt sâm",
+      18: "Phạt báo 1",
+      19: "Bị thua trắng",
+      20: "Thua",
+      21: "Bắt sâm"
+    };
+    this.endDemlaGame(data, winTypeMap, (data.winType == 13));
+  };
+
+  TWIST.SamGame = SamGame;
+
+})();
+
+this.TWIST = this.TWIST || {};
+
+(function () {
+  "use strict";
+
+  var gameSize;
+
+  var imagePath = location.origin + location.pathname + '../src/images/';
+
+  var initOptions = {
+    gameSize: {
+      width: 870,
+      height: 560,
+      position: "relative"
+    },
+    chipSize: {
+      width: 75,
+      height: 75,
+      miniWidth: 18,
+      miniHeight: 18,
+      miniRatio: 0.24
+    },
+    bettingChipPositions: [{y: 487.5 - 11, x: 385 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 37.5 - 11},
+      {y: 487.5 - 11, x: 385 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 210 + 37.5 - 11}],
+    playerPosition: {
+      y: 266,
+      x: 835
+    },
+    hostPosition: {
+      x: 385,
+      y: 50
+    },
+    userPosition: {
+      y: 480,
+      x: 50
+    },
+    chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
+    width: 870,
+    height: 560,
+    moveChipAnimationTime: 500,
+    diskPosition: {
+      x: 230,
+      y: 10,
+      scaleX: 0.6,
+      scaleY: 0.6
+    },
+    bowlPosition: {
+      x: 11,
+      y: 3,
+      alpha: 1
+    },
+    chipResultPosition: {
+      x: 55,
+      y: 30,
+      width: 80,
+      height: 60
+    }
+  };
+
+  function TaiXiu(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initTaiXiu();
+  }
+
+  var p = TaiXiu.prototype = new TWIST.InRoomGame();
+
+  p.initTaiXiu = function () {
+    this.initInRoomGame();
+    this.initVariable();
+    this.initTemplate();
+    this.initButton();
+    this.bindButton();
+    this.pushTaiXiuEvent();
+  };
+
+  p.initVariable = function () {
+    this.info = {
+      betting: 1000
+    };
+    this.userInfo = $.extend(this.userInfo, {
+      avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
+      uuid: "",
+      username: "",
+      money: 0,
+      isHost: false
+    });
+    this.imagePath = (TWIST.imagePath || imagePath) + 'taixiu/';
+
+    this.bettingPositions = [{id: 0, name: "Tam nhất", top: 83, left: 0, width: 117, height: 103, types: [1, 'top-left', 'top', 'left']}
+      , {id: 1, name: "Tam nhị", top: 83, left: 117, width: 91, height: 103, types: [1, 'top']}
+      , {id: 2, name: "Tam tam", top: 83, left: 208, width: 91, height: 103, types: [1, 'top']}
+      , {id: 3, name: "Tam trùng", top: 83, left: 299, width: 172, height: 103, types: [2, 'top']}
+      , {id: 4, name: "Tam tứ", top: 83, left: 471, width: 91, height: 103, types: [1, 'top']}
+      , {id: 5, name: "Tam ngũ", top: 83, left: 562, width: 91, height: 103, types: [1, 'top']}
+      , {id: 6, name: "Tam lục", top: 83, left: 653, width: 117, height: 103, types: [1, 'top', 'right', 'top-right']}
+      , {id: 7, name: "Xỉu", top: 186, left: 0, width: 117, height: 152, types: [3, 'left']}
+      , {id: 8, name: "Bốn điểm", top: 186, left: 117, width: 76, height: 76, types: [4]}
+      , {id: 9, name: "Năm điểm", top: 186, left: 193, width: 76, height: 76, types: [4]}
+      , {id: 10, name: "Sáu điểm", top: 186, left: 269, width: 76, height: 76, types: [4]}
+      , {id: 11, name: "Bẩy điểm", top: 186, left: 345, width: 80, height: 76, types: [4]}
+      , {id: 12, name: "Tám điểm", top: 186, left: 425, width: 76, height: 76, types: [4]}
+      , {id: 13, name: "Chín điểm", top: 186, left: 501, width: 76, height: 76, types: [4]}
+      , {id: 14, name: "Mười điểm", top: 186, left: 577, width: 76, height: 76, types: [4]}
+      , {id: 15, name: "Tài", top: 186, left: 653, width: 117, height: 152, types: [3, 'right']}
+      , {id: 16, name: "Mười một điểm", top: 262, left: 117, width: 76, height: 76, types: [4]}
+      , {id: 17, name: "Mười hai điểm", top: 262, left: 193, width: 76, height: 76, types: [4]}
+      , {id: 18, name: "Mười ba điểm", top: 262, left: 269, width: 76, height: 76, types: [4]}
+      , {id: 19, name: "Mười bốn điểm", top: 262, left: 345, width: 80, height: 76, types: [4]}
+      , {id: 20, name: "Mười lăm điểm", top: 262, left: 425, width: 76, height: 76, types: [4]}
+      , {id: 21, name: "Mười sáu điểm", top: 262, left: 501, width: 76, height: 76, types: [4]}
+      , {id: 22, name: "Mười bẩy điểm", top: 262, left: 577, width: 76, height: 76, types: [4]}
+      , {id: 23, name: "Chẵn", top: 338, left: 0, width: 117, height: 75, types: [6, 'left', 'bottom-left', 'bottom']}
+      , {id: 24, name: "Nhất", top: 338, left: 117, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 25, name: "Nhị", top: 338, left: 206, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 26, name: "Tam", top: 338, left: 295, width: 90, height: 75, types: [5, 'bottom']}
+      , {id: 27, name: "Tứ", top: 338, left: 385, width: 90, height: 75, types: [5, 'bottom']}
+      , {id: 28, name: "Ngũ", top: 338, left: 475, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 29, name: "Lục", top: 338, left: 564, width: 89, height: 75, types: [5, 'bottom']}
+      , {id: 30, name: "Lẻ", top: 338, left: 653, width: 117, height: 75, types: [6, 'bottom', 'right', 'bottom-right']}
+    ];
+
+    this.bettingPositions.reverse();
+    this.statusList = {
+      1: "STATUS_WAITING_FOR_START",
+      2: "STATUS_SHAKE_DISK",
+      3: "STATUS_BETTING",
+      4: "STATUS_ARRANGING",
+      5: "END_GAME"
+    };
+  };
+
+  p.bindButton = function () {
+
+  };
+
+  p.drawRoom = function () {
+    this.desk = new TWIST.Desk(this.options);
+    this.desk.name = "desk";
+    this.stage.addChild(this.desk);
+    this.wrapper.css($.extend(initOptions.gameSize, {
+      width: 770
+    }));
+  };
+
+  p.drawGameInfo = function (data) {
+
+    this.setHost(data.host);
+    this.changeStatus({
+      newStatus: data.status,
+      disableRebetting: data.disableRebetting
+    });
+    this.roomBetting = data.betting;
+    this.setBettingChipValue(data.listBettingChip);
+    this.setRemainingTime(data.remainingTime);
+    this.drawBettingPositions(data.bettingPositions);
+  };
+
+  p.initButtonBar = function () {};
+
+  p.initInviteList = function () {};
+
+  p.initResultPanel = function () {};
+
+  p.initTemplate = function () {
+    var _self = this;
+    var wrapperTemplate = document.createElement('div');
+    wrapperTemplate.id = "taixiu-wrapper";
+    wrapperTemplate.className = "taixiu-wrapper";
+    this.wrapperTemplate = $(wrapperTemplate);
+    this.wrapper.append(wrapperTemplate);
+
+    this.initHistory();
+
+    this.initBettingPositionList();
+
+    this.initProfile();
+
+    this.initHost();
+
+    this.initGameCanvas();
+
+    this.initVitualBetting();
+
+    this.initListPlayer();
+
+    this.initChipButton();
+
+    this.initSellPopup();
+
+    this.wrapperTemplate.append(this.errorPanel);
+
+    this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
+    this.wrapperTemplate.append(this.effectWrapper);
+
+    this.money = this.user.find('.money');
+
+    this.setBetting(this.chipButtons[0]);
+  };
+
+  p.setBetting = function (item) {
+    if (this.chipButtons.active) {
+      this.chipButtons.forEach(function (_item, _index) {
+        _item.template.removeClass('active');
+      });
+      item.template.addClass('active');
+      this.currentBetting = item;
+    }
+  };
+
+  p.pushTaiXiuEvent = function () {
+    var _self = this;
+
+    this.on("userInfo", function () {
+      _self.renderUserInfo(arguments[0]);
+    });
+
+    this.on("userBetting", function (data) {
+      _self.userBetting(data);
+    });
+
+    this.on("updateBettings", function (data) {
+      _self.updateBettings(data);
+    });
+
+    this.on("xocDia", function (data) {
+      _self.xocDia(data);
+    });
+
+    this.on("openDisk", function (data) {
+      _self.openDisk(data);
+    });
+
+    this.on("hostPayment", function (data) {
+      _self.hostPaymentData = data;
+    });
+
+    this.on("changeHost", function (data) {
+      _self.setHost(data);
+    });
+
+    this.on("suggetstHost", function (data) {
+      _self.getHostButton.show();
+    });
+
+    this.on("reBettingResult", function (data) {
+      _self.reBetting(data);
+    });
+
+    this.on("resignationSuccess", function (data) {
+      _self.setHost();
+    });
+
+    this.on("cancelBettingResult", function (data) {
+      _self.cancelBetting(data);
+    });
+
+    this.on("sellBettingResult", function (data) {
+      _self.showError({
+        message: "Bán cửa thành công !"
+      });
+    });
+
+    this.on("historyToggle", function (data) {
+      _self.history.toggle();
+    });
+  };
+
+  p.cancelBetting = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      _self.moveChipToUser(item.id, item.mineValue);
+      item.setMineBetting(0);
+    });
+  };
+
+  p.hostPaymentPhase1 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    this.bettingPositions.hasChipsMove = false;
+    this.bettingPositions.forEach(function (item, index) {
+      if (!item.status) {
+        _self.moveChipToHost(item.id);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+    if (!this.bettingPositions.hasChipsMove) {
+      _self.hostPaymentPhase2();
+    }
+  };
+
+  p.hostPaymentPhase2 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    if (this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        _self.paymentChipToSlotBetting(item.id, item.totalValue * item.ratio);
+        item.setTotalBetting(item.totalValue * (item.ratio + 1));
+        item.setMineBetting(item.mineValue * (item.ratio + 1));
+      }
+    });
+  };
+
+  p.showChangeMoney = function (data) {
+    this.userInfo.money = data.money;
+    this.userMoney.runEffect(this.userInfo.money);
+    var jElement = $(TWIST.HTMLTemplate['taiXiu/changeMoney']);
+    this.user.append(jElement);
+    jElement.text(Global.numberWithDot3(parseInt(data.changeMoney)));
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.remove();
+    });
+    if (data.changeMoney >= 0) {
+      jElement.addClass("plus");
+    }
+  };
+
+  p.hostPaymentPhase3 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    if (!this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        (function (mineValue, totalValue) {
+          setTimeout(function () {
+            _self.moveChipToPlayers(item.id, mineValue, totalValue);
+          }, 500);
+        })(item.mineValue, item.totalValue);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+  };
+
+  p.paymentChipToSlotBetting = function (id, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 300 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.paymentChipAction(id, item);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.moveChipToHost = function (id) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var length = listChip.length;
+    if (length > 0)
+      this.bettingPositions.hasChipsMove = true;
+    _self._numberChipMove = _self._numberChipMove || 0;
+    listChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = _self.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
+      setTimeout(function () {
+        _self._numberChipMove++;
+        _self.stage.addChild(item);
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+          _self._numberChipMove--;
+          if (!_self._numberChipMove) {
+            setTimeout(function () {
+              _self.hostPaymentPhase2();
+            }, 500);
+          }
+        });
+      }, 300 / length * index);
+    });
+  };
+
+  p.moveChipToUser = function (id, value) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var position = initOptions.userPosition;
+    this.moveChipsToPosition(value, listChip, position);
+  };
+
+  p.moveChipToPlayers = function (id, mineValue, totalValue) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    if (mineValue) {
+      this.moveChipsToPosition(mineValue, listChip, initOptions.userPosition);
+    }
+    this.moveRemainChipToPlayers(listChip, initOptions.playerPosition);
+  };
+
+  p.moveChipsToPosition = function (value, listChip, position) {
+    var _self = this;
+    var listReturnChip = this.convertValueToChipContainers(value, listChip);
+    var length = listReturnChip.length;
+    listReturnChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = position;
+      item.set(fromPosition);
+      _self.stage.addChild(item);
+      setTimeout(function () {
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+        });
+      }, 300 / length * index);
+    });
+  };
+
+
+  p.moveRemainChipToPlayers = function (listChip, position) {
+    var _self = this;
+    var length = listChip.length;
+
+    listChip.forEach(function (item, index) {
+      var chip = item;
+      if (chip) {
+        var fromPosition = chip.localToGlobal(0, 0);
+        var toPosition = position;
+        setTimeout(function () {
+          _self.stage.addChild(chip);
+          chip.move(fromPosition, toPosition, function () {
+            _self.stage.removeChild(chip);
+          });
+        }, 300 / length * index);
+      }
+    });
+  };
+
+  p.userBetting = function (data) {
+    var _self = this;
+    var bettingPosition = this.bettingPositions.find(function (item, index) {
+      return item.id == data.id;
+    });
+    this.reBettingButton.hide();
+    bettingPosition.setMineBetting(data.mineBetting);
+    bettingPosition.setTotalBetting(data.totalBetting);
+    var currentBettingID = this.currentBetting.id;
+    this.bettingChipAction(data.id, currentBettingID, true);
+  };
+
+  p.updateBettings = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      _self.playersBetting(item, dataItem.totalBetting - item.totalValue);
+      item.setTotalBetting(dataItem.totalBetting);
+    });
+  };
+
+  p.reBetting = function (data) {
+    var _self = this;
+    this.reBettingButton.hide();
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      item.setMineBetting(dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
+    });
+  };
+
+  p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
+
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
+    var chip = this.createChip(currentBettingID);
+    chip.isMine = isMine;
+    var bettingChipPosition = isMine ? initOptions.bettingChipPositions[currentBettingID] : initOptions.playerPosition;
+    var fromPosition = {
+      x: bettingChipPosition.x - bettingSlot.x,
+      y: bettingChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    chip.move(fromPosition, toPosition);
+  };
+
+  p.paymentChipAction = function (bettingId, currentBettingID) {
+    var _self = this;
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
+    var chip = this.createChip(currentBettingID);
+    var paymentChipPosition = this.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
+    var fromPosition = {
+      x: paymentChipPosition.x - bettingSlot.x,
+      y: paymentChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    this._numberChipMove = this._numberChipMove || 0;
+    this._numberChipMove++;
+    chip.move(fromPosition, toPosition, function () {
+      _self._numberChipMove--;
+      if (!_self._numberChipMove) {
+        _self.hostPaymentPhase3();
+      }
+    });
+  };
+
+  p.playersBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 1000 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.userReBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 500 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item, true);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.convertValueToChips = function (value) {
+    var listChip = [];
+    var unit = this.chipButtons[0].value;
+    var totalArray = [];
+    var totalValue = 0;
+    this.chipButtons.forEach(function (item, index) {
+      totalValue += item.value * item.concentration;
+      for (var i = 0; i < item.concentration; i++) {
+        totalArray.push(item.id);
+      }
+    });
+    var quantityOfTotalUnit = parseInt(value / totalValue);
+    for (var i = 0; i < quantityOfTotalUnit; i++) {
+      listChip = listChip.concat(totalArray);
+    }
+    var quantityOfUnit = parseInt((value % totalValue) / unit);
+    for (var i = 0; i < quantityOfUnit; i++) {
+      listChip.push(this.chipButtons[0].id);
+    }
+    return Global.shuffle(listChip);
+  };
+
+  p.convertValueToChipContainers = function (initValue, listChip) {
+    var returnChips = [];
+    var currentValue = initValue;
+    var flag = true;
+
+    var listChipValue = this.chipButtons.map(function (item, index) {
+      return item.value;
+    });
+    listChipValue.sort(function (a, b) {
+      return b - a;
+    });
+
+    var currentChipValue = getCurrentChipValue(initValue);
+
+    while (checkFlag()) {
+      getChipTypeByValue();
+    }
+
+    return returnChips;
+
+    function checkFlag() {
+      flag = (currentValue >= currentChipValue);
+      return flag;
+    }
+
+    function getCurrentChipValue(currentValue) {
+      listChipValue = listChipValue.filter(function (item, index) {
+        return currentValue >= item;
+      });
+      return listChipValue[0];
+    }
+
+    function getChipTypeByValue() {
+      currentChipValue = getCurrentChipValue(currentValue);
+      if (!currentChipValue)
+        return;
+      var newChip = listChip.find(function (item, index) {
+        return (item.value == currentChipValue && !item._isChecked);
+      });
+      if (newChip) {
+        currentValue -= currentChipValue;
+        returnChips.push(newChip);
+        newChip._isChecked = true;
+      } else {
+        listChipValue.shift();
+        getChipTypeByValue();
+      }
+    }
+  };
+
+  p.xocDia = function () {
+    var _self = this;
+    var message, position;
+    if (this.status === 'STATUS_SHAKE_DISK') {
+      position = {
+        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 5 + 5),
+        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 5)
+      };
+      message = 'xocDia';
+    } else {
+      position = initOptions.diskPosition;
+      message = 'endXocDia';
+    }
+    createjs.Tween.get(this.diskContainer)
+            .to(position, 100)
+            .call(function () {
+              _self.diskContainer.isTop = !_self.diskContainer.isTop;
+              _self.emit(message);
+            });
+  };
+
+  p.openDisk = function (data) {
+    var _self = this;
+    var newX = -150;
+    var message, position;
+    this.history.addResult(data);
+    this.chipResultContainer.removeAllChildren();
+    data.map.forEach(function (item, index) {
+      _self.createResultDice(item, index);
+    });
+    this.bowl.set(initOptions.bowlPosition);
+    createjs.Tween.get(this.bowl)
+            .to({
+              x: newX,
+              alpha: 0
+            }, 2000)
+            .call(function () {
+              _self.hostPaymentPhase1();
+            });
+    this.bettingPositions.forEach(function (item, index) {
+      item.setStatus(data.winnerSlots);
+    });
+  };
+
+  p.createResultDice = function (id, index) {
+    var src = this.imagePath + "dice" + (id + 1) + ".png";
+    var resultChip = new createjs.Bitmap(src);
+    var scale = initOptions.diskPosition.scaleX;
+    var positions = [{x: 12.5 / scale, y: 0}, {x: 0, y: 25 / scale}, {x: 25 / scale, y: 25 / scale}];
+    resultChip.set(positions[index]);
+    resultChip.set({
+      scaleX: 1 / scale,
+      scaleY: 1 / scale
+    });
+    this.chipResultContainer.addChild(resultChip);
+    return resultChip;
+  };
+
+  p.createChip = function (id) {
+    var _self = this;
+    var chipSize = initOptions.chipSize;
+    var image = this.chipImages[id];
+    var chip = new createjs.Bitmap(image);
+    var value = this.chipButtons.find(function (item, index) {
+      return item.id == id;
+    }).value;
+    chip.set({
+      scaleX: chipSize.miniRatio,
+      scaleY: chipSize.miniRatio,
+      type: id,
+      value: value
+    });
+    chip.move = function (fromPosition, toPosition, callback) {
+      chip.set(fromPosition);
+      var newX = toPosition.x + (Math.random() - 0.5) * 5;
+      var newY = toPosition.y + (Math.random() - 0.5) * 5;
+      createjs.Tween.get(chip)
+              .to({
+                x: newX,
+                y: newY
+              }, initOptions.moveChipAnimationTime)
+              .call(function () {
+                if (typeof callback === 'function') {
+                  callback();
+                }
+              });
+    };
+    return chip;
+  };
+
+  p.renderUserInfo = function () {
+    var avatarContainer = this.user.find('.avatar');
+    var usernameContainer = this.user.find('.username');
+    avatarContainer.css("background-image", "url(./" + this.userInfo.avatar + ")");
+    usernameContainer.text(this.userInfo.username);
+    this.userMoney.runEffect(this.userInfo.money);
+  };
+
+  p.initHost = function () {
+    this.host = $(TWIST.HTMLTemplate['taiXiu/host']);
+    this.wrapperTemplate.append(this.host);
+    this.host.background = this.host.find('.host-background');
+    this.host.hostName = this.host.find('.host-name');
+    this.host.chatBox = this.host.find('.chat-box');
+    this.host.hostMessage = this.host.find('.chat-box-inner');
+    this.host.setMessage = function (message) {
+      if (message) {
+        this.chatBox.show();
+        this.hostMessage.html(message);
+      } else {
+        this.chatBox.hide();
+      }
+    };
+  };
+
+  p.setHost = function (host) {
+    this.host.hostName.removeClass('active');
+    this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
+    this.resignationButton.hide();
+    if(this.userInfo.isHost){
+      this.showError({
+        message : "Bạn đã làm nhà cái !"
+      });
+    }
+    this.setShowChipButtons();
+    if (host && host.username) {
+      this.host.name = host.username;
+      this.getHostButton.hide();
+      this.host.hostName.addClass('active');
+      this.host.hostName.html(host.username);
+    } else {
+      this.host.name = undefined;
+    }
+  };
+
+  p.initListPlayer = function () {
+    var _self = this;
+    this.listPlayer = $(TWIST.HTMLTemplate['taiXiu/listPlayer']);
+    this.wrapperTemplate.append(this.listPlayer);
+    this.listPlayer.on('click', function () {
+      _self.emit('getListPlayer');
+    });
+  };
+
+  p.initHistory = function () {
+    var _self = this;
+    this.history = $(TWIST.HTMLTemplate['taiXiu/history']);
+    this.wrapperTemplate.append(this.history);
+    this.historyList = this.history.find('.taixiu-history-content');
+    this.historyListInner = this.history.find('.taixiu-history-content-inner');
+    var height = this.history.css('height');
+    this.historyListScroll = new IScroll(this.historyList[0], {scrollX: true, freeScroll: true});
+    this.historyListScroll.refresh();
+
+
+    this.historyTitle = this.history.find('.taixiu-history-title');
+
+    this.history.toggle = function () {
+      _self.history.toggleClass('active');
+    };
+    this.historyTitle.on('click', this.history.toggle);
+
+    this.history.addResult = function (data) {
+      var isTai = data.winnerSlots.find(function (item, index) {
+        return item == 15;
+      });
+      var isXiu = data.winnerSlots.find(function (item, index) {
+        return item == 7;
+      });
+      var resultTemplate = $(TWIST.HTMLTemplate['taiXiu/history-item']);
+      var itemType = resultTemplate.find('.history-item-type');
+      isTai && itemType.addClass('tai');
+      isXiu && itemType.addClass('xiu');
+
+      var itemNumber = resultTemplate.find('.history-item-number');
+      var resultNumber = 0;
+      data.map.forEach(function (item, index) {
+        resultNumber += (item + 1);
+        var dicePosition = resultTemplate.find('#dice-position' + index);
+        dicePosition.addClass("dice" + item);
+      });
+      itemNumber.html(resultNumber);
+      _self.historyListInner.append(resultTemplate);
+      _self.historyListScroll.refresh();
+    };
+  };
+
+  p.initBettingPositionList = function () {
+    var _self = this;
+    this.table = $(TWIST.HTMLTemplate['taiXiu/table']);
+    this.wrapperTemplate.append(this.table);
+    var bettingPositions = this.bettingPositions;
+    var fragment = document.createDocumentFragment();
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.createBettingPosition(item, index);
+      fragment.append(element);
+    });
+    this.wrapperTemplate.append(fragment);
+
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.setBettingPositionsPrototype(item, index);
+    });
+
+    var overTable = $('<div class="over-table">');
+    this.wrapperTemplate.append(overTable);
+  };
+
+  p.initVitualBetting = function () {
+    var _self = this;
+    var bettingPositions = this.bettingPositions;
+    var fragment = document.createDocumentFragment();
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.createVitualBetting(item, index);
+      fragment.append(element);
+    });
+    this.wrapperTemplate.append(fragment);
+
+    bettingPositions.forEach(function (item, index) {
+      var element = _self.setVitualBettingPrototype(item, index);
+    });
+  };
+
+  p.initProfile = function () {
+    this.user = $(TWIST.HTMLTemplate['taiXiu/user']);
+    this.wrapperTemplate.append(this.user);
+    this.userMoney = this.user.find('.money');
+    this.addNumberEffect(this.userMoney);
+  };
+
+  p.initGameCanvas = function () {
+    this.wrapperTemplate.append(this.canvas);
+
+    this.initDisk();
+
+    this.initMoveChipContainer();
+
+    this.stage.addChild(this.moveChipContainer, this.diskContainer, this.desk);
+  };
+
+  p.initChipButton = function () {
+    var _self = this;
+    this.chipWrapper = $(TWIST.HTMLTemplate['taiXiu/chips']);
+    this.wrapperTemplate.append(this.chipWrapper);
+
+    this.chipImages = [new Image(), new Image(), new Image(), new Image()];
+    this.chipImages[0].src = this.imagePath + "1st-chip.png";
+    this.chipImages[1].src = this.imagePath + "2nd-chip.png";
+    this.chipImages[2].src = this.imagePath + "3rd-chip.png";
+    this.chipImages[3].src = this.imagePath + "4th-chip.png";
+
+
+    this.chipButtons = [{
+        id: 0,
+        value: 1000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-1st')
+      }, {
+        id: 1,
+        value: 10000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-2nd')
+      }, {
+        id: 2,
+        value: 100000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-3rd')
+      }, {
+        id: 3,
+        value: 1000000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-4th')
+      }];
+    this.chipButtons.active = true;
+    this.chipButtons.forEach(function (item, index) {
+      item.template.on('click', function () {
+        TWIST.Sound.play("minigame/Common_Click");
+        _self.setBetting(item);
+      });
+    });
+  };
+
+  p.initSellPopup = function () {
+    var _self = this;
+    this.sellPopup = $(TWIST.HTMLTemplate['taiXiu/sellPopup']);
+    var bettingData;
+    this.sellPopup.initPopup = function (data) {
+      bettingData = data;
+      var maxValue = data.totalValue;
+      _self.sellPopup.maxValue = maxValue;
+      _self.sellPopup.plusButton.html(maxValue);
+      _self.sellPopup.title.html(data.name);
+    };
+    this.wrapperTemplate.append(this.sellPopup);
+    var minLeft = 5;
+    var maxLeft = 256;
+    this.sellPopup.hide();
+    function hide() {
+      _self.sellPopup.hide();
+    }
+
+    function setMin() {
+      _self.sellPopup.scroller.css('left', 0);
+      setRatio(0);
+    }
+
+    function setMax() {
+      _self.sellPopup.scroller.css('left', maxLeft);
+      setRatio(1);
+    }
+
+    function emitSell() {
+      var emitData = {
+        id: bettingData.id,
+        value: _self.sellPopup.currentValue
+      };
+      _self.sellPopup.hide();
+      _self.emit("sellBetting", emitData);
+    }
+
+    function setRatio(ratio) {
+      _self.sellPopup.dragbarInner.css('width', ratio * maxLeft + minLeft);
+      var currentValue = parseInt(ratio * _self.sellPopup.maxValue);
+      _self.sellPopup.currentValue = currentValue;
+      _self.sellPopup.scrollerValue.html(currentValue);
+    }
+
+    this.sellPopup.title = this.sellPopup.find('.sell-popup-title');
+    this.sellPopup.background = this.sellPopup.find('.sell-popup-background');
+    this.sellPopup.background.on('click', hide);
+    this.sellPopup.cancel = this.sellPopup.find('#cancel');
+    this.sellPopup.cancel.on('click', hide);
+    this.sellPopup.accept = this.sellPopup.find('#accept');
+    this.sellPopup.accept.on('click', emitSell);
+    this.sellPopup.minusButton = this.sellPopup.find('.sell-popup-minus');
+    this.sellPopup.minusButton.on('click', setMin);
+    this.sellPopup.plusButton = this.sellPopup.find('.sell-popup-plus');
+    this.sellPopup.plusButton.on('click', setMax);
+
+    this.sellPopup.dragbarInner = this.sellPopup.find('.sell-popup-dragbar-inner');
+
+    this.sellPopup.scroller = this.sellPopup.find('#scroller');
+    this.sellPopup.scrollerValue = this.sellPopup.scroller.find('.sell-popup-scroller-content');
+    var optionDraggable = {
+      axis: "x",
+      scroll: false,
+      containment: "#sell-popup-drag-container",
+      drag: function (event, ui) {
+        var ratio = ui.position.left / maxLeft;
+        setRatio(ratio);
+      }
+    };
+    this.sellPopup.scroller.draggable(optionDraggable);
+  };
+
+  p.showSellPopup = function () {
+
+    var _self = this;
+    var selectedBetting = this.bettingPositions.find(function (item, index) {
+      return item.isSelected;
+    });
+    if (selectedBetting) {
+      if (selectedBetting.totalValue) {
+        this.sellPopup.show();
+        this.sellPopup.initPopup(selectedBetting);
+      }
+    } else {
+      this.showError({
+        message: "Chưa chọn cửa bán !"
+      });
+    }
+  };
+
+  p.initButton = function () {
+    var _self = this;
+
+    this.buttons = [];
+
+    var buttonWrapper = $(TWIST.HTMLTemplate['taiXiu/buttons']);
+
+    this.wrapperTemplate.append(buttonWrapper);
+
+    this.reBettingButton = buttonWrapper.find('#reBetting');
+    this.buttons.push(this.reBettingButton);
+    this.reBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
+      _self.emit("reBetting");
+    });
+
+    this.cancelBettingButton = buttonWrapper.find('#cancelBetting');
+    this.buttons.push(this.cancelBettingButton);
+    this.cancelBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
+      _self.emit("cancelBetting");
+    });
+
+    this.sellOddButton = buttonWrapper.find('#sellOdd');
+    this.buttons.push(this.sellOddButton);
+    this.sellOddButton.on('click', function () {
+      _self.showSellPopup();
+    });
+
+    this.resignationButton = buttonWrapper.find('#resignation');
+    this.buttons.push(this.resignationButton);
+    this.resignationButton.on('click', function () {
+      _self.emit("resignation");
+    });
+
+    this.sellEvenButton = buttonWrapper.find('#sellEven');
+    this.buttons.push(this.sellEvenButton);
+    this.sellEvenButton.on('click', function () {
+      _self.showSellPopup();
+    });
+
+    this.getHostButton = buttonWrapper.find('#getHost');
+    this.buttons.push(this.getHostButton);
+    this.getHostButton.on('click', function () {
+      _self.emit("getHost");
+    });
+
+    this.buttons.hide = function () {
+      _self.buttons.forEach(function (item, index) {
+        item.hide();
+      });
+    };
+  };
+
+  p.initDisk = function () {
+    this.diskContainer = new createjs.Container();
+    this.diskContainer.set(initOptions.diskPosition);
+
+    this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'disk.png');
+    this.chipResultContainer = new createjs.Container();
+    this.chipResultContainer.set(initOptions.chipResultPosition);
+    this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'bowl.png');
+    this.bowl.set(initOptions.bowlPosition);
+
+    this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
+  };
+
+  p.initMoveChipContainer = function () {
+    this.moveChipContainer = new createjs.Container();
+    var moveChipContainer = this.moveChipContainer;
+
+    this.bettingPositions.forEach(function (item, index) {
+      var bettingSlot = new createjs.Container();
+      var position = {
+        x: item.left + 2,
+        y: item.top,
+        width: item.width - 4,
+        height: item.height - 25,
+        name: item.id
+      };
+
+      item.bettingSlot = bettingSlot;
+      bettingSlot.set(position);
+      moveChipContainer.addChild(bettingSlot);
+    });
+  };
+
+  p.createVitualBetting = function (data) {
+
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['taiXiu/vitualBetting'];
+    var element = document.createElement('div');
+    element.className = "vitual-betting-position";
+    element.id = "vitualBetting" + data.id;
+    return element;
+  };
+
+  p.setSelectedBetting = function (data) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+    data.setSelected(true);
+  };
+
+  p.emitBetting = function (emitData) {
+
+    if (this.userInfo.money < emitData.value) {
+      this.showError({
+        message: "Bạn không đủ tiền đặt cược !"
+      });
+      return;
+    }
+    this._listenChangeMoney = true;
+    this.emit('betting', emitData);
+  };
+
+  p.createBettingPosition = function (data, index) {
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['taiXiu/bettingPosition'];
+    var element = document.createElement('div');
+    element.className = "betting-position";
+    element.id = "bettingPosition" + data.id;
+    element.innerHTML = temp;
+    return element;
+  };
+
+  p.setBettingPositionsPrototype = function (data) {
+    var _self = this;
+    var bettingPosition = $('#' + "bettingPosition" + data.id);
+    bettingPosition.css(data);
+    data.template = bettingPosition;
+    bettingPosition.addClass('type-id' + data.id);
+    data.types.forEach(function (item, index) {
+      bettingPosition.addClass('type-' + item);
+    });
+    bettingPosition.mineBetting = bettingPosition.find('.mine-betting');
+    this.addNumberEffect(bettingPosition.mineBetting, 3);
+    bettingPosition.totalBetting = bettingPosition.find('.total-betting');
+    this.addNumberEffect(bettingPosition.totalBetting, 3);
+    bettingPosition.displayNameContainer = bettingPosition.find('.name');
+    bettingPosition.displayNameContainer.html(data.displayName);
+    bettingPosition.ratioContainer = bettingPosition.find('.ratio');
+    bettingPosition.displayNameContainer.html(data.displayName);
+    bettingPosition.setMineBetting = function (betting) {
+      this.mineBetting.html(Global.numberWithDot3(betting));
+      data.mineValue = betting;
+    };
+    bettingPosition.setTotalBetting = function (betting) {
+      this.totalBetting.html(Global.numberWithDot3(betting));
+      data.totalValue = betting;
+    };
+    data.setMineBetting = function (betting) {
+      if (_self.userInfo.isHost) {
+        data.template.mineBetting.hide();
+        data.mineValue = 0;
+      } else {
+        data.template.mineBetting.show();
+        data.template.mineBetting.runEffect(betting);
+        data.mineValue = betting;
+      }
+    };
+    data.setTotalBetting = function (betting) {
+      data.template.totalBetting.runEffect(betting);
+      data.totalValue = betting;
+    };
+    data.setStatus = function (winnerSlots) {
+      data.template.removeClass('active disabled');
+      data.status = 0;
+      if (!winnerSlots)
+        return;
+      if (winnerSlots.indexOf(data.id) > -1) {
+        data.template.addClass('active');
+        data.status = 1;
+      } else {
+        data.template.addClass('disabled');
+      }
+    };
+    data.setSelected = function (flag) {
+      data.isSelected = flag;
+      data.template.removeClass('selected');
+      if (flag) {
+        data.template.addClass('selected');
+      }
+    };
+    data.setRatio = function (ratio) {
+      data.ratio = ratio;
+      data.template.ratioContainer.html(ratio);
+    };
+  };
+
+
+
+  p.setVitualBettingPrototype = function (data) {
+
+    var _self = this;
+    var vitualBetting = $('#' + "vitualBetting" + data.id);
+    vitualBetting.css(data);
+    data.vitualBetting = vitualBetting;
+    vitualBetting.on('click', function () {
+      if (_self.userInfo.isHost) {
+        _self.setSelectedBetting(data);
+      } else {
+        var emitData = {
+          value: _self.currentBetting.value,
+          currentBettingId: _self.currentBetting.id,
+          slotBettingId: data.id
+        };
+        _self.emitBetting(emitData);
+      }
+    });
+
+    vitualBetting.css(data);
+  };
+
+  p.addCoins = function (item, coinTittle) {
+    var coinItem = $(TWIST.HTMLTemplate['taiXiu/coin-item']);
+    if (item) {
+      coinItem.addClass("red-coin");
+    }
+    coinTittle.append(coinItem);
+  };
+
+  p.setBettingChipValue = function (listBetting) {
+    this.chipButtons.forEach(function (item, index) {
+      var dataItem = listBetting.find(function (_item, _index) {
+        return item.id == _item.id;
+      });
+      item.value = dataItem.value;
+      item.template.html(Global.numberWithDot2(item.value));
+    });
+  };
+
+  p.setRemainingTime = function (remainingTime) {
+    if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
+      this.desk.setRemainingTime(parseInt(remainingTime), {
+        x: 287,
+        y: 23,
+        font: "bold 20px Roboto Condensed",
+        color: "blue"
+      });
+    }
+  };
+
+  p.drawBettingPositions = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      item.setRatio(dataItem.ratio);
+      item.setMineBetting(dataItem.mineBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.playersBetting(item, dataItem.totalBetting - dataItem.mineBetting);
+    });
+  };
+
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost();
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost;
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowVitualBettings = function (newStatus) {
+    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+    this.bettingPositions.forEach(function (item, index) {
+      if (flag) {
+        item.vitualBetting.show();
+      } else {
+        item.vitualBetting.hide();
+      }
+    });
+  };
+
+  p.removeSelectedBetting = function (newStatus) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+  };
+
+  p.changeStatus = function (data) {
+    this.status = this.statusList[data.newStatus];
+    var func = this[this.status];
+    this.buttons.hide();
+    this.setShowChipButtons();
+    this.setShowVitualBettings(data.newStatus);
+    this.removeSelectedBetting(data.newStatus);
+    this.desk.setRemainingTime(-1);
+    if (typeof func === "function") {
+      func.call(this, data);
+    }
+    this.emit("ping");
+  };
+
+  p.STATUS_WAITING_FOR_START = function () {
+    this.bettingPositions.forEach(function (item, index) {
+      item.template.removeClass('active disabled');
+      item.bettingSlot.removeAllChildren();
+      item.setMineBetting(0);
+      item.setTotalBetting(0);
+    });
+    this.bowl.set(initOptions.bowlPosition);
+    this.chipResultContainer.removeAllChildren();
+    this.host.setMessage("Chờ ván mới !");
+    if (this.userInfo.isHost) {
+      this.resignationButton.show();
+    }
+  };
+
+  p.STATUS_SHAKE_DISK = function () {
+    this.host.background.show();
+    this.emit("xocDia");
+    this.host.setMessage("Xóc, xóc !!!");
+  };
+
+  p.STATUS_BETTING = function (data) {
+    this.setRemainingTime(data.remainingTime || 15);
+    this.host.background.hide();
+    this.host.setMessage("Đặt đi anh ơi");
+    if (!this.userInfo.isHost) {
+      if (!data.disableRebetting) {
+        this.reBettingButton.show();
+      }
+      this.cancelBettingButton.show();
+    }
+  };
+
+  p.STATUS_ARRANGING = function (data) {
+    var defaultTime = 3;
+    if (this.host.name)
+      defaultTime = 15;
+    this.setRemainingTime(this.host.name ? defaultTime : (data.remainingTime || defaultTime));
+    this.host.setMessage("Chờ nhà cái thừa thiếu");
+    if (this.userInfo.isHost) {
+      this.sellEvenButton.show();
+      this.sellOddButton.show();
+    }
+  };
+
+  p.END_GAME = function () {
+    this.sellPopup.hide();
+    this.host.setMessage("Trả tiền !");
+  };
+
+  TWIST.TaiXiu = TaiXiu;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
     "use strict";
 
+    var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
+            currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer, currentBetting;
+
     var initOptions = {
-        maxPlayers: 5,
-        numberCardsInHand: 10,
-        turnTime: 20000
+        resultTab: []
     };
-    function SamGame(wrapper, options) {
+
+    function TinyHightLowGame(wrapper, options) {
         this.wrapper = $(wrapper);
         this.options = $.extend(initOptions, options);
-        this.initSamGame();
+        this.initTinyHightLowGame();
     }
-    var p = SamGame.prototype = new TWIST.BaseDemlaGame();
 
-    p.initSamGame = function (wrapper) {
-        this.initBaseDemlaGame();
-        this.pushSamGameEvent();
-        this.bindSamButton();
-    };
+    var p = TinyHightLowGame.prototype = new TWIST.BaseGame();
 
-    p.pushSamGameEvent = function () {
-        this.on("inviteSam", this.onInviteSam);
-        this.on("endInviteSam", this.onEndInviteSam);
-        this.on("foldSam", this.onFoldSam);
-        this.on("callSam", this.onCallSam);
-    };
-
-    p.bindSamButton = function () {
-        var _self = this;
-
-        this.callSamButton = $(TWIST.HTMLTemplate.buttonBar.callSamButton);
-        this.buttonBar.append(this.callSamButton);
-        this.callSamButton.unbind('click');
-        this.callSamButton.click(function () {
-            _self.emit("call-sam");
-        });
-
-        this.foldSamButton = $(TWIST.HTMLTemplate.buttonBar.foldSamButton);
-        this.buttonBar.append(this.foldSamButton);
-        this.foldSamButton.unbind('click');
-        this.foldSamButton.click(function () {
-            _self.emit("fold-sam");
-        });
-    };
-
-    p.onInviteSam = function (data) {
-        this.desk.setRemainingTime(parseInt(data.remainingTime));
-        this.callSamButton.show();
-        this.foldSamButton.show();
-        this.userCallSam = null;
-    };
-
-    p.onEndInviteSam = function () {
-        this.desk.setRemainingTime(0);
-        this.callSamButton.hide();
-        this.foldSamButton.hide();
-        var players = this.playersContainer.children;
-        for (var i = 0, length = players.length; i < length; i++) {
-            var player = players[i];
-            if (player && player.uuid !== this.userCallSam) {
-                player.setPlayerStatus("");
+    p.initTinyHightLowGame = function () {
+        this.initVariable();
+        $.extend(this.options, canvasSize);
+        this.info = {
+            betting: 1000,
+            potData: {
+                1000: 0,
+                10000: 0,
+                100000: 0
             }
-        }
-    };
-
-    p.onFoldSam = function (data) {
-        var player = this.getPlayerByUuid(data.uuid);
-        player.setPlayerStatus("Hủy sâm !");
-    };
-
-    p.onCallSam = function (data) {
-        var player = this.getPlayerByUuid(data.uuid);
-        player.setPlayerStatus("Báo sâm !", {
-            color: "red"
-        });
-        this.userCallSam = data.uuid;
-    };
-
-    p.endGame = function (data) {
-        this.endIngameEvent();
-        var winTypeMap = {
-           0 : "Năm đôi",
-           1 : "3 sám cô",
-           2 : "Đồng màu",
-           3 : "Tứ 2",
-           4 : "Sảnh rồng",
-           15 : "Hòa",
-           16 : "Bị ăn sâm",
-           17 : "Bị bắt sâm",
-           18 : "Phạt báo 1",
-           19 : "Bị thua trắng",
-           20 : "Thua",
-           21 : "Bắt sâm"
         };
-        
+        this.userInfo = {};
+        this.initCanvas();
+        this.initEvent();
+        this.initTemplate();
+        this.draw();
+        this.pushEventListener();
+        this.status = 'pause';
+    };
+
+    p.initVariable = function () {
+        statusList = ["pause", "endding", "running"];
+
+        gameStates = ["getCards", "selectHightLow"];
+
+        cardRankList = [
+            {value: 0, name: "2"}
+            , {value: 1, name: "3"}
+            , {value: 2, name: "4"}
+            , {value: 3, name: "5"}
+            , {value: 4, name: "6"}
+            , {value: 5, name: "7"}
+            , {value: 6, name: "8"}
+            , {value: 7, name: "9"}
+            , {value: 8, name: "10"}
+            , {value: 9, name: "J"}
+            , {value: 10, name: "Q"}
+            , {value: 11, name: "K"}
+            , {value: 12, name: "A"}
+        ];
+
+        speed = 2.5;//default 2
+
+        numberCard = 52;
+
+        effectQueue = [];
+
+        canvasSize = {width: 480, height: 220};
+
+        mainCardSize = {width: 129, height: 169};
+
+        winCardSize = {width: 30, height: 39};
+
+        bets = [1000, 10000, 100000];
+
+        moneyFallingEffectTime = 2000;
+
+        timeOutList = [];
+
+        gameState = 0;
+
+        newCard = {};
+
+        winCardContainer = {width: 60, height: 198, top: 1, left: 721};
+
+        currentBetting = 0;
+    };
+
+    p.initTemplate = function () {
         var _self = this;
-        var resultData = {
-            isWinner: false,
-            listPlayers: []
+
+        this.wrapperTemplate = $(TWIST.HTMLTemplate['tinyHightLow/wrapper']);
+        this.wrapper.append(this.wrapperTemplate);
+
+        this.centerTempalte = $(TWIST.HTMLTemplate['tinyHightLow/center']);
+        this.wrapperTemplate.append(this.centerTempalte);
+
+        this.centerTempalte.find('.canvas-wrapper').append(this.canvas);
+        this.initStage();
+
+        this.topTempalte = $(TWIST.HTMLTemplate['tinyHightLow/top']);
+        this.wrapperTemplate.append(this.topTempalte);
+
+        this.bottomTempalte = $(TWIST.HTMLTemplate['tinyHightLow/bottom']);
+        this.wrapperTemplate.append(this.bottomTempalte);
+
+        this._initExplodePot();
+
+        this._initPot();
+
+        this._initCurrentBetting();
+
+        this._initPotCards();
+
+        this._initSupportText();
+
+        this._initRemainTime();
+
+        this._initHightLowButton();
+
+        this._initHightLowBettingText();
+
+        this._initNewTurnText();
+
+        this._initVirtualCard();
+
+        this._initProfile();
+
+        this._initChipsButton();
+
+        this._initSessionId();
+
+        this._initNewTurnButton();
+    };
+
+    p._initExplodePot = function () {
+        var _self = this;
+        this.effect = $('<div class="effect">' + TWIST.HTMLTemplate['effect/explodePot'] + '</div>');
+        this.wrapperTemplate.append(this.effect);
+
+        this.effect.explorerPot = _self.effect.find('.explorer-pot');
+        this.effect.moneyFalling = _self.effect.find('.money-falling');
+        this.effect.showEffect = function () {
+            _self.effect.explorerPot.show();
+            _self.effect.moneyFalling.show();
         };
-        resultData.listPlayers = data.listPlayers;
-        for (var i = 0, length = resultData.listPlayers.length; i < length; i++) {
-            var player = resultData.listPlayers[i];
-            var cardList = player.remainCards;
-            cardList.sort(function (a, b) {
-                return a - b;
+        this.effect.hideEffect = function () {
+            _self.effect.explorerPot.hide();
+            _self.effect.moneyFalling.hide();
+        };
+        this.effect.on('click', _self.effect.hideEffect);
+    };
+
+    p._initPot = function () {
+        var _self = this;
+        this.pot = this.topTempalte.find('.pot-value');
+        this.addNumberEffect(this.pot);
+    };
+
+    p._initCurrentBetting = function () {
+        var _self = this;
+        this.currentBetting = this.topTempalte.find('.bank-value');
+        this.addNumberEffect(this.currentBetting);
+    };
+
+    p._initPotCards = function () {
+        var _self = this;
+        this.potCards = [];
+        var potCards = this.topTempalte.find('.pot-card');
+        potCards.each(function (index, item) {
+            _self.potCards.push($(item));
+        });
+        this.potCards.addActiveCard = function () {
+            var potCard = _self.potCards.find(function (item, index) {
+                return !item.active;
             });
-            player.gameResultString = winTypeMap[data.winType];
-            if (parseInt(player.changeMoney) > 0) {
-                player.isWinner = true;
-                if (player.uuid === this.userInfo.uuid) {
-                    resultData.isWinner = true;
-                }
-            } 
-
-            var Player = this.getPlayerByUuid(player.uuid);
-            if (Player) {
-                Player.clearTimer();
-                Player.setMoney(player.money);
-                Player.showMoneyExchageEffect(player.changeMoney, parseInt(player.changeMoney) > 0 ? "win" : "lose");
+            if (potCard) {
+                potCard.active = true;
+                potCard.addClass('active');
             }
-        }
-        setTimeout(function () {
-            _self.showResult(resultData);
-        }, 2000);
+        };
+        this.potCards.removeActiveCard = function () {
+            potCards.removeClass('active');
+            _self.potCards.forEach(function (item, index) {
+                item.active = false;
+                item.removeClass('active');
+            });
+        };
     };
 
-    TWIST.SamGame = SamGame;
+    p._initSupportText = function () {
+        var _self = this;
+        this.supportText = this.centerTempalte.find('.text-support');
+        this.supportText.text("");
+    };
+
+    p._initRemainTime = function () {
+        var _self = this;
+        this.remainTime = this.centerTempalte.find('.remain-time');
+        this.addRemainTimeEffect(this.remainTime);
+    };
+
+    p._initHightLowButton = function () {
+        var _self = this;
+        this.lowButton = this.centerTempalte.find('.low-button');
+        this.addDisbaleEffect(this.lowButton);
+        this.lowButton.runEffect();
+
+        this.hightButton = this.centerTempalte.find('.hight-button');
+        this.addDisbaleEffect(this.hightButton);
+        this.hightButton.runEffect();
+
+        this.lowButton.on('click', function (event) {
+            if (_self.lowButton.disabled)
+                return;
+            _self.emitHightLow(false);
+        });
+
+        this.hightButton.on('click', function (event) {
+            if (_self.hightButton.disabled)
+                return;
+            _self.emitHightLow(true);
+        });
+    };
+
+    p._initHightLowBettingText = function () {
+        var _self = this;
+        this.lowBetting = this.centerTempalte.find('.low-value');
+        this.addNumberEffect(this.lowBetting);
+
+        this.hightBetting = this.centerTempalte.find('.hight-value');
+        this.addNumberEffect(this.hightBetting);
+    };
+
+    p._initVirtualCard = function () {
+        var _self = this;
+        this.virtualCard = this.centerTempalte.find('.virtual-card');
+
+        this.virtualCard.on('click', function (event) {
+            _self.checkStart();
+        });
+
+    };
+
+    p.checkStart = function () {
+        var _self = this;
+        if (_self.status !== 'pause' || gameState !== 0)
+            return;
+        if (this.userInfo.money < this.info.betting) {
+            this.emit("error", "Bạn không đủ tiền !");
+        } else {
+            TWIST.Sound.play("minigame/ButtonClick");
+            TWIST.Sound.play("minigame/coin_spin");
+            _self.emit("start", this.info.betting);
+            this.newTurnText.hide();
+            this.changeStatus("running");
+            _self.moneyContainer.runEffect(this.userInfo.money - this.info.betting, {duration: 500});
+            this.moveChip.runEffect(true);
+        }
+    };
+
+    p.emitHightLow = function (isHight) {
+        var _self = this;
+        if (_self.status !== 'pause' || gameState !== 1)
+            return;
+        TWIST.Sound.play("minigame/ButtonClick");
+        this.emit("choose", isHight);
+    };
+
+    p._initNewTurnText = function () {
+        var _self = this;
+        this.newTurnText = this.centerTempalte.find('.new-turn-text');
+    };
+
+    p._initProfile = function () {
+        var _self = this;
+        this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+        this.bottomTempalte.find('.profile-hight-low').append(this.user);
+
+        this.moneyContainer = this.user.find('.money');
+        this.addNumberEffect(this.moneyContainer);
+
+        this.user.renderUserInfo = function (data) {
+            $.extend(_self.userInfo, data);
+            var avatarContainer = _self.user.find('.avatar');
+            var usernameContainer = _self.user.find('.username');
+            var moneyContainer = _self.user.find('.money');
+            var avatar = Global.md5Avatar(data.avatar);
+            avatarContainer.addClass('avatar' + avatar);
+            usernameContainer.text(data.username);
+            _self.moneyContainer.runEffect(data.money, {duration: 10});
+        };
+
+        this.moveChip = $(TWIST.HTMLTemplate['videoPoker/moveChip']);
+        this.user.append(this.moveChip);
+        this.addChipEffect(this.moveChip);
+        this.moveChip.hide();
+    };
+
+    p._initChipsButton = function () {
+        var _self = this;
+        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+        this.bottomTempalte.find('.chips-hight-low').append(this.chipWrapper);
+
+        this.chipButtons = [{
+                value: 1000,
+                template: this.chipWrapper.find('.chip.violet')
+            }, {
+                value: 10000,
+                template: this.chipWrapper.find('.chip.green')
+            }, {
+                value: 100000,
+                template: this.chipWrapper.find('.chip.blue')
+            }];
+
+        this.chipButtons.forEach(function (item, index) {
+            item.template.on('click', function (event) {
+                if (_self.status !== 'pause' || gameState !== 0)
+                    return;
+                this.resultSound = TWIST.Sound.play("minigame/Common_Click");
+                _self.setBetting(item);
+            });
+        });
+
+        this.setBetting(this.chipButtons[0]);
+    };
+
+    p._initSessionId = function () {
+        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+        this.wrapperTemplate.append(this.sessionId);
+    };
+
+    p.setBetting = function (item) {
+        this.chipWrapper.find('.chip').removeClass('active');
+        item.template.addClass("active");
+        this.info.betting = item.value;
+        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 200});
+    };
+
+    p._initNewTurnButton = function () {
+        var _self = this;
+        this.newTurnButton = this.bottomTempalte.find('.new-turn-button');
+        this.addDisbaleEffect(this.newTurnButton);
+        this.newTurnButton.hide();
+
+        this.newTurnButton.on('click', function (event) {
+            if (_self.newTurnButton.disabled)
+                return;
+            _self.emit("newTurn");
+        });
+
+    };
+
+    p.draw = function () {
+        var _self = this;
+        this.mainContainer = new createjs.Container();
+        this.mainContainer.set({
+            x: (canvasSize.width - mainCardSize.width) / 2,
+            y: 0
+        });
+        this.winCardContainer = new createjs.Container();
+        this.winCardContainer.set({
+            x: winCardContainer.left,
+            y: winCardContainer.top
+        });
+        var maskShape = new createjs.Shape(new createjs.Graphics()
+                .drawRect(winCardContainer.left, winCardContainer.top, winCardContainer.width, winCardContainer.height));
+        this.winCardContainer.mask = maskShape;
+//        this.initWinCardDragable();
+
+        this.stage.addChild(this.mainContainer, this.winCardContainer);
+        this.addMainCard(-1);
+    };
+
+    p.initWinCardDragable = function () {
+        var _self = this;
+        var centerTempalte = this.centerTempalte;
+        (function () {
+            var dragElement = centerTempalte.find(".card-store");
+            var zoomElement = $('#main');
+            var zoom = 1;
+            var wrapperWidth = winCardContainer.height;
+            var scrollElement = _self.winCardContainer;
+            var initElementLeft = 0;
+            var maxLeft = initElementLeft, minLeft = initElementLeft - wrapperWidth;
+            var maxDelta = wrapperWidth * 0.5;
+            var ratioGraph = 0.1;
+            var startX = 0, duration = 0, currentPositionLeft = 0, newPosition = 0;
+            var _isDragging = false;
+
+            var options = {
+                scroll: false,
+                start: function (e) {
+                    zoom = 1;
+                    _isDragging = true;
+                    startX = e.clientY;
+                    currentPositionLeft = scrollElement.y;
+                },
+                drag: function (e) {
+                    var distance = (e.clientY - startX);
+                    var realDistance = distance / zoom;
+                    newPosition = currentPositionLeft + realDistance;
+                    if (newPosition > maxLeft) {
+                        var distanceDelta = newPosition - maxLeft;
+                        var ratio = (1 - 1 / (distanceDelta * ratioGraph + 1));
+                        newPosition = maxLeft + maxDelta * ratio;
+                    }
+                    if (newPosition < minLeft) {
+                        var distanceDelta = minLeft - newPosition;
+                        var ratio = (1 - 1 / (distanceDelta * ratioGraph + 1));
+                        newPosition = minLeft - maxDelta * ratio;
+                    }
+                    transitionNewPosition(newPosition);
+                },
+                stop: function (e) {
+                    _isDragging = false;
+                    dragElement.css({
+                        position: 'absolute',
+                        right: 125,
+                        left: 'initial',
+                        top: 0
+                    });
+                }
+            };
+            dragElement.draggable(options);
+            dragElement.on('mousewheel', function (e) {
+                var index = $scope.index;
+                if (e.originalEvent.wheelDelta / 120 > 0) {
+                    index--;
+                    index = Math.max(index, 0);
+                } else {
+                    index++;
+                    index = Math.min(index, 2);
+                }
+                newPosition = maxLeft - index * wrapperWidth / 2;
+                transitionNewPosition(newPosition, index);
+            });
+
+
+            function transitionNewPosition(newPosition, index) {
+                createjs.Tween.get(_self.winCardContainer, {override: true}).to({
+                    y: newPosition
+                }, 200).call(function () {});
+            }
+        })();
+    };
+
+    p.addMainCard = function (value) {
+        var _self = this;
+        this.mainContainer.removeAllChildren();
+        var card, scale;
+        if (value > -1) {
+            card = new TWIST.Card(value);
+            scale = mainCardSize.width / TWIST.Card.size.width;
+            card.set({
+                scaleX: scale,
+                scaleY: scale,
+                y: 20
+            });
+        } else {
+            var img = new Image();
+            img.src = TWIST.imagePath + 'tinyHightLow/card-back.png';
+            card = new createjs.Bitmap(img);
+            scale = mainCardSize.width / 190;
+            card.set({
+                scaleX: scale,
+                scaleY: scale,
+                y: 20
+            });
+        }
+        this.mainContainer.addChild(card);
+    };
+
+    p.storeMainCard = function () {
+        var _self = this;
+        var card = this.mainContainer.children[0];
+        var index = this.winCardContainer.children.length;
+        var newY = 0;
+        var globalPosition = card.localToGlobal(card.x, card.y);
+        var yDistance = winCardSize.height + 6;
+        this.stage.addChild(card);
+        card.set(globalPosition);
+        var bottomDistance = winCardContainer.height - yDistance * index - 20;
+        if (bottomDistance > 0) {
+            newY = yDistance * index + 10
+        } else {
+            newY = winCardContainer.height - yDistance;
+            var oldY = this.winCardContainer.y;
+            createjs.Tween.get(this.winCardContainer).to({
+                y: oldY - yDistance
+            }, 500).call(function () {});
+        }
+        createjs.Tween.get(card).to({
+            x: this.winCardContainer.x + 9.5,
+            y: winCardContainer.top + newY,
+            scaleX: winCardSize.width / TWIST.Card.size.width,
+            scaleY: winCardSize.height / TWIST.Card.size.height
+        }, 500).call(function () {
+            _self.winCardContainer.addChild(this);
+            this.set({x: 9.5, y: yDistance * index + 10})
+            _self.emit("_storeComplete");
+        });
+    };
+
+    p.drawListCard = function (listCard) {
+        var _self = this;
+
+        this.winCardContainer.removeAllChildren();
+        listCard.forEach(drawSingleCard);
+
+        function drawSingleCard(id, index) {
+            var card = new TWIST.Card(id);
+            _self.winCardContainer.addChild(card);
+            card.set({
+                x: 10 + (winCardSize.width + 10) * index,
+                y: 10,
+                scaleX: winCardSize.width / TWIST.Card.size.width,
+                scaleY: winCardSize.height / TWIST.Card.size.height
+            });
+        }
+        ;
+    };
+
+
+    p.changeStatus = function (status) {
+        var _self = this;
+        this.clear();
+        if (status === 'pause') {
+            this.newTurnButton.setDisabled(false);
+        }
+
+        if (status === "running") {
+            this.playingInterval = setInterval(function () {
+                _self.addMainCard(parseInt(Math.random() * 52));
+            }, 100);
+            timeOutList.push(this.playingInterval);
+            this.hightButton.setDisabled(true);
+            this.lowButton.setDisabled(true);
+            this.newTurnButton.setDisabled(true);
+        }
+    };
+
+    p.changeGameState = function (state) {
+        gameState = state;
+        this.clearGameState();
+        if (gameState == 0) {
+            this.changeStatus('pause');
+            this.addMainCard(-1);
+            this.virtualCard.show();
+            this.newTurnText.show();
+            this.newTurnButton.hide();
+            this.hightButton.setDisabled(true);
+            this.lowButton.setDisabled(true);
+            this.lowBetting.runEffect(0, {duration: 10});
+            this.hightBetting.runEffect(0, {duration: 10});
+            this.effect.hide();
+        } else if (gameState == 1) {
+            this.newTurnText.hide();
+            this.virtualCard.hide();
+            this.newTurnButton.show();
+        }
+    };
+
+    p.clear = function () {
+        this.supportText.text("");
+        this.remainTime.endEffect();
+        timeOutList.forEach(function (item) {
+            clearTimeout(item);
+        });
+    };
+
+    p.clearGameState = function () {
+        this.clear();
+        this.potCards.removeActiveCard();
+        this.winCardContainer.removeAllChildren();
+        this.winCardContainer.set({y : 0});
+        this.currentBetting.runEffect(0);
+    };
+
+    p.setNewCard = function (data) {
+        this.addMainCard(data.cardId);
+        this.hightButton.setDisabled(false);
+        this.lowButton.setDisabled(false);
+        this.hightBetting.runEffect(data.hightMoney, {duration: 300});
+        this.lowBetting.runEffect(data.lowMoney, {duration: 300});
+        if (data.isPotCard) {
+            this.potCards.addActiveCard();
+        }
+        currentBetting = data.currentBetting;
+        this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
+        if (data.currentBetting > 0) {
+            if (data.currentBetting != this.info.betting) {
+                TWIST.Sound.play("minigame/NormalWin");
+            }
+            this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
+            this.remainTime.runEffect(data.remainTime || 120000);
+            this.hightButton.setDisabled(false);
+            this.lowButton.setDisabled(false);
+            if (data.hightMoney == 0) {
+                this.hightButton.setDisabled(true);
+            }
+            if (data.lowMoney == 0) {
+                this.lowButton.setDisabled(true);
+            }
+            if (data.explorerPot) {
+                this.effect.showEffect()
+            }
+        } else {
+            TWIST.Sound.play("minigame/slot_result");
+            this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
+            this.hightButton.setDisabled(true);
+            this.lowButton.setDisabled(true);
+        }
+    };
+
+    p.pushEventListener = function () {
+        var _self = this;
+
+        this.on("userInfo", function () {
+            _self.user.renderUserInfo(arguments[0]);
+        });
+
+        this.on("getFirstCard", function (data) {
+            _self.getFirstCard(data);
+        });
+
+        this.on("updatePots", function (data) {
+            _self.bindPots(data);
+        });
+
+        this.on("newCard", function (data) {
+            _self.newCard(data);
+        });
+
+        this.on("getWin", function (data) {
+            _self.getWin(data);
+        });
+
+        this.on("updateMoney", function (data) {
+            _self.updateMoney(data);
+        });
+
+        this.on("error", function (message) {
+            _self.showError(message);
+        });
+
+        this.on("reconnect", function (data) {
+            _self.reconnect(data);
+        });
+
+    };
+
+    p.getFirstCard = function (data) {
+        this.changeGameState(1);
+        this.changeStatus('pause');
+        data.currentBetting = data.currentBetting || this.info.betting;
+        this.setNewCard(data);
+        this.newTurnButton.setDisabled(true);
+        this.sessionId.text(data.sessionId);
+    };
+
+    p.bindPots = function (data) {
+        $.extend(this.info.potData, data.pots);
+        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 500});
+    };
+
+    p.newCard = function (data) {
+        var _self = this;
+        this.storeMainCard();
+        this.changeStatus('running');
+
+        this.once("_storeComplete", function () {
+            _self.changeStatus('pause');
+            _self.setNewCard(data);
+        });
+    };
+
+    p.getWin = function (data) {
+        var _self = this;
+        this.sessionId.text("");
+        if (currentBetting > 0) {
+            TWIST.Sound.play("minigame/coin_spin");
+            this.moveChip.isTracking = true;
+            this.moveChip.runEffect();
+            this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
+            this.currentBetting.runEffect(0, {duration: 500});
+            this.once('_moveChipComplete', function () {
+                _self.changeGameState(0);
+            });
+        } else {
+            this.changeGameState(0);
+        }
+    };
+
+    p.updateMoney = function (data) {
+        this.userInfo.money = data.newMoney;
+    };
+
+    p.showError = function (message) {
+        this.supportText.text(message);
+    };
+
+    p.reconnect = function (data) {
+
+        var _self = this;
+        var button;
+        this.chipButtons.forEach(function (item, index) {
+            if (item.value == data.betting) {
+                button = item
+            }
+        });
+
+        this.changeGameState(1);
+        this.setBetting(button);
+        if (data.listCard.length) {
+            this.setNewCard(data);
+        } else {
+            this.getFirstCard(data);
+        }
+        this.drawListCard(data.listCard);
+        if (data.numberPotCards) {
+            for (var i = 0; i < data.numberPotCards; i++) {
+                this.potCards.addActiveCard()
+            }
+        }
+    };
+
+    TWIST.TinyHightLowGame = TinyHightLowGame;
 
 })();
 this.TWIST = this.TWIST || {};
@@ -5882,7 +8700,11 @@ this.TWIST = this.TWIST || {};
     var initOptions = {
         maxPlayers: 4,
         numberCardsInHand: 13,
-        turnTime: 20000
+        turnTime: 20000,
+        playerConfig : {
+          showCardLength : true,
+          showPlayerCard : true
+        }
     };
 
     function TLMNDemlaGame(wrapper, options) {
@@ -5907,7 +8729,7 @@ this.TWIST = this.TWIST || {};
            5 : "Sảnh rồng",
            16 : "Thắng !"
         };
-        this.endDemlaGame(data,winTypeMap,16);
+        this.endDemlaGame(data,winTypeMap,(data.winType == 16));
     };
 
     TWIST.TLMNDemlaGame = TLMNDemlaGame;
@@ -7047,6 +9869,1352 @@ this.TWIST = this.TWIST || {};
     };
 
     TWIST.VideoPoker = VideoPoker;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
+  "use strict";
+
+  var gameSize;
+
+  var imagePath = location.origin + location.pathname + '../src/images/';
+
+  var initOptions = {
+    gameSize: {
+      width: 900,
+      height: 560,
+      position: "relative"
+    },
+    chipSize: {
+      width: 75,
+      height: 75,
+      miniWidth: 24,
+      miniHeight: 24,
+      miniRatio: 0.33
+    },
+    bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
+      {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    playerPosition: {
+      y: 256,
+      x: 844
+    },
+    hostPosition: {
+      x: 450,
+      y: 100
+    },
+    userPosition: {
+      y: 480,
+      x: 100
+    },
+    chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
+    width: 900,
+    height: 560,
+    moveChipAnimationTime: 500,
+    diskPosition: {
+      x: 360,
+      y: 120
+    },
+    bowlPosition: {
+      x: 11,
+      y: 3
+    },
+    chipResultPosition: {
+      x: 40,
+      y: 30,
+      width: 80,
+      height: 60
+    }
+  };
+
+  function XocDia(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initXocDia();
+  }
+
+  var p = XocDia.prototype = new TWIST.InRoomGame();
+
+  p.initXocDia = function () {
+    this.initInRoomGame();
+    this.initVariable();
+    this.initTemplate();
+    this.initButton();
+    this.bindButton();
+    this.pushXocDiaEvent();
+  };
+
+  p.initVariable = function () {
+    this.info = {
+      betting: 1000
+    };
+    this.userInfo = $.extend(this.userInfo, {
+      avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
+      uuid: "",
+      username: "",
+      money: 0,
+      isHost: false
+    });
+    this.bettingPositions = [{
+        name: "Bốn Trắng",
+        displayName: "1:10",
+        valueMap: [0, 0, 0, 0],
+        ratio: 10,
+        id: 2,
+        top: 290,
+        left: 130,
+        width: 110,
+        height: 115
+      }, {
+        name: "Bốn Đỏ",
+        displayName: "1:10",
+        valueMap: [1, 1, 1, 1],
+        ratio: 10,
+        id: 3,
+        top: 290,
+        left: 262.5,
+        width: 110,
+        height: 115
+      }, {
+        name: "Ba Trắng",
+        displayName: "1:3",
+        valueMap: [0, 0, 0, 1],
+        ratio: 3,
+        id: 4,
+        top: 290,
+        left: 395,
+        width: 110,
+        height: 115
+      }, {
+        name: "Ba đỏ",
+        displayName: "1:3",
+        valueMap: [0, 1, 1, 1],
+        ratio: 3,
+        id: 5,
+        top: 290,
+        left: 527.5,
+        width: 110,
+        height: 115
+      }, {
+        name: "Hai đỏ",
+        displayName: "1:1.5",
+        valueMap: [0, 0, 1, 1],
+        ratio: 1.5,
+        id: 6,
+        top: 290,
+        left: 660,
+        width: 110,
+        height: 115
+      }, {
+        name: "Chẵn",
+        displayName: "Chẵn",
+        valueMap: [0],
+        ratio: 1,
+        id: 0,
+        top: 140,
+        left: 150,
+        width: 160,
+        height: 115
+      }, {
+        name: "Lẻ",
+        displayName: "Lẻ",
+        valueMap: [1],
+        ratio: 1,
+        id: 1,
+        top: 140,
+        left: 590,
+        width: 160,
+        height: 115
+      }];
+    this.statusList = {
+      1: "STATUS_WAITING_FOR_START",
+      2: "STATUS_SHAKE_DISK",
+      3: "STATUS_BETTING",
+      4: "STATUS_ARRANGING",
+      5: "END_GAME"
+    };
+  };
+
+  p.bindButton = function () {
+
+  };
+
+  p.drawRoom = function () {
+    this.desk = new TWIST.Desk(this.options);
+    this.desk.name = "desk";
+    this.stage.addChild(this.desk);
+    this.wrapper.css(initOptions.gameSize);
+  };
+
+  p.drawGameInfo = function (data) {
+//    data = {
+//      status : 1,
+//      bettingPositions : [{
+//          id : 1,//(0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
+//          //client (0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
+//          totalBetting : 1000,
+//          miniBetting : 299,
+//          ratio : 1
+//      }],
+//      remainingTime : 12,
+//      host : "tieukiemtien",
+//      betting : 10
+//    };
+
+    this.setHost(data.host);
+    this.changeStatus({
+      newStatus: data.status,
+      disableRebetting: data.disableRebetting
+    });
+    this.roomBetting = data.betting;
+    this.setBettingChipValue(data.listBettingChip);
+    this.setRemainingTime(data.remainingTime);
+    this.drawBettingPositions(data.bettingPositions);
+  };
+
+  p.initButtonBar = function () {};
+
+  p.initInviteList = function () {};
+
+  p.initResultPanel = function () {};
+
+  p.initTemplate = function () {
+    var _self = this;
+    this.wrapperTemplate = $(TWIST.HTMLTemplate['xocDia/wrapper']);
+    this.wrapper.append(this.wrapperTemplate);
+
+    this.initHistory();
+
+    this.initBettingPositionList();
+
+    this.initProfile();
+
+    this.initHost();
+
+    this.initGameCanvas();
+
+    this.initVitualBetting();
+
+    this.initListPlayer();
+
+    this.initChipButton();
+
+    this.initSellPopup();
+
+    this.wrapperTemplate.append(this.errorPanel);
+
+    this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
+    this.wrapperTemplate.append(this.effectWrapper);
+
+    this.money = this.user.find('.money');
+
+    this.setBetting(this.chipButtons[0]);
+  };
+
+  p.setBetting = function (item) {
+    if (this.chipButtons.active) {
+      this.chipButtons.forEach(function (_item, _index) {
+        _item.template.removeClass('active');
+      });
+      item.template.addClass('active');
+      this.currentBetting = item;
+    }
+  };
+
+  p.pushXocDiaEvent = function () {
+    var _self = this;
+
+    this.on("userInfo", function () {
+      _self.renderUserInfo(arguments[0]);
+    });
+
+    this.on("userBetting", function (data) {
+      _self.userBetting(data);
+    });
+
+    this.on("updateBettings", function (data) {
+      _self.updateBettings(data);
+    });
+
+    this.on("xocDia", function (data) {
+      _self.xocDia(data);
+    });
+
+    this.on("openDisk", function (data) {
+      _self.openDisk(data);
+    });
+
+    this.on("hostPayment", function (data) {
+      _self.hostPaymentData = data;
+    });
+
+    this.on("changeHost", function (data) {
+      _self.setHost(data);
+    });
+
+    this.on("suggetstHost", function (data) {
+      _self.getHostButton.show();
+    });
+
+    this.on("reBettingResult", function (data) {
+      _self.reBetting(data);
+    });
+
+    this.on("resignationSuccess", function (data) {
+      _self.setHost();
+    });
+
+    this.on("cancelBettingResult", function (data) {
+      _self.cancelBetting(data);
+    });
+
+    this.on("sellBettingResult", function (data) {
+      _self.showError({
+        message: "Bán cửa thành công !"
+      });
+    });
+  };
+
+  p.cancelBetting = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      _self.moveChipToUser(item.id, item.mineValue);
+//      item.setTotalBetting(item.totalValue - item.mineValue);
+      item.setMineBetting(0);
+    });
+  };
+
+  p.hostPaymentPhase1 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    this.bettingPositions.hasChipsMove = false;
+    this.bettingPositions.forEach(function (item, index) {
+      if (!item.status) {
+        _self.moveChipToHost(item.id);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+    if (!this.bettingPositions.hasChipsMove) {
+      _self.hostPaymentPhase2();
+    }
+  };
+
+  p.hostPaymentPhase2 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    if (this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        _self.paymentChipToSlotBetting(item.id, item.totalValue * item.ratio);
+        item.setTotalBetting(item.totalValue * (item.ratio + 1));
+        item.setMineBetting(item.mineValue * (item.ratio + 1));
+      }
+    });
+  };
+
+  p.showChangeMoney = function (data) {
+    this.userInfo.money = data.money;
+    this.userMoney.runEffect(this.userInfo.money);
+    var jElement = $(TWIST.HTMLTemplate['xocDia/changeMoney']);
+    this.user.append(jElement);
+    jElement.text(Global.numberWithDot(parseInt(data.changeMoney)));
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.remove();
+    });
+    if (data.changeMoney >= 0) {
+      jElement.addClass("plus");
+    }
+  };
+
+  p.hostPaymentPhase3 = function () {
+    var _self = this;
+    var data = this.hostPaymentData;
+    if (!data)
+      return;
+    if (!this.userInfo.isHost) {
+      this.showChangeMoney(data);
+    }
+    this.bettingPositions.forEach(function (item, index) {
+      if (item.status) {
+        (function (mineValue, totalValue) {
+          setTimeout(function () {
+            _self.moveChipToPlayers(item.id, mineValue, totalValue);
+          }, 500);
+        })(item.mineValue, item.totalValue);
+        item.setMineBetting(0);
+        item.setTotalBetting(0);
+      }
+    });
+  };
+
+  p.paymentChipToSlotBetting = function (id, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 300 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.paymentChipAction(id, item);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.moveChipToHost = function (id) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var length = listChip.length;
+    if (length > 0)
+      this.bettingPositions.hasChipsMove = true;
+    _self._numberChipMove = _self._numberChipMove || 0;
+    listChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = _self.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
+      setTimeout(function () {
+        _self._numberChipMove++;
+        _self.stage.addChild(item);
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+          _self._numberChipMove--;
+          if (!_self._numberChipMove) {
+            setTimeout(function () {
+              _self.hostPaymentPhase2();
+            }, 500);
+          }
+        });
+      }, 300 / length * index);
+    });
+  };
+
+  p.moveChipToUser = function (id, value) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    var position = initOptions.userPosition;
+    this.moveChipsToPosition(value, listChip, position);
+  };
+
+  p.moveChipToPlayers = function (id, mineValue, totalValue) {
+    var _self = this;
+    var chipContainer = this.moveChipContainer.children.find(function (item, index) {
+      return item.name == id;
+    });
+    var listChip = chipContainer.children;
+    if (mineValue) {
+      this.moveChipsToPosition(mineValue, listChip, initOptions.userPosition);
+    }
+    this.moveRemainChipToPlayers(listChip, initOptions.playerPosition);
+  };
+
+  p.moveChipsToPosition = function (value, listChip, position) {
+    var _self = this;
+    var listReturnChip = this.convertValueToChipContainers(value, listChip);
+    var length = listReturnChip.length;
+    listReturnChip.forEach(function (item, index) {
+      var fromPosition = item.localToGlobal(0, 0);
+      var toPosition = position;
+      item.set(fromPosition);
+      _self.stage.addChild(item);
+      setTimeout(function () {
+        item.move(fromPosition, toPosition, function () {
+          _self.stage.removeChild(item);
+        });
+      }, 300 / length * index);
+    });
+  };
+
+
+  p.moveRemainChipToPlayers = function (listChip, position) {
+    var _self = this;
+    var length = listChip.length;
+
+    listChip.forEach(function (item, index) {
+      var chip = item;
+      if (chip) {
+        var fromPosition = chip.localToGlobal(0, 0);
+        var toPosition = position;
+        setTimeout(function () {
+          _self.stage.addChild(chip);
+          chip.move(fromPosition, toPosition, function () {
+            _self.stage.removeChild(chip);
+          });
+        }, 300 / length * index);
+      }
+    });
+  };
+
+  p.userBetting = function (data) {
+    var _self = this;
+    var bettingPosition = this.bettingPositions.find(function (item, index) {
+      return item.id == data.id;
+    });
+    this.reBettingButton.hide();
+    bettingPosition.setMineBetting(data.mineBetting);
+    bettingPosition.setTotalBetting(data.totalBetting);
+    var currentBettingID = this.currentBetting.id;
+    this.bettingChipAction(data.id, currentBettingID, true);
+  };
+
+  p.updateBettings = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      _self.playersBetting(item, dataItem.totalBetting - item.totalValue);
+      item.setTotalBetting(dataItem.totalBetting);
+    });
+  };
+
+  p.reBetting = function (data) {
+    var _self = this;
+    this.reBettingButton.hide();
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      item.setMineBetting(dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
+    });
+  };
+
+  p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
+
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
+    var chip = this.createChip(currentBettingID);
+    chip.isMine = isMine;
+    var bettingChipPosition = isMine ? initOptions.bettingChipPositions[currentBettingID] : initOptions.playerPosition;
+    var fromPosition = {
+      x: bettingChipPosition.x - bettingSlot.x,
+      y: bettingChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    chip.move(fromPosition, toPosition);
+  };
+
+  p.paymentChipAction = function (bettingId, currentBettingID) {
+    var _self = this;
+    var bettingSlot = this.moveChipContainer.getChildByName(bettingId);
+    var chip = this.createChip(currentBettingID);
+    var paymentChipPosition = this.userInfo.isHost ? initOptions.userPosition : initOptions.hostPosition;
+    var fromPosition = {
+      x: paymentChipPosition.x - bettingSlot.x,
+      y: paymentChipPosition.y - bettingSlot.y
+    };
+
+    var toPosition = {
+      x: Math.random() * (bettingSlot.width - initOptions.chipSize.miniWidth),
+      y: Math.random() * (bettingSlot.height - initOptions.chipSize.miniHeight)
+    };
+    bettingSlot.addChild(chip);
+    this._numberChipMove = this._numberChipMove || 0;
+    this._numberChipMove++;
+    chip.move(fromPosition, toPosition, function () {
+      _self._numberChipMove--;
+      if (!_self._numberChipMove) {
+        _self.hostPaymentPhase3();
+      }
+    });
+  };
+
+  p.playersBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 1000 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.userReBetting = function (slotBetting, value) {
+    var _self = this;
+    var listChip = this.convertValueToChips(value);
+    var waitAnimationStep = 500 / listChip.length;
+    listChip.forEach(function (item, index) {
+      _self.timeOutList.push(setTimeout(function () {
+        _self.bettingChipAction(slotBetting.id, item, true);
+      }, waitAnimationStep * index));
+    });
+  };
+
+  p.convertValueToChips = function (value) {
+    var listChip = [];
+    var unit = this.chipButtons[0].value;
+    var totalArray = [];
+    var totalValue = 0;
+    this.chipButtons.forEach(function (item, index) {
+      totalValue += item.value * item.concentration;
+      for (var i = 0; i < item.concentration; i++) {
+        totalArray.push(item.id);
+      }
+    });
+    var quantityOfTotalUnit = parseInt(value / totalValue);
+    for (var i = 0; i < quantityOfTotalUnit; i++) {
+      listChip = listChip.concat(totalArray);
+    }
+    var quantityOfUnit = parseInt((value % totalValue) / unit);
+    for (var i = 0; i < quantityOfUnit; i++) {
+      listChip.push(this.chipButtons[0].id);
+    }
+    return Global.shuffle(listChip);
+  };
+
+  p.convertValueToChipContainers = function (initValue, listChip) {
+    var returnChips = [];
+    var currentValue = initValue;
+    var flag = true;
+
+    var listChipValue = this.chipButtons.map(function (item, index) {
+      return item.value;
+    });
+    listChipValue.sort(function (a, b) {
+      return b - a;
+    });
+
+    var currentChipValue = getCurrentChipValue(initValue);
+
+    while (checkFlag()) {
+      getChipTypeByValue();
+    }
+
+    return returnChips;
+
+    function checkFlag() {
+      flag = (currentValue >= currentChipValue);
+      return flag;
+    }
+
+    function getCurrentChipValue(currentValue) {
+      listChipValue = listChipValue.filter(function (item, index) {
+        return currentValue >= item;
+      });
+      return listChipValue[0];
+    }
+
+    function getChipTypeByValue() {
+      currentChipValue = getCurrentChipValue(currentValue);
+      if (!currentChipValue)
+        return;
+      var newChip = listChip.find(function (item, index) {
+        return (item.value == currentChipValue && !item._isChecked);
+      });
+      if (newChip) {
+        currentValue -= currentChipValue;
+        returnChips.push(newChip);
+        newChip._isChecked = true;
+      } else {
+        listChipValue.shift();
+        getChipTypeByValue();
+      }
+    }
+  };
+
+  p.xocDia = function () {
+    var _self = this;
+    var message, position;
+    if (this.status === 'STATUS_SHAKE_DISK') {
+      position = {
+        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 10 + 10),
+        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 10)
+      };
+      message = 'xocDia';
+    } else {
+      position = initOptions.diskPosition;
+      message = 'endXocDia';
+    }
+    createjs.Tween.get(this.diskContainer)
+            .to(position, 100)
+            .call(function () {
+              _self.diskContainer.isTop = !_self.diskContainer.isTop;
+              _self.emit(message);
+            });
+  };
+
+  p.openDisk = function (data) {
+    var _self = this;
+    var newY = -150;
+    this.history.addResult(data.winnerSlots);
+    var message, position;
+    this.chipResultContainer.removeAllChildren();
+    data.map.forEach(function (item, index) {
+      _self.createResultChip(item);
+    });
+    this.bowl.set({
+      y: initOptions.bowlPosition.y,
+      alpha: 1
+    });
+    createjs.Tween.get(this.bowl)
+            .to({
+              y: newY,
+              alpha: 0
+            }, 3000)
+            .call(function () {
+              _self.hostPaymentPhase1();
+            });
+    this.bettingPositions.forEach(function (item, index) {
+      item.setStatus(data.winnerSlots);
+    });
+  };
+
+  p.createResultChip = function (isRed) {
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
+    var resultChip = new createjs.Bitmap(src);
+    resultChip.set({
+      x: Math.random() * (this.chipResultContainer.width - 13),
+      y: Math.random() * (this.chipResultContainer.height - 13)
+    });
+    this.chipResultContainer.addChild(resultChip);
+    return resultChip;
+  };
+
+  p.createChip = function (id) {
+    var _self = this;
+    var scale = initOptions.chipSize.miniRatio;
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + initOptions.chipSrcList[id];
+    var chip = new createjs.Bitmap(src);
+    var value = this.chipButtons.find(function (item, index) {
+      return item.id == id;
+    }).value;
+    chip.set({
+      scaleX: scale,
+      scaleY: scale,
+      type: id,
+      value: value
+    });
+    chip.move = function (fromPosition, toPosition, callback) {
+      chip.set(fromPosition);
+      var newX = toPosition.x + (Math.random() - 0.5) * 3;
+      var newY = toPosition.y + (Math.random() - 0.5) * 3;
+      createjs.Tween.get(chip)
+              .to({
+                x : newX,
+                y : newY
+              }, initOptions.moveChipAnimationTime)
+              .call(function () {
+                if (typeof callback === 'function') {
+                  callback();
+                }
+              });
+    };
+    return chip;
+  };
+
+  p.renderUserInfo = function () {
+    var avatarContainer = this.user.find('.avatar');
+    var usernameContainer = this.user.find('.username');
+    avatarContainer.css("background-image", "url(./" + this.userInfo.avatar + ")");
+    usernameContainer.text(this.userInfo.username);
+    this.userMoney.runEffect(this.userInfo.money);
+  };
+
+  p.initHistory = function () {
+    var _self = this;
+    this.history = $(TWIST.HTMLTemplate['xocDia/history']);
+    this.wrapperTemplate.append(this.history);
+    this.historyList = [];
+    var mapName = {
+      2: 4,
+      3: 0,
+      4: 3,
+      5: 1,
+      6: 2
+    };
+    this.history.addResult = function (winnerSlots) {
+      var isOdd = winnerSlots.find(function (item, index) {
+        return item < 2;
+      });
+      var slotId = winnerSlots.find(function (item, index) {
+        return item > 1;
+      });
+      var resultChip = $(TWIST.HTMLTemplate['xocDia/resultChip']);
+      if (isOdd) {
+        resultChip.addClass('result-chip-odd');
+      }
+      resultChip.children().html(mapName[slotId]);
+      _self.historyList.push(resultChip);
+      _self.history.append(resultChip);
+      if (_self.historyList.length > 16) {
+        _self.historyList[0].remove();
+        _self.historyList.shift();
+      }
+    };
+  };
+
+  p.initHost = function () {
+    this.host = $(TWIST.HTMLTemplate['xocDia/host']);
+    this.wrapperTemplate.append(this.host);
+    this.host.background = this.host.find('.host-background');
+    this.host.hostName = this.host.find('.host-name');
+    this.host.chatBox = this.host.find('.chat-box');
+    this.host.hostMessage = this.host.find('.chat-box-inner');
+    this.host.setMessage = function (message) {
+      if (message) {
+        this.chatBox.show();
+        this.hostMessage.html(message);
+      } else {
+        this.chatBox.hide();
+      }
+    };
+  };
+
+  p.setHost = function (host) {
+    this.host.hostName.removeClass('active');
+    this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
+    this.resignationButton.hide();
+    if(this.userInfo.isHost){
+      this.showError({
+        message : "Bạn đã làm nhà cái !"
+      });
+    }
+    this.setShowChipButtons();
+    if (host && host.username) {
+      this.host.name = host.username;
+      this.getHostButton.hide();
+      this.host.hostName.addClass('active');
+      this.host.hostName.html(host.username);
+    } else {
+      this.host.name = undefined;
+    }
+  };
+
+  p.initListPlayer = function () {
+    var _self = this;
+    this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
+    this.wrapperTemplate.append(this.listPlayer);
+    this.listPlayer.on('click', function () {
+      _self.emit('getListPlayer');
+    });
+  };
+
+  p.initBettingPositionList = function () {
+    var _self = this;
+    var bettingPositions = this.bettingPositions;
+    bettingPositions.forEach(function (item, index) {
+      _self.createBettingPosition(item);
+    });
+  };
+
+  p.initVitualBetting = function () {
+    var _self = this;
+    var bettingPositions = this.bettingPositions;
+    bettingPositions.forEach(function (item, index) {
+      _self.createVitualBetting(item);
+    });
+  };
+
+  p.initProfile = function () {
+    this.user = $(TWIST.HTMLTemplate['xocDia/user']);
+    this.wrapperTemplate.append(this.user);
+    this.userMoney = this.user.find('.money');
+    this.addNumberEffect(this.userMoney);
+  };
+
+  p.initGameCanvas = function () {
+    this.wrapperTemplate.append(this.canvas);
+
+    this.initDisk();
+
+    this.initMoveChipContainer();
+
+    this.stage.addChild(this.diskContainer, this.moveChipContainer, this.desk);
+  };
+
+  p.initChipButton = function () {
+    var _self = this;
+    this.chipWrapper = $(TWIST.HTMLTemplate['xocDia/chips']);
+    this.wrapperTemplate.append(this.chipWrapper);
+
+    this.chipButtons = [{
+        id: 0,
+        value: 1000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-1st')
+      }, {
+        id: 1,
+        value: 10000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-2nd')
+      }, {
+        id: 2,
+        value: 100000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-3rd')
+      }, {
+        id: 3,
+        value: 1000000,
+        concentration: 1,
+        template: this.chipWrapper.find('.chip-4th')
+      }];
+    this.chipButtons.active = true;
+    this.chipButtons.forEach(function (item, index) {
+      item.template.on('click', function () {
+        TWIST.Sound.play("minigame/Common_Click");
+        _self.setBetting(item);
+      });
+    });
+  };
+
+  p.initSellPopup = function () {
+    var _self = this;
+    this.sellPopup = $(TWIST.HTMLTemplate['xocDia/sellPopup']);
+    var bettingData;
+    this.sellPopup.initPopup = function (data) {
+      bettingData = data;
+      var maxValue = data.totalValue;
+      _self.sellPopup.maxValue = maxValue;
+      _self.sellPopup.plusButton.html(maxValue);
+      _self.sellPopup.title.html(data.name);
+    };
+    this.wrapperTemplate.append(this.sellPopup);
+    var minLeft = 5;
+    var maxLeft = 256;
+    this.sellPopup.hide();
+    function hide() {
+      _self.sellPopup.hide();
+    }
+
+    function setMin() {
+      _self.sellPopup.scroller.css('left', 0);
+      setRatio(0);
+    }
+
+    function setMax() {
+      _self.sellPopup.scroller.css('left', maxLeft);
+      setRatio(1);
+    }
+
+    function emitSell() {
+      var emitData = {
+        id: bettingData.id,
+        value: _self.sellPopup.currentValue
+      };
+      _self.sellPopup.hide();
+      _self.emit("sellBetting", emitData);
+    }
+
+    function setRatio(ratio) {
+      _self.sellPopup.dragbarInner.css('width', ratio * maxLeft + minLeft);
+      var currentValue = parseInt(ratio * _self.sellPopup.maxValue);
+      _self.sellPopup.currentValue = currentValue;
+      _self.sellPopup.scrollerValue.html(currentValue);
+    }
+
+    this.sellPopup.title = this.sellPopup.find('.sell-popup-title');
+    this.sellPopup.background = this.sellPopup.find('.sell-popup-background');
+    this.sellPopup.background.on('click', hide);
+    this.sellPopup.cancel = this.sellPopup.find('#cancel');
+    this.sellPopup.cancel.on('click', hide);
+    this.sellPopup.accept = this.sellPopup.find('#accept');
+    this.sellPopup.accept.on('click', emitSell);
+    this.sellPopup.minusButton = this.sellPopup.find('.sell-popup-minus');
+    this.sellPopup.minusButton.on('click', setMin);
+    this.sellPopup.plusButton = this.sellPopup.find('.sell-popup-plus');
+    this.sellPopup.plusButton.on('click', setMax);
+
+    this.sellPopup.dragbarInner = this.sellPopup.find('.sell-popup-dragbar-inner');
+
+    this.sellPopup.scroller = this.sellPopup.find('#scroller');
+    this.sellPopup.scrollerValue = this.sellPopup.scroller.find('.sell-popup-scroller-content');
+    var optionDraggable = {
+      axis: "x",
+      scroll: false,
+      containment: "#sell-popup-drag-container",
+      drag: function (event, ui) {
+        var ratio = ui.position.left / maxLeft;
+        setRatio(ratio);
+      }
+    };
+    this.sellPopup.scroller.draggable(optionDraggable);
+  };
+
+  p.showSellPopup = function () {
+
+    var _self = this;
+    var selectedBetting = this.bettingPositions.find(function (item, index) {
+      return item.isSelected;
+    });
+    if (selectedBetting) {
+      if (selectedBetting.totalValue) {
+        this.sellPopup.show();
+        this.sellPopup.initPopup(selectedBetting);
+      }
+    } else {
+      this.showError({
+        message: "Chưa chọn cửa bán !"
+      });
+    }
+  };
+
+  p.initButton = function () {
+    var _self = this;
+
+    this.buttons = [];
+
+    var buttonWrapper = $(TWIST.HTMLTemplate['xocDia/buttons']);
+
+    this.wrapperTemplate.append(buttonWrapper);
+
+    this.reBettingButton = buttonWrapper.find('#reBetting');
+    this.buttons.push(this.reBettingButton);
+    this.reBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
+      _self.emit("reBetting");
+    });
+
+    this.cancelBettingButton = buttonWrapper.find('#cancelBetting');
+    this.buttons.push(this.cancelBettingButton);
+    this.cancelBettingButton.on('click', function () {
+      _self._listenChangeMoney = true;
+      _self.emit("cancelBetting");
+    });
+
+    this.sellOddButton = buttonWrapper.find('#sellOdd');
+    this.buttons.push(this.sellOddButton);
+    this.sellOddButton.on('click', function () {
+      _self.showSellPopup();
+    });
+
+    this.resignationButton = buttonWrapper.find('#resignation');
+    this.buttons.push(this.resignationButton);
+    this.resignationButton.on('click', function () {
+      _self.emit("resignation");
+    });
+
+    this.sellEvenButton = buttonWrapper.find('#sellEven');
+    this.buttons.push(this.sellEvenButton);
+    this.sellEvenButton.on('click', function () {
+      _self.showSellPopup();
+    });
+
+    this.getHostButton = buttonWrapper.find('#getHost');
+    this.buttons.push(this.getHostButton);
+    this.getHostButton.on('click', function () {
+      _self.emit("getHost");
+    });
+
+    this.buttons.hide = function () {
+      _self.buttons.forEach(function (item, index) {
+        item.hide();
+      });
+    };
+  };
+
+  p.initDisk = function () {
+    this.diskContainer = new createjs.Container();
+    this.diskContainer.set(initOptions.diskPosition);
+
+    this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'disk.png');
+    this.chipResultContainer = new createjs.Container();
+    this.chipResultContainer.set(initOptions.chipResultPosition);
+    this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'bowl.png');
+    this.bowl.set(initOptions.bowlPosition);
+
+    this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
+  };
+
+  p.initMoveChipContainer = function () {
+    this.moveChipContainer = new createjs.Container();
+    var moveChipContainer = this.moveChipContainer;
+
+    this.bettingPositions.forEach(function (item, index) {
+      var bettingSlot = new createjs.Container();
+      var position = {
+        x: item.left + 10,
+        y: item.top,
+        width: item.width - 20,
+        height: item.height - 30,
+        name: item.id
+      };
+      if (item.id > 1) {
+        position.y += 30;
+        position.height -= 30;
+      }
+
+      item.bettingSlot = bettingSlot;
+      bettingSlot.set(position);
+      moveChipContainer.addChild(bettingSlot);
+    });
+  };
+
+  p.createVitualBetting = function (data) {
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['xocDia/vitualBetting'];
+    var vitualBetting = $(temp);
+    if (data.id > 1) {
+      vitualBetting.addClass('small-vitual-betting');
+    }
+    vitualBetting.addClass("betting" + data.id);
+
+    this.wrapperTemplate.append(vitualBetting);
+    data.vitualBetting = vitualBetting;
+    vitualBetting.on('click', function () {
+      if (_self.userInfo.isHost) {
+        _self.setSelectedBetting(data);
+      } else {
+        var emitData = {
+          value: _self.currentBetting.value,
+          currentBettingId: _self.currentBetting.id,
+          slotBettingId: data.id
+        };
+        _self.emitBetting(emitData);
+      }
+    });
+  };
+
+  p.setSelectedBetting = function (data) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+    data.setSelected(true);
+  };
+
+  p.emitBetting = function (emitData) {
+
+    if (this.userInfo.money < emitData.value) {
+      this.showError({
+        message: "Bạn không đủ tiền đặt cược !"
+      });
+      return;
+    }
+    this._listenChangeMoney = true;
+    this.emit('betting', emitData);
+  };
+
+  p.createBettingPosition = function (data) {
+    var _self = this;
+    var temp = TWIST.HTMLTemplate['xocDia/bettingPosition'];
+    var bettingPosition = $(temp);
+    if (data.id > 1) {
+      bettingPosition.addClass('small-betting-position');
+    }
+    data.template = bettingPosition;
+    this.wrapperTemplate.append(bettingPosition);
+    bettingPosition.addClass("betting" + data.id);
+    bettingPosition.mineBetting = bettingPosition.find('.mine-betting');
+    this.addNumberEffect(bettingPosition.mineBetting);
+    bettingPosition.totalBetting = bettingPosition.find('.total-betting');
+    this.addNumberEffect(bettingPosition.totalBetting);
+    bettingPosition.displayNameContainer = bettingPosition.find('.name');
+    bettingPosition.displayNameContainer.html(data.displayName);
+    bettingPosition.coinTittle = bettingPosition.find('.coin-tittle');
+    data.valueMap.forEach(function (item, index) {
+      _self.addCoins(item, bettingPosition.coinTittle);
+    });
+    bettingPosition.setMineBetting = function (betting) {
+      this.mineBetting.html(Global.numberWithDot(betting));
+      data.mineValue = betting;
+    };
+    bettingPosition.setTotalBetting = function (betting) {
+      this.totalBetting.html(Global.numberWithDot(betting));
+      data.totalValue = betting;
+    };
+    data.setMineBetting = function (betting) {
+      if (_self.userInfo.isHost) {
+        this.template.mineBetting.html("");
+        this.mineValue = 0;
+      } else {
+        this.template.mineBetting.runEffect(betting);
+        this.mineValue = betting;
+      }
+    };
+    data.setTotalBetting = function (betting) {
+      this.template.totalBetting.runEffect(betting);
+      this.totalValue = betting;
+    };
+    data.setStatus = function (winnerSlots) {
+      data.template.removeClass('active disabled');
+      data.status = 0;
+      if (!winnerSlots)
+        return;
+      if (winnerSlots.indexOf(data.id) > -1) {
+        data.template.addClass('active');
+        data.status = 1;
+      } else {
+        data.template.addClass('disabled');
+      }
+    };
+    data.setSelected = function (flag) {
+      data.isSelected = flag;
+      data.template.removeClass('selected');
+      if (flag) {
+        data.template.addClass('selected');
+      }
+    };
+    return bettingPosition;
+  };
+
+  p.addCoins = function (item, coinTittle) {
+    var coinItem = $(TWIST.HTMLTemplate['xocDia/coin-item']);
+    if (item) {
+      coinItem.addClass("red-coin");
+    }
+    coinTittle.append(coinItem);
+  };
+
+  p.setBettingChipValue = function (listBetting) {
+    this.chipButtons.forEach(function (item, index) {
+      var dataItem = listBetting.find(function (_item, _index) {
+        return item.id == _item.id;
+      });
+      item.value = dataItem.value;
+      item.template.html(Global.numberWithDot2(item.value));
+    });
+  };
+
+  p.setRemainingTime = function (remainingTime) {
+    if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
+      this.desk.setRemainingTime(parseInt(remainingTime), {
+        x: this.options.width / 2 + 5,
+        y: this.options.height / 2 - 130,
+        font: "bold 25px Roboto Condensed",
+        color: "blue"
+      });
+    }
+  };
+
+  p.drawBettingPositions = function (data) {
+    var _self = this;
+    this.bettingPositions.forEach(function (item, index) {
+      var dataItem = data.find(function (_item, _index) {
+        return _item.id == item.id;
+      });
+      if (!dataItem)
+        return;
+      item.setMineBetting(dataItem.mineBetting);
+      _self.userReBetting(item, dataItem.mineBetting);
+      item.setTotalBetting(dataItem.totalBetting);
+      _self.playersBetting(item, dataItem.totalBetting - dataItem.mineBetting);
+    });
+  };
+
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost();
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowChipButtons = function (data) {
+    var flag = this.userInfo.isHost;
+    this.chipButtons.forEach(function (item, index) {
+      if (flag) {
+        item.template.hide();
+      } else {
+        item.template.show();
+      }
+    });
+  };
+
+  p.setShowVitualBettings = function (newStatus) {
+    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+    this.bettingPositions.forEach(function (item, index) {
+      if (flag) {
+        item.vitualBetting.show();
+      } else {
+        item.vitualBetting.hide();
+      }
+    });
+  };
+
+  p.removeSelectedBetting = function (newStatus) {
+    this.bettingPositions.forEach(function (item, index) {
+      item.setSelected(false);
+    });
+  };
+
+  p.changeStatus = function (data) {
+    this.status = this.statusList[data.newStatus];
+    var func = this[this.status];
+    this.buttons.hide();
+    this.setShowChipButtons();
+    this.setShowVitualBettings(data.newStatus);
+    this.removeSelectedBetting(data.newStatus);
+    this.desk.setRemainingTime(-1);
+    if (typeof func === "function") {
+      func.call(this, data);
+    }
+    this.emit("ping");
+  };
+
+  p.STATUS_WAITING_FOR_START = function () {
+    this.bettingPositions.forEach(function (item, index) {
+      item.template.removeClass('active disabled');
+      item.bettingSlot.removeAllChildren();
+      item.setMineBetting(0);
+      item.setTotalBetting(0);
+    });
+    this.bowl.set({
+      y: initOptions.bowlPosition.y,
+      alpha: 1
+    });
+    this.host.setMessage("Chuẩn bị ván mới !");
+    if (this.userInfo.isHost) {
+      this.resignationButton.show();
+    }
+  };
+
+  p.STATUS_SHAKE_DISK = function () {
+    this.host.background.show();
+    this.emit("xocDia");
+    this.host.setMessage("Xóc đĩa !");
+  };
+
+  p.STATUS_BETTING = function (data) {
+    this.setRemainingTime(data.remainingTime || 15);
+    this.host.background.hide();
+    this.host.setMessage("Đặt cược đi anh ơi !");
+    if (!this.userInfo.isHost) {
+      if (!data.disableRebetting) {
+        this.reBettingButton.show();
+      }
+      this.cancelBettingButton.show();
+    }
+  };
+
+  p.STATUS_ARRANGING = function (data) {
+    var defaultTime = 3;
+    if (this.host.name)
+      defaultTime = 15;
+    this.setRemainingTime(data.remainingTime || defaultTime);
+    this.host.setMessage("Thời gian cái thừa thiếu !");
+    if (this.userInfo.isHost) {
+//      this.sellEvenButton.show();
+      this.sellOddButton.show();
+    }
+  };
+
+  p.END_GAME = function () {
+    this.sellPopup.hide();
+    this.host.setMessage("Mở bát !");
+  };
+
+  TWIST.XocDia = XocDia;
 
 })();
 /**

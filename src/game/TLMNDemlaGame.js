@@ -6,7 +6,11 @@ this.TWIST = this.TWIST || {};
     var initOptions = {
         maxPlayers: 4,
         numberCardsInHand: 13,
-        turnTime: 20000
+        turnTime: 20000,
+        playerConfig : {
+          showCardLength : true,
+          showPlayerCard : true
+        }
     };
 
     function TLMNDemlaGame(wrapper, options) {
@@ -31,7 +35,7 @@ this.TWIST = this.TWIST || {};
            5 : "Sảnh rồng",
            16 : "Thắng !"
         };
-        this.endDemlaGame(data,winTypeMap,16);
+        this.endDemlaGame(data,winTypeMap,(data.winType == 16));
     };
 
     TWIST.TLMNDemlaGame = TLMNDemlaGame;

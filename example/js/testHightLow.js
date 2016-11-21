@@ -2,6 +2,7 @@
 
 (function () {
     "use strict";
+    TWIST.Sound.init();
     var game = new TWIST.HightLowGame('.wrapper');
 
     var mockupData = [{
@@ -70,7 +71,7 @@
                 isPotCard: Math.random() * 13 < 1,
                 lowMoney: 0,
                 hightMoney: 2000 * Math.random() * 13,
-                currentBetting: 2000 * (Math.random() - 0.5),
+                currentBetting: 2000 * (Math.random()),
                 explorerPot: false
             });
         }, 50);

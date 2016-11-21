@@ -21,6 +21,11 @@
         firstT.top = firstT.find('.bottom');
     }
     
+    function initAnimation() {
+        var firstAnimation = {}
+        
+    }
+    
     initFirstT();
     
     firstT.hightLight();
