@@ -259,6 +259,8 @@ this.TWIST = this.TWIST || {};
       _self.showError({
         message: "Bán cửa thành công !"
       });
+      this.sellEvenButton.hide();
+      this.sellOddButton.hide();
     });
 
     this.on("historyToggle", function (data) {
@@ -975,11 +977,11 @@ this.TWIST = this.TWIST || {};
     this.sellPopup.scroller.draggable(optionDraggable);
   };
 
-  p.showSellPopup = function () {
+  p.showSellPopup = function (id) {
 
     var _self = this;
     var selectedBetting = this.bettingPositions.find(function (item, index) {
-      return item.isSelected;
+      return item.id == id;
     });
     if (selectedBetting) {
       if (selectedBetting.totalValue) {
@@ -1193,7 +1195,7 @@ this.TWIST = this.TWIST || {};
     data.vitualBetting = vitualBetting;
     vitualBetting.on('click', function () {
       if (_self.userInfo.isHost) {
-        _self.setSelectedBetting(data);
+//        _self.setSelectedBetting(data);
       } else {
         var emitData = {
           value: _self.currentBetting.value,
@@ -1345,8 +1347,8 @@ this.TWIST = this.TWIST || {};
     this.setRemainingTime(this.host.name ? defaultTime : (data.remainingTime || defaultTime));
     this.host.setMessage("Chờ nhà cái thừa thiếu");
     if (this.userInfo.isHost) {
-      this.sellEvenButton.show();
-      this.sellOddButton.show();
+//      this.sellEvenButton.show();
+//      this.sellOddButton.show();
     }
   };
 
