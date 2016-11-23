@@ -8,9 +8,10 @@ this.TWIST = this.TWIST || {};
   var imagePath = location.origin + location.pathname + '../src/images/';
 
   var initOptions = {
+    avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
     gameSize: {
-      width: 900,
-      height: 560,
+      width: 1280,
+      height: 720,
       position: "relative"
     },
     chipSize: {
@@ -20,31 +21,31 @@ this.TWIST = this.TWIST || {};
       miniHeight: 24,
       miniRatio: 0.33
     },
-    bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
-      {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    bettingChipPositions: [{y: 640, x: 390}, {y: 640 - 11, x: 550},
+      {y: 640, x: 710}, {y: 640, x: 868}],
     playerPosition: {
-      y: 256,
-      x: 844
+      x: 1215,
+      y: 330
     },
     hostPosition: {
-      x: 450,
-      y: 100
+      x: 620,
+      y: 60
     },
     userPosition: {
-      y: 480,
-      x: 100
+      y: 650,
+      x: 210
     },
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
-    width: 900,
-    height: 560,
+    width: 1280,
+    height: 720,
     moveChipAnimationTime: 500,
     diskPosition: {
-      x: 360,
-      y: 120
+      x: 539,
+      y: 155
     },
     bowlPosition: {
-      x: 11,
-      y: 3
+      x: 25,
+      y: 25
     },
     chipResultPosition: {
       x: 40,
@@ -76,7 +77,6 @@ this.TWIST = this.TWIST || {};
       betting: 1000
     };
     this.userInfo = $.extend(this.userInfo, {
-      avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
       uuid: "",
       username: "",
       money: 0,
@@ -88,70 +88,72 @@ this.TWIST = this.TWIST || {};
         valueMap: [0, 0, 0, 0],
         ratio: 10,
         id: 2,
-        top: 290,
-        left: 130,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 179,
+        width: 218,
+        height: 148
       }, {
         name: "Bốn Đỏ",
         displayName: "1:10",
         valueMap: [1, 1, 1, 1],
         ratio: 10,
         id: 3,
-        top: 290,
-        left: 262.5,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 409,
+        width: 218,
+        height: 148
       }, {
         name: "Ba Trắng",
         displayName: "1:3",
         valueMap: [0, 0, 0, 1],
         ratio: 3,
         id: 4,
-        top: 290,
-        left: 395,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 639,
+        width: 218,
+        height: 148
       }, {
         name: "Ba đỏ",
         displayName: "1:3",
         valueMap: [0, 1, 1, 1],
         ratio: 3,
         id: 5,
-        top: 290,
-        left: 527.5,
-        width: 110,
-        height: 115
-      }, {
-        name: "Hai đỏ",
-        displayName: "1:1.5",
-        valueMap: [0, 0, 1, 1],
-        ratio: 1.5,
-        id: 6,
-        top: 290,
-        left: 660,
-        width: 110,
-        height: 115
-      }, {
+        top: 406,
+        left: 869,
+        width: 218,
+        height: 148
+      }
+//      , {
+//        name: "Hai đỏ",
+//        displayName: "1:1.5",
+//        valueMap: [0, 0, 1, 1],
+//        ratio: 1.5,
+//        id: 6,
+//        top: 290,
+//        left: 660,
+//        width: 110,
+//        height: 115
+//      }
+      , {
         name: "Chẵn",
         displayName: "Chẵn",
         valueMap: [0],
         ratio: 1,
         id: 0,
-        top: 140,
-        left: 150,
-        width: 160,
-        height: 115
+        top: 176,
+        left: 241,
+        width: 294,
+        height: 198
       }, {
         name: "Lẻ",
         displayName: "Lẻ",
         valueMap: [1],
         ratio: 1,
         id: 1,
-        top: 140,
-        left: 590,
-        width: 160,
-        height: 115
+        top: 176,
+        left: 746,
+        width: 294,
+        height: 198
       }];
     this.statusList = {
       1: "STATUS_WAITING_FOR_START",
@@ -736,8 +738,8 @@ this.TWIST = this.TWIST || {};
       var newY = toPosition.y + (Math.random() - 0.5) * 3;
       createjs.Tween.get(chip)
               .to({
-                x : newX,
-                y : newY
+                x: newX,
+                y: newY
               }, initOptions.moveChipAnimationTime)
               .call(function () {
                 if (typeof callback === 'function') {
@@ -751,7 +753,7 @@ this.TWIST = this.TWIST || {};
   p.renderUserInfo = function () {
     var avatarContainer = this.user.find('.avatar');
     var usernameContainer = this.user.find('.username');
-    avatarContainer.css("background-image", "url(./" + this.userInfo.avatar + ")");
+    avatarContainer.css("background-image", "url(" + (this.userInfo.avatar ? ("./" + this.userInfo.avatar) : initOptions.avatar) + ")");
     usernameContainer.text(this.userInfo.username);
     this.userMoney.runEffect(this.userInfo.money);
   };
@@ -810,9 +812,9 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
-    if(this.userInfo.isHost){
+    if (this.userInfo.isHost) {
       this.showError({
-        message : "Bạn đã làm nhà cái !"
+        message: "Bạn đã làm nhà cái !"
       });
     }
     this.setShowChipButtons();
@@ -1068,16 +1070,12 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       var bettingSlot = new createjs.Container();
       var position = {
-        x: item.left + 10,
-        y: item.top,
-        width: item.width - 20,
-        height: item.height - 30,
+        x: item.left + 30,
+        y: item.top + 35,
+        width: item.width - 80,
+        height: item.height - 90,
         name: item.id
       };
-      if (item.id > 1) {
-        position.y += 30;
-        position.height -= 30;
-      }
 
       item.bettingSlot = bettingSlot;
       bettingSlot.set(position);
@@ -1213,9 +1211,9 @@ this.TWIST = this.TWIST || {};
   p.setRemainingTime = function (remainingTime) {
     if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
-        x: this.options.width / 2 + 5,
-        y: this.options.height / 2 - 130,
-        font: "bold 25px Roboto Condensed",
+        x: this.options.width / 2,
+        y: this.options.height / 2 - 125,
+        font: "bold 30px Roboto Condensed",
         color: "blue"
       });
     }

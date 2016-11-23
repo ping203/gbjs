@@ -27,7 +27,7 @@
           }, {
             id: 1,
             totalBetting: 1014,
-            mineBetting: 30100,
+            mineBetting: 301,
             ratio: 1
           }, {
             id: 2,
@@ -51,7 +51,7 @@
             ratio: 1
           }, {
             id: 6,
-            totalBetting: 15506,
+            totalBetting: 155,
             mineBetting: 306,
             ratio: 1
           }],
@@ -63,46 +63,46 @@
         betting: 100,
         listBettingChip : [{
             id : 0,
-            value : 4
+            value : 400
         },{
             id : 1,
-            value : 5
+            value : 500
         },{
             id : 2,
-            value : 6
+            value : 600
         },{
             id : 3,
-            value : 7
+            value : 700
         }]
       },
       nextTime: 1000
     }
-    , {
-      event: "updateBettings",
-      data: [{
-          id: 0,
-          totalBetting: 10036
-        }, {
-          id: 1,
-          totalBetting: 15014
-        }, {
-          id: 2,
-          totalBetting: 17025
-        }, {
-          id: 3,
-          totalBetting: 14036
-        }, {
-          id: 4,
-          totalBetting: 19047
-        }, {
-          id: 5,
-          totalBetting: 41305
-        }, {
-          id: 6,
-          totalBetting: 15506
-        }],
-      nextTime: 1000
-    }
+//    , {
+//      event: "updateBettings",
+//      data: [{
+//          id: 0,
+//          totalBetting: 10036
+//        }, {
+//          id: 1,
+//          totalBetting: 15014
+//        }, {
+//          id: 2,
+//          totalBetting: 17025
+//        }, {
+//          id: 3,
+//          totalBetting: 14036
+//        }, {
+//          id: 4,
+//          totalBetting: 19047
+//        }, {
+//          id: 5,
+//          totalBetting: 41305
+//        }, {
+//          id: 6,
+//          totalBetting: 15506
+//        }],
+//      nextTime: 1000
+//    }
 //    , {
 //      event: "userBetting",
 //      data: {

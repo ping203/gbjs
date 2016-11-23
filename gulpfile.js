@@ -43,10 +43,10 @@ gulp.task('build.sound', function() {
 
 gulp.task('build.scss', function() {
   return gulp.src('src/themes/'+theme+'/sass/main.scss')
-    .pipe(sourcemaps.init())
+//    .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(sourcemaps.write())
-    .pipe(concat('app.css'))
+//    .pipe(sourcemaps.write())
+//    .pipe(concat('app.css'))
     .pipe(gulp.dest('dist/themes/'+theme));
 });
 

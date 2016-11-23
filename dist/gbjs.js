@@ -1016,9 +1016,9 @@ this.FATE = this.FATE || {};
 'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
 'buttonBar/entiretyButton':'<div class="button second red" id="entirety-card">\xD9</div>',
 'buttonBar/foldSamButton':'<div class="button third blue" id="fold-sam">B\u1ECF s\xE2m</div>',
-'buttonBar/foldTurnButton':'<div class="button second red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
-'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\u1ED1c b\xE0i</div>',
-'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
+'buttonBar/foldTurnButton':'<div class="button fourth red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
+'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\xE1o s\xE2m</div>',
+'buttonBar/hitButton':'<div class="button second yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
 'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
 'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
@@ -1027,11 +1027,9 @@ this.FATE = this.FATE || {};
 'effect/explodePot':'<div class="explorer-pot">\n    <span class="effect"></span>\n    <span class="txt"></span>\n</div>\n<div class="money-falling">\n    <div class="text-light pos-1">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-2">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-3">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n    <div class="text-light pos-4">\n        <i class="l-obj lobj-1"></i>\n        <i class="l-obj lobj-2"></i>\n        <i class="l-obj lobj-3"></i>\n        <i class="l-obj lobj-4"></i>\n        <i class="l-obj lobj-5"></i>\n        <i class="l-obj lobj-6"></i>\n        <i class="l-obj lobj-7"></i>\n        <i class="l-obj lobj-8"></i>\n    </div>\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
 'hightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
-'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
-'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
+'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n    </div>\n</div>\n',
+'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title">Bank</div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
-'inviteList/inviteItem':'<div class="invite-item">\n    <div class="invite-item-inner"></div>\n</div>\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\n    \n</div>\n',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -1052,20 +1050,16 @@ this.FATE = this.FATE || {};
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
 'taiXiu/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'taiXiu/coin-item':'<div class="coin-item"></div>',
-'taiXiu/history-item':'<div class="history-item">\n    <div class="history-item-number"></div>\n    <div class="history-item-type"></div>\n    <div class="history-item-dices">\n        <div class="history-item-dice" id="dice-position0"></div>\n        <div class="history-item-dice" id="dice-position1"></div>\n        <div class="history-item-dice" id="dice-position2"></div>\n    </div>\n</div>\n',
-'taiXiu/history':'<div class="taixiu-history">\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\n    <div class="taixiu-history-content">\n        <div class="taixiu-history-content-inner"></div>\n    </div>\n</div> \n',
+'taiXiu/history-item':'<div class="history-item">\r\n    <div class="history-item-number"></div>\r\n    <div class="history-item-type"></div>\r\n    <div class="history-item-dices">\r\n        <div class="history-item-dice" id="dice-position0"></div>\r\n        <div class="history-item-dice" id="dice-position1"></div>\r\n        <div class="history-item-dice" id="dice-position2"></div>\r\n    </div>\r\n</div>\r\n',
+'taiXiu/history':'<div class="taixiu-history">\r\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\r\n    <div class="taixiu-history-content">\r\n        <div class="taixiu-history-content-inner"></div>\r\n    </div>\r\n</div> \r\n',
 'taiXiu/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/listPlayer':'<div class="list-player"></div>',
 'taiXiu/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
 'taiXiu/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
-'taiXiu/table':'<div class="table">\n    \n</div>',
+'taiXiu/table':'<div class="table">\r\n    \r\n</div>',
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
-'tinyHightLow/bottom':'<div class="bottom">\n    <div class="profile-hight-low">\n\n    </div>\n    <div class="chips-hight-low">\n\n    </div>\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\n</div>\n',
-'tinyHightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n        <div class="card-store">\n            \n        </div>\n    </div>\n</div>\n',
-'tinyHightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title"></div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
-'tinyHightLow/wrapper':'<div class="tiny-hight-low"></div>\n',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
@@ -1077,7 +1071,7 @@ this.FATE = this.FATE || {};
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
 'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
-'xocDia/history':'<div class="history"></div>\n',
+'xocDia/history':'<div class="history-wrapper">\r\n    <div class="history-odd"></div>\r\n    <div class="history-event"></div>\r\n</div>\r\n<div class="history">\r\n</div>\r\n',
 'xocDia/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'xocDia/listPlayer':'<div class="list-player"></div>',
 'xocDia/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
@@ -1098,17 +1092,14 @@ this.TWIST = this.TWIST || {};
     this.initialize(position);
   }
 
-  Card.size = {width: 88, height: 115};
-  Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6, seperator: 54};
+  Card.size = {width: 90, height: 123};
+  Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
   Card.userCard.scale = Card.userCard.width / Card.size.width;
 
   Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
   Card.playerCard.scale = Card.playerCard.width / Card.size.width;
 
-  Card.deckCard = {width: 40, seperator: 0.1};
-  Card.deckCard.scale = Card.deckCard.width / Card.size.width;
-
-  Card.draftCard = {width: 30, height: 40, seperator: 31};
+  Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
   Card.draftCard.scale = Card.draftCard.width / Card.size.width;
 
   Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
@@ -1117,7 +1108,7 @@ this.TWIST = this.TWIST || {};
   Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
   Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
 
-  Card.miniPoker = {width: 102, height: 133};
+  Card.miniPoker = {width: 130, height: 180, scale: 1.6};
   Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
 
   Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
@@ -1162,28 +1153,27 @@ this.TWIST = this.TWIST || {};
   p._init = function () {
     var cards = new Image();
     this.image = cards;
-    cards.src = (TWIST.imagePath || imagePath) + 'card/-1.png';
+    cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
+//    cards.src = (TWIST.imagePath || imagePath) + 'card/-1.png';
     var bg = new createjs.Bitmap(cards);
     this.bg = bg;
-//    bg.sourceRect = $.extend({}, Card.size);
-//    bg.sourceRect.x = 0;
-//    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+    bg.sourceRect = $.extend({}, Card.size);
+    bg.sourceRect.x = 0;
+    bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
 
-    this.inPhom = new createjs.Shape();
-    this.inPhom.graphics.beginFill("#fedc32").drawRect(0, 0, 30, 3);
-    this.inPhom.set({
-      x: Card.size.width / 2 - 15,
-      y: Card.size.height + 2
+    this.border = new createjs.Bitmap(cards);
+    this.border.sourceRect = {
+      width: Card.size.width + 4,
+      height: Card.size.height + 3,
+      x: Card.size.width * 2,
+      y: Card.size.height * Card.SuitNameMap.length
+    };
+    this.border.set({
+      x: -2,
+      y: -1.5
     });
-    this.inPhom.visible = false;
-
-    this.eatEffect = new createjs.Shape();
-    this.eatEffect.graphics.beginFill("#000").drawRect(0, 0, Card.size.width, Card.size.height);
-    this.eatEffect.set({
-      alpha: 0.5
-    });
-    this.eatEffect.visible = this.showEatEffect;
-    this.addChild(bg, this.inPhom, this.eatEffect);
+    this.border.visible = this.showBorder;
+    this.addChild(bg, this.border);
   };
 
   p.setValue = function (value) {
@@ -1194,19 +1184,18 @@ this.TWIST = this.TWIST || {};
 
     var bg = this.bg;
     var srcValue = -1;
-//    bg.sourceRect = $.extend({}, Card.size);
     if (value !== -1) {
       Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
       var rankName = Card.RankMapIndex[rankSuite.rank];
       var suidName = Card.SuitMap[rankSuite.suite];
-      srcValue = (rankName - 1) * 4 + rankSuite.suite;
-//      bg.sourceRect.x = (rankName - 1) * Card.size.width;
-//      bg.sourceRect.y = rankSuite.suite * Card.size.height;
+//      srcValue = (rankName - 1) * 4 + rankSuite.suite;
+      bg.sourceRect.x = (rankName - 1) * Card.size.width;
+      bg.sourceRect.y = rankSuite.suite * Card.size.height;
     } else {
-//      bg.sourceRect.x = 0;
-//      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
+      bg.sourceRect.x = 0;
+      bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
-    this.image.src = (TWIST.imagePath || imagePath) + 'card/' + srcValue + '.png';
+//    this.image.src = (TWIST.imagePath || imagePath) + 'card/' + srcValue + '.png';
   };
 
   p.getValue = function () {
@@ -1516,13 +1505,15 @@ this.TWIST = this.TWIST || {};
   };
 
   p.hightLight = function () {
-    this.showEatEffect = true;
-    this.eatEffect.visible = true;
+//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
+        this.showBorder = true;
+        this.border.visible = true;
   }
 
   p.unHightLight = function () {
-    this.showEatEffect = false;
-    this.eatEffect.visible = false;
+//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
+        this.showBorder = false;
+        this.border.visible = false;
   }
 
   TWIST.Card = Card;
@@ -5192,7 +5183,7 @@ this.TWIST = this.TWIST || {};
 
         stepValue = 1;
 
-        itemSize = {width: 126, height: 168, padding: 10};
+        itemSize = {width: 160, height: 205, padding: 10};
 
         gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
 
@@ -9881,9 +9872,10 @@ this.TWIST = this.TWIST || {};
   var imagePath = location.origin + location.pathname + '../src/images/';
 
   var initOptions = {
+    avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
     gameSize: {
-      width: 900,
-      height: 560,
+      width: 1280,
+      height: 720,
       position: "relative"
     },
     chipSize: {
@@ -9893,31 +9885,31 @@ this.TWIST = this.TWIST || {};
       miniHeight: 24,
       miniRatio: 0.33
     },
-    bettingChipPositions: [{y: 487.5 - 11, x: 450 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 37.5 - 11},
-      {y: 487.5 - 11, x: 450 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 450 - 90 + 210 + 37.5 - 11}],
+    bettingChipPositions: [{y: 640, x: 390}, {y: 640 - 11, x: 550},
+      {y: 640, x: 710}, {y: 640, x: 868}],
     playerPosition: {
-      y: 256,
-      x: 844
+      x: 1215,
+      y: 330
     },
     hostPosition: {
-      x: 450,
-      y: 100
+      x: 620,
+      y: 60
     },
     userPosition: {
-      y: 480,
-      x: 100
+      y: 650,
+      x: 210
     },
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
-    width: 900,
-    height: 560,
+    width: 1280,
+    height: 720,
     moveChipAnimationTime: 500,
     diskPosition: {
-      x: 360,
-      y: 120
+      x: 539,
+      y: 155
     },
     bowlPosition: {
-      x: 11,
-      y: 3
+      x: 25,
+      y: 25
     },
     chipResultPosition: {
       x: 40,
@@ -9949,7 +9941,6 @@ this.TWIST = this.TWIST || {};
       betting: 1000
     };
     this.userInfo = $.extend(this.userInfo, {
-      avatar: "https://s.gravatar.com/avatar/a4fae1e89a441c83f656a7ae59f9c19f?s=80",
       uuid: "",
       username: "",
       money: 0,
@@ -9961,70 +9952,72 @@ this.TWIST = this.TWIST || {};
         valueMap: [0, 0, 0, 0],
         ratio: 10,
         id: 2,
-        top: 290,
-        left: 130,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 179,
+        width: 218,
+        height: 148
       }, {
         name: "Bốn Đỏ",
         displayName: "1:10",
         valueMap: [1, 1, 1, 1],
         ratio: 10,
         id: 3,
-        top: 290,
-        left: 262.5,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 409,
+        width: 218,
+        height: 148
       }, {
         name: "Ba Trắng",
         displayName: "1:3",
         valueMap: [0, 0, 0, 1],
         ratio: 3,
         id: 4,
-        top: 290,
-        left: 395,
-        width: 110,
-        height: 115
+        top: 406,
+        left: 639,
+        width: 218,
+        height: 148
       }, {
         name: "Ba đỏ",
         displayName: "1:3",
         valueMap: [0, 1, 1, 1],
         ratio: 3,
         id: 5,
-        top: 290,
-        left: 527.5,
-        width: 110,
-        height: 115
-      }, {
-        name: "Hai đỏ",
-        displayName: "1:1.5",
-        valueMap: [0, 0, 1, 1],
-        ratio: 1.5,
-        id: 6,
-        top: 290,
-        left: 660,
-        width: 110,
-        height: 115
-      }, {
+        top: 406,
+        left: 869,
+        width: 218,
+        height: 148
+      }
+//      , {
+//        name: "Hai đỏ",
+//        displayName: "1:1.5",
+//        valueMap: [0, 0, 1, 1],
+//        ratio: 1.5,
+//        id: 6,
+//        top: 290,
+//        left: 660,
+//        width: 110,
+//        height: 115
+//      }
+      , {
         name: "Chẵn",
         displayName: "Chẵn",
         valueMap: [0],
         ratio: 1,
         id: 0,
-        top: 140,
-        left: 150,
-        width: 160,
-        height: 115
+        top: 176,
+        left: 241,
+        width: 294,
+        height: 198
       }, {
         name: "Lẻ",
         displayName: "Lẻ",
         valueMap: [1],
         ratio: 1,
         id: 1,
-        top: 140,
-        left: 590,
-        width: 160,
-        height: 115
+        top: 176,
+        left: 746,
+        width: 294,
+        height: 198
       }];
     this.statusList = {
       1: "STATUS_WAITING_FOR_START",
@@ -10609,8 +10602,8 @@ this.TWIST = this.TWIST || {};
       var newY = toPosition.y + (Math.random() - 0.5) * 3;
       createjs.Tween.get(chip)
               .to({
-                x : newX,
-                y : newY
+                x: newX,
+                y: newY
               }, initOptions.moveChipAnimationTime)
               .call(function () {
                 if (typeof callback === 'function') {
@@ -10624,7 +10617,7 @@ this.TWIST = this.TWIST || {};
   p.renderUserInfo = function () {
     var avatarContainer = this.user.find('.avatar');
     var usernameContainer = this.user.find('.username');
-    avatarContainer.css("background-image", "url(./" + this.userInfo.avatar + ")");
+    avatarContainer.css("background-image", "url(" + (this.userInfo.avatar ? ("./" + this.userInfo.avatar) : initOptions.avatar) + ")");
     usernameContainer.text(this.userInfo.username);
     this.userMoney.runEffect(this.userInfo.money);
   };
@@ -10683,9 +10676,9 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
-    if(this.userInfo.isHost){
+    if (this.userInfo.isHost) {
       this.showError({
-        message : "Bạn đã làm nhà cái !"
+        message: "Bạn đã làm nhà cái !"
       });
     }
     this.setShowChipButtons();
@@ -10941,16 +10934,12 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       var bettingSlot = new createjs.Container();
       var position = {
-        x: item.left + 10,
-        y: item.top,
-        width: item.width - 20,
-        height: item.height - 30,
+        x: item.left + 30,
+        y: item.top + 35,
+        width: item.width - 80,
+        height: item.height - 90,
         name: item.id
       };
-      if (item.id > 1) {
-        position.y += 30;
-        position.height -= 30;
-      }
 
       item.bettingSlot = bettingSlot;
       bettingSlot.set(position);
@@ -11086,9 +11075,9 @@ this.TWIST = this.TWIST || {};
   p.setRemainingTime = function (remainingTime) {
     if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
-        x: this.options.width / 2 + 5,
-        y: this.options.height / 2 - 130,
-        font: "bold 25px Roboto Condensed",
+        x: this.options.width / 2,
+        y: this.options.height / 2 - 125,
+        font: "bold 30px Roboto Condensed",
         color: "blue"
       });
     }
