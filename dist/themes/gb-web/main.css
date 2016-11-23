@@ -2771,8 +2771,7 @@ and open the template in the editor.
           top: -15px;
           opacity: 1;
           border: 5px solid #ffed8a;
-          box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00;
-          }
+          box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
         .twist .xocdia-wrapper .chip-group .chip:first-child {
           left: 347px;
           background-image: url("images/xocdia/1st-chip.png"); }
