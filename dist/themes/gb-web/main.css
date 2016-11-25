@@ -2380,8 +2380,8 @@ and open the template in the editor.
       position: absolute; }
     .twist .xocdia-wrapper .history-wrapper {
       position: absolute;
-      left: 90px;
-      top: 10px;
+      left: 10px;
+      top: 90px;
       width: 239px;
       height: 141px;
       background-image: url("images/xocdia/history-table.png"); }

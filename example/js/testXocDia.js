@@ -146,21 +146,21 @@
 //      },
 //      nextTime: 1000
 //    }
-//    , {
-//      event: "changeStatus",
-//      data: {
-//        newStatus: 5
-//      },
-//      nextTime: 20000
-//    }
-//    , {
-//      event: "openDisk",
-//      data: {
-//        map: [0, 1, 0, 1],
-//        winnerSlots: [1, 2]
-//      },
-//      nextTime: 100
-//    },
+    , {
+      event: "changeStatus",
+      data: {
+        newStatus: 5
+      },
+      nextTime: 100
+    }
+    , {
+      event: "openDisk",
+      data: {
+        map: [0, 1, 0, 1],
+        winnerSlots: [1, 2]
+      },
+      nextTime: 100
+    },
 //    , {
 //      event: "hostPayment",
 //      data: {

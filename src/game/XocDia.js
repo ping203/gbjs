@@ -48,10 +48,10 @@ this.TWIST = this.TWIST || {};
       y: 25
     },
     chipResultPosition: {
-      x: 50,
-      y: 50,
-      width: 120,
-      height: 120,
+      x: 60,
+      y: 60,
+      width: 100,
+      height: 100,
       chipWidth : 16,
       chipHeight : 16
     }
@@ -691,7 +691,7 @@ this.TWIST = this.TWIST || {};
     this.chipResultContainer.removeAllChildren();
     var shuffleMap = Global.shuffle(data.map)
     shuffleMap.forEach(function (item, index) {
-      _self.createResultChip(item);
+      _self.createResultChip(item, index);
     });
     this.bowl.set({
       y: initOptions.bowlPosition.y,
@@ -715,9 +715,11 @@ this.TWIST = this.TWIST || {};
     var resultChip = new createjs.Bitmap(src);
     var unitWidth = this.chipResultContainer.width/2 ;
     var unitHeight = this.chipResultContainer.height/2 ;
+    console.log(unitWidth, Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) ,(parseInt(index/2) * unitWidth),
+       unitHeight,Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight),(parseInt(index%2) * unitHeight)))
     resultChip.set({
-      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + parseInt(index/2) * unitWidth,
-      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ parseInt(index%2) * unitHeight)
+      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index/2) * unitWidth),
+      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ (parseInt(index%2) * unitHeight))
     });
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
@@ -818,6 +820,7 @@ this.TWIST = this.TWIST || {};
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
     if (this.userInfo.isHost) {
+      this.lastBettings = undefined;
       this.showError({
         message: "Bạn đã làm nhà cái !"
       });
@@ -1338,6 +1341,13 @@ this.TWIST = this.TWIST || {};
     if (this.userInfo.isHost) {
 //      this.sellEvenButton.show();
       this.sellOddButton.show();
+    }else{
+      this.lastBettings = this.bettingPositions.map(function(item){
+        return {
+          id : item.id,
+          value : item.mineValue
+        };
+      });
     }
   };
 
