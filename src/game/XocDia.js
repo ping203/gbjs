@@ -48,10 +48,12 @@ this.TWIST = this.TWIST || {};
       y: 25
     },
     chipResultPosition: {
-      x: 40,
-      y: 30,
-      width: 80,
-      height: 60
+      x: 50,
+      y: 50,
+      width: 120,
+      height: 120,
+      chipWidth : 16,
+      chipHeight : 16
     }
   };
 
@@ -687,7 +689,8 @@ this.TWIST = this.TWIST || {};
     this.history.addResult(data.winnerSlots);
     var message, position;
     this.chipResultContainer.removeAllChildren();
-    data.map.forEach(function (item, index) {
+    var shuffleMap = Global.shuffle(data.map)
+    shuffleMap.forEach(function (item, index) {
       _self.createResultChip(item);
     });
     this.bowl.set({
@@ -707,12 +710,14 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.createResultChip = function (isRed) {
+  p.createResultChip = function (isRed, index) {
     var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
     var resultChip = new createjs.Bitmap(src);
+    var unitWidth = this.chipResultContainer.width/2 ;
+    var unitHeight = this.chipResultContainer.height/2 ;
     resultChip.set({
-      x: Math.random() * (this.chipResultContainer.width - 13),
-      y: Math.random() * (this.chipResultContainer.height - 13)
+      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + parseInt(index/2) * unitWidth,
+      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ parseInt(index%2) * unitHeight)
     });
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
@@ -1274,6 +1279,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.changeStatus = function (data) {
+    if(this.status == this.statusList[data.newStatus]) return;
     this.status = this.statusList[data.newStatus];
     var func = this[this.status];
     this.buttons.hide();
@@ -1288,6 +1294,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_WAITING_FOR_START = function () {
+    this.chipResultContainer.removeAllChildren();
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
       item.bettingSlot.removeAllChildren();

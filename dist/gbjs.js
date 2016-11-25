@@ -1042,9 +1042,6 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1060,6 +1057,9 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
@@ -9912,10 +9912,12 @@ this.TWIST = this.TWIST || {};
       y: 25
     },
     chipResultPosition: {
-      x: 40,
-      y: 30,
-      width: 80,
-      height: 60
+      x: 50,
+      y: 50,
+      width: 120,
+      height: 120,
+      chipWidth : 16,
+      chipHeight : 16
     }
   };
 
@@ -10551,7 +10553,8 @@ this.TWIST = this.TWIST || {};
     this.history.addResult(data.winnerSlots);
     var message, position;
     this.chipResultContainer.removeAllChildren();
-    data.map.forEach(function (item, index) {
+    var shuffleMap = Global.shuffle(data.map)
+    shuffleMap.forEach(function (item, index) {
       _self.createResultChip(item);
     });
     this.bowl.set({
@@ -10571,12 +10574,14 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.createResultChip = function (isRed) {
+  p.createResultChip = function (isRed, index) {
     var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
     var resultChip = new createjs.Bitmap(src);
+    var unitWidth = this.chipResultContainer.width/2 ;
+    var unitHeight = this.chipResultContainer.height/2 ;
     resultChip.set({
-      x: Math.random() * (this.chipResultContainer.width - 13),
-      y: Math.random() * (this.chipResultContainer.height - 13)
+      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + parseInt(index/2) * unitWidth,
+      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ parseInt(index%2) * unitHeight)
     });
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
@@ -11138,6 +11143,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.changeStatus = function (data) {
+    if(this.status == this.statusList[data.newStatus]) return;
     this.status = this.statusList[data.newStatus];
     var func = this[this.status];
     this.buttons.hide();
@@ -11152,6 +11158,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_WAITING_FOR_START = function () {
+    this.chipResultContainer.removeAllChildren();
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
       item.bettingSlot.removeAllChildren();
