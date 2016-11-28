@@ -117,6 +117,8 @@ and open the template in the editor.
                 background-repeat: no-repeat;
                 background-position: 5px 8px;
                 background-image: url('#{$xocdiaImagePath}white.png');
+                background-position: center;
+                background-repeat: no-repeat;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -128,8 +130,6 @@ and open the template in the editor.
                 .inner-chip{
                     color: white;
                     background-image: url('#{$xocdiaImagePath}red.png');
-                    background-position: center;
-                    background-repeat: no-repeat;
                 }
             }
             @for $i from 1 through 20{

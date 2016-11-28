@@ -2430,6 +2430,8 @@ and open the template in the editor.
           background-repeat: no-repeat;
           background-position: 5px 8px;
           background-image: url("images/xocdia/white.png");
+          background-position: center;
+          background-repeat: no-repeat;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -2438,9 +2440,7 @@ and open the template in the editor.
           font-weight: bold; }
         .twist .xocdia-wrapper .history .result-chip.result-chip-odd .inner-chip {
           color: white;
-          background-image: url("images/xocdia/red.png");
-          background-position: center;
-          background-repeat: no-repeat; }
+          background-image: url("images/xocdia/red.png"); }
         .twist .xocdia-wrapper .history .result-chip:nth-child(1) {
           top: 3px;
           left: 1px; }
