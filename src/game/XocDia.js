@@ -48,12 +48,12 @@ this.TWIST = this.TWIST || {};
       y: 25
     },
     chipResultPosition: {
-      x: 60,
-      y: 60,
+      x: 50,
+      y: 50,
       width: 100,
       height: 100,
-      chipWidth : 16,
-      chipHeight : 16
+      chipWidth: 39,
+      chipHeight: 39
     }
   };
 
@@ -712,14 +712,15 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createResultChip = function (isRed, index) {
-    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red-big.png" : "white-big.png");
     var resultChip = new createjs.Bitmap(src);
-    var unitWidth = this.chipResultContainer.width/2 ;
-    var unitHeight = this.chipResultContainer.height/2 ;
-    resultChip.set({
-      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index/2) * unitWidth),
-      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ (parseInt(index%2) * unitHeight))
-    });
+    var unitWidth = this.chipResultContainer.width / 2;
+    var unitHeight = this.chipResultContainer.height / 2;
+    var resultChipPosition = {
+      x: (Math.random() * (unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index / 2) * unitWidth),
+      y: (Math.random() * (unitHeight - initOptions.chipResultPosition.chipHeight) + (parseInt(index % 2) * unitHeight))
+    };
+    resultChip.set(resultChipPosition);
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
   };
@@ -767,6 +768,7 @@ this.TWIST = this.TWIST || {};
   p.initHistory = function () {
     var _self = this;
     this.history = $(TWIST.HTMLTemplate['xocDia/history']);
+    this.historyInner = this.history.find('.history');
     this.wrapperTemplate.append(this.history);
     this.historyList = [];
     var mapName = {
@@ -787,10 +789,9 @@ this.TWIST = this.TWIST || {};
       if (isOdd) {
         resultChip.addClass('result-chip-odd');
       }
-      resultChip.children().html(mapName[slotId]);
       _self.historyList.push(resultChip);
-      _self.history.append(resultChip);
-      if (_self.historyList.length > 16) {
+      _self.historyInner.append(resultChip);
+      if (_self.historyList.length > 20) {
         _self.historyList[0].remove();
         _self.historyList.shift();
       }
@@ -1282,7 +1283,8 @@ this.TWIST = this.TWIST || {};
   };
 
   p.changeStatus = function (data) {
-    if(this.status == this.statusList[data.newStatus]) return;
+    if (this.status == this.statusList[data.newStatus])
+      return;
     this.status = this.statusList[data.newStatus];
     var func = this[this.status];
     this.buttons.hide();
@@ -1311,7 +1313,7 @@ this.TWIST = this.TWIST || {};
     this.host.setMessage("Chuẩn bị ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
-    }else if(this.isSuggestHost){
+    } else if (this.isSuggestHost) {
       this.getHostButton.show();
     }
   };
@@ -1342,13 +1344,13 @@ this.TWIST = this.TWIST || {};
     this.setRemainingTime(data.remainingTime || defaultTime);
     this.host.setMessage("Thời gian cái thừa thiếu !");
     if (this.userInfo.isHost) {
-//      this.sellEvenButton.show();
+      this.sellEvenButton.show();
       this.sellOddButton.show();
-    }else{
-      this.lastBettings = this.bettingPositions.map(function(item){
+    } else {
+      this.lastBettings = this.bettingPositions.map(function (item) {
         return {
-          id : item.id,
-          value : item.mineValue
+          id: item.id,
+          value: item.mineValue
         };
       });
     }

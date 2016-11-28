@@ -1010,7 +1010,7 @@ this.FATE = this.FATE || {};
 
         FATE.MockupServer = MockupServer;
 })();
-;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" width="1000" height="580" ></canvas>',
+;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" id="gameplayStage" width="1280" height="720" ></canvas>',
 'errorPanel':'<div class="error-panel">\r\n    \r\n</div>',
 'buttonBar/callSamButton':'<div class="button fourth red" id="call-sam">B\xE1o s\xE2m</div>',
 'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
@@ -1060,25 +1060,25 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
-'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
 'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
-'xocDia/history':'<div class="history-wrapper">\r\n    <div class="history-odd"></div>\r\n    <div class="history-event"></div>\r\n</div>\r\n<div class="history">\r\n</div>\r\n',
+'xocDia/history':'<div class="history-wrapper">\r\n    <div class="history-odd"></div>\r\n    <div class="history-event"></div>\r\n    <div class="history">\r\n    </div>\r\n</div>\r\n',
 'xocDia/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'xocDia/listPlayer':'<div class="list-player"></div>',
 'xocDia/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
 'xocDia/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
-'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',
-'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
-'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
-'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
-'videoPoker/supportText':'<div class="support-text"></div>',
-'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',}})();
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -9912,12 +9912,12 @@ this.TWIST = this.TWIST || {};
       y: 25
     },
     chipResultPosition: {
-      x: 60,
-      y: 60,
+      x: 50,
+      y: 50,
       width: 100,
       height: 100,
-      chipWidth : 16,
-      chipHeight : 16
+      chipWidth: 39,
+      chipHeight: 39
     }
   };
 
@@ -10576,14 +10576,15 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createResultChip = function (isRed, index) {
-    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red.png" : "white.png");
+    var src = (TWIST.imagePath || imagePath) + 'xocdia/' + (isRed ? "red-big.png" : "white-big.png");
     var resultChip = new createjs.Bitmap(src);
-    var unitWidth = this.chipResultContainer.width/2 ;
-    var unitHeight = this.chipResultContainer.height/2 ;
-    resultChip.set({
-      x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index/2) * unitWidth),
-      y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ (parseInt(index%2) * unitHeight))
-    });
+    var unitWidth = this.chipResultContainer.width / 2;
+    var unitHeight = this.chipResultContainer.height / 2;
+    var resultChipPosition = {
+      x: (Math.random() * (unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index / 2) * unitWidth),
+      y: (Math.random() * (unitHeight - initOptions.chipResultPosition.chipHeight) + (parseInt(index % 2) * unitHeight))
+    };
+    resultChip.set(resultChipPosition);
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
   };
@@ -10631,6 +10632,7 @@ this.TWIST = this.TWIST || {};
   p.initHistory = function () {
     var _self = this;
     this.history = $(TWIST.HTMLTemplate['xocDia/history']);
+    this.historyInner = this.history.find('.history');
     this.wrapperTemplate.append(this.history);
     this.historyList = [];
     var mapName = {
@@ -10651,10 +10653,9 @@ this.TWIST = this.TWIST || {};
       if (isOdd) {
         resultChip.addClass('result-chip-odd');
       }
-      resultChip.children().html(mapName[slotId]);
       _self.historyList.push(resultChip);
-      _self.history.append(resultChip);
-      if (_self.historyList.length > 16) {
+      _self.historyInner.append(resultChip);
+      if (_self.historyList.length > 20) {
         _self.historyList[0].remove();
         _self.historyList.shift();
       }
@@ -11146,7 +11147,8 @@ this.TWIST = this.TWIST || {};
   };
 
   p.changeStatus = function (data) {
-    if(this.status == this.statusList[data.newStatus]) return;
+    if (this.status == this.statusList[data.newStatus])
+      return;
     this.status = this.statusList[data.newStatus];
     var func = this[this.status];
     this.buttons.hide();
@@ -11175,7 +11177,7 @@ this.TWIST = this.TWIST || {};
     this.host.setMessage("Chuẩn bị ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
-    }else if(this.isSuggestHost){
+    } else if (this.isSuggestHost) {
       this.getHostButton.show();
     }
   };
@@ -11206,13 +11208,13 @@ this.TWIST = this.TWIST || {};
     this.setRemainingTime(data.remainingTime || defaultTime);
     this.host.setMessage("Thời gian cái thừa thiếu !");
     if (this.userInfo.isHost) {
-//      this.sellEvenButton.show();
+      this.sellEvenButton.show();
       this.sellOddButton.show();
-    }else{
-      this.lastBettings = this.bettingPositions.map(function(item){
+    } else {
+      this.lastBettings = this.bettingPositions.map(function (item) {
         return {
-          id : item.id,
-          value : item.mineValue
+          id: item.id,
+          value: item.mineValue
         };
       });
     }
