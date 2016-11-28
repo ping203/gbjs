@@ -285,6 +285,7 @@ this.TWIST = this.TWIST || {};
 
     this.on("suggetstHost", function (data) {
       _self.getHostButton.show();
+      _self.isSuggestHost = true;
     });
 
     this.on("reBettingResult", function (data) {
@@ -715,8 +716,6 @@ this.TWIST = this.TWIST || {};
     var resultChip = new createjs.Bitmap(src);
     var unitWidth = this.chipResultContainer.width/2 ;
     var unitHeight = this.chipResultContainer.height/2 ;
-    console.log(unitWidth, Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) ,(parseInt(index/2) * unitWidth),
-       unitHeight,Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight),(parseInt(index%2) * unitHeight)))
     resultChip.set({
       x: Math.random() * ((unitWidth - initOptions.chipResultPosition.chipWidth)) + (parseInt(index/2) * unitWidth),
       y: Math.random() * ((unitHeight - initOptions.chipResultPosition.chipHeight)+ (parseInt(index%2) * unitHeight))
@@ -923,6 +922,7 @@ this.TWIST = this.TWIST || {};
       _self.sellPopup.maxValue = maxValue;
       _self.sellPopup.plusButton.html(maxValue);
       _self.sellPopup.title.html(data.name);
+      setRatio(0);
     };
     this.wrapperTemplate.append(this.sellPopup);
     var minLeft = 5;
@@ -986,11 +986,11 @@ this.TWIST = this.TWIST || {};
     this.sellPopup.scroller.draggable(optionDraggable);
   };
 
-  p.showSellPopup = function () {
+  p.showSellPopup = function (id) {
 
     var _self = this;
     var selectedBetting = this.bettingPositions.find(function (item, index) {
-      return item.isSelected;
+      return item.id == id;
     });
     if (selectedBetting) {
       if (selectedBetting.totalValue) {
@@ -1030,7 +1030,7 @@ this.TWIST = this.TWIST || {};
     this.sellOddButton = buttonWrapper.find('#sellOdd');
     this.buttons.push(this.sellOddButton);
     this.sellOddButton.on('click', function () {
-      _self.showSellPopup();
+      _self.showSellPopup(1);
     });
 
     this.resignationButton = buttonWrapper.find('#resignation');
@@ -1042,7 +1042,7 @@ this.TWIST = this.TWIST || {};
     this.sellEvenButton = buttonWrapper.find('#sellEven');
     this.buttons.push(this.sellEvenButton);
     this.sellEvenButton.on('click', function () {
-      _self.showSellPopup();
+      _self.showSellPopup(0);
     });
 
     this.getHostButton = buttonWrapper.find('#getHost');
@@ -1311,10 +1311,13 @@ this.TWIST = this.TWIST || {};
     this.host.setMessage("Chuẩn bị ván mới !");
     if (this.userInfo.isHost) {
       this.resignationButton.show();
+    }else if(this.isSuggestHost){
+      this.getHostButton.show();
     }
   };
 
   p.STATUS_SHAKE_DISK = function () {
+    this.isSuggestHost = false;
     this.host.background.show();
     this.emit("xocDia");
     this.host.setMessage("Xóc đĩa !");
