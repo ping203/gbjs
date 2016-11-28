@@ -1030,9 +1030,6 @@ this.FATE = this.FATE || {};
 'hightLow/center':'<div class="center">\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\n    <div class="remain-time"></div>\n    <div class="canvas-wrapper">\n        <div class="game-button left-button">\n            <div class="low-button"></div>\n            <div class="low-value">0</div>\n        </div>\n        <div class="game-button right-button">\n            <div class="hight-button"></div>\n            <div class="hight-value">0</div>\n        </div>\n        <div class="virtual-card">\n            <div class="new-turn-text">\n                B\u1ED1c b\xE0i\n            </div>\n        </div>\n    </div>\n</div>\n',
 'hightLow/top':'<div class="top">\n    <div class="pot">\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\n        <div class="pot-value">0</div>\n    </div>\n    <div class="bank">\n        <div class="title">Bank</div>\n        <div class="bank-value">0</div>\n    </div>\n    <div class="pot-cards">\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n        <div class="pot-card"></div>\n    </div>\n</div>\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'miniPoker/autospin':'<div class="autospin">\n    <input id="autospin" type="checkbox" />\n    <label for="autospin"></label>\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\n</div>\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\n    <div class="chip violet">1K</div>\n    <div class="chip green">10k</div>\n    <div class="chip blue">100k</div>\n</div>\n',
@@ -1045,6 +1042,9 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\n    <div class="profile-left">\n        <div class="user avatar" ></div>\n    </div>\n    <div class="profile-right">\n        <div class="username "></div>\n        <div class="money "></div>\n    </div>\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\n    <div class="result-item-info"> \n        <div class="result-item-username"><%- username %> </div>\n        <div class="result-item-result-info">\n            <span class="result-item-money"><%- moneyChange %></span>\n            <div class="user-result-string"x><%- resultText %></div>\n        </div>\n    </div>\n    <div class="result-card-list-container">\n        <%= cardList %>\n    </div>\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\n    <div class="global-mask"></div>\n    <div class="game-result-popup">\n        <div class="popup-header">\n            <div class="popup-icon"></div> \n            <div class="close-popup">X</div>\n        </div>\n        <div class="popup-content">\n            <div class="container">\n                <div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1060,12 +1060,6 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
-'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
-'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
-'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
-'videoPoker/supportText':'<div class="support-text"></div>',
-'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
 'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1078,7 +1072,13 @@ this.FATE = this.FATE || {};
 'xocDia/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
-'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\n    Nh\u1EADn th\u01B0\u1EDFng\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\n    <i class="chip1"></i>\n    <i class="chip2"></i>\n    <i class="chip3"></i>\n    <i class="chip4"></i>\n    <i class="chip5"></i>\n    <i class="chip6"></i>\n    <i class="chip7"></i>\n    <i class="chip8"></i>\n</div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\n    <div class="card vitualCard1">\n        \n    </div>\n    <div class="card vitualCard2">\n        \n    </div>\n    <div class="card vitualCard3">\n        \n    </div>\n    <div class="card vitualCard4">\n        \n    </div>\n    <div class="card vitualCard5">\n        \n    </div>\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\n',}})();
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -10787,7 +10787,7 @@ this.TWIST = this.TWIST || {};
       _self.sellPopup.maxValue = maxValue;
       _self.sellPopup.plusButton.html(maxValue);
       _self.sellPopup.title.html(data.name);
-      setRatio(0);
+      setMin();
     };
     this.wrapperTemplate.append(this.sellPopup);
     var minLeft = 5;

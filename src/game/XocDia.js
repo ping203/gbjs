@@ -923,7 +923,7 @@ this.TWIST = this.TWIST || {};
       _self.sellPopup.maxValue = maxValue;
       _self.sellPopup.plusButton.html(maxValue);
       _self.sellPopup.title.html(data.name);
-      setRatio(0);
+      setMin();
     };
     this.wrapperTemplate.append(this.sellPopup);
     var minLeft = 5;
