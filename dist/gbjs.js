@@ -1010,7 +1010,7 @@ this.FATE = this.FATE || {};
 
         FATE.MockupServer = MockupServer;
 })();
-;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" id="gameplayStage" width="1280" height="720" ></canvas>',
+;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" width="1280" height="720" ></canvas>',
 'errorPanel':'<div class="error-panel">\r\n    \r\n</div>',
 'buttonBar/callSamButton':'<div class="button fourth red" id="call-sam">B\xE1o s\xE2m</div>',
 'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
