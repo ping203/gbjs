@@ -9,7 +9,7 @@ var sass = require('gulp-sass'),
 	path = require('path'),
 	args = require('minimist')(process.argv.slice(2));
 
-var theme = args.theme || 'gb-web';
+var theme = args.theme || 'jarvanIV';
 
 console.log("theme",theme);
 
