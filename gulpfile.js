@@ -79,12 +79,19 @@ gulp.task('copy.images', function() {
 });
 
 
+gulp.task('copy.sounds', function() {
+  return gulp.src('src/themes/'+theme+'/sounds/**/*')
+    .pipe(gulp.dest('dist/themes/'+theme+'/sounds/'));
+});
+
+
 
 gulp.task('build', [
 	'build.scss',
 	'build.tpl',
 	'copy.scss',
 	'copy.images',
+	'copy.sounds',
 	'build.js',
         'build.dev'
 ]);
