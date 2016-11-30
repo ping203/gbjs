@@ -142,10 +142,9 @@ this.TWIST = this.TWIST || {};
 
   p.onNotifyOne = function (data) {
     var player = this.getPlayerByUuid(data.uuid);
-    if (player)
-      player.setPlayerStatus("Báo 1 !", {
-        default: "Báo 1 !"
-      });
+    player.setPlayerStatus("Báo 1 !",{
+      default : "Báo 1 !"
+    });
   };
 
   p.foldTurn = function (data) {

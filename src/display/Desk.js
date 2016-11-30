@@ -88,11 +88,11 @@ this.TWIST = this.TWIST || {};
     return this.remainingCard;
   };
 
-  p.showRemainingDeckCard = function (value) {
+  p.showRemainingDeckCard = function(value) {
     var _value;
-    if (typeof value === "undefined") {
+    if(typeof value === "undefined") {
       var _value = this.deckCard.children.length;
-    }else{
+    } else {
       this.deckCard.children.length = _value = value;
     } 
     this.remainingCard.text = _value || "";

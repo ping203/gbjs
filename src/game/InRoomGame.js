@@ -321,6 +321,11 @@ this.TWIST = this.TWIST || {};
       item.status = "STATUS_PLAYING";
     });
     this.desk.clear();
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      player.setPlayerStatus("");
+    }
   };
 
   p.endGame = function (data) {
