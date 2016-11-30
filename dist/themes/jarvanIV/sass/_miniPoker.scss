@@ -3,10 +3,11 @@
     width: 919px;
     height: 455px;
     background-repeat: none;
-    position : relative;
+    position : absolute;
     display : inline-block;
     vertical-align : top;
-    margin-left : 335px;
+    left : 335px;
+    top : 100px;
     canvas{
         position : absolute;
         left : calc(50% - 400px);

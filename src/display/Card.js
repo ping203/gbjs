@@ -76,7 +76,7 @@ this.TWIST = this.TWIST || {};
     });
     this.inPhom.visible = false;
 
-    this.eatEffect = new createjs.Bitmap(cards);
+    this.eatEffect = this.border = new createjs.Bitmap(cards);
     this.eatEffect.sourceRect = {
       width: Card.size.width + 4,
       height: Card.size.height + 3,

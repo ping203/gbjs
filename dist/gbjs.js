@@ -1017,7 +1017,7 @@ this.FATE = this.FATE || {};
 'buttonBar/entiretyButton':'<div class="button second red" id="entirety-card">\xD9</div>',
 'buttonBar/foldSamButton':'<div class="button third blue" id="fold-sam">B\u1ECF s\xE2m</div>',
 'buttonBar/foldTurnButton':'<div class="button fourth red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
-'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\xE1o s\xE2m</div>',
+'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\u1ED1c b\xE0i</div>',
 'buttonBar/hitButton':'<div class="button second yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
 'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
@@ -1157,7 +1157,7 @@ this.TWIST = this.TWIST || {};
     });
     this.inPhom.visible = false;
 
-    this.eatEffect = new createjs.Bitmap(cards);
+    this.eatEffect = this.border = new createjs.Bitmap(cards);
     this.eatEffect.sourceRect = {
       width: Card.size.width + 4,
       height: Card.size.height + 3,

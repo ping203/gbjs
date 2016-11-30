@@ -1,8 +1,5 @@
 @charset "UTF-8";
 .twist {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -45,6 +42,20 @@ and open the template in the editor.
     -webkit-user-select: none;
     font-family: Roboto;
     position: relative; }
+  .twist .error-panel {
+    width: 80%;
+    color: #ffea02;
+    font-style: italic;
+    text-shadow: 2px 2px 2px black;
+    position: absolute;
+    left: 10%;
+    top: 40%;
+    font-size: 40px;
+    font-family: Roboto Condensed;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
   .twist .error-item {
     margin: 20px auto 0;
     animation-name: error-remove;
@@ -404,10 +415,11 @@ and open the template in the editor.
     width: 919px;
     height: 455px;
     background-repeat: none;
-    position: relative;
+    position: absolute;
     display: inline-block;
     vertical-align: top;
-    margin-left: 335px; }
+    left: 335px;
+    top: 100px; }
     .twist .mini-poker-bg canvas {
       position: absolute;
       left: calc(50% - 400px);
