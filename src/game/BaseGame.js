@@ -7,8 +7,8 @@ this.TWIST = this.TWIST || {};
   function BaseGame() {}
 
   var initOptions = {
-    width: 1000,
-    height: 580
+    width: 1280,
+    height: 720
   };
   var p = BaseGame.prototype = new EventEmitter();
 

@@ -16,9 +16,9 @@ this.TWIST = this.TWIST || {};
     Position: 0
   };
 
-  Player.usernameConfig = {x: 0, y: 70, width: 100, height: 40};
+  Player.usernameConfig = {x: 0, y: 100, width: 120, height: 50};
 
-  Player.avatarConfig = {x: 15, y: 0, radius: 35, innerRadius: 33, AvatarDefault: imagePath + 'avatars/1.png'};
+  Player.avatarConfig = {x: 15, y: 0, radius: 45, innerRadius: 43, AvatarDefault: imagePath + 'avatars/1.png'};
 
   Player.handConfig = {x: 100, y: 100};
 
@@ -58,9 +58,9 @@ this.TWIST = this.TWIST || {};
     $.extend(usernameContainer, usernameConfig);
 
     var usernameText = new createjs.Text(this.username, '18px Roboto Condensed', 'white');
-    usernameText.set({x: 50, y: 20, textAlign: 'center', textBaseline: 'bottom'});
+    usernameText.set({x: 60, y: 25, textAlign: 'center', textBaseline: 'bottom'});
     var moneyText = new createjs.Text(this.money, '14px Roboto Condensed', '#f3ba04');
-    moneyText.set({x: 50, y: 40, textAlign: 'center', textBaseline: 'bottom'});
+    moneyText.set({x: 60, y: 45, textAlign: 'center', textBaseline: 'bottom'});
     var usernameBg = new createjs.Shape();
     usernameBg.graphics.beginFill("black").drawRoundRectComplex(0, 0, usernameConfig.width, usernameConfig.height, 10, 10, 10, 10);
     usernameBg.alpha = 0.2;

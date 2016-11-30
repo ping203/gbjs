@@ -1080,39 +1080,30 @@ this.FATE = this.FATE || {};
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
 this.TWIST = this.TWIST || {};
-
 (function () {
   "use strict";
-
   var imagePath = location.origin + location.pathname + '../src/images/';
-
   function Card(position) {
     if (typeof position !== 'number' || position < 0 || position > 51)
       position = -1;
     this.initialize(position);
   }
-
   Card.size = {width: 90, height: 123};
-  Card.userCard = {width: 53, height: 69, cardDraggable: true, selectedHeight: 20, scale: 0.6};
+  Card.userCard = {width: 90, height: 123, cardDraggable: true, selectedHeight: 20, scale: 0.6, seperator: 91};
   Card.userCard.scale = Card.userCard.width / Card.size.width;
-
-  Card.playerCard = {width: 29, height: 37, seperator: 0, cardDraggable: false, scale: 0.33};
+  Card.playerCard = {width: 45, height: 61.5, seperator: 0, cardDraggable: false, scale: 0.33};
   Card.playerCard.scale = Card.playerCard.width / Card.size.width;
-
-  Card.draftCard = {width: 53, height: 69, seperator: 55, scale: 0.5};
+  Card.deckCard = {width: 40, seperator: 0.1};
+  Card.deckCard.scale = Card.deckCard.width / Card.size.width;
+  Card.draftCard = {width: 45, height: 61.5, seperator: 46};
   Card.draftCard.scale = Card.draftCard.width / Card.size.width;
-
   Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
   Card.threeCards.scale = Card.threeCards.width / Card.size.width;
-
   Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
   Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
-
-  Card.miniPoker = {width: 130, height: 180, scale: 1.6};
+  Card.miniPoker = {width: 130, height: 180};
   Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
-
   Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
-
   Card.Suite = {
     3: 0, //co = 39/13
     2: 1, // ro = 26/13
@@ -1120,20 +1111,15 @@ this.TWIST = this.TWIST || {};
     0: 2, //bich = 0/13
     4: 4
   };
-
   Card.NumberCardInHand = 13;
   Card.SuitMap = ["♠", "♣", "♦", "♥"];
   Card.SuitNameMap = ["b", "t", "r", "c"];
   Card.SuitImageIndex = ["♠", "♣", "♦", "♥"];
-
   var p = Card.prototype = new createjs.Container();
   p.container_initialize = p.initialize;
-
-
   function getRankSuite(cardValue) {
     var cardRank = Math.floor(cardValue / 4);
     var cardSuite = Math.floor(cardValue % 4);
-
     if (cardValue < 0 || cardValue >= 52) {
       cardRank = -1;
       cardSuite = 4;
@@ -1143,71 +1129,74 @@ this.TWIST = this.TWIST || {};
       suite: cardSuite
     };
   }
-
   p.initialize = function (value) {
     this.container_initialize();
     this._init();
     this.setValue(value);
   };
-
   p._init = function () {
     var cards = new Image();
     this.image = cards;
     cards.src = (TWIST.imagePath || imagePath) + 'card/cards.png';
-//    cards.src = (TWIST.imagePath || imagePath) + 'card/-1.png';
     var bg = new createjs.Bitmap(cards);
     this.bg = bg;
     bg.sourceRect = $.extend({}, Card.size);
     bg.sourceRect.x = 0;
     bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
 
-    this.border = new createjs.Bitmap(cards);
-    this.border.sourceRect = {
+    this.inPhom = new createjs.Bitmap(cards);
+    this.inPhom.sourceRect = {
+      width: 25,
+      height: 25,
+      x: 100,
+      y: 524
+    };
+    this.inPhom.set({
+      x: 55,
+      y: 10
+    });
+    this.inPhom.visible = false;
+
+    this.eatEffect = new createjs.Bitmap(cards);
+    this.eatEffect.sourceRect = {
       width: Card.size.width + 4,
       height: Card.size.height + 3,
       x: Card.size.width * 2,
       y: Card.size.height * Card.SuitNameMap.length
     };
-    this.border.set({
+    this.eatEffect.set({
       x: -2,
       y: -1.5
     });
-    this.border.visible = this.showBorder;
-    this.addChild(bg, this.border);
-  };
+    this.eatEffect.visible = this.showEatEffect;
 
+    this.addChild(bg, this.inPhom, this.eatEffect);
+  };
   p.setValue = function (value) {
     var rankSuite = getRankSuite(value);
     this.cardValue = value;
     this.rank = rankSuite.rank;
     this.suite = rankSuite.suite;
-
     var bg = this.bg;
-    var srcValue = -1;
     if (value !== -1) {
       Card.RankMapIndex = Card.RankMapIndex || ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
       var rankName = Card.RankMapIndex[rankSuite.rank];
       var suidName = Card.SuitMap[rankSuite.suite];
-//      srcValue = (rankName - 1) * 4 + rankSuite.suite;
       bg.sourceRect.x = (rankName - 1) * Card.size.width;
       bg.sourceRect.y = rankSuite.suite * Card.size.height;
     } else {
       bg.sourceRect.x = 0;
       bg.sourceRect.y = Card.size.height * Card.SuitNameMap.length;
     }
-//    this.image.src = (TWIST.imagePath || imagePath) + 'card/' + srcValue + '.png';
   };
-
   p.getValue = function () {
     return this.cardValue;
   };
-
   p.removeAllSelected = function () {
     this.parent.children.forEach(function (item, index) {
       item.setSelected(false);
     });
   };
-
   p.openCard = function (cardValue, cardType) {
     var oldX = this.x;
     var _self = this;
@@ -1220,11 +1209,9 @@ this.TWIST = this.TWIST || {};
               try {
                 this.updateCache();
               } catch (e) {
-
               }
             })
             .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
-
       if (this.isTracking) {
         TWIST.Observer.emit('cardOpened', this);
       }
@@ -1232,7 +1219,6 @@ this.TWIST = this.TWIST || {};
       //this.updateCache();
     });
   };
-
   p.upSideDown = function (cardType) {
     var oldX = this.x;
     var _self = this;
@@ -1245,23 +1231,16 @@ this.TWIST = this.TWIST || {};
               try {
                 this.updateCache();
               } catch (e) {
-
               }
             })
             .to({scaleX: cardType.scale, scaleY: cardType.scale, x: oldX}, 150).call(function () {
-
-
     });
   };
-
   p.tipOff = function () {
     if (this.IsFlip === false)
       return;
-
     var newX = this.x;
-
     this.removeAllEventListeners();
-
     return createjs.Tween.get(this)
             .to({scaleX: 0.1, x: newX + this.width / 2}, 150)
             .call(function () {
@@ -1277,14 +1256,11 @@ this.TWIST = this.TWIST || {};
               }
             });
   };
-
   p.movePosition = function (newPosition) {
     if (!this.parent)
       return;
-
     createjs.Tween.get(this).to({x: newPosition.x, y: newPosition.y}, 150).call(function () {});
   }
-
   p.setSelected = function (isSelect) {
     if (isSelect) {
       var newY = -Card.userCard.selectedHeight;
@@ -1296,7 +1272,6 @@ this.TWIST = this.TWIST || {};
       this.y = 0;
     }
   };
-
   p.toggedSelected = function () {
     var _self = this;
     if (this.isSelected) {
@@ -1312,16 +1287,13 @@ this.TWIST = this.TWIST || {};
       createjs.Tween.get(this).to({y: newY}, 100).call(function () {
         _self.parent.selectedCard = _self;
       });
-
     }
   };
-
   p.setDraggable = function (draggable) {
     var _self = this;
     this.removeAllEventListeners("mousedown");
     this.removeAllEventListeners("pressmove");
     this.removeAllEventListeners("pressup");
-
 //                this.parent.
     if (draggable) {
       this.addEventListener('mousedown', function (evt) {
@@ -1349,7 +1321,6 @@ this.TWIST = this.TWIST || {};
           if (curPosition != _self.position) {
             var length = Math.abs(curPosition - _self.position);
             var direction = (curPosition - _self.position) / Math.abs(curPosition - _self.position);
-
             var cardPositions = handCards.children.forEach(function (item, index) {
               if ((item.position - curPosition) * (item.position - _self.position) <= 0 && (item.position != _self.position)) {
                 item.position -= direction;
@@ -1373,7 +1344,6 @@ this.TWIST = this.TWIST || {};
       });
     }
   };
-
   p.moveTo = function (x, y, options) {
     createjs.Tween.get(this).to({
       x: x,
@@ -1383,7 +1353,6 @@ this.TWIST = this.TWIST || {};
 //                    this.parent.setChildIndex(this, this.position);
     });
   };
-
   p.moveToPosition = function (position, options) {
     position = position || this.position || 0;
     var indexLeft = this.parent.indexLeft || 0;
@@ -1391,7 +1360,6 @@ this.TWIST = this.TWIST || {};
     var newX = indexLeft + seperator * position;
     this.moveTo(newX, 0, options);
   };
-
   p.setInPhom = function (value) {
     if (value) {
       this.inPhom.visible = true;
@@ -1403,10 +1371,8 @@ this.TWIST = this.TWIST || {};
     } catch (e) {
     }
   };
-
   p.setClick = function (clickable) {
     var _self = this;
-
     this.removeAllEventListeners("click");
     if (clickable) {
       this.addEventListener('click', function (e) {
@@ -1422,13 +1388,10 @@ this.TWIST = this.TWIST || {};
       });
     }
   };
-
   p.bindMouseOver = function (mouseOver) {
     var _self = this;
-
     this.removeAllEventListeners("mouseover");
     this.removeAllEventListeners("mouseout");
-
     if (mouseOver) {
       this.addEventListener('mouseover', function (evt) {
         return;
@@ -1442,7 +1405,6 @@ this.TWIST = this.TWIST || {};
       });
     }
   };
-
   p.bindEventListener = function () {
     this.removeAllEventListeners("click");
     var _self = this;
@@ -1452,11 +1414,9 @@ this.TWIST = this.TWIST || {};
           TWIST.Observer.emit("cardSelected", _self);
         }
         _self.setSelected(!_self.selected);
-
       }
     });
   };
-
   p.bindOpenCard = function () {
     this.removeAllEventListeners("click");
     var _self = this;
@@ -1470,7 +1430,6 @@ this.TWIST = this.TWIST || {};
       }
     });
   }
-
   p.Overlay = function () {
     this.isOverlay = true;
     this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, -60, 0, 0))];
@@ -1478,44 +1437,34 @@ this.TWIST = this.TWIST || {};
     try {
       this.updateCache();
     } catch (e) {
-
     }
   };
-
   p.UnOverlay = function () {
     this.isOverlay = false;
     this.filters = [new createjs.ColorMatrixFilter(new createjs.ColorMatrix(0, 0, 0, 0))];
     try {
       this.updateCache();
     } catch (e) {
-
     }
   };
-
   p.addMouseMoveEvent = function () {
     if (this.card.IsDraggable && !this.card.IsInPhom) {
       this.addEventListener('mouseover', function (evt) {
 //                    evt.target.shadow = Card.shadowHover;
       });
-
       this.addEventListener('mouseout', function (evt) {
 //                    evt.target.shadow = null;
       });
     }
   };
-
   p.hightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = true;
-        this.border.visible = true;
+    this.showEatEffect = true;
+    this.eatEffect.visible = true;
   }
-
   p.unHightLight = function () {
-//                this.shadow = new createjs.Shadow('#0ff', 0, 0, 15);
-        this.showBorder = false;
-        this.border.visible = false;
+    this.showEatEffect = false;
+    this.eatEffect.visible = false;
   }
-
   TWIST.Card = Card;
 })();
 this.TWIST = this.TWIST || {};
@@ -1530,10 +1479,10 @@ this.TWIST = this.TWIST || {};
   }
 
   Desk.playerPositions = {
-       4: [{x: 12, y: 430}, {x: 840, y: 190}, {x: 450, y: 17}, {x: 70, y: 190}],
-    2: [{x: 12, y: 410}, {x: 450, y: 17}],
-    5: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 350, y: 17}, {x: 650, y: 17}, {x: 110, y: 160}],
-    9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
+       4: [{x: 12, y: 560}, {x: 1110, y: 230}, {x: 583, y: 15}, {x: 71, y: 230}],
+    2: [{x: 12, y: 560}, {x: 583, y: 15}],
+    5: [{x: 12, y: 560}, {x: 1110, y: 235}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 235}],
+    9: [{x: 380, y: 550}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
     6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
   };
 
@@ -1552,8 +1501,8 @@ this.TWIST = this.TWIST || {};
   p.container_initialize = p.initialize;
 
 
-  Desk.width = 1000;
-  Desk.height = 580;
+  Desk.width = 1280;
+  Desk.height = 720;
 
   // vi tri gua ban
   Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
@@ -1608,11 +1557,11 @@ this.TWIST = this.TWIST || {};
     return this.remainingCard;
   };
 
-  p.showRemainingDeckCard = function (value) {
+  p.showRemainingDeckCard = function(value) {
     var _value;
-    if (typeof value === "undefined") {
+    if(typeof value === "undefined") {
       var _value = this.deckCard.children.length;
-    }else{
+    } else {
       this.deckCard.children.length = _value = value;
     } 
     this.remainingCard.text = _value || "";
@@ -1822,6 +1771,7 @@ this.TWIST = this.TWIST || {};
 
   TWIST.Desk = Desk;
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -1917,9 +1867,9 @@ this.TWIST = this.TWIST || {};
     Position: 0
   };
 
-  Player.usernameConfig = {x: 0, y: 70, width: 100, height: 40};
+  Player.usernameConfig = {x: 0, y: 100, width: 120, height: 50};
 
-  Player.avatarConfig = {x: 15, y: 0, radius: 35, innerRadius: 33, AvatarDefault: imagePath + 'avatars/1.png'};
+  Player.avatarConfig = {x: 15, y: 0, radius: 45, innerRadius: 43, AvatarDefault: imagePath + 'avatars/1.png'};
 
   Player.handConfig = {x: 100, y: 100};
 
@@ -1959,9 +1909,9 @@ this.TWIST = this.TWIST || {};
     $.extend(usernameContainer, usernameConfig);
 
     var usernameText = new createjs.Text(this.username, '18px Roboto Condensed', 'white');
-    usernameText.set({x: 50, y: 20, textAlign: 'center', textBaseline: 'bottom'});
+    usernameText.set({x: 60, y: 25, textAlign: 'center', textBaseline: 'bottom'});
     var moneyText = new createjs.Text(this.money, '14px Roboto Condensed', '#f3ba04');
-    moneyText.set({x: 50, y: 40, textAlign: 'center', textBaseline: 'bottom'});
+    moneyText.set({x: 60, y: 45, textAlign: 'center', textBaseline: 'bottom'});
     var usernameBg = new createjs.Shape();
     usernameBg.graphics.beginFill("black").drawRoundRectComplex(0, 0, usernameConfig.width, usernameConfig.height, 10, 10, 10, 10);
     usernameBg.alpha = 0.2;
@@ -3381,8 +3331,8 @@ this.TWIST = this.TWIST || {};
   function BaseGame() {}
 
   var initOptions = {
-    width: 1000,
-    height: 580
+    width: 1280,
+    height: 720
   };
   var p = BaseGame.prototype = new EventEmitter();
 
@@ -3916,6 +3866,11 @@ this.TWIST = this.TWIST || {};
       item.status = "STATUS_PLAYING";
     });
     this.desk.clear();
+    var players = this.playersContainer.children;
+    for (var i = 0, length = players.length; i < length; i++) {
+      var player = players[i];
+      player.setPlayerStatus("");
+    }
   };
 
   p.endGame = function (data) {
@@ -4153,6 +4108,7 @@ this.TWIST = this.TWIST || {};
   TWIST.InRoomGame = InRoomGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {
@@ -4297,10 +4253,9 @@ this.TWIST = this.TWIST || {};
 
   p.onNotifyOne = function (data) {
     var player = this.getPlayerByUuid(data.uuid);
-    if (player)
-      player.setPlayerStatus("Báo 1 !", {
-        default: "Báo 1 !"
-      });
+    player.setPlayerStatus("Báo 1 !",{
+      default : "Báo 1 !"
+    });
   };
 
   p.foldTurn = function (data) {
@@ -4445,6 +4400,7 @@ this.TWIST = this.TWIST || {};
   TWIST.BaseDemlaGame = BaseDemlaGame;
 
 })();
+
 this.TWIST = this.TWIST || {};
 
 (function () {

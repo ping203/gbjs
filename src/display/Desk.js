@@ -10,10 +10,10 @@ this.TWIST = this.TWIST || {};
   }
 
   Desk.playerPositions = {
-       4: [{x: 12, y: 430}, {x: 840, y: 190}, {x: 450, y: 17}, {x: 70, y: 190}],
-    2: [{x: 12, y: 410}, {x: 450, y: 17}],
-    5: [{x: 12, y: 410}, {x: 790, y: 160}, {x: 350, y: 17}, {x: 650, y: 17}, {x: 110, y: 160}],
-    9: [{x: 380, y: 410}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
+       4: [{x: 12, y: 560}, {x: 1110, y: 230}, {x: 583, y: 15}, {x: 71, y: 230}],
+    2: [{x: 12, y: 560}, {x: 583, y: 15}],
+    5: [{x: 12, y: 560}, {x: 1110, y: 235}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 235}],
+    9: [{x: 380, y: 550}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
     6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
   };
 
@@ -32,8 +32,8 @@ this.TWIST = this.TWIST || {};
   p.container_initialize = p.initialize;
 
 
-  Desk.width = 1000;
-  Desk.height = 580;
+  Desk.width = 1280;
+  Desk.height = 720;
 
   // vi tri gua ban
   Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
