@@ -10,17 +10,17 @@ this.TWIST = this.TWIST || {};
   }
 
   Desk.playerPositions = {
-       4: [{x: 12, y: 560}, {x: 1110, y: 230}, {x: 583, y: 15}, {x: 71, y: 230}],
+    4: [{x: 12, y: 560}, {x: 1110, y: 230}, {x: 583, y: 15}, {x: 71, y: 230}],
     2: [{x: 12, y: 560}, {x: 583, y: 15}],
     5: [{x: 12, y: 560}, {x: 1110, y: 235}, {x: 783, y: 17}, {x: 383, y: 17}, {x: 71, y: 235}],
     9: [{x: 380, y: 550}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 1000, y: 140}, {x: 783, y: 67}, {x: 383, y: 67}, {x: 170, y: 140}, {x: 70, y: 320}, {x: 160, y: 540}],
-    6: [{x: 550, y: 410}, {x: 1080, y: 400}, {x: 1080, y: 170}, {x: 550, y: 70}, {x: 130, y: 170}, {x: 130, y: 400}]
+    6: [{x: 550, y: 550}, {x: 970, y: 540}, {x: 1090, y: 320}, {x: 783, y: 67}, {x: 70, y: 320}, {x: 160, y: 540}]
   };
 
   Desk.handPositions = {
     center: {x: 150, y: -110, align: 'center'},
-        left: {x: -50, y: 20, align: 'left'},
-        right: {x: 150, y: -110, align: 'center'}
+    left: {x: -50, y: 20, align: 'left'},
+    right: {x: 150, y: -110, align: 'center'}
   };
 
   Desk.draftPositionList = {
@@ -88,13 +88,13 @@ this.TWIST = this.TWIST || {};
     return this.remainingCard;
   };
 
-  p.showRemainingDeckCard = function(value) {
+  p.showRemainingDeckCard = function (value) {
     var _value;
-    if(typeof value === "undefined") {
+    if (typeof value === "undefined") {
       var _value = this.deckCard.children.length;
     } else {
       this.deckCard.children.length = _value = value;
-    } 
+    }
     this.remainingCard.text = _value || "";
   };
 
