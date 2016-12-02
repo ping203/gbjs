@@ -2961,3 +2961,39 @@ and open the template in the editor.
               margin-left: 20px;
               background-color: #f0a12b;
               color: white; }
+  .twist .invite-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0; }
+    .twist .invite-wrapper .invite-item {
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      border: 3px solid greenyellow;
+      line-height: 72px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-sizing: border-box;
+      border: 2px solid rgba(255, 255, 255, 0.12); }
+      .twist .invite-wrapper .invite-item .invite-item-inner {
+        position: absolute;
+        background-color: #8398c5;
+        width: 70px;
+        height: 70px;
+        top: 2px;
+        left: 2px;
+        border-radius: 50%; }
+        .twist .invite-wrapper .invite-item .invite-item-inner:after, .twist .invite-wrapper .invite-item .invite-item-inner:before {
+          content: "";
+          position: absolute;
+          width: 28px;
+          height: 5px;
+          top: 32.5px;
+          left: 21px;
+          background-color: #7286b2; }
+        .twist .invite-wrapper .invite-item .invite-item-inner:after {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg); }
