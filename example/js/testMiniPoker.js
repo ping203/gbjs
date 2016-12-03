@@ -9,12 +9,7 @@
             event: "userInfo",
             data: {
                 username: "User Index 1",
-                money: "11000",
-                pot: {
-                    1000: "445555",
-                    10000: "4554522323",
-                    100000: "121212121"
-                }
+                money: "11000"
             },
             nextTime: 100
         }

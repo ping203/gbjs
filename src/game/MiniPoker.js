@@ -662,7 +662,7 @@ this.TWIST = this.TWIST || {};
                 }
             };
             $.extend(newOptions, jElement.options);
-            oldValue = parseInt(oldValue.replace(/\./g, ""));
+            oldValue = parseInt(oldValue.replace(/\,/g, ""));
             if (isNaN(oldValue))
                 oldValue = 0;
             this.prop('Counter', oldValue).animate({
