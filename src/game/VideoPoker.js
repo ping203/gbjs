@@ -413,6 +413,18 @@ this.TWIST = this.TWIST || {};
     this.endSpin(data);
   };
 
+  p.reDrawSeconTurn = function (data) {
+    var _self = this;
+    currentCardList.forEach(function (item, index) {
+      item.setValue(data.map[index]);
+    });
+
+    this.virtualCardsList.forEach(function (item, index) {
+      data.holdCards[index] && item.toggleClass("active");
+    });
+    gameTurn = 1;
+    this.endSpin(data);
+  };
 
   p.setCardSelected = function (data) {
     var _self = this;
@@ -822,7 +834,10 @@ this.TWIST = this.TWIST || {};
     this.doubleButton.addClass('disabled');
     this.getWinButton._disabled = true;
     this.getWinButton.removeClass('active');
-    currentCardList.forEach(function (item, index) {
+    this.virtualCardsList.forEach(function (item, index) {
+      item.removeClass("active");
+    });
+    currentCardList.forEach(function (item, index) { 
       item.unHightLight();
       item.UnOverlay();
       if (index == 0) {
