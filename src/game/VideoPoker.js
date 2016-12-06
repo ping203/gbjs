@@ -387,12 +387,13 @@ this.TWIST = this.TWIST || {};
   p.reconnect = function (data) {
     var _self = this;
     this.showSessionId(data.sessionId);
-    
-    var bettingItem = this.chipButtons.find(function(item,index){
+
+    var bettingItem = this.chipButtons.find(function (item, index) {
       return item.value == data.betting;
     });
+    _self.changeNumberEffect(_self.resultText, data.currentMoney, {duration: 100}).runEffect();
     this.setBetting(bettingItem);
-    
+
     var functionList = {
       1: _self.reDrawFirstTurn,
       2: _self.reDrawSeconTurn,
@@ -400,11 +401,12 @@ this.TWIST = this.TWIST || {};
     };
     var fun = functionList[data.status];
     if (typeof fun == 'function') {
-      fun.call(_self,data);
+      fun.call(_self, data);
     }
   };
 
   p.reDrawFirstTurn = function (data) {
+    var _self = this;
     currentCardList.forEach(function (item, index) {
       item.setValue(data.map[index]);
     });
