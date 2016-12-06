@@ -384,7 +384,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.reconnect = function (data) {
-    
+    var _self = this;
     this.showSessionId(data.sessionId);
     
     var bettingItem = this.chipButtons.find(function(item,index){
@@ -393,9 +393,9 @@ this.TWIST = this.TWIST || {};
     this.setBetting(bettingItem);
     
     var functionList = {
-      1: this.reDrawFirstTurn,
-      2: this.reDrawSeconTurn,
-      3: this.reDrawDoubleTurn,
+      1: _self.reDrawFirstTurn,
+      2: _self.reDrawSeconTurn,
+      3: _self.reDrawDoubleTurn,
     };
     var fun = functionList[data.status];
     if (typeof fun == 'function') {
