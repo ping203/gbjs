@@ -426,6 +426,31 @@ this.TWIST = this.TWIST || {};
     this.endSpin(data);
   };
 
+  p.reDrawDoubleTurn = function (data) {
+    this.buttonSpin.hide();
+    this.doubleButton.show();
+    this.doubleButton._disabled = true;
+    this.doubleButton.addClass('disabled');
+    if (data.doubleStatus == 1) {
+      this.reDrawDoubleTurnPhase1(data);
+    } else if (data.doubleStatus == 2) {
+      this.reDrawDoubleTurnPhase2(data);
+    }
+  };
+
+  p.reDrawDoubleTurnPhase1 = function (data) {
+    gameTurn = 2;
+    currentCardList.forEach(function (item, index) {
+      item.setValue(data.map[index]);
+    });
+    this.doubleTurn(data);
+  };
+
+  p.reDrawDoubleTurnPhase2 = function (data) {
+    gameTurn = 3;
+    this.setCardSelected(data);
+  };
+
   p.setCardSelected = function (data) {
     var _self = this;
     var card = currentCardList[data.selectedIndex];
@@ -438,9 +463,7 @@ this.TWIST = this.TWIST || {};
 
     function openOtherCard(cardOpen) {
       var delay = 0;
-      var item = _self.virtualCardsList[data.selectedIndex]
-      item._active = true;
-      item.addClass('active');
+      var item = _self.virtualCardsList[data.selectedIndex];
       currentCardList.forEach(function (item, index) {
         if (index == 0 || index == data.selectedIndex)
           return;
@@ -837,7 +860,7 @@ this.TWIST = this.TWIST || {};
     this.virtualCardsList.forEach(function (item, index) {
       item.removeClass("active");
     });
-    currentCardList.forEach(function (item, index) { 
+    currentCardList.forEach(function (item, index) {
       item.unHightLight();
       item.UnOverlay();
       if (index == 0) {
