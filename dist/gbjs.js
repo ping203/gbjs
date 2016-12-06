@@ -9026,7 +9026,7 @@ this.TWIST = this.TWIST || {};
       var value = this.mapData[i];
       var item = this.createSlotItem(this.mapData[i], 0);
       columnItems.addChild(item);
-      currentCardList[i] = item;
+      currentCardList[i] = item.bg;
 
       spinArea.addChild(columns[i]);
     }
@@ -9751,6 +9751,7 @@ this.TWIST = this.TWIST || {};
     var slotItem = new createjs.Container();
 
     var bg = new TWIST.Card(value);
+    slotItem.bg = bg;
     if (value > 51) {
       value -= 52;
       bg.bg.sourceRect = {
