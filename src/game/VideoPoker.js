@@ -73,6 +73,7 @@ this.TWIST = this.TWIST || {};
         100000: 0
       }
     };
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
     this.userInfo = {};
     this.initCanvas();
     this.initTemplate();

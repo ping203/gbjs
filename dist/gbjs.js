@@ -4582,1496 +4582,1498 @@ this.TWIST = this.TWIST || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
-            currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer, currentBetting;
+  var statusList, cardRankList, speed, numberCard, effectQueue, bets, moneyFallingEffectTime, gameState, gameStates,
+          currentEffectTurn, numberEffectCompleted, timeOutList, canvasSize, mainCardSize, winCardSize, newCard, winCardContainer, currentBetting;
 
-    var initOptions = {
-        resultTab: []
+  var initOptions = {
+    resultTab: []
+  };
+
+  function HightLowGame(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initHightLowGame();
+  }
+
+  var p = HightLowGame.prototype = new TWIST.BaseGame();
+
+  p.initHightLowGame = function () {
+    this.initVariable();
+    $.extend(this.options, canvasSize);
+    this.info = {
+      betting: 1000,
+      potData: {
+        1000: 0,
+        10000: 0,
+        100000: 0
+      }
+    };
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+    this.userInfo = {};
+    this.initCanvas();
+    this.initEvent();
+    this.initTemplate();
+    this.draw();
+    this.pushEventListener();
+    this.status = 'pause';
+  };
+
+  p.initVariable = function () {
+    statusList = ["pause", "endding", "running"];
+
+    gameStates = ["getCards", "selectHightLow"];
+
+    cardRankList = [
+      {value: 0, name: "2"}
+      , {value: 1, name: "3"}
+      , {value: 2, name: "4"}
+      , {value: 3, name: "5"}
+      , {value: 4, name: "6"}
+      , {value: 5, name: "7"}
+      , {value: 6, name: "8"}
+      , {value: 7, name: "9"}
+      , {value: 8, name: "10"}
+      , {value: 9, name: "J"}
+      , {value: 10, name: "Q"}
+      , {value: 11, name: "K"}
+      , {value: 12, name: "A"}
+    ];
+
+    speed = 2.5;//default 2
+
+    numberCard = 52;
+
+    effectQueue = [];
+
+    canvasSize = {width: 800, height: 400};
+
+    mainCardSize = {width: 190, height: 244};
+
+    winCardSize = {width: 39, height: 48};
+
+    bets = [1000, 10000, 100000];
+
+    moneyFallingEffectTime = 2000;
+
+    timeOutList = [];
+
+    gameState = 0;
+
+    newCard = {};
+
+    winCardContainer = {width: 740, height: 70, top: 340, left: 50};
+
+    currentBetting = 0;
+  };
+
+  p.initTemplate = function () {
+    var _self = this;
+
+    this.wrapperTemplate = $(TWIST.HTMLTemplate['hightLow/wrapper']);
+    this.wrapper.append(this.wrapperTemplate);
+
+    this.centerTempalte = $(TWIST.HTMLTemplate['hightLow/center']);
+    this.wrapperTemplate.append(this.centerTempalte);
+
+    this.centerTempalte.find('.canvas-wrapper').append(this.canvas);
+    this.initStage();
+
+    this.topTempalte = $(TWIST.HTMLTemplate['hightLow/top']);
+    this.wrapperTemplate.append(this.topTempalte);
+
+    this.bottomTempalte = $(TWIST.HTMLTemplate['hightLow/bottom']);
+    this.wrapperTemplate.append(this.bottomTempalte);
+
+    this._initExplodePot();
+
+    this._initPot();
+
+    this._initCurrentBetting();
+
+    this._initPotCards();
+
+    this._initSupportText();
+
+    this._initRemainTime();
+
+    this._initHightLowButton();
+
+    this._initHightLowBettingText();
+
+    this._initNewTurnText();
+
+    this._initVirtualCard();
+
+    this._initProfile();
+
+    this._initChipsButton();
+
+    this._initSessionId();
+
+    this._initNewTurnButton();
+  };
+
+  p._initExplodePot = function () {
+    var _self = this;
+    this.effect = $('<div class="effect">' + TWIST.HTMLTemplate['effect/explodePot'] + '</div>');
+    this.wrapperTemplate.append(this.effect);
+
+    this.effect.explorerPot = _self.effect.find('.explorer-pot');
+    this.effect.moneyFalling = _self.effect.find('.money-falling');
+    this.effect.showEffect = function () {
+      _self.effect.explorerPot.show();
+      _self.effect.moneyFalling.show();
+    };
+    this.effect.hideEffect = function () {
+      _self.effect.explorerPot.hide();
+      _self.effect.moneyFalling.hide();
+    };
+    this.effect.on('click', _self.effect.hideEffect);
+  };
+
+  p._initPot = function () {
+    var _self = this;
+    this.pot = this.topTempalte.find('.pot-value');
+    this.addNumberEffect(this.pot);
+  };
+
+  p._initCurrentBetting = function () {
+    var _self = this;
+    this.currentBetting = this.topTempalte.find('.bank-value');
+    this.addNumberEffect(this.currentBetting);
+  };
+
+  p._initPotCards = function () {
+    var _self = this;
+    this.potCards = [];
+    var potCards = this.topTempalte.find('.pot-card');
+    potCards.each(function (index, item) {
+      _self.potCards.push($(item));
+    });
+    this.potCards.addActiveCard = function () {
+      var potCard = _self.potCards.find(function (item, index) {
+        return !item.active;
+      });
+      if (potCard) {
+        potCard.active = true;
+        potCard.addClass('active');
+      }
+    };
+    this.potCards.removeActiveCard = function () {
+      potCards.removeClass('active');
+      _self.potCards.forEach(function (item, index) {
+        item.active = false;
+        item.removeClass('active');
+      });
+    };
+  };
+
+  p._initSupportText = function () {
+    var _self = this;
+    this.supportText = this.centerTempalte.find('.text-support');
+    this.supportText.text("");
+  };
+
+  p._initRemainTime = function () {
+    var _self = this;
+    this.remainTime = this.centerTempalte.find('.remain-time');
+    this.addRemainTimeEffect(this.remainTime);
+  };
+
+  p._initHightLowButton = function () {
+    var _self = this;
+    this.lowButton = this.centerTempalte.find('.low-button');
+    this.addDisbaleEffect(this.lowButton);
+    this.lowButton.runEffect();
+
+    this.hightButton = this.centerTempalte.find('.hight-button');
+    this.addDisbaleEffect(this.hightButton);
+    this.hightButton.runEffect();
+
+    this.lowButton.on('click', function (event) {
+      if (_self.lowButton.disabled)
+        return;
+      _self.emitHightLow(false);
+    });
+
+    this.hightButton.on('click', function (event) {
+      if (_self.hightButton.disabled)
+        return;
+      _self.emitHightLow(true);
+    });
+  };
+
+  p._initHightLowBettingText = function () {
+    var _self = this;
+    this.lowBetting = this.centerTempalte.find('.low-value');
+    this.addNumberEffect(this.lowBetting);
+
+    this.hightBetting = this.centerTempalte.find('.hight-value');
+    this.addNumberEffect(this.hightBetting);
+  };
+
+  p._initVirtualCard = function () {
+    var _self = this;
+    this.virtualCard = this.centerTempalte.find('.virtual-card');
+
+    this.virtualCard.on('click', function (event) {
+      _self.checkStart();
+    });
+
+  };
+
+  p.checkStart = function () {
+    var _self = this;
+    if (_self.status !== 'pause' || gameState !== 0)
+      return;
+    if (this.userInfo.money < this.info.betting) {
+      this.emit("error", "Bạn không đủ tiền !");
+    } else {
+      TWIST.Sound.play("minigame/ButtonClick");
+      TWIST.Sound.play("minigame/coin_spin");
+      _self.emit("start", this.info.betting);
+      this.newTurnText.hide();
+      this.changeStatus("running");
+      _self.moneyContainer.runEffect(this.userInfo.money - this.info.betting, {duration: 500});
+      this.moveChip.runEffect(true);
+    }
+  };
+
+  p.emitHightLow = function (isHight) {
+    var _self = this;
+    if (_self.status !== 'pause' || gameState !== 1)
+      return;
+    TWIST.Sound.play("minigame/ButtonClick");
+    this.emit("choose", isHight);
+  };
+
+  p._initNewTurnText = function () {
+    var _self = this;
+    this.newTurnText = this.centerTempalte.find('.new-turn-text');
+  };
+
+  p._initProfile = function () {
+    var _self = this;
+    this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+    this.bottomTempalte.find('.profile-hight-low').append(this.user);
+
+    this.moneyContainer = this.user.find('.money');
+    this.addNumberEffect(this.moneyContainer);
+
+    this.user.renderUserInfo = function (data) {
+      $.extend(_self.userInfo, data);
+      var avatarContainer = _self.user.find('.avatar');
+      var usernameContainer = _self.user.find('.username');
+      var moneyContainer = _self.user.find('.money');
+      var avatar = Global.md5Avatar(data.avatar);
+      avatarContainer.addClass('avatar' + avatar);
+      usernameContainer.text(data.username);
+      _self.moneyContainer.runEffect(data.money, {duration: 10});
     };
 
-    function HightLowGame(wrapper, options) {
-        this.wrapper = $(wrapper);
-        this.options = $.extend(initOptions, options);
-        this.initHightLowGame();
+    this.moveChip = $(TWIST.HTMLTemplate['videoPoker/moveChip']);
+    this.user.append(this.moveChip);
+    this.addChipEffect(this.moveChip);
+    this.moveChip.hide();
+  };
+
+  p._initChipsButton = function () {
+    var _self = this;
+    this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+    this.bottomTempalte.find('.chips-hight-low').append(this.chipWrapper);
+
+    this.chipButtons = [{
+        value: 1000,
+        template: this.chipWrapper.find('.chip.violet')
+      }, {
+        value: 10000,
+        template: this.chipWrapper.find('.chip.green')
+      }, {
+        value: 100000,
+        template: this.chipWrapper.find('.chip.blue')
+      }];
+
+    this.chipButtons.forEach(function (item, index) {
+      item.template.on('click', function (event) {
+        if (_self.status !== 'pause' || gameState !== 0)
+          return;
+        this.resultSound = TWIST.Sound.play("minigame/Common_Click");
+        _self.setBetting(item);
+      });
+    });
+
+    this.setBetting(this.chipButtons[0]);
+  };
+
+  p._initSessionId = function () {
+    this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+    this.wrapperTemplate.append(this.sessionId);
+  };
+
+  p.setBetting = function (item) {
+    this.chipWrapper.find('.chip').removeClass('active');
+    item.template.addClass("active");
+    this.info.betting = item.value;
+    this.pot.runEffect(this.info.potData[this.info.betting], {duration: 200});
+  };
+
+  p._initNewTurnButton = function () {
+    var _self = this;
+    this.newTurnButton = this.bottomTempalte.find('.new-turn-button');
+    this.addDisbaleEffect(this.newTurnButton);
+    this.newTurnButton.hide();
+
+    this.newTurnButton.on('click', function (event) {
+      if (_self.newTurnButton.disabled)
+        return;
+      _self.emit("newTurn");
+    });
+
+  };
+
+  p.draw = function () {
+    var _self = this;
+    this.mainContainer = new createjs.Container();
+    this.mainContainer.set({
+      x: (canvasSize.width - mainCardSize.width) / 2,
+      y: 0
+    });
+    this.winCardContainer = new createjs.Container();
+    this.winCardContainer.set({
+      x: winCardContainer.left,
+      y: winCardContainer.top
+    });
+
+    this.stage.addChild(this.mainContainer, this.winCardContainer);
+    this.addMainCard(-1);
+  };
+
+  p.addMainCard = function (value) {
+    var _self = this;
+    this.mainContainer.removeAllChildren();
+    var card, scale;
+    if (value > -1) {
+      scale = mainCardSize.width / TWIST.Card.size.width;
+      card = new TWIST.Card(value);
+      card.set({
+        scaleX: scale,
+        scaleY: scale
+      });
+    } else {
+      var img = new Image();
+      img.src = TWIST.imagePath + 'hightLow/card-back.png';
+      var card = new createjs.Bitmap(img);
+    }
+    this.mainContainer.addChild(card);
+  };
+
+  p.storeMainCard = function () {
+    var _self = this;
+    var card = this.mainContainer.children[0];
+    var index = this.winCardContainer.children.length;
+    this.winCardContainer.addChild(card);
+    card.set({
+      x: card.x + this.mainContainer.x - this.winCardContainer.x,
+      y: card.y + this.mainContainer.y - this.winCardContainer.y
+    })
+    createjs.Tween.get(card).to({
+      x: 10 + (winCardSize.width + 10) * index,
+      y: 10,
+      scaleX: winCardSize.width / TWIST.Card.size.width,
+      scaleY: winCardSize.height / TWIST.Card.size.height
+    }, 500).call(function () {
+      _self.emit("_storeComplete");
+    });
+  };
+
+  p.drawListCard = function (listCard) {
+    var _self = this;
+
+    this.winCardContainer.removeAllChildren();
+    listCard.forEach(drawSingleCard);
+
+    function drawSingleCard(id, index) {
+      var card = new TWIST.Card(id);
+      _self.winCardContainer.addChild(card);
+      card.set({
+        x: 10 + (winCardSize.width + 10) * index,
+        y: 10,
+        scaleX: winCardSize.width / TWIST.Card.size.width,
+        scaleY: winCardSize.height / TWIST.Card.size.height
+      });
+    }
+    ;
+  };
+
+
+  p.changeStatus = function (status) {
+    var _self = this;
+    this.clear();
+    if (status === 'pause') {
+      this.newTurnButton.setDisabled(false);
     }
 
-    var p = HightLowGame.prototype = new TWIST.BaseGame();
-
-    p.initHightLowGame = function () {
-        this.initVariable();
-        $.extend(this.options, canvasSize);
-        this.info = {
-            betting: 1000,
-            potData: {
-                1000: 0,
-                10000: 0,
-                100000: 0
-            }
-        };
-        this.userInfo = {};
-        this.initCanvas();
-        this.initEvent();
-        this.initTemplate();
-        this.draw();
-        this.pushEventListener();
-        this.status = 'pause';
-    };
-
-    p.initVariable = function () {
-        statusList = ["pause", "endding", "running"];
-
-        gameStates = ["getCards", "selectHightLow"];
-
-        cardRankList = [
-            {value: 0, name: "2"}
-            , {value: 1, name: "3"}
-            , {value: 2, name: "4"}
-            , {value: 3, name: "5"}
-            , {value: 4, name: "6"}
-            , {value: 5, name: "7"}
-            , {value: 6, name: "8"}
-            , {value: 7, name: "9"}
-            , {value: 8, name: "10"}
-            , {value: 9, name: "J"}
-            , {value: 10, name: "Q"}
-            , {value: 11, name: "K"}
-            , {value: 12, name: "A"}
-        ];
-
-        speed = 2.5;//default 2
-
-        numberCard = 52;
-
-        effectQueue = [];
-
-        canvasSize = {width: 800, height: 400};
-
-        mainCardSize = {width: 190, height: 244};
-
-        winCardSize = {width: 39, height: 48};
-
-        bets = [1000, 10000, 100000];
-
-        moneyFallingEffectTime = 2000;
-
-        timeOutList = [];
-
-        gameState = 0;
-
-        newCard = {};
-
-        winCardContainer = {width: 740, height: 70, top: 340, left: 50};
-
-        currentBetting = 0;
-    };
-
-    p.initTemplate = function () {
-        var _self = this;
-
-        this.wrapperTemplate = $(TWIST.HTMLTemplate['hightLow/wrapper']);
-        this.wrapper.append(this.wrapperTemplate);
-
-        this.centerTempalte = $(TWIST.HTMLTemplate['hightLow/center']);
-        this.wrapperTemplate.append(this.centerTempalte);
-
-        this.centerTempalte.find('.canvas-wrapper').append(this.canvas);
-        this.initStage();
-
-        this.topTempalte = $(TWIST.HTMLTemplate['hightLow/top']);
-        this.wrapperTemplate.append(this.topTempalte);
-
-        this.bottomTempalte = $(TWIST.HTMLTemplate['hightLow/bottom']);
-        this.wrapperTemplate.append(this.bottomTempalte);
-
-        this._initExplodePot();
-
-        this._initPot();
-
-        this._initCurrentBetting();
-
-        this._initPotCards();
-
-        this._initSupportText();
-
-        this._initRemainTime();
-
-        this._initHightLowButton();
-
-        this._initHightLowBettingText();
-
-        this._initNewTurnText();
-
-        this._initVirtualCard();
-
-        this._initProfile();
-
-        this._initChipsButton();
-
-        this._initSessionId();
-
-        this._initNewTurnButton();
-    };
-
-    p._initExplodePot = function () {
-        var _self = this;
-        this.effect = $('<div class="effect">' + TWIST.HTMLTemplate['effect/explodePot'] + '</div>');
-        this.wrapperTemplate.append(this.effect);
-
-        this.effect.explorerPot = _self.effect.find('.explorer-pot');
-        this.effect.moneyFalling = _self.effect.find('.money-falling');
-        this.effect.showEffect = function () {
-            _self.effect.explorerPot.show();
-            _self.effect.moneyFalling.show();
-        };
-        this.effect.hideEffect = function () {
-            _self.effect.explorerPot.hide();
-            _self.effect.moneyFalling.hide();
-        };
-        this.effect.on('click', _self.effect.hideEffect);
-    };
-
-    p._initPot = function () {
-        var _self = this;
-        this.pot = this.topTempalte.find('.pot-value');
-        this.addNumberEffect(this.pot);
-    };
-
-    p._initCurrentBetting = function () {
-        var _self = this;
-        this.currentBetting = this.topTempalte.find('.bank-value');
-        this.addNumberEffect(this.currentBetting);
-    };
-
-    p._initPotCards = function () {
-        var _self = this;
-        this.potCards = [];
-        var potCards = this.topTempalte.find('.pot-card');
-        potCards.each(function (index, item) {
-            _self.potCards.push($(item));
-        });
-        this.potCards.addActiveCard = function () {
-            var potCard = _self.potCards.find(function (item, index) {
-                return !item.active;
-            });
-            if (potCard) {
-                potCard.active = true;
-                potCard.addClass('active');
-            }
-        };
-        this.potCards.removeActiveCard = function () {
-            potCards.removeClass('active');
-            _self.potCards.forEach(function (item, index) {
-                item.active = false;
-                item.removeClass('active');
-            });
-        };
-    };
-
-    p._initSupportText = function () {
-        var _self = this;
-        this.supportText = this.centerTempalte.find('.text-support');
-        this.supportText.text("");
-    };
-
-    p._initRemainTime = function () {
-        var _self = this;
-        this.remainTime = this.centerTempalte.find('.remain-time');
-        this.addRemainTimeEffect(this.remainTime);
-    };
-
-    p._initHightLowButton = function () {
-        var _self = this;
-        this.lowButton = this.centerTempalte.find('.low-button');
-        this.addDisbaleEffect(this.lowButton);
-        this.lowButton.runEffect();
-
-        this.hightButton = this.centerTempalte.find('.hight-button');
-        this.addDisbaleEffect(this.hightButton);
-        this.hightButton.runEffect();
-
-        this.lowButton.on('click', function (event) {
-            if (_self.lowButton.disabled)
-                return;
-            _self.emitHightLow(false);
-        });
-
-        this.hightButton.on('click', function (event) {
-            if (_self.hightButton.disabled)
-                return;
-            _self.emitHightLow(true);
-        });
-    };
-
-    p._initHightLowBettingText = function () {
-        var _self = this;
-        this.lowBetting = this.centerTempalte.find('.low-value');
-        this.addNumberEffect(this.lowBetting);
-
-        this.hightBetting = this.centerTempalte.find('.hight-value');
-        this.addNumberEffect(this.hightBetting);
-    };
-
-    p._initVirtualCard = function () {
-        var _self = this;
-        this.virtualCard = this.centerTempalte.find('.virtual-card');
-
-        this.virtualCard.on('click', function (event) {
-            _self.checkStart();
-        });
-
-    };
-
-    p.checkStart = function () {
-        var _self = this;
-        if (_self.status !== 'pause' || gameState !== 0)
-            return;
-        if (this.userInfo.money < this.info.betting) {
-            this.emit("error", "Bạn không đủ tiền !");
-        } else {
-            TWIST.Sound.play("minigame/ButtonClick");
-            TWIST.Sound.play("minigame/coin_spin");
-            _self.emit("start", this.info.betting);
-            this.newTurnText.hide();
-            this.changeStatus("running");
-            _self.moneyContainer.runEffect(this.userInfo.money - this.info.betting, {duration: 500});
-            this.moveChip.runEffect(true);
-        }
-    };
-
-    p.emitHightLow = function (isHight) {
-        var _self = this;
-        if (_self.status !== 'pause' || gameState !== 1)
-            return;
-        TWIST.Sound.play("minigame/ButtonClick");
-        this.emit("choose", isHight);
-    };
-
-    p._initNewTurnText = function () {
-        var _self = this;
-        this.newTurnText = this.centerTempalte.find('.new-turn-text');
-    };
-
-    p._initProfile = function () {
-        var _self = this;
-        this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
-        this.bottomTempalte.find('.profile-hight-low').append(this.user);
-
-        this.moneyContainer = this.user.find('.money');
-        this.addNumberEffect(this.moneyContainer);
-
-        this.user.renderUserInfo = function (data) {
-            $.extend(_self.userInfo, data);
-            var avatarContainer = _self.user.find('.avatar');
-            var usernameContainer = _self.user.find('.username');
-            var moneyContainer = _self.user.find('.money');
-            var avatar = Global.md5Avatar(data.avatar);
-            avatarContainer.addClass('avatar' + avatar);
-            usernameContainer.text(data.username);
-            _self.moneyContainer.runEffect(data.money, {duration: 10});
-        };
-
-        this.moveChip = $(TWIST.HTMLTemplate['videoPoker/moveChip']);
-        this.user.append(this.moveChip);
-        this.addChipEffect(this.moveChip);
-        this.moveChip.hide();
-    };
-
-    p._initChipsButton = function () {
-        var _self = this;
-        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
-        this.bottomTempalte.find('.chips-hight-low').append(this.chipWrapper);
-
-        this.chipButtons = [{
-                value: 1000,
-                template: this.chipWrapper.find('.chip.violet')
-            }, {
-                value: 10000,
-                template: this.chipWrapper.find('.chip.green')
-            }, {
-                value: 100000,
-                template: this.chipWrapper.find('.chip.blue')
-            }];
-
-        this.chipButtons.forEach(function (item, index) {
-            item.template.on('click', function (event) {
-                if (_self.status !== 'pause' || gameState !== 0)
-                    return;
-                this.resultSound = TWIST.Sound.play("minigame/Common_Click");
-                _self.setBetting(item);
-            });
-        });
-
-        this.setBetting(this.chipButtons[0]);
-    };
-    
-    p._initSessionId = function(){
-        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
-        this.wrapperTemplate.append(this.sessionId);
-    };
-
-    p.setBetting = function (item) {
-        this.chipWrapper.find('.chip').removeClass('active');
-        item.template.addClass("active");
-        this.info.betting = item.value;
-        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 200});
-    };
-
-    p._initNewTurnButton = function () {
-        var _self = this;
-        this.newTurnButton = this.bottomTempalte.find('.new-turn-button');
-        this.addDisbaleEffect(this.newTurnButton);
-        this.newTurnButton.hide();
-
-        this.newTurnButton.on('click', function (event) {
-            if (_self.newTurnButton.disabled)
-                return;
-            _self.emit("newTurn");
-        });
-
-    };
-
-    p.draw = function () {
-        var _self = this;
-        this.mainContainer = new createjs.Container();
-        this.mainContainer.set({
-            x: (canvasSize.width - mainCardSize.width) / 2,
-            y: 0
-        });
-        this.winCardContainer = new createjs.Container();
-        this.winCardContainer.set({
-            x: winCardContainer.left,
-            y: winCardContainer.top
-        });
-
-        this.stage.addChild(this.mainContainer, this.winCardContainer);
-        this.addMainCard(-1);
-    };
-
-    p.addMainCard = function (value) {
-        var _self = this;
-        this.mainContainer.removeAllChildren();
-        var card, scale;
-        if (value > -1) {
-            scale = mainCardSize.width / TWIST.Card.size.width;
-            card = new TWIST.Card(value);
-            card.set({
-                scaleX: scale,
-                scaleY: scale
-            });
-        } else {
-            var img = new Image();
-            img.src = TWIST.imagePath + 'hightLow/card-back.png';
-            var card = new createjs.Bitmap(img);
-        }
-        this.mainContainer.addChild(card);
-    };
-
-    p.storeMainCard = function () {
-        var _self = this;
-        var card = this.mainContainer.children[0];
-        var index = this.winCardContainer.children.length;
-        this.winCardContainer.addChild(card);
-        card.set({
-            x: card.x + this.mainContainer.x - this.winCardContainer.x,
-            y: card.y + this.mainContainer.y - this.winCardContainer.y
-        })
-        createjs.Tween.get(card).to({
-            x: 10 + (winCardSize.width + 10) * index,
-            y: 10,
-            scaleX: winCardSize.width / TWIST.Card.size.width,
-            scaleY: winCardSize.height / TWIST.Card.size.height
-        }, 500).call(function () {
-            _self.emit("_storeComplete");
-        });
-    };
-
-    p.drawListCard = function (listCard) {
-        var _self = this;
-
-        this.winCardContainer.removeAllChildren();
-        listCard.forEach(drawSingleCard);
-
-        function drawSingleCard(id, index) {
-            var card = new TWIST.Card(id);
-            _self.winCardContainer.addChild(card);
-            card.set({
-                x: 10 + (winCardSize.width + 10) * index,
-                y: 10,
-                scaleX: winCardSize.width / TWIST.Card.size.width,
-                scaleY: winCardSize.height / TWIST.Card.size.height
-            });
-        }
-        ;
-    };
-
-
-    p.changeStatus = function (status) {
-        var _self = this;
-        this.clear();
-        if (status === 'pause') {
-            this.newTurnButton.setDisabled(false);
-        }
-
-        if (status === "running") {
-            this.playingInterval = setInterval(function () {
-                _self.addMainCard(parseInt(Math.random() * 52));
-            }, 100);
-            timeOutList.push(this.playingInterval);
-            this.hightButton.setDisabled(true);
-            this.lowButton.setDisabled(true);
-            this.newTurnButton.setDisabled(true);
-        }
-    };
-
-    p.changeGameState = function (state) {
-        gameState = state;
-        this.clearGameState();
-        if (gameState == 0) {
-            this.changeStatus('pause');
-            this.addMainCard(-1);
-            this.virtualCard.show();
-            this.newTurnText.show();
-            this.newTurnButton.hide();
-            this.hightButton.setDisabled(true);
-            this.lowButton.setDisabled(true);
-            this.lowBetting.runEffect(0, {duration: 10});
-            this.hightBetting.runEffect(0, {duration: 10});
-            this.effect.hide();
-        } else if (gameState == 1) {
-            this.newTurnText.hide();
-            this.virtualCard.hide();
-            this.newTurnButton.show();
-        }
-    };
-
-    p.clear = function () {
-        this.supportText.text("");
-        this.remainTime.endEffect();
-        timeOutList.forEach(function (item) {
-            clearTimeout(item);
-        });
-    };
-
-    p.clearGameState = function () {
-        this.clear();
-        this.potCards.removeActiveCard();
-        this.winCardContainer.removeAllChildren();
-        this.currentBetting.runEffect(0);
-    };
-
-    p.setNewCard = function (data) {
-        this.addMainCard(data.cardId);
-        this.hightButton.setDisabled(false);
-        this.lowButton.setDisabled(false);
-        this.hightBetting.runEffect(data.hightMoney, {duration: 300});
-        this.lowBetting.runEffect(data.lowMoney, {duration: 300});
-        if (data.isPotCard) {
-            this.potCards.addActiveCard();
-        }
-        currentBetting = data.currentBetting;
-        this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
-        if (data.currentBetting > 0) {
-            if (data.currentBetting != this.info.betting) {
-                TWIST.Sound.play("minigame/NormalWin");
-            }
-            this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
-            this.remainTime.runEffect(data.remainTime || 120000);
-            this.hightButton.setDisabled(false);
-            this.lowButton.setDisabled(false);
-            if (data.hightMoney == 0) {
-                this.hightButton.setDisabled(true);
-            }
-            if (data.lowMoney == 0) {
-                this.lowButton.setDisabled(true);
-            }
-            if (data.explorerPot) {
-                this.effect.showEffect()
-            }
-        } else {
-            TWIST.Sound.play("minigame/slot_result");
-            this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
-            this.hightButton.setDisabled(true);
-            this.lowButton.setDisabled(true);
-        }
-    };
-
-    p.pushEventListener = function () {
-        var _self = this;
-
-        this.on("userInfo", function () {
-            _self.user.renderUserInfo(arguments[0]);
-        });
-
-        this.on("getFirstCard", function (data) {
-            _self.getFirstCard(data);
-        });
-
-        this.on("updatePots", function (data) {
-            _self.bindPots(data);
-        });
-
-        this.on("newCard", function (data) {
-            _self.newCard(data);
-        });
-
-        this.on("getWin", function (data) {
-            _self.getWin(data);
-        });
-
-        this.on("updateMoney", function (data) {
-            _self.updateMoney(data);
-        });
-
-        this.on("error", function (message) {
-            _self.showError(message);
-        });
-
-        this.on("reconnect", function (data) {
-            _self.reconnect(data);
-        });
-
-    };
-
-    p.getFirstCard = function (data) {
-        this.changeGameState(1);
-        this.changeStatus('pause');
-        data.currentBetting = data.currentBetting || this.info.betting;
-        this.setNewCard(data);
-        this.newTurnButton.setDisabled(true);
-        this.sessionId.text(data.sessionId);
-    };
-
-    p.bindPots = function (data) {
-        $.extend(this.info.potData, data.pots);
-        this.pot.runEffect(this.info.potData[this.info.betting], {duration: 500});
-    };
-
-    p.newCard = function (data) {
-        var _self = this;
-        this.storeMainCard();
-        this.changeStatus('running');
-
-        this.once("_storeComplete", function () {
-            _self.changeStatus('pause');
-            _self.setNewCard(data);
-        });
-    };
-
-    p.getWin = function (data) {
-        var _self = this;
-        this.sessionId.text("");
-        if (currentBetting > 0) {
-            TWIST.Sound.play("minigame/coin_spin");
-            this.moveChip.isTracking = true;
-            this.moveChip.runEffect();
-            this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
-            this.currentBetting.runEffect(0, {duration: 500});
-            this.once('_moveChipComplete', function () {
-                _self.changeGameState(0);
-            });
-        } else {
-            this.changeGameState(0);
-        }
-    };
-
-    p.updateMoney = function (data) {
-        this.userInfo.money = data.newMoney;
-    };
-
-    p.showError = function (message) {
-        this.supportText.text(message);
-    };
-
-    p.reconnect = function (data) {
-
-        var _self = this;
-        var button;
-        this.chipButtons.forEach(function (item, index) {
-            if (item.value == data.betting) {
-                button = item
-            }
-        });
-
-        this.changeGameState(1);
-        this.setBetting(button);
-        this.setNewCard(data);
-        this.drawListCard(data.listCard);
-        if (data.numberPotCards) {
-            for (var i = 0; i < data.numberPotCards; i++) {
-                this.potCards.addActiveCard()
-            }
-        }
-    };
-
-    TWIST.HightLowGame = HightLowGame;
+    if (status === "running") {
+      this.playingInterval = setInterval(function () {
+        _self.addMainCard(parseInt(Math.random() * 52));
+      }, 100);
+      timeOutList.push(this.playingInterval);
+      this.hightButton.setDisabled(true);
+      this.lowButton.setDisabled(true);
+      this.newTurnButton.setDisabled(true);
+    }
+  };
+
+  p.changeGameState = function (state) {
+    gameState = state;
+    this.clearGameState();
+    if (gameState == 0) {
+      this.changeStatus('pause');
+      this.addMainCard(-1);
+      this.virtualCard.show();
+      this.newTurnText.show();
+      this.newTurnButton.hide();
+      this.hightButton.setDisabled(true);
+      this.lowButton.setDisabled(true);
+      this.lowBetting.runEffect(0, {duration: 10});
+      this.hightBetting.runEffect(0, {duration: 10});
+      this.effect.hide();
+    } else if (gameState == 1) {
+      this.newTurnText.hide();
+      this.virtualCard.hide();
+      this.newTurnButton.show();
+    }
+  };
+
+  p.clear = function () {
+    this.supportText.text("");
+    this.remainTime.endEffect();
+    timeOutList.forEach(function (item) {
+      clearTimeout(item);
+    });
+  };
+
+  p.clearGameState = function () {
+    this.clear();
+    this.potCards.removeActiveCard();
+    this.winCardContainer.removeAllChildren();
+    this.currentBetting.runEffect(0);
+  };
+
+  p.setNewCard = function (data) {
+    this.addMainCard(data.cardId);
+    this.hightButton.setDisabled(false);
+    this.lowButton.setDisabled(false);
+    this.hightBetting.runEffect(data.hightMoney, {duration: 300});
+    this.lowBetting.runEffect(data.lowMoney, {duration: 300});
+    if (data.isPotCard) {
+      this.potCards.addActiveCard();
+    }
+    currentBetting = data.currentBetting;
+    this.currentBetting.runEffect(data.currentBetting || 0, {duration: 300});
+    if (data.currentBetting > 0) {
+      if (data.currentBetting != this.info.betting) {
+        TWIST.Sound.play("minigame/NormalWin");
+      }
+      this.supportText.text("Quân bài tiếp theo là cao hay thấp hơn ?");
+      this.remainTime.runEffect(data.remainTime || 120000);
+      this.hightButton.setDisabled(false);
+      this.lowButton.setDisabled(false);
+      if (data.hightMoney == 0) {
+        this.hightButton.setDisabled(true);
+      }
+      if (data.lowMoney == 0) {
+        this.lowButton.setDisabled(true);
+      }
+      if (data.explorerPot) {
+        this.effect.showEffect()
+      }
+    } else {
+      TWIST.Sound.play("minigame/slot_result");
+      this.supportText.text("Bạn chọn sai, chúc bạn may mắn lần sau !");
+      this.hightButton.setDisabled(true);
+      this.lowButton.setDisabled(true);
+    }
+  };
+
+  p.pushEventListener = function () {
+    var _self = this;
+
+    this.on("userInfo", function () {
+      _self.user.renderUserInfo(arguments[0]);
+    });
+
+    this.on("getFirstCard", function (data) {
+      _self.getFirstCard(data);
+    });
+
+    this.on("updatePots", function (data) {
+      _self.bindPots(data);
+    });
+
+    this.on("newCard", function (data) {
+      _self.newCard(data);
+    });
+
+    this.on("getWin", function (data) {
+      _self.getWin(data);
+    });
+
+    this.on("updateMoney", function (data) {
+      _self.updateMoney(data);
+    });
+
+    this.on("error", function (message) {
+      _self.showError(message);
+    });
+
+    this.on("reconnect", function (data) {
+      _self.reconnect(data);
+    });
+
+  };
+
+  p.getFirstCard = function (data) {
+    this.changeGameState(1);
+    this.changeStatus('pause');
+    data.currentBetting = data.currentBetting || this.info.betting;
+    this.setNewCard(data);
+    this.newTurnButton.setDisabled(true);
+    this.sessionId.text(data.sessionId);
+  };
+
+  p.bindPots = function (data) {
+    $.extend(this.info.potData, data.pots);
+    this.pot.runEffect(this.info.potData[this.info.betting], {duration: 500});
+  };
+
+  p.newCard = function (data) {
+    var _self = this;
+    this.storeMainCard();
+    this.changeStatus('running');
+
+    this.once("_storeComplete", function () {
+      _self.changeStatus('pause');
+      _self.setNewCard(data);
+    });
+  };
+
+  p.getWin = function (data) {
+    var _self = this;
+    this.sessionId.text("");
+    if (currentBetting > 0) {
+      TWIST.Sound.play("minigame/coin_spin");
+      this.moveChip.isTracking = true;
+      this.moveChip.runEffect();
+      this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
+      this.currentBetting.runEffect(0, {duration: 500});
+      this.once('_moveChipComplete', function () {
+        _self.changeGameState(0);
+      });
+    } else {
+      this.changeGameState(0);
+    }
+  };
+
+  p.updateMoney = function (data) {
+    this.userInfo.money = data.newMoney;
+  };
+
+  p.showError = function (message) {
+    this.supportText.text(message);
+  };
+
+  p.reconnect = function (data) {
+
+    var _self = this;
+    var button;
+    this.chipButtons.forEach(function (item, index) {
+      if (item.value == data.betting) {
+        button = item
+      }
+    });
+
+    this.changeGameState(1);
+    this.setBetting(button);
+    this.setNewCard(data);
+    this.drawListCard(data.listCard);
+    if (data.numberPotCards) {
+      for (var i = 0; i < data.numberPotCards; i++) {
+        this.potCards.addActiveCard()
+      }
+    }
+  };
+
+  TWIST.HightLowGame = HightLowGame;
 
 })();
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    var gameSize, columnSize, itemSize, distance, columns, speed, effectArray,
-            statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
-            lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
-            line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
-            timeOutList, fistLog, cardRankList, repeatEffectQueue;
+  var gameSize, columnSize, itemSize, distance, columns, speed, effectArray,
+          statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
+          lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
+          line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
+          timeOutList, fistLog, cardRankList, repeatEffectQueue;
 
-    var initOptions = {
-        resultTab: [{
-                name: "Sảnh rồng(Nỗ hũ)",
-                value: -1,
-                code: '1'
-            }, {
-                name: "Thùng phá sảnh",
-                value: 1000,
-                code: '2'
-            }, {
-                name: "Tứ quý",
-                value: 150,
-                code: '3'
-            }, {
-                name: "Cù lũ",
-                value: 50,
-                code: '4'
-            }, {
-                name: "Thùng",
-                value: 20,
-                code: '5'
-            }, {
-                name: "Sảnh",
-                value: 13,
-                code: '6'
-            }, {
-                name: "Ba lá",
-                value: 8,
-                code: '7'
-            }, {
-                name: "Hai đôi",
-                value: 5,
-                code: '8'
-            }, {
-                name: "Đôi J hoặc cao hơn",
-                value: 2.5,
-                code: '9'
-            }, {
-                name: "Không ăn !",
-                value: 0,
-                code: '10'
-            }]
+  var initOptions = {
+    resultTab: [{
+        name: "Sảnh rồng(Nỗ hũ)",
+        value: -1,
+        code: '1'
+      }, {
+        name: "Thùng phá sảnh",
+        value: 1000,
+        code: '2'
+      }, {
+        name: "Tứ quý",
+        value: 150,
+        code: '3'
+      }, {
+        name: "Cù lũ",
+        value: 50,
+        code: '4'
+      }, {
+        name: "Thùng",
+        value: 20,
+        code: '5'
+      }, {
+        name: "Sảnh",
+        value: 13,
+        code: '6'
+      }, {
+        name: "Ba lá",
+        value: 8,
+        code: '7'
+      }, {
+        name: "Hai đôi",
+        value: 5,
+        code: '8'
+      }, {
+        name: "Đôi J hoặc cao hơn",
+        value: 2.5,
+        code: '9'
+      }, {
+        name: "Không ăn !",
+        value: 0,
+        code: '10'
+      }]
+  };
+
+  function MiniPoker(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initMiniPoker();
+  }
+
+  var p = MiniPoker.prototype = new TWIST.BaseGame();
+
+  p.initMiniPoker = function () {
+    this.initVariable();
+    $.extend(this.options, gameSize);
+    this.info = {
+      betting: 1000,
+      potData: {
+        1000: 0,
+        10000: 0,
+        100000: 0
+      }
     };
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+    this.userInfo = {};
+    this.initCanvas();
+    this.initEvent();
+    this.initTemplate();
+    this.initButton();
+    this.draw();
+    this.pushEventListener();
+    this.status = 'pause';
+  };
 
-    function MiniPoker(wrapper, options) {
-        this.wrapper = $(wrapper);
-        this.options = $.extend(initOptions, options);
-        this.initMiniPoker();
+  p.initVariable = function () {
+
+
+    statusList = ["pause", "running", "ending", "effecting"];
+
+    cardRankList = [
+      {value: 0, name: "2"}
+      , {value: 1, name: "3"}
+      , {value: 2, name: "4"}
+      , {value: 3, name: "5"}
+      , {value: 4, name: "6"}
+      , {value: 5, name: "7"}
+      , {value: 6, name: "8"}
+      , {value: 7, name: "9"}
+      , {value: 8, name: "10"}
+      , {value: 9, name: "J"}
+      , {value: 10, name: "Q"}
+      , {value: 11, name: "K"}
+      , {value: 12, name: "A"}
+    ];
+
+    endingPhase = -1;
+
+    stepValue = 1;
+
+    itemSize = {width: 160, height: 205, padding: 10};
+
+    gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
+
+    distance = itemSize.height;
+
+    columns = [];
+
+    speed = 2.5;//default 2
+
+    numberCard = 52;
+
+    spinAreaConf = {x: 100, y: 100};
+
+    effectQueue = [];
+
+    bets = [1000, 10000, 100000];
+
+    moneyFallingEffectTime = 2000;
+
+    currentEffectTurn = 0;
+
+    numberEffectCompleted = 0;
+
+    timeOutList = [];
+
+    repeatEffectQueue = false;
+  };
+
+  p.draw = function () {
+    var _self = this;
+    this.mapData = TWIST.MiniPokerLogic.generateMap();
+    var spinArea = new createjs.Container();
+    this.spinArea = spinArea;
+
+    for (var i = 0; i < gameSize.x; i++) {
+      columns[i] = new createjs.Container();
+      columns[i].set({x: i * itemSize.width, y: 0});
+      var columnItems = new createjs.Container();
+      columns[i].addChild(columnItems);
+
+      var value = this.mapData[i];
+      var item = this.createSlotItem(this.mapData[i], 0);
+      columnItems.addChild(item);
+
+      spinArea.addChild(columns[i]);
     }
 
-    var p = MiniPoker.prototype = new TWIST.BaseGame();
+    this.stage.addChild(spinArea);
+  };
 
-    p.initMiniPoker = function () {
-        this.initVariable();
-        $.extend(this.options, gameSize);
-        this.info = {
-            betting: 1000,
-            potData: {
-                1000: 0,
-                10000: 0,
-                100000: 0
-            }
-        };
-        this.userInfo = {};
-        this.initCanvas();
-        this.initEvent();
-        this.initTemplate();
-        this.initButton();
-        this.draw();
-        this.pushEventListener();
-        this.status = 'pause';
-    };
+  p.initTemplate = function () {
+    var _self = this;
+    this.wrapperTemplate = $(TWIST.HTMLTemplate['miniPoker/wrapper']);
+    this.wrapper.append(this.wrapperTemplate);
 
-    p.initVariable = function () {
+    this.wrapperTemplate.append(this.canvas);
+    this.initStage();
 
+    this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
+    this.wrapperTemplate.append(this.resultText);
 
-        statusList = ["pause", "running", "ending", "effecting"];
+    this.wrapperTemplate.append($(TWIST.HTMLTemplate['miniPoker/pot']));
+    this.pot = this.wrapperTemplate.find('.pot-value');
 
-        cardRankList = [
-            {value: 0, name: "2"}
-            , {value: 1, name: "3"}
-            , {value: 2, name: "4"}
-            , {value: 3, name: "5"}
-            , {value: 4, name: "6"}
-            , {value: 5, name: "7"}
-            , {value: 6, name: "8"}
-            , {value: 7, name: "9"}
-            , {value: 8, name: "10"}
-            , {value: 9, name: "J"}
-            , {value: 10, name: "Q"}
-            , {value: 11, name: "K"}
-            , {value: 12, name: "A"}
-        ];
+    this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
+    this.wrapperTemplate.append(this.buttonSpin);
 
-        endingPhase = -1;
+    var autoSpin = $(TWIST.HTMLTemplate['miniPoker/autospin']);
+    this.wrapperTemplate.append(autoSpin);
+    this.autoSpin = autoSpin.find('input[type="checkbox"]');
 
-        stepValue = 1;
+    this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+    this.wrapperTemplate.append(this.chipWrapper);
 
-        itemSize = {width: 160, height: 205, padding: 10};
+    this.chipButtons = [{
+        value: 1000,
+        template: this.chipWrapper.find('.chip.violet')
+      }, {
+        value: 10000,
+        template: this.chipWrapper.find('.chip.green')
+      }, {
+        value: 100000,
+        template: this.chipWrapper.find('.chip.blue')
+      }];
 
-        gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
+    this.errorPanel = $(TWIST.HTMLTemplate['miniPoker/errorPanel']);
+    this.wrapperTemplate.append(this.errorPanel);
+    this.errorPanel.hide();
 
-        distance = itemSize.height;
+    this.resultTab = $(TWIST.HTMLTemplate['miniPoker/resultTab']);
+    this.wrapperTemplate.append(this.resultTab);
 
-        columns = [];
+    this.resultItemList = [];
+    this.resultItem = _.template(TWIST.HTMLTemplate['miniPoker/resultItem']);
+    this.options.resultTab.forEach(function (item, index) {
+      if (item.code === '10')
+        return;
+      var resultItem = {
+        code: item.code,
+        template: $(_self.resultItem({
+          name: item.name,
+          value: (item.value <= 0) ? "" : "X" + item.value
+        }))
+      };
+      _self.resultTab.append(resultItem.template);
+      _self.resultItemList.push(resultItem);
+    });
 
-        speed = 2.5;//default 2
+    this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+    this.wrapperTemplate.append(this.user);
 
-        numberCard = 52;
+    this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+    this.wrapperTemplate.append(this.sessionId);
 
-        spinAreaConf = {x: 100, y: 100};
+    this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
+    this.wrapperTemplate.append(this.effectWrapper);
+    this.explodePot = $(TWIST.HTMLTemplate['effect/explodePot']);
+    this.effectWrapper.append(this.explodePot);
 
-        effectQueue = [];
+    this.money = this.user.find('.money');
 
-        bets = [1000, 10000, 100000];
+    this.setBetting(this.chipButtons[0]);
+  };
 
-        moneyFallingEffectTime = 2000;
+  p.initButton = function () {
+    var _self = this;
 
-        currentEffectTurn = 0;
-
-        numberEffectCompleted = 0;
-
-        timeOutList = [];
-
-        repeatEffectQueue = false;
-    };
-
-    p.draw = function () {
-        var _self = this;
-        this.mapData = TWIST.MiniPokerLogic.generateMap();
-        var spinArea = new createjs.Container();
-        this.spinArea = spinArea;
-
-        for (var i = 0; i < gameSize.x; i++) {
-            columns[i] = new createjs.Container();
-            columns[i].set({x: i * itemSize.width, y: 0});
-            var columnItems = new createjs.Container();
-            columns[i].addChild(columnItems);
-
-            var value = this.mapData[i];
-            var item = this.createSlotItem(this.mapData[i], 0);
-            columnItems.addChild(item);
-
-            spinArea.addChild(columns[i]);
-        }
-
-        this.stage.addChild(spinArea);
-    };
-
-    p.initTemplate = function () {
-        var _self = this;
-        this.wrapperTemplate = $(TWIST.HTMLTemplate['miniPoker/wrapper']);
-        this.wrapper.append(this.wrapperTemplate);
-
-        this.wrapperTemplate.append(this.canvas);
-        this.initStage();
-
-        this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
-        this.wrapperTemplate.append(this.resultText);
-
-        this.wrapperTemplate.append($(TWIST.HTMLTemplate['miniPoker/pot']));
-        this.pot = this.wrapperTemplate.find('.pot-value');
-
-        this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
-        this.wrapperTemplate.append(this.buttonSpin);
-
-        var autoSpin = $(TWIST.HTMLTemplate['miniPoker/autospin']);
-        this.wrapperTemplate.append(autoSpin);
-        this.autoSpin = autoSpin.find('input[type="checkbox"]');
-
-        this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
-        this.wrapperTemplate.append(this.chipWrapper);
-
-        this.chipButtons = [{
-                value: 1000,
-                template: this.chipWrapper.find('.chip.violet')
-            }, {
-                value: 10000,
-                template: this.chipWrapper.find('.chip.green')
-            }, {
-                value: 100000,
-                template: this.chipWrapper.find('.chip.blue')
-            }];
-
-        this.errorPanel = $(TWIST.HTMLTemplate['miniPoker/errorPanel']);
-        this.wrapperTemplate.append(this.errorPanel);
-        this.errorPanel.hide();
-
-        this.resultTab = $(TWIST.HTMLTemplate['miniPoker/resultTab']);
-        this.wrapperTemplate.append(this.resultTab);
-
-        this.resultItemList = [];
-        this.resultItem = _.template(TWIST.HTMLTemplate['miniPoker/resultItem']);
-        this.options.resultTab.forEach(function (item, index) {
-            if (item.code === '10')
-                return;
-            var resultItem = {
-                code: item.code,
-                template: $(_self.resultItem({
-                    name: item.name,
-                    value: (item.value <= 0) ? "" : "X" + item.value
-                }))
-            };
-            _self.resultTab.append(resultItem.template);
-            _self.resultItemList.push(resultItem);
-        });
-
-        this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
-        this.wrapperTemplate.append(this.user);
-
-        this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
-        this.wrapperTemplate.append(this.sessionId);
-
-        this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
-        this.wrapperTemplate.append(this.effectWrapper);
-        this.explodePot = $(TWIST.HTMLTemplate['effect/explodePot']);
-        this.effectWrapper.append(this.explodePot);
-
-        this.money = this.user.find('.money');
-
-        this.setBetting(this.chipButtons[0]);
-    };
-
-    p.initButton = function () {
-        var _self = this;
-
-        this.chipButtons.forEach(function (item, index) {
-            item.template.on('click', function (event) {
-                if (_self.status !== 'pause' && _self.status !== 'effecting')
-                    return;
-                TWIST.Sound.play("minigame/Common_Click");
-                _self.setBetting(item);
-            });
-        });
-
-        this.autoSpin.on('change', function (event) {
-            _self.isAutoSpin = event.target.checked;
-            if (_self.status == 'pause' || _self.status == 'effecting') {
-                _self.checkStart();
-            }
-        });
-
-        this.buttonSpin.on('click', function (event) {
-            if (_self.buttonSpin.hasClass('disabled'))
-                return;
-            _self.checkStart();
-        });
-    };
-
-    p.setBetting = function (item) {
-        this.chipWrapper.find('.chip').removeClass('active');
-        item.template.addClass("active");
-        this.info.betting = item.value;
-        this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
-    };
-
-    p.pushEventListener = function () {
-        var _self = this;
-
-        this.on("endSpin", function (data) {
-            _self.endSpin(data);
-        });
-
-        this.on("userInfo", function () {
-            _self.renderUserInfo(arguments[0]);
-        });
-
-        this.on("spin", function () {
-            _self.startSpin();
-        });
-
-        this.on("spinCompleted", function () {
-            _self.effecting();
-        });
-
-        this.on("endEffect", function () {
-//            _self.endEffect();
-        });
-
-        this.on("updateMoney", function (data) {
-            _self.updateMoney(data);
-        });
-
-        this.on("updatePots", function (data) {
-            _self.bindPots(data);
-        });
-
-        this.on("error", function (message) {
-            _self.showError(message);
-        });
-    };
-
-    p.showError = function (message) {
-        var errorItem = $('<div class="error-item-mini">' + message + '</div>');
-        var _self = this;
-        this.errorPanel.empty();
-        this.errorPanel.show();
-        this.errorPanel.append(errorItem);
-        var _self = this;
-        errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            $(errorItem).remove();
-            _self.errorPanel.hide();
-        });
-    };
-
-    p.checkStart = function () {
-        var _self = this;
+    this.chipButtons.forEach(function (item, index) {
+      item.template.on('click', function (event) {
         if (_self.status !== 'pause' && _self.status !== 'effecting')
-            return;
-        var _self = this;
-        var flag = false;
-        if (this.userInfo.money < this.info.betting) {
-            this.emit("error", "Bạn không đủ tiền !");
-        } else {
-            if (_self.status !== "pause")
-                _self.changeStatus("pause");
-            this.startSound = TWIST.Sound.play("minigame/bonus_spin");
-            _self.emit("spin", this.info.betting);
-            _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
+          return;
+        TWIST.Sound.play("minigame/Common_Click");
+        _self.setBetting(item);
+      });
+    });
+
+    this.autoSpin.on('change', function (event) {
+      _self.isAutoSpin = event.target.checked;
+      if (_self.status == 'pause' || _self.status == 'effecting') {
+        _self.checkStart();
+      }
+    });
+
+    this.buttonSpin.on('click', function (event) {
+      if (_self.buttonSpin.hasClass('disabled'))
+        return;
+      _self.checkStart();
+    });
+  };
+
+  p.setBetting = function (item) {
+    this.chipWrapper.find('.chip').removeClass('active');
+    item.template.addClass("active");
+    this.info.betting = item.value;
+    this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
+  };
+
+  p.pushEventListener = function () {
+    var _self = this;
+
+    this.on("endSpin", function (data) {
+      _self.endSpin(data);
+    });
+
+    this.on("userInfo", function () {
+      _self.renderUserInfo(arguments[0]);
+    });
+
+    this.on("spin", function () {
+      _self.startSpin();
+    });
+
+    this.on("spinCompleted", function () {
+      _self.effecting();
+    });
+
+    this.on("endEffect", function () {
+//            _self.endEffect();
+    });
+
+    this.on("updateMoney", function (data) {
+      _self.updateMoney(data);
+    });
+
+    this.on("updatePots", function (data) {
+      _self.bindPots(data);
+    });
+
+    this.on("error", function (message) {
+      _self.showError(message);
+    });
+  };
+
+  p.showError = function (message) {
+    var errorItem = $('<div class="error-item-mini">' + message + '</div>');
+    var _self = this;
+    this.errorPanel.empty();
+    this.errorPanel.show();
+    this.errorPanel.append(errorItem);
+    var _self = this;
+    errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      $(errorItem).remove();
+      _self.errorPanel.hide();
+    });
+  };
+
+  p.checkStart = function () {
+    var _self = this;
+    if (_self.status !== 'pause' && _self.status !== 'effecting')
+      return;
+    var _self = this;
+    var flag = false;
+    if (this.userInfo.money < this.info.betting) {
+      this.emit("error", "Bạn không đủ tiền !");
+    } else {
+      if (_self.status !== "pause")
+        _self.changeStatus("pause");
+      this.startSound = TWIST.Sound.play("minigame/bonus_spin");
+      _self.emit("spin", this.info.betting);
+      _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
+    }
+  };
+
+  p.renderUserInfo = function (data) {
+    $.extend(this.userInfo, data);
+    var avatarContainer = this.user.find('.avatar');
+    var usernameContainer = this.user.find('.username');
+    var moneyContainer = this.user.find('.money');
+    var avatar = Global.md5Avatar(data.avatar);
+    avatarContainer.addClass('avatar' + avatar);
+    usernameContainer.text(data.username);
+    var money = Global.numberWithDot(data.money);
+    moneyContainer.text(money);
+  };
+
+  p.bindPots = function (data) {
+    $.extend(this.info.potData, data.pots)
+    this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
+  };
+
+  p.changeStatus = function (status) {
+    var _self = this;
+    this.status = status;
+    this.timeOutList.forEach(function (item) {
+      clearTimeout(item);
+    });
+    this.timeOutList = [];
+    if (status == 'pause') {
+      this.result = {};
+      if (currentEffectTurn >= effectQueue.length)
+        currentEffectTurn = 0;
+      var effectArray = effectQueue[currentEffectTurn];
+      if (effectArray && effectArray.length) {
+        for (var i = 0; i < effectArray.length; i++) {
+          if (!effectArray[i].isDone)
+            effectArray[i].endEffect();
         }
-    };
+      }
+      effectQueue = [];
+      currentEffectTurn = 0;
+      if (this.isAutoSpin) {
+        var newSpinTimeOut = setTimeout(function () {
+          _self.status = "pause";
+          _self.checkStart();
+        }, 500);
+        this.timeOutList.push(newSpinTimeOut);
+      }
+    }
 
-    p.renderUserInfo = function (data) {
-        $.extend(this.userInfo, data);
-        var avatarContainer = this.user.find('.avatar');
-        var usernameContainer = this.user.find('.username');
-        var moneyContainer = this.user.find('.money');
-        var avatar = Global.md5Avatar(data.avatar);
-        avatarContainer.addClass('avatar' + avatar);
-        usernameContainer.text(data.username);
-        var money = Global.numberWithDot(data.money);
-        moneyContainer.text(money);
-    };
+    if (status == "running") {
+      this.resultSound && this.resultSound.stop();
+      this.buttonSpin.addClass('disabled');
+      this.autoSpin.find('input').attr('disabled', true);
+      this.resultText.text("");
+    }
 
-    p.bindPots = function (data) {
-        $.extend(this.info.potData, data.pots)
-        this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
-    };
+    if (status == "effecting") {
+      this.startSound && this.startSound.stop();
+      if (this.isAutoSpin) {
+        this.buttonSpin.addClass('disabled');
+      } else {
+        this.buttonSpin.removeClass('disabled');
+      }
+      this.autoSpin.find('input').attr('disabled', false);
+    }
+  };
 
-    p.changeStatus = function (status) {
-        var _self = this;
-        this.status = status;
-        this.timeOutList.forEach(function (item) {
-            clearTimeout(item);
-        });
-        this.timeOutList = [];
-        if (status == 'pause') {
-            this.result = {};
-            if (currentEffectTurn >= effectQueue.length)
-                currentEffectTurn = 0;
-            var effectArray = effectQueue[currentEffectTurn];
-            if (effectArray && effectArray.length) {
-                for (var i = 0; i < effectArray.length; i++) {
-                    if (!effectArray[i].isDone)
-                        effectArray[i].endEffect();
-                }
-            }
-            effectQueue = [];
-            currentEffectTurn = 0;
-            if (this.isAutoSpin) {
-                var newSpinTimeOut = setTimeout(function () {
-                    _self.status = "pause";
-                    _self.checkStart();
-                }, 500);
-                this.timeOutList.push(newSpinTimeOut);
-            }
-        }
-
-        if (status == "running") {
-            this.resultSound  && this.resultSound.stop();
-            this.buttonSpin.addClass('disabled');
-            this.autoSpin.find('input').attr('disabled', true);
-            this.resultText.text("");
-        }
-
-        if (status == "effecting") {
-            this.startSound && this.startSound.stop();
-            if (this.isAutoSpin) {
-                this.buttonSpin.addClass('disabled');
-            }else{
-                this.buttonSpin.removeClass('disabled');
-            }
-            this.autoSpin.find('input').attr('disabled', false);
-        }
-    };
-
-    p.startSpin = function () {
-        endingPhase = -1;
-        var _self = this;
-        var firstColumn = columns[0].getChildAt(0);
-        this.changeStatus("running");
-        createjs.Tween.get(firstColumn)
-                .to({y: -50}, 150)
-                .call(function () {})
-                .to({y: 0}, 150)
-                .call(function () {
-                    _self.spinAllColumns();
-                });
-
-    };
-
-    p.spinAllColumns = function () {
-        var _self = this;
-        for (var i = 0; i < gameSize.x; i++) {
-            _self.spinColumn(i);
-        }
-    };
-
-    p.spinColumn = function (columnIndex) {
-        var currentSpeed = this.options.speed || speed;
-        var isNewEndingPhase = false;
-        var beforeLastRow = false;
-        if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
-            if (endingPhase % 1 == 0) {
-                isNewEndingPhase = true;
-                beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y);
-            }
-        }
-        var _self = this;
-        var newItem;
-        var itemsContainer = columns[columnIndex].getChildAt(0);
-        if (isNewEndingPhase) {
-            newItem = this.createSlotItem(this.mapData[columnIndex], -1);
-        } else {
-            newItem = this.createSlotItem(Math.floor(Math.random() * 4) + 52, -1);
-        }
-        itemsContainer.addChild(newItem);
-        var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
-        var timeAnimation = beforeLastRow ? 2 * distance / currentSpeed : distance / currentSpeed;
-        createjs.Tween.get(itemsContainer)
-                .to({y: distance}, timeAnimation, easeType)
-                .call(function () {
-                    var columnIndex = this.parent.parent.getChildIndex(this.parent);
-                    this.set({y: 0});
-                    var slotItems = this.children;
-                    slotItems.forEach(function (item, index) {
-                        item.state++;
-                        item.goNextStep();
-                    });
-                    this.removeChild(slotItems.find(function (item) {
-                        return item.state == gameSize.y
-                    }));
-
-                    if (endingPhase > -1) {
-
-                        var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
-                        if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
-                            var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
-                            if (isLastRow) {
-                                stepValue = 1 / 5;
-                            } else if ((endingPhase % gameSize.y) == 0) {
-                                stepValue = 1;
-                            }
-                            endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
-                            if (!isLastRow) {
-                                _self.spinColumn(columnIndex);
-                            } else {
-                                endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
-                            }
-                        } else {
-                            _self.spinColumn(columnIndex);
-                        }
-                        if (endingPhase > (gameSize.x * gameSize.y) - 1) {
-                            _self.emit("spinCompleted");
-                        }
-                    } else {
-                        _self.spinColumn(columnIndex);
-                    }
-
-                });
-    };
-
-    p.endSpin = function (data) {
-        if (this.status !== 'running')
-            return;
-        this.changeStatus("ending");
-        this.result = this.result || {};
-        $.extend(this.result, data);
-        this.mapData = data.map;
-        this.showSessionId(data.sessionId);
-        endingPhase = -0.8;
-        stepValue = 0.2;
-    };
-
-    p.updateMoney = function (data) {
-        this.result = this.result || {};
-        $.extend(this.result, data);
-        this.userInfo.money = data.newMoney;
-    };
-
-    p.effecting = function () {
-        var _self = this;
-        this.changeStatus("effecting");
-        var result = this.result;
-        effectQueue = [];
-
-        var effectArray = [];
-
-
-        var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
-        effectArray.push(hightLightWinCards);
-        this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
-
-        if (result.cardListRank == 1) {
-            var explodePotEffect = this.explodePotEffect();
-            effectArray.push(explodePotEffect);
-        }
-
-        if (parseInt(result.winMoney) > 0) {
-            var changeWinMoneyEffect = this.winMoneyEffect(result.winMoney);
-            var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
-            var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
-            effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
-            this.resultSound = TWIST.Sound.play("minigame/NormalWin");
-        }else{
-            this.resultSound = TWIST.Sound.play("minigame/slot_result");
-        }
-        effectArray.oneTime = true;
-        effectArray.forEach(function (item, index) {
-            item.isTracking = true;
-        });
-        effectQueue.push(effectArray);
-        if (this.isAutoSpin) {
-            var timeOut = setTimeout(function () {
-                _self.checkStart();
-            },2000);
-
-            this.timeOutList.push(timeOut);
-        }
-
-        this.runNextEffect();
-    };
-
-    p.runNextEffect = function () {
-        var effectArray = effectQueue[currentEffectTurn];
-        if (!effectArray || !effectArray.length)
-            return;
-        function _runEffect() {
-            numberEffectCompleted = 0;
-            for (var i = 0; i < effectArray.length; i++) {
-                effectArray[i].runEffect();
-            }
-        }
-        if (effectArray.oneTime) {
-            if (effectArray.done) {
-                currentEffectTurn++;
-                if (currentEffectTurn == effectQueue.length) {
-                    if (repeatEffectQueue) {
-                        currentEffectTurn = 0;
-                    } else {
-//                    this.status = "pause";
-                        this.changeStatus("pause");
-                    }
-                }
-                if (this.status === "effecting") {
-//                    this.runNextEffect();
-                }
-            } else {
-                _runEffect();
-            }
-        } else {
-            var timeOut = setTimeout(_runEffect, 300);
-            this.timeOutList.push(timeOut);
-        }
-    };
-
-    p.endEffect = function () {
-        var _self = this;
-        numberEffectCompleted++;
-        if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
-            if (effectQueue[currentEffectTurn].oneTime)
-                effectQueue[currentEffectTurn].done = true;
-            currentEffectTurn++;
-            if (currentEffectTurn == effectQueue.length) {
-                if (repeatEffectQueue) {
-                    currentEffectTurn = 0;
-                } else {
-//                    this.status = "pause";
-
-                    if (this.isAutoSpin) {
-                        var newSpinTimeOut = setTimeout(function () {
-                            _self.status = "pause";
-                            _self.checkStart();
-                        }, 500);
-                        this.timeOutList.push(newSpinTimeOut);
-                    }else{
-                        _self.status = "pause";
-                    }
-                }
-            }
-            if (this.status === "effecting") {
-//                this.runNextEffect();
-            }
-        }
-    };
-
-    p.createSlotItem = function (value, state) {
-        var _self = this;
-        var slotItem = new createjs.Container();
-
-        var bg = new TWIST.Card(value);
-        if (value > 51) {
-            value -= 52;
-            bg.bg.sourceRect = {
-                width: TWIST.Card.size.width,
-                height: 152,
-                x: TWIST.Card.size.width * (9 + value),
-                y: TWIST.Card.size.height * 4
-            };
-        }
-
-        bg.set({
-            scaleX: TWIST.Card.miniPoker.scale,
-            scaleY: TWIST.Card.miniPoker.scale,
-            x: (itemSize.width - TWIST.Card.miniPoker.width) / 2,
-            y: (itemSize.height - TWIST.Card.miniPoker.scale * TWIST.Card.size.height) / 2
-        });
-        slotItem.addChild(bg);
-        slotItem.set({
-            x: 0,
-            y: itemSize.height * state,
-            state: state
-        });
-
-        slotItem.goNextStep = function () {
-            var newY = itemSize.height * this.state;
-            this.set({y: newY});
-        };
-        return slotItem;
-    };
-
-    p.changeNumberEffect = function (el, newValue, options) {
-
-        var jElement = $(el);
-        var _self = this;
-
-        jElement.newValue = newValue;
-        jElement.options = options;
-
-        jElement.runEffect = function () {
-            jElement.finish();
-            jElement.isDone = true;
-            var oldValue = this.text();
-            var newOptions = {
-                duration: 1000,
-                step: function (now) {
-                    jElement.text(Global.numberWithDot(Math.ceil(now)));
-                },
-                done: function () {
-                    jElement.endEffect();
-                }
-            };
-            $.extend(newOptions, jElement.options);
-            oldValue = parseInt(oldValue.replace(/\,/g, ""));
-            if (isNaN(oldValue))
-                oldValue = 0;
-            this.prop('Counter', oldValue).animate({
-                Counter: jElement.newValue
-            }, newOptions);
-        };
-
-        jElement.endEffect = function () {
-            jElement.finish();
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
-    };
-
-    p.explodePotEffect = function () {
-        var _self = this;
-        var jElement = $('#effect .explorer-pot');
-        var firstTime = new Date();
-        jElement.runEffect = function () {
-            this.show();
-        };
-        jElement.click(function () {
-            jElement.isDone = false;
-            jElement.endEffect();
-        });
-        jElement.endEffect = function () {
-            this.hide();
-            this.isDone = true;
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
-    };
-
-    p.winMoneyEffect = function (value) {
-        var _self = this;
-
-        var jElement = $(TWIST.HTMLTemplate['miniPoker/winMoney']);
-        jElement.text(Global.numberWithDot(value));
-
-        jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            jElement.endEffect();
-        });
-
-        jElement.runEffect = function () {
-            jElement.isDone = false;
-            if (value > 0) {
-                _self.user.append(jElement);
-            }
-        };
-
-        jElement.endEffect = function () {
-            jElement.remove();
-            jElement.isDone = true;
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
-    };
-
-    p.hightlightWinRank = function (code) {
-        var _self = this;
-
-        var rankItem = this.resultItemList.find(function (item, index) {
-            return item.code == code;
-        });
-
-        var jElement = rankItem ? rankItem.template : $('<div></div>');
-
-        jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
-            jElement.endEffect();
-        });
-
-        jElement.runEffect = function () {
-            jElement.isDone = false;
-            jElement.addClass('active');
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        jElement.endEffect = function () {
-            jElement.removeClass('active');
-            jElement.isDone = true;
-        };
-
-        return jElement;
-    };
-
-    p.hightLightWinCards = function (cardList) {
-        var _self = this;
-
-        var cardListTemlate = [];
-
-        for (var i = 0; i < gameSize.x; i++) {
-            var card = columns[i].children[0].children[0].children[0];
-            card.active = cardList[i];
-            card.border.sourceRect.x = TWIST.Card.size.width * 4;
-            cardListTemlate.push(card);
-        }
-
-        cardListTemlate.runEffect = function () {
-            cardListTemlate.isDone = true;
-            cardListTemlate.forEach(function (item, index) {
-                if (parseInt(item.active)) {
-                    item.hightLight();
-                } else {
-                    item.Overlay();
-                }
+  p.startSpin = function () {
+    endingPhase = -1;
+    var _self = this;
+    var firstColumn = columns[0].getChildAt(0);
+    this.changeStatus("running");
+    createjs.Tween.get(firstColumn)
+            .to({y: -50}, 150)
+            .call(function () {})
+            .to({y: 0}, 150)
+            .call(function () {
+              _self.spinAllColumns();
             });
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
 
-        cardListTemlate.endEffect = function () {
-            cardListTemlate.isDone = true;
-        };
+  };
 
-        return cardListTemlate;
-    };
+  p.spinAllColumns = function () {
+    var _self = this;
+    for (var i = 0; i < gameSize.x; i++) {
+      _self.spinColumn(i);
+    }
+  };
 
-    p.showResultText = function (cardListRank, rankOfVerticalGroup) {
-        var _self = this;
+  p.spinColumn = function (columnIndex) {
+    var currentSpeed = this.options.speed || speed;
+    var isNewEndingPhase = false;
+    var beforeLastRow = false;
+    if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
+      if (endingPhase % 1 == 0) {
+        isNewEndingPhase = true;
+        beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y);
+      }
+    }
+    var _self = this;
+    var newItem;
+    var itemsContainer = columns[columnIndex].getChildAt(0);
+    if (isNewEndingPhase) {
+      newItem = this.createSlotItem(this.mapData[columnIndex], -1);
+    } else {
+      newItem = this.createSlotItem(Math.floor(Math.random() * 4) + 52, -1);
+    }
+    itemsContainer.addChild(newItem);
+    var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
+    var timeAnimation = beforeLastRow ? 2 * distance / currentSpeed : distance / currentSpeed;
+    createjs.Tween.get(itemsContainer)
+            .to({y: distance}, timeAnimation, easeType)
+            .call(function () {
+              var columnIndex = this.parent.parent.getChildIndex(this.parent);
+              this.set({y: 0});
+              var slotItems = this.children;
+              slotItems.forEach(function (item, index) {
+                item.state++;
+                item.goNextStep();
+              });
+              this.removeChild(slotItems.find(function (item) {
+                return item.state == gameSize.y
+              }));
 
-        var resultItem = this.options.resultTab.find(function (item, index) {
-            return item.code == cardListRank;
-        });
-        var rankItem = cardRankList.find(function (item, index) {
-            return item.value == rankOfVerticalGroup;
-        });
-        var resultText = resultItem.name;
-        if ((resultItem.code == 3 || resultItem.code == 7 || resultItem.code == 9) && rankItem) {
-            resultText = resultText + " " + rankItem.name;
-            if (resultItem.code == 9) {
-                resultText = "Đôi " + rankItem.name;
-            }
+              if (endingPhase > -1) {
+
+                var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
+                if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
+                  var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
+                  if (isLastRow) {
+                    stepValue = 1 / 5;
+                  } else if ((endingPhase % gameSize.y) == 0) {
+                    stepValue = 1;
+                  }
+                  endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                  if (!isLastRow) {
+                    _self.spinColumn(columnIndex);
+                  } else {
+                    endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                  }
+                } else {
+                  _self.spinColumn(columnIndex);
+                }
+                if (endingPhase > (gameSize.x * gameSize.y) - 1) {
+                  _self.emit("spinCompleted");
+                }
+              } else {
+                _self.spinColumn(columnIndex);
+              }
+
+            });
+  };
+
+  p.endSpin = function (data) {
+    if (this.status !== 'running')
+      return;
+    this.changeStatus("ending");
+    this.result = this.result || {};
+    $.extend(this.result, data);
+    this.mapData = data.map;
+    this.showSessionId(data.sessionId);
+    endingPhase = -0.8;
+    stepValue = 0.2;
+  };
+
+  p.updateMoney = function (data) {
+    this.result = this.result || {};
+    $.extend(this.result, data);
+    this.userInfo.money = data.newMoney;
+  };
+
+  p.effecting = function () {
+    var _self = this;
+    this.changeStatus("effecting");
+    var result = this.result;
+    effectQueue = [];
+
+    var effectArray = [];
+
+
+    var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
+    effectArray.push(hightLightWinCards);
+    this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
+
+    if (result.cardListRank == 1) {
+      var explodePotEffect = this.explodePotEffect();
+      effectArray.push(explodePotEffect);
+    }
+
+    if (parseInt(result.winMoney) > 0) {
+      var changeWinMoneyEffect = this.winMoneyEffect(result.winMoney);
+      var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
+      var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
+      effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
+      this.resultSound = TWIST.Sound.play("minigame/NormalWin");
+    } else {
+      this.resultSound = TWIST.Sound.play("minigame/slot_result");
+    }
+    effectArray.oneTime = true;
+    effectArray.forEach(function (item, index) {
+      item.isTracking = true;
+    });
+    effectQueue.push(effectArray);
+    if (this.isAutoSpin) {
+      var timeOut = setTimeout(function () {
+        _self.checkStart();
+      }, 2000);
+
+      this.timeOutList.push(timeOut);
+    }
+
+    this.runNextEffect();
+  };
+
+  p.runNextEffect = function () {
+    var effectArray = effectQueue[currentEffectTurn];
+    if (!effectArray || !effectArray.length)
+      return;
+    function _runEffect() {
+      numberEffectCompleted = 0;
+      for (var i = 0; i < effectArray.length; i++) {
+        effectArray[i].runEffect();
+      }
+    }
+    if (effectArray.oneTime) {
+      if (effectArray.done) {
+        currentEffectTurn++;
+        if (currentEffectTurn == effectQueue.length) {
+          if (repeatEffectQueue) {
+            currentEffectTurn = 0;
+          } else {
+//                    this.status = "pause";
+            this.changeStatus("pause");
+          }
         }
-        this.resultText.text(resultText);
+        if (this.status === "effecting") {
+//                    this.runNextEffect();
+        }
+      } else {
+        _runEffect();
+      }
+    } else {
+      var timeOut = setTimeout(_runEffect, 300);
+      this.timeOutList.push(timeOut);
+    }
+  };
 
-        var showResultText = {};
+  p.endEffect = function () {
+    var _self = this;
+    numberEffectCompleted++;
+    if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
+      if (effectQueue[currentEffectTurn].oneTime)
+        effectQueue[currentEffectTurn].done = true;
+      currentEffectTurn++;
+      if (currentEffectTurn == effectQueue.length) {
+        if (repeatEffectQueue) {
+          currentEffectTurn = 0;
+        } else {
+//                    this.status = "pause";
 
-        showResultText.runEffect = function () {
-            showResultText.isDone = false;
-            _self.resultText.text(resultText);
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
+          if (this.isAutoSpin) {
+            var newSpinTimeOut = setTimeout(function () {
+              _self.status = "pause";
+              _self.checkStart();
+            }, 500);
+            this.timeOutList.push(newSpinTimeOut);
+          } else {
+            _self.status = "pause";
+          }
+        }
+      }
+      if (this.status === "effecting") {
+//                this.runNextEffect();
+      }
+    }
+  };
 
-        showResultText.endEffect = function () {
-            _self.resultText.text("");
-            showResultText.isDone = true;
-        };
+  p.createSlotItem = function (value, state) {
+    var _self = this;
+    var slotItem = new createjs.Container();
 
-        return showResultText;
+    var bg = new TWIST.Card(value);
+    if (value > 51) {
+      value -= 52;
+      bg.bg.sourceRect = {
+        width: TWIST.Card.size.width,
+        height: 152,
+        x: TWIST.Card.size.width * (9 + value),
+        y: TWIST.Card.size.height * 4
+      };
+    }
+
+    bg.set({
+      scaleX: TWIST.Card.miniPoker.scale,
+      scaleY: TWIST.Card.miniPoker.scale,
+      x: (itemSize.width - TWIST.Card.miniPoker.width) / 2,
+      y: (itemSize.height - TWIST.Card.miniPoker.scale * TWIST.Card.size.height) / 2
+    });
+    slotItem.addChild(bg);
+    slotItem.set({
+      x: 0,
+      y: itemSize.height * state,
+      state: state
+    });
+
+    slotItem.goNextStep = function () {
+      var newY = itemSize.height * this.state;
+      this.set({y: newY});
+    };
+    return slotItem;
+  };
+
+  p.changeNumberEffect = function (el, newValue, options) {
+
+    var jElement = $(el);
+    var _self = this;
+
+    jElement.newValue = newValue;
+    jElement.options = options;
+
+    jElement.runEffect = function () {
+      jElement.finish();
+      jElement.isDone = true;
+      var oldValue = this.text();
+      var newOptions = {
+        duration: 1000,
+        step: function (now) {
+          jElement.text(Global.numberWithDot(Math.ceil(now)));
+        },
+        done: function () {
+          jElement.endEffect();
+        }
+      };
+      $.extend(newOptions, jElement.options);
+      oldValue = parseInt(oldValue.replace(/\,/g, ""));
+      if (isNaN(oldValue))
+        oldValue = 0;
+      this.prop('Counter', oldValue).animate({
+        Counter: jElement.newValue
+      }, newOptions);
     };
 
-    p.explodePotEffect = function () {
-        var _self = this;
-        var jElement = this.explodePot;
-        var firstTime = new Date();
-        jElement.runEffect = function () {
-            this.isDone = false;
-            this.show();
-        };
-        jElement.click(function () {
-            jElement.endEffect();
-        });
-        jElement.endEffect = function () {
-            this.hide();
-            this.isDone = true;
-            if (this.isTracking) {
-                this.isTracking = false;
-                _self.emit("endEffect");
-            }
-        };
-
-        return jElement;
+    jElement.endEffect = function () {
+      jElement.finish();
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
     };
 
-    p.showSessionId = function (sessionId) {
-        this.sessionId.text(sessionId);
+    return jElement;
+  };
+
+  p.explodePotEffect = function () {
+    var _self = this;
+    var jElement = $('#effect .explorer-pot');
+    var firstTime = new Date();
+    jElement.runEffect = function () {
+      this.show();
+    };
+    jElement.click(function () {
+      jElement.isDone = false;
+      jElement.endEffect();
+    });
+    jElement.endEffect = function () {
+      this.hide();
+      this.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
     };
 
-    TWIST.MiniPoker = MiniPoker;
+    return jElement;
+  };
+
+  p.winMoneyEffect = function (value) {
+    var _self = this;
+
+    var jElement = $(TWIST.HTMLTemplate['miniPoker/winMoney']);
+    jElement.text(Global.numberWithDot(value));
+
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.endEffect();
+    });
+
+    jElement.runEffect = function () {
+      jElement.isDone = false;
+      if (value > 0) {
+        _self.user.append(jElement);
+      }
+    };
+
+    jElement.endEffect = function () {
+      jElement.remove();
+      jElement.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.hightlightWinRank = function (code) {
+    var _self = this;
+
+    var rankItem = this.resultItemList.find(function (item, index) {
+      return item.code == code;
+    });
+
+    var jElement = rankItem ? rankItem.template : $('<div></div>');
+
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.endEffect();
+    });
+
+    jElement.runEffect = function () {
+      jElement.isDone = false;
+      jElement.addClass('active');
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    jElement.endEffect = function () {
+      jElement.removeClass('active');
+      jElement.isDone = true;
+    };
+
+    return jElement;
+  };
+
+  p.hightLightWinCards = function (cardList) {
+    var _self = this;
+
+    var cardListTemlate = [];
+
+    for (var i = 0; i < gameSize.x; i++) {
+      var card = columns[i].children[0].children[0].children[0];
+      card.active = cardList[i];
+      card.border.sourceRect.x = TWIST.Card.size.width * 4;
+      cardListTemlate.push(card);
+    }
+
+    cardListTemlate.runEffect = function () {
+      cardListTemlate.isDone = true;
+      cardListTemlate.forEach(function (item, index) {
+        if (parseInt(item.active)) {
+          item.hightLight();
+        } else {
+          item.Overlay();
+        }
+      });
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    cardListTemlate.endEffect = function () {
+      cardListTemlate.isDone = true;
+    };
+
+    return cardListTemlate;
+  };
+
+  p.showResultText = function (cardListRank, rankOfVerticalGroup) {
+    var _self = this;
+
+    var resultItem = this.options.resultTab.find(function (item, index) {
+      return item.code == cardListRank;
+    });
+    var rankItem = cardRankList.find(function (item, index) {
+      return item.value == rankOfVerticalGroup;
+    });
+    var resultText = resultItem.name;
+    if ((resultItem.code == 3 || resultItem.code == 7 || resultItem.code == 9) && rankItem) {
+      resultText = resultText + " " + rankItem.name;
+      if (resultItem.code == 9) {
+        resultText = "Đôi " + rankItem.name;
+      }
+    }
+    this.resultText.text(resultText);
+
+    var showResultText = {};
+
+    showResultText.runEffect = function () {
+      showResultText.isDone = false;
+      _self.resultText.text(resultText);
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    showResultText.endEffect = function () {
+      _self.resultText.text("");
+      showResultText.isDone = true;
+    };
+
+    return showResultText;
+  };
+
+  p.explodePotEffect = function () {
+    var _self = this;
+    var jElement = this.explodePot;
+    var firstTime = new Date();
+    jElement.runEffect = function () {
+      this.isDone = false;
+      this.show();
+    };
+    jElement.click(function () {
+      jElement.endEffect();
+    });
+    jElement.endEffect = function () {
+      this.hide();
+      this.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.showSessionId = function (sessionId) {
+    this.sessionId.text(sessionId);
+  };
+
+  TWIST.MiniPoker = MiniPoker;
 
 })();
 this.TWIST = this.TWIST || {};
@@ -8935,6 +8937,7 @@ this.TWIST = this.TWIST || {};
         100000: 0
       }
     };
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
     this.userInfo = {};
     this.initCanvas();
     this.initTemplate();
