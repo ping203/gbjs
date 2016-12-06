@@ -164,6 +164,7 @@ this.TWIST = this.TWIST || {};
       var value = this.mapData[i];
       var item = this.createSlotItem(this.mapData[i], 0);
       columnItems.addChild(item);
+      currentCardList[i] = item;
 
       spinArea.addChild(columns[i]);
     }
