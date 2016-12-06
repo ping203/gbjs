@@ -723,7 +723,7 @@ and open the template in the editor.
         text-align: center;
         width: 300px;
         left: 0;
-        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
+        text-shadow: 2px 0 2px #000, -2px 0 2px #000, 0 2px 2px #000, 0 -2px 2px #000,  1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000,-1px 1px 2px #000;
         top: 50px;
         -webkit-animation-name: win-money;
         -moz-animation-name: win-money;
@@ -774,7 +774,7 @@ and open the template in the editor.
     color: white;
     text-align: center;
     border-radius: 30px;
-    text-shadow: 2px 0 2px #501c08, -2px 0 2px #501c08, 0 2px 2px #501c08, 0 -2px 2px #501c08,  1px 1px 2px #501c08, -1px -1px 2px #501c08, 1px -1px 2px #501c08,-1px 1px 2px #501c08;
+    text-shadow: 2px 0 2px #501c08, -2px 0 2px #501c08, 0 2px 2px #501c08, 0 -2px 2px #501c08,  1px 1px 2px #501c08, -1px -1px 2px #501c08, 1px -1px 2px #501c08,-1px 1px 2px #501c08;
     background-color: transparent;
     background-image: -webkit-radial-gradient(transparent, rgba(255, 205, 0, 0.47));
     background-image: radial-gradient(  transparent, rgba(255, 205, 0, 0.47));
