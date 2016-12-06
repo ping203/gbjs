@@ -445,6 +445,7 @@ this.TWIST = this.TWIST || {};
 
   p.reDrawDoubleTurnPhase2 = function (data) {
     gameTurn = 3;
+    currentCardList[0].openCard(data.cardId, TWIST.Card.miniPoker);
     this.setCardSelected(data);
   };
 
