@@ -399,7 +399,7 @@ this.TWIST = this.TWIST || {};
     };
     var fun = functionList[data.status];
     if (typeof fun == 'function') {
-      fun(data);
+      fun.call(_self,data);
     }
   };
 
