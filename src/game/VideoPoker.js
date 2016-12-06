@@ -440,9 +440,6 @@ this.TWIST = this.TWIST || {};
 
   p.reDrawDoubleTurnPhase1 = function (data) {
     gameTurn = 2;
-    currentCardList.forEach(function (item, index) {
-      item.setValue(data.map[index]);
-    });
     this.doubleTurn(data);
   };
 
