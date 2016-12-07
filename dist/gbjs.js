@@ -5199,6 +5199,9 @@ this.TWIST = this.TWIST || {};
     this.setBetting(button);
     this.setNewCard(data);
     this.drawListCard(data.listCard);
+    if(!data.listCard.length){
+      this.newTurnButton.setDisabled(true);
+    };
     if (data.numberPotCards) {
       for (var i = 0; i < data.numberPotCards; i++) {
         this.potCards.addActiveCard()
