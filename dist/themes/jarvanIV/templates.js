@@ -4,7 +4,7 @@
 'buttonBar/eatCardButton':'<div class="button second yellow" id="eat-card">\u0102n</div>',
 'buttonBar/entiretyButton':'<div class="button second yellow" id="entirety-card">\xD9</div>',
 'buttonBar/foldSamButton':'<div class="button third white" id="fold-sam">B\u1ECF s\xE2m</div>',
-'buttonBar/foldTurnButton':'<div class="button third white" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
+'buttonBar/foldTurnButton':'<div class="button second white" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
 'buttonBar/getCardButton':'<div class="button first blue" id="get-card">B\u1ED1c b\xE0i</div>',
 'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/openCardButton':'<div class="button first blue" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',

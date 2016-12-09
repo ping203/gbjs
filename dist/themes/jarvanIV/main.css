@@ -172,25 +172,24 @@ and open the template in the editor.
     top: 5px;
     font-size: 20px; }
   .twist .result-item {
-    /*height: 60px;*/
-    width: 90%;
-    border-bottom: 1px solid #1d384f;
     text-align: left;
     white-space: nowrap;
     font-size: 16px;
     color: white;
     font-weight: bold;
     margin: 0 auto;
-    padding: 10px 0; }
+    padding: 10px; }
     .twist .result-item:nth-child(even) {
       background-color: rgba(0, 0, 0, 0.1);
       border-radius: 5px; }
   .twist .result-item:last-child {
     border-bottom: none; }
   .twist .result-item-info {
-    display: inline-block;
+    display: inline-flex;
     width: 40%;
-    line-height: 30px; }
+    line-height: 30px;
+    justify-content: left;
+    align-items: center; }
   .twist .result-item-username {
     width: 40%;
     display: inline-block;

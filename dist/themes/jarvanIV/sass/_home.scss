@@ -142,21 +142,29 @@ $twistImagePath :   "images/" !default;
 .popup-header {
     position: relative;
     height: 80px;
+    line-height: 80px;
     background-color: #24436c;
     font-size: 30px;
     font-weight: bold;
     color: #77cbee;
+    text-align: center;
+    text-transform : uppercase;
+    &:after{
+        content: "Kết quả"
+    }
 }
 
 .popup-icon {
     position: absolute;
     left: 5px;
     top: 5px;
-    width: 180px;
-    height: 120px;
+    width: 222px;
+    height: 65px;
     background-image: url('#{$twistImagePath}resultPanel/win.png');
 }
 .popup-icon.lose {
+    width: 174px;
+    height: 58px;
     background-image: url('#{$twistImagePath}resultPanel/lose.png');
 }
 .close-popup {
@@ -170,16 +178,13 @@ $twistImagePath :   "images/" !default;
     font-size: 20px;
 }
 .result-item {
-    /*height: 60px;*/
-    width: 90%;
-    border-bottom: 1px solid #1d384f;
     text-align: left;
     white-space: nowrap;
     font-size: 16px;
     color: white;
     font-weight: bold;
     margin: 0 auto;
-    padding: 10px 0;
+    padding: 10px;
     &:nth-child(even){
         background-color: rgba(0,0,0,0.1);
         border-radius: 5px;
@@ -189,9 +194,11 @@ $twistImagePath :   "images/" !default;
     border-bottom: none;
 }
 .result-item-info {
-    display: inline-block;
+    display: inline-flex;
     width: 40%;
     line-height: 30px;
+    justify-content: left;
+    align-items: center;
 }
 .result-item-username {
     width: 40%;
