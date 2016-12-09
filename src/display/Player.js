@@ -178,7 +178,7 @@ this.TWIST = this.TWIST || {};
     this.status = new createjs.Container();
     var configAvatar = config.avartar || Player.avatarConfig;
     var radius = configAvatar.radius;
-    this.status.set({x: configAvatar.x + radius, y:configAvatar.y + radius});
+    this.status.set({x: configAvatar.x + radius, y: configAvatar.y + radius});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
@@ -294,7 +294,7 @@ this.TWIST = this.TWIST || {};
     statusContainer.default = (typeof options.default === "undefined") ? statusContainer.default : options.default;
     status = status || statusContainer.default;
     statusContainer.visible = status ? true : false;
-    
+
     options.color = options.color || "yellowgreen";
     options.font = options.font || 'bold 20px Roboto Condensed';
     options.x = options.x || 0;
@@ -764,13 +764,13 @@ this.TWIST = this.TWIST || {};
       }
     }
   };
-  
-  p.rePositionDraftCards = function(indexPosition){
+
+  p.rePositionDraftCards = function (indexPosition) {
     var listCard = this.draftCards.children;
-    listCard.forEach(function(item,index){
-      if(index > indexPosition){
+    listCard.forEach(function (item, index) {
+      if (index > indexPosition) {
         item.set({
-          x : listCard[index - 1].x
+          x: listCard[index - 1].x
         });
       }
     });
@@ -805,13 +805,14 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
         newY = 0;
       } else {
-        newY = _self.showPhomArea.y;
+        newY = -TWIST.Card.draftCard.height - 10;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
         }
       }
+      console.log("newY", newY);
       createjs.Tween.get(card).to({
         x: newX, y: newY,
         width: bai.width,
@@ -1169,14 +1170,13 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
         newY = 0;
       } else {
-        newY = this.showPhomArea.y;
+        newY = -TWIST.Card.draftCard.height - 10;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
         }
       }
-        console.log("this.showPhomArea.y",this.showPhomArea.y);
       card.set({
         x: newX,
         y: newY,

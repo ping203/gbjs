@@ -1021,8 +1021,8 @@ this.FATE = this.FATE || {};
 'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
 'buttonBar/openCardButton':'<div class="button first blue" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/sendCardButton':'<div class="button second blue" id="send-card">G\u1EEDi b\xE0i</div>',
-'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
-'buttonBar/sortCardButton':'<div class="button second blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
+'buttonBar/showPhomButton':'<div class="button second yellow" id="eat-card">H\u1EA1 b\xE0i</div>',
+'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
 'buttonBar/startButton':'<div class="button first yellow" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/wrapper':'<div class="button-bar"></div>',
 'effect/explodePot':'<div class="explorer-pot">\r\n    <span class="effect"></span>\r\n    <span class="txt"></span>\r\n</div>\r\n<div class="money-falling">\r\n    <div class="text-light pos-1">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-2">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-3">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-4">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n</div>',
@@ -2041,7 +2041,7 @@ this.TWIST = this.TWIST || {};
     this.status = new createjs.Container();
     var configAvatar = config.avartar || Player.avatarConfig;
     var radius = configAvatar.radius;
-    this.status.set({x: configAvatar.x + radius, y:configAvatar.y + radius});
+    this.status.set({x: configAvatar.x + radius, y: configAvatar.y + radius});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
@@ -2157,7 +2157,7 @@ this.TWIST = this.TWIST || {};
     statusContainer.default = (typeof options.default === "undefined") ? statusContainer.default : options.default;
     status = status || statusContainer.default;
     statusContainer.visible = status ? true : false;
-    
+
     options.color = options.color || "yellowgreen";
     options.font = options.font || 'bold 20px Roboto Condensed';
     options.x = options.x || 0;
@@ -2627,13 +2627,13 @@ this.TWIST = this.TWIST || {};
       }
     }
   };
-  
-  p.rePositionDraftCards = function(indexPosition){
+
+  p.rePositionDraftCards = function (indexPosition) {
     var listCard = this.draftCards.children;
-    listCard.forEach(function(item,index){
-      if(index > indexPosition){
+    listCard.forEach(function (item, index) {
+      if (index > indexPosition) {
         item.set({
-          x : listCard[index - 1].x
+          x: listCard[index - 1].x
         });
       }
     });
@@ -2668,13 +2668,14 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
         newY = 0;
       } else {
-        newY = _self.showPhomArea.y;
+        newY = -TWIST.Card.draftCard.height - 10;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * (this.numberEatedCard - 1);
         }
       }
+      console.log("newY", newY);
       createjs.Tween.get(card).to({
         x: newX, y: newY,
         width: bai.width,
@@ -3032,14 +3033,13 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
         newY = 0;
       } else {
-        newY = this.showPhomArea.y;
+        newY = -TWIST.Card.draftCard.height - 10;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
         }
       }
-        console.log("this.showPhomArea.y",this.showPhomArea.y);
       card.set({
         x: newX,
         y: newY,
