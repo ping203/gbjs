@@ -36,7 +36,7 @@ this.TWIST = this.TWIST || {};
   Desk.height = 720;
 
   // vi tri gua ban
-  Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
+  Desk.position = {x: Desk.width / 2, y: Desk.height / 2};
 
   Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
@@ -58,8 +58,8 @@ this.TWIST = this.TWIST || {};
   p.createDeckCard = function () {
     this.deckCard = new createjs.Container();
     this.deckCard.set({
-      x: Desk.position.x - (TWIST.Card.userCard.width) / 2,
-      y: Desk.position.y - (TWIST.Card.userCard.height) / 2,
+      x: Desk.position.x,
+      y: Desk.position.y,
       visible: false
     });
     return this.deckCard;
@@ -152,13 +152,17 @@ this.TWIST = this.TWIST || {};
   p.generateCards = function (numberCards, cardType) {
     var currentCards = this.deckCard.children.length;
     var numberCardAdd = numberCards - currentCards;
+    cardType = cardType || TWIST.Card.playerCard;
+    var scale = cardType.scale;
+    console.log("cardType", cardType, this.deckCard);
     if (numberCardAdd > 0) {
       for (var i = 0; i < numberCardAdd; i++) {
         var cardImage = new TWIST.Card();
-        var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
         cardImage.set({
           scaleX: scale,
-          scaleY: scale
+          scaleY: scale,
+          x: -cardType.width / 2,
+          y: -cardType.height / 2
         });
         this.deckCard.addChild(cardImage);
       }
@@ -169,13 +173,14 @@ this.TWIST = this.TWIST || {};
   };
 
 
-  p.createLastDraftCards = function (cardList) {
+  p.createLastDraftCards = function (cardList, cardType) {
     var draftCards = this.draftCards;
-    var cardType = TWIST.Card.draftCard;
+    var cardType = cardType || TWIST.Card.demlaDraftCard;
     cardList.forEach(function (item, index) {
       var card = new TWIST.Card(item);
       card.set({
         x: (index - cardList.length * 0.5) * cardType.seperator,
+        y: cardType.height * 0.8,
         rotation: (Math.random() - 0.5) * 30,
         scaleX: cardType.scale,
         scaleY: cardType.scale

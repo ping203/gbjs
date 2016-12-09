@@ -177,13 +177,12 @@ this.TWIST = this.TWIST || {};
     this.desk.removeOverlayCards();
     this.desk.setZeroVetical();
     this.desk.overlayDraftCards();
-    var cardType = TWIST.Card.userCard;
+    var cardType = TWIST.Card.demlaDraftCard;
     var position = {};
     position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
     position.y = cardType.height * 0.8;
-
     Player.draftCardsInHand(cards, {
-      cardType: TWIST.Card.userCard,
+      cardType: TWIST.Card.demlaDraftCard,
       draftCards: this.desk.draftCards,
       position: position,
       rotateAble: true

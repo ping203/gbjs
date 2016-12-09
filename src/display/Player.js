@@ -176,8 +176,9 @@ this.TWIST = this.TWIST || {};
   p.initStatus = function (config, self) {
     //player status
     this.status = new createjs.Container();
-    var radius = (config.avartar || Player.avatarConfig).radius;
-    this.status.set({x: 50, y: 40});
+    var configAvatar = config.avartar || Player.avatarConfig;
+    var radius = configAvatar.radius;
+    this.status.set({x: configAvatar.x + radius, y:configAvatar.y + radius});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
@@ -804,7 +805,7 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
         newY = 0;
       } else {
-        newY = -45;
+        newY = _self.showPhomArea.y;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
         } else {
@@ -885,7 +886,7 @@ this.TWIST = this.TWIST || {};
       newX = this.hand.x + 37;
       newY = this.hand.y;
     } else {
-      newY = draftPosition.y - 45;
+      newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
       if (this.draftCards.align == "right") {
         newX = this.draftCards.x;
       } else {
@@ -1168,13 +1169,14 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
         newY = 0;
       } else {
-        newY = -45;
+        newY = this.showPhomArea.y;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
         }
       }
+        console.log("this.showPhomArea.y",this.showPhomArea.y);
       card.set({
         x: newX,
         y: newY,

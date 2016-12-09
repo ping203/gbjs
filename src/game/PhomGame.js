@@ -184,7 +184,9 @@ this.TWIST = this.TWIST || {};
     var userID = data.uuid;
     var player = this.getPlayerByUuid(userID);
     player.listPhom = data.listPhom || player.listPhom;
-    player.draftCardsInHand(cards);
+    player.draftCardsInHand(cards, {
+      cardType: TWIST.Card.draftCard
+    });
     player.markEatedCard();
     this.desk.lastActivePlayer = data.uuid;
     this.desk.lastDraftCard = cards;
@@ -202,7 +204,7 @@ this.TWIST = this.TWIST || {};
         this.hitButton.show();
       }
     }
-    this.desk.generateCards(52, TWIST.Card.userCard);
+    this.desk.generateCards(52, TWIST.Card.deckCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -255,7 +257,7 @@ this.TWIST = this.TWIST || {};
     var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
     var _self = this;
 
-    this.desk.generateCards(numberCards, TWIST.Card.userCard);
+    this.desk.generateCards(numberCards, TWIST.Card.deckCard);
 
     players.forEach(function (item, index) {
       var handCards = [];

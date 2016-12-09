@@ -1012,19 +1012,21 @@ this.FATE = this.FATE || {};
 })();
 ;(function() { window.TWIST = window.TWIST || {}; TWIST.HTMLTemplate = {'canvas':'<canvas class="gameCanvas" width="1280" height="720" ></canvas>',
 'errorPanel':'<div class="error-panel">\r\n    \r\n</div>',
-'buttonBar/callSamButton':'<div class="button fourth red" id="call-sam">B\xE1o s\xE2m</div>',
-'buttonBar/eatCardButton':'<div class="button second red" id="eat-card">\u0102n</div>',
-'buttonBar/entiretyButton':'<div class="button second red" id="entirety-card">\xD9</div>',
-'buttonBar/foldSamButton':'<div class="button third blue" id="fold-sam">B\u1ECF s\xE2m</div>',
-'buttonBar/foldTurnButton':'<div class="button fourth red" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
-'buttonBar/getCardButton':'<div class="button first red" id="get-card">B\u1ED1c b\xE0i</div>',
-'buttonBar/hitButton':'<div class="button second yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
-'buttonBar/openCardButton':'<div class="button first green" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
-'buttonBar/sendCardButton':'<div class="button second red" id="send-card">G\u1EEDi b\xE0i</div>',
+'buttonBar/callSamButton':'<div class="button fourth blue" id="call-sam">B\xE1o s\xE2m</div>',
+'buttonBar/eatCardButton':'<div class="button second yellow" id="eat-card">\u0102n</div>',
+'buttonBar/entiretyButton':'<div class="button second yellow" id="entirety-card">\xD9</div>',
+'buttonBar/foldSamButton':'<div class="button third white" id="fold-sam">B\u1ECF s\xE2m</div>',
+'buttonBar/foldTurnButton':'<div class="button third white" id="fold-turn">B\u1ECF l\u01B0\u1EE3t</div>\r\n',
+'buttonBar/getCardButton':'<div class="button first blue" id="get-card">B\u1ED1c b\xE0i</div>',
+'buttonBar/hitButton':'<div class="button first yellow" id="hit-card">\u0110\xE1nh b\xE0i</div>',
+'buttonBar/openCardButton':'<div class="button first blue" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
+'buttonBar/sendCardButton':'<div class="button second blue" id="send-card">G\u1EEDi b\xE0i</div>',
 'buttonBar/showPhomButton':'<div class="button second red" id="eat-card">H\u1EA1 b\xE0i</div>',
-'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
-'buttonBar/startButton':'<div class="button first green" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
+'buttonBar/sortCardButton':'<div class="button second blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
+'buttonBar/startButton':'<div class="button first yellow" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/wrapper':'<div class="button-bar"></div>',
+'effect/explodePot':'<div class="explorer-pot">\r\n    <span class="effect"></span>\r\n    <span class="txt"></span>\r\n</div>\r\n<div class="money-falling">\r\n    <div class="text-light pos-1">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-2">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-3">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-4">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n</div>',
+'effect/wrapper':'<div class="effect"></div>',
 'hightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\r\n</div>\r\n',
 'hightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'hightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="title">Bank</div>\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
@@ -1079,9 +1081,7 @@ this.FATE = this.FATE || {};
 'xocDia/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
-'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',
-'effect/explodePot':'<div class="explorer-pot">\r\n    <span class="effect"></span>\r\n    <span class="txt"></span>\r\n</div>\r\n<div class="money-falling">\r\n    <div class="text-light pos-1">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-2">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-3">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-4">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n</div>',
-'effect/wrapper':'<div class="effect"></div>',}})();
+'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
 this.TWIST = this.TWIST || {};
 (function () {
   "use strict";
@@ -1096,10 +1096,14 @@ this.TWIST = this.TWIST || {};
   Card.userCard.scale = Card.userCard.width / Card.size.width;
   Card.playerCard = {width: 45, height: 61.5, seperator: 0, cardDraggable: false, scale: 0.33};
   Card.playerCard.scale = Card.playerCard.width / Card.size.width;
-  Card.deckCard = {width: 40, seperator: 0.1};
+  Card.deckCard = {width: 45, height: 61.5, seperator: 0.1};
   Card.deckCard.scale = Card.deckCard.width / Card.size.width;
   Card.draftCard = {width: 45, height: 61.5, seperator: 46};
   Card.draftCard.scale = Card.draftCard.width / Card.size.width;
+  Card.demlaDraftCard = {width: 70, height: 95, seperator: 72};
+  Card.demlaDraftCard.scale = Card.demlaDraftCard.width / Card.size.width;
+  Card.phomDraftCard = {width: 64, height: 82, seperator: 67};
+  Card.phomDraftCard.scale = Card.phomDraftCard.width / Card.size.width;
   Card.threeCards = {width: 54, height: 73.8, seperator: 55, scale: 0.6};
   Card.threeCards.scale = Card.threeCards.width / Card.size.width;
   Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
@@ -1508,7 +1512,7 @@ this.TWIST = this.TWIST || {};
   Desk.height = 720;
 
   // vi tri gua ban
-  Desk.position = {x: (Desk.width - TWIST.Card.playerCard.width) / 2, y: (Desk.height - TWIST.Card.playerCard.height) / 2};
+  Desk.position = {x: Desk.width / 2, y: Desk.height / 2};
 
   Desk.draftPosition = {x: Desk.width / 2, y: Desk.height / 4, rotateDeg: 0};
 
@@ -1530,8 +1534,8 @@ this.TWIST = this.TWIST || {};
   p.createDeckCard = function () {
     this.deckCard = new createjs.Container();
     this.deckCard.set({
-      x: Desk.position.x - (TWIST.Card.userCard.width) / 2,
-      y: Desk.position.y - (TWIST.Card.userCard.height) / 2,
+      x: Desk.position.x,
+      y: Desk.position.y,
       visible: false
     });
     return this.deckCard;
@@ -1624,13 +1628,17 @@ this.TWIST = this.TWIST || {};
   p.generateCards = function (numberCards, cardType) {
     var currentCards = this.deckCard.children.length;
     var numberCardAdd = numberCards - currentCards;
+    cardType = cardType || TWIST.Card.playerCard;
+    var scale = cardType.scale;
+    console.log("cardType", cardType, this.deckCard);
     if (numberCardAdd > 0) {
       for (var i = 0; i < numberCardAdd; i++) {
         var cardImage = new TWIST.Card();
-        var scale = (cardType && cardType.scale) || TWIST.Card.playerCard.scale;
         cardImage.set({
           scaleX: scale,
-          scaleY: scale
+          scaleY: scale,
+          x: -cardType.width / 2,
+          y: -cardType.height / 2
         });
         this.deckCard.addChild(cardImage);
       }
@@ -1641,13 +1649,14 @@ this.TWIST = this.TWIST || {};
   };
 
 
-  p.createLastDraftCards = function (cardList) {
+  p.createLastDraftCards = function (cardList, cardType) {
     var draftCards = this.draftCards;
-    var cardType = TWIST.Card.draftCard;
+    var cardType = cardType || TWIST.Card.demlaDraftCard;
     cardList.forEach(function (item, index) {
       var card = new TWIST.Card(item);
       card.set({
         x: (index - cardList.length * 0.5) * cardType.seperator,
+        y: cardType.height * 0.8,
         rotation: (Math.random() - 0.5) * 30,
         scaleX: cardType.scale,
         scaleY: cardType.scale
@@ -2030,8 +2039,9 @@ this.TWIST = this.TWIST || {};
   p.initStatus = function (config, self) {
     //player status
     this.status = new createjs.Container();
-    var radius = (config.avartar || Player.avatarConfig).radius;
-    this.status.set({x: 50, y: 40});
+    var configAvatar = config.avartar || Player.avatarConfig;
+    var radius = configAvatar.radius;
+    this.status.set({x: configAvatar.x + radius, y:configAvatar.y + radius});
     var statusBg = new createjs.Text();
     var statusText = new createjs.Text();
     this.status.addChild(statusBg, statusText);
@@ -2658,7 +2668,7 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * (this.numberEatedCard - 1);
         newY = 0;
       } else {
-        newY = -45;
+        newY = _self.showPhomArea.y;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - (this.numberEatedCard - 1) * bai.seperator;
         } else {
@@ -2739,7 +2749,7 @@ this.TWIST = this.TWIST || {};
       newX = this.hand.x + 37;
       newY = this.hand.y;
     } else {
-      newY = draftPosition.y - 45;
+      newY = draftPosition.y - TWIST.Card.draftCard.height - 10;
       if (this.draftCards.align == "right") {
         newX = this.draftCards.x;
       } else {
@@ -3022,13 +3032,14 @@ this.TWIST = this.TWIST || {};
         newX = 0 - this.hand.x + 100 + bai.seperator * this.numberEatedCard;
         newY = 0;
       } else {
-        newY = -45;
+        newY = this.showPhomArea.y;
         if (this.draftCards.align == "right") {
           newX = 0 - this.hand.x + this.draftCards.x + 300 - this.numberEatedCard * bai.seperator;
         } else {
           newX = 0 - this.hand.x + this.draftCards.x + bai.seperator * this.numberEatedCard;
         }
       }
+        console.log("this.showPhomArea.y",this.showPhomArea.y);
       card.set({
         x: newX,
         y: newY,
@@ -4291,13 +4302,12 @@ this.TWIST = this.TWIST || {};
     this.desk.removeOverlayCards();
     this.desk.setZeroVetical();
     this.desk.overlayDraftCards();
-    var cardType = TWIST.Card.userCard;
+    var cardType = TWIST.Card.demlaDraftCard;
     var position = {};
     position.x = (TWIST.Desk.width - cardType.seperator * cards.length) / 2 - TWIST.Desk.draftPosition.x;
     position.y = cardType.height * 0.8;
-
     Player.draftCardsInHand(cards, {
-      cardType: TWIST.Card.userCard,
+      cardType: TWIST.Card.demlaDraftCard,
       draftCards: this.desk.draftCards,
       position: position,
       rotateAble: true
@@ -6265,7 +6275,9 @@ this.TWIST = this.TWIST || {};
     var userID = data.uuid;
     var player = this.getPlayerByUuid(userID);
     player.listPhom = data.listPhom || player.listPhom;
-    player.draftCardsInHand(cards);
+    player.draftCardsInHand(cards, {
+      cardType: TWIST.Card.draftCard
+    });
     player.markEatedCard();
     this.desk.lastActivePlayer = data.uuid;
     this.desk.lastDraftCard = cards;
@@ -6283,7 +6295,7 @@ this.TWIST = this.TWIST || {};
         this.hitButton.show();
       }
     }
-    this.desk.generateCards(52, TWIST.Card.userCard);
+    this.desk.generateCards(52, TWIST.Card.deckCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
@@ -6336,7 +6348,7 @@ this.TWIST = this.TWIST || {};
     var numberCards = this.options.maxPlayers * this.options.numberCardsRender;
     var _self = this;
 
-    this.desk.generateCards(numberCards, TWIST.Card.userCard);
+    this.desk.generateCards(numberCards, TWIST.Card.deckCard);
 
     players.forEach(function (item, index) {
       var handCards = [];
