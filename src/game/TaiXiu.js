@@ -740,9 +740,9 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
-    if(this.userInfo.isHost){
+    if (this.userInfo.isHost) {
       this.showError({
-        message : "Bạn đã làm nhà cái !"
+        message: "Bạn đã làm nhà cái !"
       });
     }
     this.setShowChipButtons();
@@ -761,6 +761,7 @@ this.TWIST = this.TWIST || {};
     this.listPlayer = $(TWIST.HTMLTemplate['taiXiu/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
     this.listPlayer.on('click', function () {
+      _self.activeListPlayer = true;
       _self.emit('getListPlayer');
     });
   };

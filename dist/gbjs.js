@@ -1074,11 +1074,13 @@ this.FATE = this.FATE || {};
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
 'xocDia/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'xocDia/coin-item':'<div class="coin-item"></div>',
-'xocDia/history':'<div class="history-wrapper">\r\n    <div class="history-odd"></div>\r\n    <div class="history-event"></div>\r\n    <div class="history">\r\n    </div>\r\n</div>\r\n',
+'xocDia/history':'<div class="history-wrapper">\r\n<!--    <div class="history-odd"></div>\r\n    <div class="history-event"></div>-->\r\n    <div class="history">\r\n    </div>\r\n</div>\r\n',
 'xocDia/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
-'xocDia/listPlayer':'<div class="list-player"></div>',
+'xocDia/listPlayer':'<div class="list-player">1</div>',
 'xocDia/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
+'xocDia/resultChipColumn':'<div class="result-chip-column">\r\n    \r\n</div>',
 'xocDia/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'xocDia/totalTable':'<div class="total-table">\r\n    <div class="total-table-betting">0</div>\r\n    <div class="total-table-win">0</div>\r\n</div>',
 'xocDia/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'xocDia/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'xocDia/wrapper':'<div class="xocdia-wrapper"></div>',}})();
@@ -7486,9 +7488,9 @@ this.TWIST = this.TWIST || {};
     this.host.hostName.removeClass('active');
     this.userInfo.isHost = ((host && host.uuid) == this.userInfo.uuid);
     this.resignationButton.hide();
-    if(this.userInfo.isHost){
+    if (this.userInfo.isHost) {
       this.showError({
-        message : "Bạn đã làm nhà cái !"
+        message: "Bạn đã làm nhà cái !"
       });
     }
     this.setShowChipButtons();
@@ -7507,6 +7509,7 @@ this.TWIST = this.TWIST || {};
     this.listPlayer = $(TWIST.HTMLTemplate['taiXiu/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
     this.listPlayer.on('click', function () {
+      _self.activeListPlayer = true;
       _self.emit('getListPlayer');
     });
   };
@@ -10131,19 +10134,25 @@ this.TWIST = this.TWIST || {};
     moveChipAnimationTime: 500,
     diskPosition: {
       x: 539,
-      y: 155
+      y: 155,
+      width: 400,
+      initWidth: 646,
+      initHeight: 647,
+      scale: 400 / 646
     },
     bowlPosition: {
       x: 25,
-      y: 25
+      y: 25,
+      width: 534,
+      height: 542
     },
     chipResultPosition: {
       x: 50,
       y: 50,
       width: 100,
       height: 100,
-      chipWidth: 39,
-      chipHeight: 39
+      chipWidth: 96,
+      chipHeight: 96
     }
   };
 
@@ -10180,9 +10189,9 @@ this.TWIST = this.TWIST || {};
         valueMap: [0, 0, 0, 0],
         ratio: 10,
         id: 2,
-        top: 406,
-        left: 179,
-        width: 218,
+        top: 440,
+        left: 40,
+        width: 220,
         height: 148
       }, {
         name: "Bốn Đỏ",
@@ -10190,9 +10199,9 @@ this.TWIST = this.TWIST || {};
         valueMap: [1, 1, 1, 1],
         ratio: 10,
         id: 3,
-        top: 406,
-        left: 409,
-        width: 218,
+        top: 440,
+        left: 285,
+        width: 220,
         height: 148
       }, {
         name: "Ba Trắng",
@@ -10200,9 +10209,9 @@ this.TWIST = this.TWIST || {};
         valueMap: [0, 0, 0, 1],
         ratio: 3,
         id: 4,
-        top: 406,
-        left: 639,
-        width: 218,
+        top: 440,
+        left: 775,
+        width: 220,
         height: 148
       }, {
         name: "Ba đỏ",
@@ -10210,42 +10219,42 @@ this.TWIST = this.TWIST || {};
         valueMap: [0, 1, 1, 1],
         ratio: 3,
         id: 5,
-        top: 406,
-        left: 869,
-        width: 218,
+        top: 440,
+        left: 1020,
+        width: 220,
         height: 148
       }
-//      , {
-//        name: "Hai đỏ",
-//        displayName: "1:1.5",
-//        valueMap: [0, 0, 1, 1],
-//        ratio: 1.5,
-//        id: 6,
-//        top: 290,
-//        left: 660,
-//        width: 110,
-//        height: 115
-//      }
+      , {
+        name: "Hai đỏ",
+        displayName: "1:1.5",
+        valueMap: [0, 0, 1, 1],
+        ratio: 1.5,
+        id: 6,
+        top: 440,
+        left: 530,
+        width: 220,
+        height: 148
+      }
       , {
         name: "Chẵn",
         displayName: "Chẵn",
         valueMap: [0],
         ratio: 1,
         id: 0,
-        top: 176,
-        left: 241,
-        width: 294,
-        height: 198
+        top: 230,
+        left: 100,
+        width: 320,
+        height: 186
       }, {
         name: "Lẻ",
         displayName: "Lẻ",
         valueMap: [1],
         ratio: 1,
         id: 1,
-        top: 176,
-        left: 746,
-        width: 294,
-        height: 198
+        top: 230,
+        left: 860,
+        width: 320,
+        height: 186
       }];
     this.statusList = {
       1: "STATUS_WAITING_FOR_START",
@@ -10268,19 +10277,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.drawGameInfo = function (data) {
-//    data = {
-//      status : 1,
-//      bettingPositions : [{
-//          id : 1,//(0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
-//          //client (0-chẵn, 1-lẻ, 2-4đen, 3-3đen, 4-4trắng, 5-3trắng, 6-2đenđỏ)
-//          totalBetting : 1000,
-//          miniBetting : 299,
-//          ratio : 1
-//      }],
-//      remainingTime : 12,
-//      host : "tieukiemtien",
-//      betting : 10
-//    };
 
     this.setHost(data.host);
     this.changeStatus({
@@ -10304,13 +10300,13 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate = $(TWIST.HTMLTemplate['xocDia/wrapper']);
     this.wrapper.append(this.wrapperTemplate);
 
-    this.initHistory();
-
     this.initBettingPositionList();
 
     this.initProfile();
 
     this.initHost();
+
+    this.initTotalTable();
 
     this.initGameCanvas();
 
@@ -10321,6 +10317,8 @@ this.TWIST = this.TWIST || {};
     this.initChipButton();
 
     this.initSellPopup();
+
+    this.initHistory();
 
     this.wrapperTemplate.append(this.errorPanel);
 
@@ -10355,10 +10353,19 @@ this.TWIST = this.TWIST || {};
 
     this.on("updateBettings", function (data) {
       _self.updateBettings(data);
+      _self.emit('getListPlayer');
+    });
+
+    this.on("updateListPlayer", function (data) {
+      this.listPlayer.html(data.count || "1");
     });
 
     this.on("xocDia", function (data) {
       _self.xocDia(data);
+    });
+
+    this.on("endXocDia", function (data) {
+      _self.endXocDia(data);
     });
 
     this.on("openDisk", function (data) {
@@ -10374,7 +10381,7 @@ this.TWIST = this.TWIST || {};
     });
 
     this.on("suggetstHost", function (data) {
-      _self.getHostButton.show();
+//      _self.getHostButton.show();
       _self.isSuggestHost = true;
     });
 
@@ -10399,6 +10406,7 @@ this.TWIST = this.TWIST || {};
 
   p.cancelBetting = function (data) {
     var _self = this;
+    this.totalTable.setTotalBetting(0);
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
 //      item.setTotalBetting(item.totalValue - item.mineValue);
@@ -10409,6 +10417,7 @@ this.TWIST = this.TWIST || {};
   p.hostPaymentPhase1 = function () {
     var _self = this;
     var data = this.hostPaymentData;
+    this.totalTable.setTotalWin(data && data.changeMoney);
     if (!data)
       return;
     this.bettingPositions.hasChipsMove = false;
@@ -10576,6 +10585,8 @@ this.TWIST = this.TWIST || {};
   };
 
   p.userBetting = function (data) {
+    this.totalTable.totalBettingValue += this.currentBetting.value;
+    this.totalTable.setTotalBetting(this.totalTable.totalBettingValue);
     var _self = this;
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
@@ -10610,9 +10621,11 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
+      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
+    this.totalTable.setTotalBetting(this.totalTable.totalBettingValue);
   };
 
   p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
@@ -10755,28 +10768,34 @@ this.TWIST = this.TWIST || {};
 
   p.xocDia = function () {
     var _self = this;
-    var message, position;
+    var message, position, animationTime;
+    animationTime = this.diskContainer.y < -200 ? 1000 : 100;
     if (this.status === 'STATUS_SHAKE_DISK') {
       position = {
         x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 10 + 10),
-        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 10)
+        y: initOptions.diskPosition.shakeY + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 10 + 10)
       };
       message = 'xocDia';
     } else {
+      animationTime = 1000;
       position = initOptions.diskPosition;
       message = 'endXocDia';
     }
     createjs.Tween.get(this.diskContainer)
-            .to(position, 100)
+            .to(position, animationTime)
             .call(function () {
               _self.diskContainer.isTop = !_self.diskContainer.isTop;
               _self.emit(message);
             });
   };
 
-  p.openDisk = function (data) {
+  p.endXocDia = function () {
+    this.history._toggle(true);
+  };
+
+  p.showResult = function (data) {
     var _self = this;
-    var newY = -150;
+    var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.winnerSlots);
     var message, position;
     this.chipResultContainer.removeAllChildren();
@@ -10785,20 +10804,41 @@ this.TWIST = this.TWIST || {};
       _self.createResultChip(item, index);
     });
     this.bowl.set({
-      y: initOptions.bowlPosition.y,
-      alpha: 1
+      y: initOptions.bowlPosition.y
     });
     createjs.Tween.get(this.bowl)
             .to({
-              y: newY,
-              alpha: 0
-            }, 3000)
+              y: newY
+            }, 1000)
             .call(function () {
               _self.hostPaymentPhase1();
             });
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
     });
+  };
+
+  p.openDisk = function (data) {
+    this.history._toggle(false);
+    var _self = this;
+    var message, position, animationTime;
+    position = {
+      x: initOptions.diskPosition.x,
+      y: initOptions.diskPosition.shakeY
+    };
+    createjs.Tween.get(this.diskContainer)
+            .to(position, 1000)
+            .call(function () {
+              _self.showResult(data);
+            });
+  };
+
+
+  p.closeDisk = function (data) {
+    this.history._toggle(false);
+    createjs.Tween.get(this.bowl)
+            .to(initOptions.bowlPosition, 1000)
+            .call(function () {});
   };
 
   p.createResultChip = function (isRed, index) {
@@ -10864,24 +10904,64 @@ this.TWIST = this.TWIST || {};
     var mapName = {
       2: 4,
       3: 0,
-      4: 3,
-      5: 1,
+      4: 1,
+      5: 3,
       6: 2
     };
+    this.history._toggle = function (active) {
+      if (typeof active !== "undefined") {
+        if (active) {
+          _self.historyInner.addClass('active');
+        } else {
+          _self.historyInner.removeClass('active');
+        }
+      } else {
+        _self.historyInner.toggleClass('active');
+      }
+    };
+    this.historyInner.on('click', function () {
+      _self.history._toggle();
+    });
     this.history.addResult = function (winnerSlots) {
+
       var isOdd = winnerSlots.find(function (item, index) {
         return item < 2;
       });
+
       var slotId = winnerSlots.find(function (item, index) {
         return item > 1;
       });
+
+      var isNewColumn = false;
+
+      var resultChipColumn = _self.historyList[_self.historyList.length - 1];
+
+      isNewColumn = _self.historyList[_self.historyList.length - 1] ? false : true;
+
+      if (resultChipColumn && resultChipColumn.children().length > 3) {
+        isNewColumn = true;
+      }
+      if (_self.history.lastResult && (_self.history.lastResult.isOdd !== isOdd)) {
+        isNewColumn = true;
+      }
+
+      if (isNewColumn) {
+        resultChipColumn = $(TWIST.HTMLTemplate['xocDia/resultChipColumn']);
+        _self.historyList.push(resultChipColumn);
+        _self.historyInner.append(resultChipColumn);
+      }
+
       var resultChip = $(TWIST.HTMLTemplate['xocDia/resultChip']);
+
       if (isOdd) {
         resultChip.addClass('result-chip-odd');
       }
-      _self.historyList.push(resultChip);
-      _self.historyInner.append(resultChip);
-      if (_self.historyList.length > 20) {
+      resultChip.isOdd = isOdd;
+      resultChip.find('.inner-chip').html(mapName[slotId]);
+      _self.history.lastResult = resultChip;
+      resultChipColumn.append(resultChip);
+
+      if (_self.historyList.length > 15) {
         _self.historyList[0].remove();
         _self.historyList.shift();
       }
@@ -10889,6 +10969,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.initHost = function () {
+    var _self = this;
     this.host = $(TWIST.HTMLTemplate['xocDia/host']);
     this.wrapperTemplate.append(this.host);
     this.host.background = this.host.find('.host-background');
@@ -10897,11 +10978,32 @@ this.TWIST = this.TWIST || {};
     this.host.hostMessage = this.host.find('.chat-box-inner');
     this.host.setMessage = function (message) {
       if (message) {
-        this.chatBox.show();
+        this.show();
         this.hostMessage.html(message);
       } else {
-        this.chatBox.hide();
+        this.hide();
       }
+    };
+  };
+
+  p.initTotalTable = function () {
+    var _self = this;
+    this.totalTable = $(TWIST.HTMLTemplate['xocDia/totalTable']);
+    this.wrapperTemplate.append(this.totalTable);
+    
+    this.totalTable.totalBetting = this.totalTable.find('.total-table-betting');
+    this.totalTable.totalWin = this.totalTable.find('.total-table-win');
+    
+    this.addNumberEffect(this.totalTable.totalBetting);
+    this.addNumberEffect(this.totalTable.totalWin);
+    
+    this.totalTable.setTotalBetting = function(value){
+      this.totalBettingValue = value;
+      this.totalBetting.runEffect(value);
+    };
+    this.totalTable.setTotalWin = function(value){
+      this.totalWinValue = value;
+      this.totalWin.runEffect(value);
     };
   };
 
@@ -10931,6 +11033,7 @@ this.TWIST = this.TWIST || {};
     this.listPlayer = $(TWIST.HTMLTemplate['xocDia/listPlayer']);
     this.wrapperTemplate.append(this.listPlayer);
     this.listPlayer.on('click', function () {
+      _self.activeListPlayer = true;
       _self.emit('getListPlayer');
     });
   };
@@ -11151,12 +11254,28 @@ this.TWIST = this.TWIST || {};
 
   p.initDisk = function () {
     this.diskContainer = new createjs.Container();
-    this.diskContainer.set(initOptions.diskPosition);
+    var diskPosition = initOptions.diskPosition;
+    var chipResultPosition = initOptions.chipResultPosition;
+    var bowlPosition = initOptions.bowlPosition;
+
+    diskPosition.x = (initOptions.gameSize.width - diskPosition.width) / 2;
+    diskPosition.y = -diskPosition.width * 3 / 5;
+    diskPosition.shakeY = 0;
+
+    diskPosition.scaleX = diskPosition.scaleY = diskPosition.scale;
+    this.diskContainer.set(diskPosition);
 
     this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'disk.png');
+
     this.chipResultContainer = new createjs.Container();
+    chipResultPosition.height = chipResultPosition.width = bowlPosition.width / Math.sqrt(2);
+    chipResultPosition.x = chipResultPosition.y = (diskPosition.initWidth - chipResultPosition.width) / 2;
+
     this.chipResultContainer.set(initOptions.chipResultPosition);
+
     this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'xocdia/' + 'bowl.png');
+    bowlPosition.x = (diskPosition.initWidth - bowlPosition.width) / 2;
+    bowlPosition.y = (diskPosition.initHeight - bowlPosition.height) / 2;
     this.bowl.set(initOptions.bowlPosition);
 
     this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
@@ -11190,6 +11309,12 @@ this.TWIST = this.TWIST || {};
       vitualBetting.addClass('small-vitual-betting');
     }
     vitualBetting.addClass("betting" + data.id);
+    vitualBetting.css({
+      top: data.top,
+      left: data.left,
+      width: data.width,
+      height: data.height
+    });
 
     this.wrapperTemplate.append(vitualBetting);
     data.vitualBetting = vitualBetting;
@@ -11233,6 +11358,7 @@ this.TWIST = this.TWIST || {};
     if (data.id > 1) {
       bettingPosition.addClass('small-betting-position');
     }
+    bettingPosition.css(data);
     data.template = bettingPosition;
     this.wrapperTemplate.append(bettingPosition);
     bettingPosition.addClass("betting" + data.id);
@@ -11320,6 +11446,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawBettingPositions = function (data) {
     var _self = this;
+    var userBetting = 0;
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
         return _item.id == item.id;
@@ -11328,9 +11455,11 @@ this.TWIST = this.TWIST || {};
         return;
       item.setMineBetting(dataItem.mineBetting);
       _self.userReBetting(item, dataItem.mineBetting);
+      userBetting += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.playersBetting(item, dataItem.totalBetting - dataItem.mineBetting);
     });
+    this.totalTable.setTotalBetting(userBetting);
   };
 
   p.setShowChipButtons = function (data) {
@@ -11389,22 +11518,23 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_WAITING_FOR_START = function () {
-    this.chipResultContainer.removeAllChildren();
+//    this.chipResultContainer.removeAllChildren();
     this.bettingPositions.forEach(function (item, index) {
       item.template.removeClass('active disabled');
       item.bettingSlot.removeAllChildren();
       item.setMineBetting(0);
       item.setTotalBetting(0);
     });
-    this.bowl.set({
-      y: initOptions.bowlPosition.y,
-      alpha: 1
-    });
-    this.host.setMessage("Chuẩn bị ván mới !");
+    this.totalTable.setTotalBetting(0);
+    this.totalTable.setTotalWin(0);
+    
+    this.closeDisk();
+//    this.host.setMessage("Chuẩn bị ván mới !");
+    this.host.setMessage("");
     if (this.userInfo.isHost) {
-      this.resignationButton.show();
+//      this.resignationButton.show();
     } else if (this.isSuggestHost) {
-      this.getHostButton.show();
+//      this.getHostButton.show();
     }
   };
 
@@ -11412,13 +11542,14 @@ this.TWIST = this.TWIST || {};
     this.isSuggestHost = false;
     this.host.background.show();
     this.emit("xocDia");
-    this.host.setMessage("Xóc đĩa !");
+    this.host.setMessage("Nhà cái xóc đĩa !");
   };
 
   p.STATUS_BETTING = function (data) {
     this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
-    this.host.setMessage("Đặt cược đi anh ơi !");
+    this.host.setMessage("");
+//    this.host.setMessage("Đặt cược đi anh ơi !");
     if (!this.userInfo.isHost) {
       if (!data.disableRebetting) {
         this.reBettingButton.show();
@@ -11432,7 +11563,8 @@ this.TWIST = this.TWIST || {};
     if (this.host.name)
       defaultTime = 15;
     this.setRemainingTime(data.remainingTime || defaultTime);
-    this.host.setMessage("Thời gian cái thừa thiếu !");
+//    this.host.setMessage("Thời gian cái thừa thiếu !");
+    this.host.setMessage("Hết thời gian đặt cược !");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
       this.sellOddButton.show();
@@ -11448,6 +11580,7 @@ this.TWIST = this.TWIST || {};
 
   p.END_GAME = function () {
     this.sellPopup.hide();
+//    this.host.setMessage("");
     this.host.setMessage("Mở bát !");
   };
 

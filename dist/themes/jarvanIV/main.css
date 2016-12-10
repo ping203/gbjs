@@ -2254,7 +2254,7 @@ and open the template in the editor.
               background-color: #f0a12b;
               color: white; }
   .twist .xocdia-wrapper {
-    /*background-image:  url('images/xocdia/table-xocdia.png');*/
+    /*background-image:  url('images/Desk-bg.png');*/
     position: absolute;
     width: 100%;
     height: 100%; }
@@ -2363,38 +2363,38 @@ and open the template in the editor.
 
 @-webkit-keyframes xocdiaBoxShadow {
   0% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); }
   50% {
-    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+    box-shadow: inset 0 0 50px rgba(255, 222, 0, 0.8); }
   100% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); } }
 
 @-moz-keyframes xocdiaBoxShadow {
   0% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); }
   50% {
-    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+    box-shadow: inset 0 0 50px rgba(255, 222, 0, 0.8); }
   100% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); } }
 
 @keyframes xocdiaBoxShadow {
   0% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); }
   50% {
-    box-shadow: 0 0 10px #1c92c4, 0 0 15px #1c92c4; }
+    box-shadow: inset 0 0 50px rgba(255, 222, 0, 0.8); }
   100% {
-    box-shadow: 0 0 1px #1c92c4, 0 0 1px #1c92c4; } }
+    box-shadow: inset 0 0 1px rgba(255, 222, 0, 0.8); } }
     .twist .xocdia-wrapper .gameCanvas {
       top: 0;
       left: 0;
       position: absolute; }
     .twist .xocdia-wrapper .history-wrapper {
       position: absolute;
-      left: 10px;
-      top: 90px;
-      width: 248px;
-      height: 144px;
-      background-image: url("images/xocdia/history-table.png"); }
+      left: calc(50% - 425px);
+      top: 0px;
+      width: 850px;
+      height: 188px;
+      overflow: hidden; }
       .twist .xocdia-wrapper .history-wrapper .history-odd, .twist .xocdia-wrapper .history-wrapper .history-event {
         position: absolute;
         left: 0;
@@ -2422,22 +2422,74 @@ and open the template in the editor.
           background-image: url("images/xocdia/red.png"); }
     .twist .xocdia-wrapper .history {
       position: absolute;
-      right: 0px;
+      right: calc(50px - 100%);
       top: 0px;
-      width: 177px;
-      height: 144px; }
+      width: 100%;
+      height: 100%;
+      background-image: url("images/xocdia/history-table.png");
+      transition: right 0.3s;
+      cursor: pointer; }
+      .twist .xocdia-wrapper .history.active {
+        right: 0; }
+      .twist .xocdia-wrapper .history .result-chip-column {
+        position: absolute; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(1) {
+          top: 0;
+          left: 50px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(2) {
+          top: 0;
+          left: 100px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(3) {
+          top: 0;
+          left: 150px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(4) {
+          top: 0;
+          left: 200px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(5) {
+          top: 0;
+          left: 250px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(6) {
+          top: 0;
+          left: 300px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(7) {
+          top: 0;
+          left: 350px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(8) {
+          top: 0;
+          left: 400px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(9) {
+          top: 0;
+          left: 450px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(10) {
+          top: 0;
+          left: 500px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(11) {
+          top: 0;
+          left: 550px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(12) {
+          top: 0;
+          left: 600px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(13) {
+          top: 0;
+          left: 650px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(14) {
+          top: 0;
+          left: 700px; }
+        .twist .xocdia-wrapper .history .result-chip-column:nth-child(15) {
+          top: 0;
+          left: 750px; }
       .twist .xocdia-wrapper .history .result-chip {
         position: absolute;
         box-sizing: border-box;
-        width: 33px;
-        height: 33px;
+        width: 48px;
+        height: 45px;
         box-shadow: inset 0 0px 0px transparent, inset 0 0 22px transparent, inset 0 0 5px transparent, inset 0 0 8px transparent;
         animation: xocdiaBoxShadowfec52e 1s;
         animation-iteration-count: 3; }
         .twist .xocdia-wrapper .history .result-chip .inner-chip {
           height: 100%;
+          width: 100%;
           background-repeat: no-repeat;
-          background-position: 5px 8px;
           background-image: url("images/xocdia/white.png");
           background-position: center;
           background-repeat: no-repeat;
@@ -2451,69 +2503,41 @@ and open the template in the editor.
           color: white;
           background-image: url("images/xocdia/red.png"); }
         .twist .xocdia-wrapper .history .result-chip:nth-child(1) {
-          top: 3px;
-          left: 1px; }
+          top: 0px; }
         .twist .xocdia-wrapper .history .result-chip:nth-child(2) {
-          top: 38px;
-          left: 1px; }
+          top: 47px; }
         .twist .xocdia-wrapper .history .result-chip:nth-child(3) {
-          top: 73px;
-          left: 1px; }
+          top: 94px; }
         .twist .xocdia-wrapper .history .result-chip:nth-child(4) {
-          top: 108px;
-          left: 1px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(5) {
-          top: 3px;
-          left: 36px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(6) {
-          top: 38px;
-          left: 36px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(7) {
-          top: 73px;
-          left: 36px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(8) {
-          top: 108px;
-          left: 36px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(9) {
-          top: 3px;
-          left: 71px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(10) {
-          top: 38px;
-          left: 71px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(11) {
-          top: 73px;
-          left: 71px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(12) {
-          top: 108px;
-          left: 71px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(13) {
-          top: 3px;
-          left: 106px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(14) {
-          top: 38px;
-          left: 106px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(15) {
-          top: 73px;
-          left: 106px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(16) {
-          top: 108px;
-          left: 106px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(17) {
-          top: 3px;
-          left: 141px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(18) {
-          top: 38px;
-          left: 141px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(19) {
-          top: 73px;
-          left: 141px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(20) {
-          top: 108px;
-          left: 141px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(17) {
-          border-top-right-radius: 3px; }
-        .twist .xocdia-wrapper .history .result-chip:nth-child(20) {
-          border-bottom-right-radius: 3px; }
+          top: 141px; }
+    .twist .xocdia-wrapper .total-table {
+      width: 180px;
+      height: 80px;
+      box-sizing: border-box;
+      border: 1px solid #116d91;
+      border-radius: 3px;
+      position: absolute;
+      bottom: 10px;
+      right: 180px;
+      font-size: 24px;
+      color: #bff2ff;
+      line-height: 39px; }
+      .twist .xocdia-wrapper .total-table:before {
+        height: 1px;
+        content: "";
+        background-color: rgba(0, 255, 234, 0.1);
+        width: 100%;
+        position: absolute;
+        top: 40px;
+        left: 0; }
+      .twist .xocdia-wrapper .total-table .total-table-betting {
+        text-indent: 10px; }
+        .twist .xocdia-wrapper .total-table .total-table-betting:before {
+          content: "Tổng: "; }
+      .twist .xocdia-wrapper .total-table .total-table-win {
+        text-indent: 10px; }
+        .twist .xocdia-wrapper .total-table .total-table-win:before {
+          content: "Thắng: "; }
     .twist .xocdia-wrapper .host-wrapper .host-background {
       position: absolute;
       background-color: rgba(0, 0, 0, 0.7);
@@ -2523,14 +2547,18 @@ and open the template in the editor.
       left: 0;
       display: none; }
     .twist .xocdia-wrapper .host-wrapper .host {
-      width: 148px;
-      height: 133px;
-      background-image: url("images/xocdia/host.png");
+      /*            width : 148px;
+                        height : 133px;*/
+      /*background-image:  url('images/xocdia/host.png');*/
+      width: 100%;
+      height: 100%;
       position: absolute;
       top: 0;
-      left: calc(50% - 74px);
+      /*left : calc(50% - 74px);*/
+      left: 0;
       font-size: 16px;
-      color: white; }
+      color: white;
+      z-index: 2; }
       .twist .xocdia-wrapper .host-wrapper .host .host-name {
         width: 162px;
         height: 31px;
@@ -2549,36 +2577,68 @@ and open the template in the editor.
           animation: xocdiaBoxShadowfec52e 1s;
           animation-iteration-count: 3; }
       .twist .xocdia-wrapper .host-wrapper .host .chat-box {
-        background-image: url("images/xocdia/chatbox.png");
+        /*background-image:  url('images/xocdia/chatbox.png');*/
         position: absolute;
-        width: 190px;
-        height: 72px;
-        left: calc(50% + 25px);
-        top: 5px; }
+        width: 1222px;
+        height: 80px;
+        left: calc(50% - 611px);
+        bottom: 66px;
+        background-color: transparent;
+        background-image: -webkit-linear-gradient(left, transparent, rgba(18, 46, 73, 0.8), transparent);
+        background-image: linear-gradient(to right,transparent, rgba(18, 46, 73, 0.8), transparent); }
+        .twist .xocdia-wrapper .host-wrapper .host .chat-box:after, .twist .xocdia-wrapper .host-wrapper .host .chat-box:before {
+          width: 100%;
+          height: 5px;
+          content: "";
+          background-color: transparent;
+          background-image: -webkit-linear-gradient(left, transparent, rgba(19, 173, 171, 0.8), transparent);
+          background-image: linear-gradient(to right,transparent, rgba(19, 173, 171, 0.8), transparent);
+          left: 0px;
+          position: absolute; }
+        .twist .xocdia-wrapper .host-wrapper .host .chat-box:after {
+          bottom: 0; }
+        .twist .xocdia-wrapper .host-wrapper .host .chat-box:before {
+          top: 0; }
         .twist .xocdia-wrapper .host-wrapper .host .chat-box .chat-box-inner {
           display: flex;
-          margin: 0 10px 0 30px;
           justify-content: center;
-          height: 100%;
           align-items: center;
-          color: black; }
+          height: 100%;
+          color: #ffcf00;
+          font-weight: bold;
+          font-size: 36px; }
     .twist .xocdia-wrapper .list-player {
       background-image: url("images/xocdia/players.png");
       position: absolute;
-      width: 121px;
-      height: 143px;
-      right: 0;
-      top: calc(50% - 60px);
-      cursor: pointer; }
+      width: 68px;
+      height: 68px;
+      left: 95px;
+      top: 20px;
+      cursor: pointer;
+      color: #ffde00;
+      font-size: 20px;
+      align-items: flex-end;
+      display: flex;
+      justify-content: center;
+      line-height: 33px; }
     .twist .xocdia-wrapper .betting-position {
       position: absolute;
       box-sizing: border-box;
-      height: 198px;
-      width: 294px;
-      border-radius: 99px;
-      background-color: rgba(0, 0, 0, 0.4);
-      top: 176px;
-      border: 4px solid rgba(255, 251, 255, 0.4); }
+      border-radius: 8px;
+      background-color: rgba(255, 222, 0, 0.036);
+      border: 2px solid rgba(255, 222, 0, 0.2); }
+      .twist .xocdia-wrapper .betting-position:before {
+        content: "";
+        left: 10px;
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        position: absolute;
+        box-sizing: border-box;
+        border-radius: 4px;
+        background-color: rgba(255, 0, 0, 0.08);
+        border: 2px solid #ffde00;
+        box-shadow: inset 0px 0px 50px rgba(255, 0, 0, 0.05); }
       .twist .xocdia-wrapper .betting-position.selected {
         box-shadow: 0 0 5px orange, 0 0 10px orange,0 0 15px orange; }
       .twist .xocdia-wrapper .betting-position.active {
@@ -2590,57 +2650,90 @@ and open the template in the editor.
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 40px;
-        color: rgba(81, 194, 255, 0.4);
+        font-size: 36px;
+        color: #ffde00;
         font-weight: bold;
         position: absolute;
-        top: 35px;
-        bottom: 35px;
-        left: 30px;
-        right: 30px;
-        background-color: transparent;
-        background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.3), transparent);
-        background-image: linear-gradient(to right,transparent, rgba(0, 0, 0, 0.3), transparent);
-        /*@include xocdiaTextShadow(#fec52e);*/ }
+        height: 60px;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        font-weight: bold; }
       .twist .xocdia-wrapper .betting-position .mine-betting, .twist .xocdia-wrapper .betting-position .total-betting {
         position: absolute;
-        width: 100%;
-        height: 29px;
-        right: 0;
-        line-height: 30px;
+        width: 120px;
+        max-width: 45%;
+        height: 50px;
+        right: 10px;
+        top: 10px;
+        line-height: 50px;
         border: none;
-        color: #fece2f;
+        color: #ffde00;
         text-align: center;
-        bottom: 5px;
-        font-size: 22px; }
+        font-size: 24px;
+        font-weight: bold; }
       .twist .xocdia-wrapper .betting-position .total-betting {
-        top: 5px;
-        bottom: initial;
+        left: 10px;
+        right: initial;
         font-weight: normal;
-        color: white; }
+        color: #bff2ff;
+        font-size: 20px; }
       .twist .xocdia-wrapper .betting-position .coin-tittle {
         position: absolute;
-        top: 85px;
-        bottom: 35px;
-        left: 80px; }
+        top: 25px;
+        right: calc(50% - 25px);
+        width: 50px;
+        text-align: center; }
       .twist .xocdia-wrapper .betting-position .coin-item {
-        width: 15px;
-        height: 16px;
+        width: 30px;
+        height: 30px;
         background-image: url("images/xocdia/white.png");
-        margin: 1px 0px; }
+        box-sizing: content-box;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-origin: content-box;
+        display: inline-block; }
         .twist .xocdia-wrapper .betting-position .coin-item.red-coin {
           background-image: url("images/xocdia/red.png"); }
       .twist .xocdia-wrapper .betting-position.small-betting-position {
-        height: 148px;
-        width: 218px;
-        border-radius: 74px;
-        top: 406px; }
+        background-color: transparent;
+        border: 2px solid #116d91; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position:before {
+          border: 2px solid #0b8e9a;
+          background-color: rgba(0, 255, 234, 0.08);
+          box-shadow: inset 0px 0px 50px rgba(0, 234, 255, 0.05); }
         .twist .xocdia-wrapper .betting-position.small-betting-position.selected {
           box-shadow: 0 0 5px #1c92c4, 0 0 10px #1c92c4,0 0 15px #1c92c4,0 0 20px #1c92c4; }
         .twist .xocdia-wrapper .betting-position.small-betting-position .coin-tittle {
-          top: 35px;
-          bottom: initial;
-          left: 30px; }
+          bottom: 15px;
+          right: 15px;
+          top: initial;
+          display: flex;
+          width: calc(100% - 40px);
+          justify-content: flex-end; }
+          .twist .xocdia-wrapper .betting-position.small-betting-position .coin-tittle .coin-item {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 3px solid #b0745f;
+            background-color: #b0745f;
+            margin-left: -3px; }
+            .twist .xocdia-wrapper .betting-position.small-betting-position .coin-tittle .coin-item.red-coin {
+              border-color: #eabd90;
+              background-color: #eabd90; }
+        .twist .xocdia-wrapper .betting-position.small-betting-position .name {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          font-size: 30px;
+          color: #bff2ff;
+          font-weight: bold;
+          position: absolute;
+          height: 40px;
+          bottom: 10px;
+          left: 15px;
+          right: initial;
+          font-weight: bold; }
     .twist .xocdia-wrapper .vitual-betting-position {
       position: absolute;
       height: 198px;
@@ -2653,20 +2746,6 @@ and open the template in the editor.
         width: 218px;
         border-radius: 74px;
         top: 406px; }
-    .twist .xocdia-wrapper .betting0 {
-      left: 241px; }
-    .twist .xocdia-wrapper .betting1 {
-      left: 746px; }
-    .twist .xocdia-wrapper .betting2 {
-      left: 179px; }
-    .twist .xocdia-wrapper .betting3 {
-      left: 409px; }
-    .twist .xocdia-wrapper .betting4 {
-      left: 639px; }
-    .twist .xocdia-wrapper .betting5 {
-      left: 869px; }
-    .twist .xocdia-wrapper .betting6 {
-      left: 660px; }
     .twist .xocdia-wrapper .profile {
       position: absolute;
       left: 10px;
@@ -2785,28 +2864,28 @@ and open the template in the editor.
           border: 5px solid #ffed8a;
           box-shadow: 0 0 10px #ffde00, 0 0 30px #ffde00; }
         .twist .xocdia-wrapper .chip-group .chip:first-child {
-          left: 347px;
+          left: 377px;
           background-image: url("images/xocdia/1st-chip.png"); }
           .twist .xocdia-wrapper .chip-group .chip:first-child.active {
-            left: 341px; }
+            left: 371px; }
         .twist .xocdia-wrapper .chip-group .chip:nth-child(2) {
-          left: 506px;
+          left: 516px;
           background-image: url("images/xocdia/2nd-chip.png");
           color: #88bb21; }
           .twist .xocdia-wrapper .chip-group .chip:nth-child(2).active {
-            left: 500px; }
+            left: 510px; }
         .twist .xocdia-wrapper .chip-group .chip:nth-child(3) {
-          left: 665px;
+          left: 655px;
           background-image: url("images/xocdia/3rd-chip.png");
           color: #bf1e2e; }
           .twist .xocdia-wrapper .chip-group .chip:nth-child(3).active {
-            left: 659px; }
+            left: 649px; }
         .twist .xocdia-wrapper .chip-group .chip:nth-child(4) {
-          left: 824px;
+          left: 794px;
           background-image: url("images/xocdia/4th-chip.png");
           color: #814697; }
           .twist .xocdia-wrapper .chip-group .chip:nth-child(4).active {
-            left: 818px; }
+            left: 788px; }
     .twist .xocdia-wrapper .xocdia-button-bar {
       bottom: 0px;
       right: 0;
@@ -2814,20 +2893,19 @@ and open the template in the editor.
       .twist .xocdia-wrapper .xocdia-button-bar .button {
         display: none;
         right: 15px;
-        color: #643d0f;
-        font-size: 20px;
+        color: #835238;
+        font-size: 24px;
         width: 145px;
         height: 50px;
         box-sizing: content-box;
-        border: 1px solid #eab602;
-        background-color: #dd8502;
-        background-image: -webkit-linear-gradient(left, #dd8502, #e4a001, #dd8502);
-        background-image: linear-gradient(to right,#dd8502, #e4a001, #dd8502);
-        line-height: 48px; }
+        background-color: #ffde00;
+        line-height: 50px;
+        position: absolute;
+        top: initial; }
       .twist .xocdia-wrapper .xocdia-button-bar .button-bottom {
-        bottom: 17px; }
+        bottom: 10px; }
       .twist .xocdia-wrapper .xocdia-button-bar .button-top {
-        bottom: 100px; }
+        bottom: 70px; }
     .twist .xocdia-wrapper .sell-popup {
       position: absolute;
       top: 0;
