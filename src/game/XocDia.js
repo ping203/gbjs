@@ -38,6 +38,7 @@ this.TWIST = this.TWIST || {};
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
     width: 1280,
     height: 720,
+    timerRadius: 60,
     moveChipAnimationTime: 500,
     diskPosition: {
       x: 539,
@@ -184,15 +185,11 @@ this.TWIST = this.TWIST || {};
   };
 
   p.drawGameInfo = function (data) {
-
     this.setHost(data.host);
-    this.changeStatus({
-      newStatus: data.status,
-      disableRebetting: data.disableRebetting
-    });
+    this.changeStatus(data);
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
-    this.setRemainingTime(data.remainingTime);
+    this.setRemainingTime(data.remainingTime, data.totalTime);
     this.drawBettingPositions(data.bettingPositions);
   };
 
@@ -897,18 +894,18 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.totalTable = $(TWIST.HTMLTemplate['xocDia/totalTable']);
     this.wrapperTemplate.append(this.totalTable);
-    
+
     this.totalTable.totalBetting = this.totalTable.find('.total-table-betting');
     this.totalTable.totalWin = this.totalTable.find('.total-table-win');
-    
+
     this.addNumberEffect(this.totalTable.totalBetting);
     this.addNumberEffect(this.totalTable.totalWin);
-    
-    this.totalTable.setTotalBetting = function(value){
+
+    this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
-    this.totalTable.setTotalWin = function(value){
+    this.totalTable.setTotalWin = function (value) {
       this.totalWinValue = value;
       this.totalWin.runEffect(value);
     };
@@ -974,6 +971,14 @@ this.TWIST = this.TWIST || {};
     this.initDisk();
 
     this.initMoveChipContainer();
+
+    this.desk.createTimer({
+      x: this.options.width / 2 - this.options.timerRadius,
+      y: this.options.height / 2 - this.options.timerRadius - 20,
+      radius: this.options.timerRadius,
+      strokeThick: 10,
+      __type: 1
+    });
 
     this.stage.addChild(this.diskContainer, this.moveChipContainer, this.desk);
   };
@@ -1340,14 +1345,18 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setRemainingTime = function (remainingTime) {
-    if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
+  p.setRemainingTime = function (remainingTime, totalTime) {
+    if (["STATUS_BETTING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
         x: this.options.width / 2,
-        y: this.options.height / 2 - 125,
-        font: "bold 30px Roboto Condensed",
-        color: "blue"
+        y: this.options.height / 2 - this.options.timerRadius,
+        font: "bold 60px Roboto Condensed",
+        color: "#ffde00"
       });
+      this.desk.setCicleTime(parseInt(remainingTime), parseInt(totalTime));
+    }else{
+      this.desk.setRemainingTime(-1);
+      this.desk.clearTimer();
     }
   };
 
@@ -1391,8 +1400,8 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setShowVitualBettings = function (newStatus) {
-    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+  p.setShowVitualBettings = function (status) {
+    var flag = (this.userInfo.isHost && status == 4) || (!this.userInfo.isHost && status == 3);
     this.bettingPositions.forEach(function (item, index) {
       if (flag) {
         item.vitualBetting.show();
@@ -1402,22 +1411,22 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.removeSelectedBetting = function (newStatus) {
+  p.removeSelectedBetting = function (status) {
     this.bettingPositions.forEach(function (item, index) {
       item.setSelected(false);
     });
   };
 
   p.changeStatus = function (data) {
-    if (this.status == this.statusList[data.newStatus])
+    if (this.status == this.statusList[data.status])
       return;
-    this.status = this.statusList[data.newStatus];
+    this.status = this.statusList[data.status];
     var func = this[this.status];
     this.buttons.hide();
     this.setShowChipButtons();
-    this.setShowVitualBettings(data.newStatus);
-    this.removeSelectedBetting(data.newStatus);
-    this.desk.setRemainingTime(-1);
+    this.setShowVitualBettings(data.status);
+    this.removeSelectedBetting(data.status); 
+    this.setRemainingTime(data.remainingTime, data.totalTime);
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -1434,7 +1443,7 @@ this.TWIST = this.TWIST || {};
     });
     this.totalTable.setTotalBetting(0);
     this.totalTable.setTotalWin(0);
-    
+
     this.closeDisk();
 //    this.host.setMessage("Chuẩn bị ván mới !");
     this.host.setMessage("");
@@ -1456,11 +1465,10 @@ this.TWIST = this.TWIST || {};
     this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
     this.host.setMessage("");
-//    this.host.setMessage("Đặt cược đi anh ơi !");
-    if (!this.userInfo.isHost) {
-      if (!data.disableRebetting) {
-        this.reBettingButton.show();
-      }
+    if (data.showReBetting) {
+      this.reBettingButton.show();
+    }
+    if (data.showCancelBetting) {
       this.cancelBettingButton.show();
     }
   };
@@ -1469,9 +1477,9 @@ this.TWIST = this.TWIST || {};
     var defaultTime = 3;
     if (this.host.name)
       defaultTime = 15;
-    this.setRemainingTime(data.remainingTime || defaultTime);
+//    this.setRemainingTime(data.remainingTime || defaultTime);
 //    this.host.setMessage("Thời gian cái thừa thiếu !");
-    this.host.setMessage("Hết thời gian đặt cược !");
+//    this.host.setMessage("Hết thời gian đặt cược !");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
       this.sellOddButton.show();
@@ -1487,7 +1495,6 @@ this.TWIST = this.TWIST || {};
 
   p.END_GAME = function () {
     this.sellPopup.hide();
-//    this.host.setMessage("");
     this.host.setMessage("Mở bát !");
   };
 

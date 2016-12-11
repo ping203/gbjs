@@ -66,15 +66,15 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createRemainingTime = function () {
-    this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
-    this.remainingTime.set({
+    this.remainingTimeText = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
+    this.remainingTimeText.set({
       x: Desk.position.x,
       y: Desk.position.y,
       visible: false,
       textAlign: "center",
       textBaseLine: "top"
     });
-    return this.remainingTime;
+    return this.remainingTimeText;
   };
 
   p.createRemainingCard = function () {
@@ -226,28 +226,33 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setRemainingTime = function (time, options) {
-    var miliseconTime = time > 1000 ? time : time * 1000;
+    var _self = this;
+    var miliseconTime = time > 100 ? time : time * 1000;
     var startTime = new Date().getTime();
-    var miliseconTimeText = this.remainingTime;
+    var miliseconTimeText = this.remainingTimeText;
     $.extend(miliseconTimeText, options);
     miliseconTimeText.visible = true;
     if (miliseconTime >= 0) {
-      if (this.remainingTimeTween) {
-        this.remainingTimeTween.removeAllEventListeners();
-        miliseconTimeText.text = "";
-      }
-      this.remainingTimeTween = createjs.Tween.get(miliseconTimeText)
+      this.remainingTimeTween && this.remainingTimeTween.removeAllEventListeners();
+      miliseconTimeText.text = "";
+
+      this.remainingTimeTween = createjs.Tween.get(miliseconTimeText, {override: true})
               .to({}, miliseconTime, createjs.Ease.linear)
               .call(function () {
+                _self.remainingTimeTween.removeAllEventListeners();
                 miliseconTimeText.text = "";
               });
       this.remainingTimeTween.addEventListener("change", function () {
         var currentTime = new Date().getTime();
-        var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
-        miliseconTimeText.text = text >= 0 ? text : "";
+        var text = "";
+        var deviationTime = miliseconTime - (currentTime - startTime);
+        if (deviationTime > 0) {
+          text = Math.floor(deviationTime / 1000);
+        }
+        miliseconTimeText.text = text;
       });
-    } else if (this.remainingTimeTween) {
-      this.remainingTimeTween.removeAllEventListeners();
+    } else {
+      this.remainingTimeTween && this.remainingTimeTween.removeAllEventListeners();
       miliseconTimeText.text = "";
     }
     var _self = this;
@@ -303,6 +308,25 @@ this.TWIST = this.TWIST || {};
     draftCardList.forEach(function (item, index) {
       item.moveTo(item.x, 0);
     });
+  };
+
+  p.createTimer = function (config) {
+    this.timer = new TWIST.Timer(config);
+    this.addChild(this.timer);
+  };
+
+  p.setCicleTime = function (remainingTime, totalTime) {
+    remainingTime = remainingTime || 30000;
+    if (remainingTime < 50)
+      remainingTime *= 1000;
+    totalTime = totalTime || 30000;
+    if (totalTime < 50)
+      totalTime *= 1000;
+    this.timer.startTimer(totalTime, remainingTime);
+  };
+
+  p.clearTimer = function (remainingTime, totalTime) {
+    this.timer.clearTimer();
   };
 
   TWIST.Desk = Desk;

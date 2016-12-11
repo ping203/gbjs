@@ -1544,15 +1544,15 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createRemainingTime = function () {
-    this.remainingTime = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
-    this.remainingTime.set({
+    this.remainingTimeText = new createjs.Text('', 'bold 50px Roboto Condensed', 'white');
+    this.remainingTimeText.set({
       x: Desk.position.x,
       y: Desk.position.y,
       visible: false,
       textAlign: "center",
       textBaseLine: "top"
     });
-    return this.remainingTime;
+    return this.remainingTimeText;
   };
 
   p.createRemainingCard = function () {
@@ -1704,28 +1704,33 @@ this.TWIST = this.TWIST || {};
   };
 
   p.setRemainingTime = function (time, options) {
-    var miliseconTime = time > 1000 ? time : time * 1000;
+    var _self = this;
+    var miliseconTime = time > 100 ? time : time * 1000;
     var startTime = new Date().getTime();
-    var miliseconTimeText = this.remainingTime;
+    var miliseconTimeText = this.remainingTimeText;
     $.extend(miliseconTimeText, options);
     miliseconTimeText.visible = true;
     if (miliseconTime >= 0) {
-      if (this.remainingTimeTween) {
-        this.remainingTimeTween.removeAllEventListeners();
-        miliseconTimeText.text = "";
-      }
-      this.remainingTimeTween = createjs.Tween.get(miliseconTimeText)
+      this.remainingTimeTween && this.remainingTimeTween.removeAllEventListeners();
+      miliseconTimeText.text = "";
+
+      this.remainingTimeTween = createjs.Tween.get(miliseconTimeText, {override: true})
               .to({}, miliseconTime, createjs.Ease.linear)
               .call(function () {
+                _self.remainingTimeTween.removeAllEventListeners();
                 miliseconTimeText.text = "";
               });
       this.remainingTimeTween.addEventListener("change", function () {
         var currentTime = new Date().getTime();
-        var text = Math.floor((miliseconTime - (currentTime - startTime)) / 1000);
-        miliseconTimeText.text = text >= 0 ? text : "";
+        var text = "";
+        var deviationTime = miliseconTime - (currentTime - startTime);
+        if (deviationTime > 0) {
+          text = Math.floor(deviationTime / 1000);
+        }
+        miliseconTimeText.text = text;
       });
-    } else if (this.remainingTimeTween) {
-      this.remainingTimeTween.removeAllEventListeners();
+    } else {
+      this.remainingTimeTween && this.remainingTimeTween.removeAllEventListeners();
       miliseconTimeText.text = "";
     }
     var _self = this;
@@ -1783,85 +1788,122 @@ this.TWIST = this.TWIST || {};
     });
   };
 
+  p.createTimer = function (config) {
+    this.timer = new TWIST.Timer(config);
+    this.addChild(this.timer);
+  };
+
+  p.setCicleTime = function (remainingTime, totalTime) {
+    remainingTime = remainingTime || 30000;
+    if (remainingTime < 50)
+      remainingTime *= 1000;
+    totalTime = totalTime || 30000;
+    if (totalTime < 50)
+      totalTime *= 1000;
+    this.timer.startTimer(totalTime, remainingTime);
+  };
+
+  p.clearTimer = function (remainingTime, totalTime) {
+    this.timer.clearTimer();
+  };
+
   TWIST.Desk = Desk;
 })();
 
 this.TWIST = this.TWIST || {};
 
 (function () {
-    "use strict";
+  "use strict";
 
-    function Timer(params) {
-        this.set({startTime: 0, totalTime: 0, remainingTime: 0, currentTimer: 0});
-        this.initialize(params)
+  function Timer(params) {
+    this.set({startTime: 0, totalTime: 0, remainingTime: 0, currentTimer: 0});
+    this.initialize(params)
+  }
+
+  var p = Timer.prototype = new createjs.Container();
+  p.Container_initialize = p.initialize;
+  p.initialize = function (params) {
+    this.Container_initialize();
+    $.extend(this, params);
+    this.timerLine = new createjs.Shape();
+    this.timerBg = new createjs.Shape();
+    this.initBg();
+    this.addChild(this.timerBg, this.timerLine);
+    this.startAngle = 0;
+    this.endAngle = 0;
+
+  };
+
+  p.initBg = function () {
+    if (this.__type) {
+      this.startAngle = -0.5 * Math.PI;
+      this.endAngle = 1.5 * Math.PI;
+      this.timerBg.graphics.s("#000000").ss(this.strokeThick)
+              .arc(this.radius, this.radius, this.radius, this.startAngle, this.endAngle, false);
+      this.timerBg.alpha = 0.18;
+      this.timerBg.visible = false;
     }
+  };
 
-    var p = Timer.prototype = new createjs.Container();
-    p.Container_initialize = p.initialize;
-    p.initialize = function (params) {
-        this.Container_initialize();
-        $.extend(this, params);
-        this.timerLine = new createjs.Shape();
-        this.addChild(this.timerLine);
+  p.drawPercentRect = function (currentTimer) {
+    this.timerLine.graphics.clear();
+    this.startAngle = Math.PI * 3 / 2 - currentTimer * Math.PI * 2;
+    this.endAngle = Math.PI * 3 / 2;
+    this.timerLine.graphics.s("#fee802").ss(this.strokeThick)
+            .arc(this.radius, this.radius, this.radius, this.startAngle, this.endAngle, false);
+  };
 
-        this.startAngle = 0;
-        this.endAngle = 0;
+  p.setCounter = function (totalTime, remainingTime) {
+    this.timerBg.visible = true;
+    this.timerLine.visible = true;
+    this.totalTime = totalTime || 20000;
+    this.remainingTime = remainingTime || 20000;
+    this.startTime = (new Date()).getTime() - (this.totalTime - this.remainingTime);
+    this.currentTimer = (this.totalTime - this.remainingTime) / this.totalTime;
+  };
+  p.clearTimer = function () {
+    if (this.tween) {
+      this.tween.pause();
+      this.tween.removeAllEventListeners();
+    }
+    createjs.Tween.get(this.timerLine, {override: true});
+    this.timerLine.graphics.clear();
+    this.timerLine.visible = false;
+    this.timerBg.visible = false;
+    this.totalTime = 0;
+    this.remainingTime = 0;
+    this.currentTimer = 0;
+    if (this.callback) {
+      delete this.callback;
+    }
+  };
+  p.tick = function () {
+    this.currentTimer = ((new Date()).getTime() - this.startTime) / this.totalTime;
+    if (this.currentTimer >= 1) {
+      this.clearTimer();
+      return;
+    }
+    this.drawPercentRect(this.currentTimer);
+  };
 
-    };
+  p.startTimer = function (totalTime, remainingTime) {
+    if (remainingTime > totalTime)
+      remainingTime = totalTime;
+    this.clearTimer();
+    this.setCounter(totalTime, remainingTime);
+    var _self = this;
+    this.tween = createjs.Tween.get(this.timerLine, {override: true})
+            .to({}, remainingTime)
+            .call(function () {
+              _self.clearTimer();
+            });
+    var _self = this;
+    this.tween.addEventListener("change", function () {
+      _self.tick();
+    });
+  };
 
-    p.drawPercentRect = function (currentTimer) {
-        this.timerLine.graphics.clear();
-        this.startAngle = -Math.PI * 1 / 2;
-        this.endAngle = -Math.PI * 1 / 2 + currentTimer * Math.PI * 2;
-        this.timerLine.graphics.s("#fee802").ss(this.strokeThick).arc(this.radius, this.radius, this.radius, this.startAngle, this.endAngle, false);
-    };
-
-    p.setCounter = function (totalTime, remainingTime) {
-        this.totalTime = totalTime || 20000;
-        this.remainingTime = remainingTime || 20000;
-        this.startTime = (new Date()).getTime() - (this.totalTime - this.remainingTime);
-        this.currentTimer = (this.totalTime - this.remainingTime) / this.totalTime;
-    };
-    p.clearTimer = function () {
-        if (this.tween) {
-            this.tween.pause();
-            this.tween.removeAllEventListeners();
-        }
-        createjs.Tween.get(this.timerLine, {override : true});
-        this.timerLine.graphics.clear();
-        this.totalTime = 0;
-        this.remainingTime = 0;
-        this.currentTimer = 0;
-        if (this.callback) {
-            delete this.callback;
-        }
-    };
-    p.tick = function () {
-        this.currentTimer = ((new Date()).getTime() - this.startTime) / this.totalTime;
-        if (this.currentTimer >= 1) {
-            this.clearTimer();
-            return;
-        }
-        this.drawPercentRect(this.currentTimer);
-    };
-
-    p.startTimer = function (totalTime, remainingTime) {
-        if(remainingTime > totalTime) remainingTime = totalTime;
-        this.clearTimer();
-        this.setCounter(totalTime, remainingTime);
-        var _self = this;
-        this.tween = createjs.Tween.get(this.timerLine, {override : true})
-                .to({}, remainingTime)
-                .call(function () {
-                    _self.clearTimer();
-                });
-        var _self = this;
-        this.tween.addEventListener("change", function () {
-            _self.tick();
-        });
-    };
-
-    TWIST.Timer = Timer;
+  TWIST.Timer = Timer;
 })();
 this.TWIST = this.TWIST || {};
 
@@ -10131,6 +10173,7 @@ this.TWIST = this.TWIST || {};
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
     width: 1280,
     height: 720,
+    timerRadius: 60,
     moveChipAnimationTime: 500,
     diskPosition: {
       x: 539,
@@ -10277,15 +10320,11 @@ this.TWIST = this.TWIST || {};
   };
 
   p.drawGameInfo = function (data) {
-
     this.setHost(data.host);
-    this.changeStatus({
-      newStatus: data.status,
-      disableRebetting: data.disableRebetting
-    });
+    this.changeStatus(data);
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
-    this.setRemainingTime(data.remainingTime);
+    this.setRemainingTime(data.remainingTime, data.totalTime);
     this.drawBettingPositions(data.bettingPositions);
   };
 
@@ -10990,18 +11029,18 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     this.totalTable = $(TWIST.HTMLTemplate['xocDia/totalTable']);
     this.wrapperTemplate.append(this.totalTable);
-    
+
     this.totalTable.totalBetting = this.totalTable.find('.total-table-betting');
     this.totalTable.totalWin = this.totalTable.find('.total-table-win');
-    
+
     this.addNumberEffect(this.totalTable.totalBetting);
     this.addNumberEffect(this.totalTable.totalWin);
-    
-    this.totalTable.setTotalBetting = function(value){
+
+    this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
-    this.totalTable.setTotalWin = function(value){
+    this.totalTable.setTotalWin = function (value) {
       this.totalWinValue = value;
       this.totalWin.runEffect(value);
     };
@@ -11067,6 +11106,14 @@ this.TWIST = this.TWIST || {};
     this.initDisk();
 
     this.initMoveChipContainer();
+
+    this.desk.createTimer({
+      x: this.options.width / 2 - this.options.timerRadius,
+      y: this.options.height / 2 - this.options.timerRadius - 20,
+      radius: this.options.timerRadius,
+      strokeThick: 10,
+      __type: 1
+    });
 
     this.stage.addChild(this.diskContainer, this.moveChipContainer, this.desk);
   };
@@ -11433,14 +11480,18 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setRemainingTime = function (remainingTime) {
-    if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
+  p.setRemainingTime = function (remainingTime, totalTime) {
+    if (["STATUS_BETTING"].indexOf(this.status) > -1) {
       this.desk.setRemainingTime(parseInt(remainingTime), {
         x: this.options.width / 2,
-        y: this.options.height / 2 - 125,
-        font: "bold 30px Roboto Condensed",
-        color: "blue"
+        y: this.options.height / 2 - this.options.timerRadius,
+        font: "bold 60px Roboto Condensed",
+        color: "#ffde00"
       });
+      this.desk.setCicleTime(parseInt(remainingTime), parseInt(totalTime));
+    }else{
+      this.desk.setRemainingTime(-1);
+      this.desk.clearTimer();
     }
   };
 
@@ -11484,8 +11535,8 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setShowVitualBettings = function (newStatus) {
-    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+  p.setShowVitualBettings = function (status) {
+    var flag = (this.userInfo.isHost && status == 4) || (!this.userInfo.isHost && status == 3);
     this.bettingPositions.forEach(function (item, index) {
       if (flag) {
         item.vitualBetting.show();
@@ -11495,22 +11546,22 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.removeSelectedBetting = function (newStatus) {
+  p.removeSelectedBetting = function (status) {
     this.bettingPositions.forEach(function (item, index) {
       item.setSelected(false);
     });
   };
 
   p.changeStatus = function (data) {
-    if (this.status == this.statusList[data.newStatus])
+    if (this.status == this.statusList[data.status])
       return;
-    this.status = this.statusList[data.newStatus];
+    this.status = this.statusList[data.status];
     var func = this[this.status];
     this.buttons.hide();
     this.setShowChipButtons();
-    this.setShowVitualBettings(data.newStatus);
-    this.removeSelectedBetting(data.newStatus);
-    this.desk.setRemainingTime(-1);
+    this.setShowVitualBettings(data.status);
+    this.removeSelectedBetting(data.status); 
+    this.setRemainingTime(data.remainingTime, data.totalTime);
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -11527,7 +11578,7 @@ this.TWIST = this.TWIST || {};
     });
     this.totalTable.setTotalBetting(0);
     this.totalTable.setTotalWin(0);
-    
+
     this.closeDisk();
 //    this.host.setMessage("Chuẩn bị ván mới !");
     this.host.setMessage("");
@@ -11549,11 +11600,10 @@ this.TWIST = this.TWIST || {};
     this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
     this.host.setMessage("");
-//    this.host.setMessage("Đặt cược đi anh ơi !");
-    if (!this.userInfo.isHost) {
-      if (!data.disableRebetting) {
-        this.reBettingButton.show();
-      }
+    if (data.showReBetting) {
+      this.reBettingButton.show();
+    }
+    if (data.showCancelBetting) {
       this.cancelBettingButton.show();
     }
   };
@@ -11562,9 +11612,9 @@ this.TWIST = this.TWIST || {};
     var defaultTime = 3;
     if (this.host.name)
       defaultTime = 15;
-    this.setRemainingTime(data.remainingTime || defaultTime);
+//    this.setRemainingTime(data.remainingTime || defaultTime);
 //    this.host.setMessage("Thời gian cái thừa thiếu !");
-    this.host.setMessage("Hết thời gian đặt cược !");
+//    this.host.setMessage("Hết thời gian đặt cược !");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
       this.sellOddButton.show();
@@ -11580,7 +11630,6 @@ this.TWIST = this.TWIST || {};
 
   p.END_GAME = function () {
     this.sellPopup.hide();
-//    this.host.setMessage("");
     this.host.setMessage("Mở bát !");
   };
 
