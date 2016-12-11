@@ -10230,6 +10230,7 @@ this.TWIST = this.TWIST || {};
         name: "Bốn Trắng",
         displayName: "1:10",
         valueMap: [0, 0, 0, 0],
+        resultMap: [0],
         ratio: 10,
         id: 2,
         top: 440,
@@ -10240,6 +10241,7 @@ this.TWIST = this.TWIST || {};
         name: "Bốn Đỏ",
         displayName: "1:10",
         valueMap: [1, 1, 1, 1],
+        resultMap: [4],
         ratio: 10,
         id: 3,
         top: 440,
@@ -10250,6 +10252,7 @@ this.TWIST = this.TWIST || {};
         name: "Ba Trắng",
         displayName: "1:3",
         valueMap: [0, 0, 0, 1],
+        resultMap: [1],
         ratio: 3,
         id: 4,
         top: 440,
@@ -10260,6 +10263,7 @@ this.TWIST = this.TWIST || {};
         name: "Ba đỏ",
         displayName: "1:3",
         valueMap: [0, 1, 1, 1],
+        resultMap: [3],
         ratio: 3,
         id: 5,
         top: 440,
@@ -10271,6 +10275,7 @@ this.TWIST = this.TWIST || {};
         name: "Hai đỏ",
         displayName: "1:1.5",
         valueMap: [0, 0, 1, 1],
+        resultMap: [2],
         ratio: 1.5,
         id: 6,
         top: 440,
@@ -10282,6 +10287,7 @@ this.TWIST = this.TWIST || {};
         name: "Chẵn",
         displayName: "Chẵn",
         valueMap: [0],
+        resultMap: [0, 2, 4],
         ratio: 1,
         id: 0,
         top: 230,
@@ -10292,6 +10298,7 @@ this.TWIST = this.TWIST || {};
         name: "Lẻ",
         displayName: "Lẻ",
         valueMap: [1],
+        resultMap: [1, 3],
         ratio: 1,
         id: 1,
         top: 230,
@@ -10324,6 +10331,7 @@ this.TWIST = this.TWIST || {};
     this.changeStatus(data);
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
+    this.addHistoryList(data.historyList);
     this.setRemainingTime(data.remainingTime, data.totalTime);
     this.drawBettingPositions(data.bettingPositions);
   };
@@ -11007,6 +11015,26 @@ this.TWIST = this.TWIST || {};
     };
   };
 
+
+
+  p.addHistoryList = function (historyList) {
+    var _self = this;
+    var historyListConver = [];
+    var bettingPositions = this.bettingPositions;
+    historyListConver = historyList.map(function (item, index) {
+      var winnerSlot = [];
+      bettingPositions.forEach(function (betting, _index) {
+        if(betting.resultMap.indexOf(item) > -1){
+          winnerSlot.push(betting.id);
+        }
+      });
+      return winnerSlot;
+    });
+    historyListConver.forEach(function (item, index) {
+      _self.history.addResult(item);
+    });
+  };
+
   p.initHost = function () {
     var _self = this;
     this.host = $(TWIST.HTMLTemplate['xocDia/host']);
@@ -11489,7 +11517,7 @@ this.TWIST = this.TWIST || {};
         color: "#ffde00"
       });
       this.desk.setCicleTime(parseInt(remainingTime), parseInt(totalTime));
-    }else{
+    } else {
       this.desk.setRemainingTime(-1);
       this.desk.clearTimer();
     }
@@ -11560,7 +11588,7 @@ this.TWIST = this.TWIST || {};
     this.buttons.hide();
     this.setShowChipButtons();
     this.setShowVitualBettings(data.status);
-    this.removeSelectedBetting(data.status); 
+    this.removeSelectedBetting(data.status);
     this.setRemainingTime(data.remainingTime, data.totalTime);
     if (typeof func === "function") {
       func.call(this, data);
