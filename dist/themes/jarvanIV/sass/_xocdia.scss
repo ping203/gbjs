@@ -522,77 +522,60 @@ and open the template in the editor.
 
     .chip-group{
         position: absolute;
-        top : 600px;
+        top : 633px;
         width: 100%;
         text-align: center;
-        $normalRatio : (109/121);
+        $size : 86px;
         .chip{
             position: absolute;
             top: 0;
-            width : $normalRatio*121px;
-            height : $normalRatio*111px;
-            line-height:  $normalRatio*104px;
+            width : $size;
+            height : $size;
+            line-height:  $size;
             border-radius : 50%;
             background-image: url('#{$xocdiaImagePath}1st-chip.png');
             background-size : cover;
             box-sizing: border-box;
             background-origin: border-box;
-            color : #004e79;
+            color : white;
             transition : all 0.1s linear;
             font-size : 27px;
             cursor : pointer;
             font-weight : bold;
+            opacity : 0.5;
             $seperator : 30px;
-            $indexLeft : 640px - 109px - 109px - 1.5 * $seperator;
-            $distanceUnit : 109px + $seperator;
+            $indexLeft : 640px - $size * 2 - 1.5 * $seperator;
+            $distanceUnit : $size + $seperator;
             $activeLeft : 6px;
-            &.active{
-                width : 121px;
-                height : 111px;
-                font-size: 30px;
-                top : -15px;
-                opacity: 1;
-                border : 5px solid #ffed8a;
-                box-shadow: 0 0 10px rgba(255, 222, 0, 1),0 0 30px rgba(255, 222, 0, 1);
-
-            }
             &:first-child{
                 $currentLeft : $indexLeft;
                 left : $currentLeft;
-                &.active{
-                    left : $currentLeft - $activeLeft;
-                }
                 background-image: url('#{$xocdiaImagePath}1st-chip.png');
             }
             &:nth-child(2){
                 $currentLeft : $indexLeft + $distanceUnit;
                 left : $currentLeft;
-                &.active{
-                    left : $currentLeft - $activeLeft;
-                }
                 background-image: url('#{$xocdiaImagePath}2nd-chip.png');
-                color : #88bb21;
             }
             &:nth-child(3){
                 $currentLeft : $indexLeft + $distanceUnit*2;
                 left : $currentLeft;
-                &.active{
-                    left : $currentLeft - $activeLeft;
-                }
                 background-image: url('#{$xocdiaImagePath}3rd-chip.png');
-                color : #bf1e2e;
             }
             &:nth-child(4){
                 $currentLeft : $indexLeft + $distanceUnit*3;
                 left : $currentLeft;
-                &.active{
-                    left : $currentLeft - $activeLeft;
-                }
                 background-image: url('#{$xocdiaImagePath}4th-chip.png');
-                color : #814697;
+            }
+            &.active{
+                top : -15px;
+                opacity: 1;
+                border : 2px solid #ffed8a;
+                box-shadow: 0 0 12px rgba(254,197,46, 0.68), 0 0 48px rgba(254,197,46, 0.38), 0 0 35px rgba(252,45,28, 0.24),0 3px 4px rgba(0,0,0, 0.78);
             }
         }
     }
+    
     .xocdia-button-bar{
         bottom : 0px;
         right : 0;

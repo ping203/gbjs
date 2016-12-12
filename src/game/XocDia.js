@@ -197,7 +197,6 @@ this.TWIST = this.TWIST || {};
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
     this.addHistoryList(data.historyList);
-    this.setRemainingTime(data.remainingTime, data.totalTime);
     this.drawBettingPositions(data.bettingPositions);
   };
 
@@ -1490,7 +1489,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_BETTING = function (data) {
-    this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
     this.host.setMessage("");
     if (data.showReBetting) {

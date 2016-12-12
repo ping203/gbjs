@@ -547,6 +547,7 @@ this.TWIST = this.TWIST || {};
     "use strict";
 
     TWIST.Observer = new EventEmitter();
+    TWIST.Observer._canvasList = [];
     TWIST.imagePath = '../src/themes/gb-web/images/';
     
 })();
@@ -1048,18 +1049,21 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
-'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            5.00K\r\n        </div><div class="total-betting">\r\n            5.00M\r\n        </div>\r\n    </div>\r\n</div>\r\n',
-'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
+'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
+'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
 'taiXiu/chips':'<div class="chip-group">\r\n    <div class="chip chip-1st">1</div>\r\n    <div class="chip chip-2nd">2</div>\r\n    <div class="chip chip-3rd">4</div>\r\n    <div class="chip chip-4th">10</div>\r\n</div>\r\n',
 'taiXiu/coin-item':'<div class="coin-item"></div>',
 'taiXiu/history-item':'<div class="history-item">\r\n    <div class="history-item-number"></div>\r\n    <div class="history-item-type"></div>\r\n    <div class="history-item-dices">\r\n        <div class="history-item-dice" id="dice-position0"></div>\r\n        <div class="history-item-dice" id="dice-position1"></div>\r\n        <div class="history-item-dice" id="dice-position2"></div>\r\n    </div>\r\n</div>\r\n',
-'taiXiu/history':'<div class="taixiu-history">\r\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\r\n    <div class="taixiu-history-content">\r\n        <div class="taixiu-history-content-inner"></div>\r\n    </div>\r\n</div> \r\n',
+'taiXiu/history-old':'<div class="taixiu-history">\r\n    <div class="taixiu-history-title">L\u1ECBch s\u1EED</div>\r\n    <div class="taixiu-history-content">\r\n        <div class="taixiu-history-content-inner"></div>\r\n    </div>\r\n</div> \r\n',
+'taiXiu/history':'<div class="history-wrapper">\r\n<!--    <div class="history-odd"></div>\r\n    <div class="history-event"></div>-->\r\n    <div class="history">\r\n    </div>\r\n</div>\r\n',
 'taiXiu/host':'<div class="host-wrapper">\r\n    <div class="host-background"></div>\r\n    <div class="host">\r\n        <div class="host-name">\r\n            Doreamon\r\n        </div>\r\n        <div class="chat-box">\r\n            <div class="chat-box-inner">\r\n                Th\u1EDDi gian c\xE1i th\u1EEBa  thi\u1EBFu.  \r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/listPlayer':'<div class="list-player"></div>',
 'taiXiu/resultChip':'<div class="result-chip">\r\n    <div class="inner-chip">\r\n        \r\n    </div>\r\n</div>',
+'taiXiu/resultChipColumn':'<div class="result-chip-column">\r\n    \r\n</div>',
 'taiXiu/sellPopup':'<div class="sell-popup">\r\n    <div class="sell-popup-background"></div>\r\n    <div class="sell-popup-center">\r\n        <div class="sell-popup-title"></div>\r\n        <div class="sell-popup-close"></div>\r\n        <div class="sell-popup-content">\r\n            <div class="sell-popup-minus"></div>\r\n            <div class="sell-popup-plus"></div>\r\n            <div class="sell-popup-dragbar" id="sell-popup-drag-container">\r\n                <div class="sell-popup-dragbar-inner"></div>\r\n                <div class="sell-popup-scroller" id="scroller"> \r\n                    <div class="sell-popup-scroller-content">\r\n                        0 V\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class="sell-popup-button-bar">\r\n                <div class="sell-popup-button" id="cancel">H\u1EE6Y B\u1ECE</div>\r\n                <div class="sell-popup-button" id="accept">\u0110\u1ED2NG \xDD</div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/table':'<div class="table">\r\n    \r\n</div>',
+'taiXiu/totalTable':'<div class="total-table">\r\n    <div class="total-table-betting">0</div>\r\n    <div class="total-table-win">0</div>\r\n</div>',
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
@@ -3421,6 +3425,7 @@ this.TWIST = this.TWIST || {};
   p.initStage = function () {
     var _self = this;
     var stage = new createjs.Stage(this.canvas[0]);
+    TWIST.Observer._canvasList.push(stage);
     stage.enableMouseOver(20);
     var context = stage.canvas.getContext("2d");
     context.mozImageSmoothingEnabled = true;
@@ -3430,6 +3435,12 @@ this.TWIST = this.TWIST || {};
     stage.height = this.canvas.height;
     createjs.Ticker.addEventListener("tick", onUpdateStage);
     this.on('destroy', function () {
+      var _stageIndex = TWIST.Observer._canvasList.findIndex(function(item,index){
+        return item == stage;
+      });
+      if(_stageIndex > -1 ){
+        TWIST.Observer._canvasList.splice( _stageIndex, 1 );
+      }
       createjs.Ticker.removeEventListener("tick", onUpdateStage);
       _self.removeAllListeners();
       _self.timeOutList.forEach(function (item, index) {
@@ -3711,7 +3722,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawRoom = function () {
     var canvas = this.wrapper.find('canvas');
-    canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
+    this.wrapper.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
     this.playersContainer = new createjs.Container();
     this.desk = new TWIST.Desk(this.options);
     this.desk.name = "desk";
@@ -6799,51 +6810,61 @@ this.TWIST = this.TWIST || {};
 
   var initOptions = {
     gameSize: {
-      width: 870,
-      height: 560,
+      width: 1280,
+      height: 720,
       position: "relative"
     },
     chipSize: {
       width: 75,
       height: 75,
-      miniWidth: 18,
-      miniHeight: 18,
-      miniRatio: 0.24
+      miniWidth: 24,
+      miniHeight: 24,
+      miniRatio: 0.33
     },
-    bettingChipPositions: [{y: 487.5 - 11, x: 385 - 90 - 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 37.5 - 11},
-      {y: 487.5 - 11, x: 385 - 90 + 105 + 37.5 - 11}, {y: 487.5 - 11, x: 385 - 90 + 210 + 37.5 - 11}],
+    bettingChipPositions: [{y: 640, x: 390}, {y: 640 - 11, x: 550},
+      {y: 640, x: 710}, {y: 640, x: 868}],
     playerPosition: {
-      y: 266,
-      x: 835
+      x: 1215,
+      y: 330
     },
     hostPosition: {
-      x: 385,
-      y: 50
+      x: 620,
+      y: 60
     },
     userPosition: {
-      y: 480,
-      x: 50
+      y: 650,
+      x: 210
     },
     chipSrcList: ['1st-chip.png', '2nd-chip.png', '3rd-chip.png', '4th-chip.png'],
-    width: 870,
-    height: 560,
+    width: 1280,
+    height: 720,
+    timer: {
+      x: 1165,
+      y: 129,
+      radius: 35
+    },
     moveChipAnimationTime: 500,
     diskPosition: {
-      x: 230,
-      y: 10,
-      scaleX: 0.6,
-      scaleY: 0.6
+      x: 539,
+      y: 155,
+      width: 300,
+      initWidth: 646,
+      initHeight: 647,
+      scale: 300 / 646
     },
     bowlPosition: {
-      x: 11,
-      y: 3,
-      alpha: 1
+      x: 25,
+      y: 25,
+      width: 534,
+      height: 542
     },
     chipResultPosition: {
-      x: 55,
-      y: 30,
-      width: 80,
-      height: 60
+      x: 50,
+      y: 50,
+      width: 100,
+      height: 100,
+      diceWidth: 107,
+      diceHeight: 108
     }
   };
 
@@ -6877,37 +6898,38 @@ this.TWIST = this.TWIST || {};
     });
     this.imagePath = (TWIST.imagePath || imagePath) + 'taixiu/';
 
-    this.bettingPositions = [{id: 0, name: "Tam nhất", top: 83, left: 0, width: 117, height: 103, types: [1, 'top-left', 'top', 'left']}
-      , {id: 1, name: "Tam nhị", top: 83, left: 117, width: 91, height: 103, types: [1, 'top']}
-      , {id: 2, name: "Tam tam", top: 83, left: 208, width: 91, height: 103, types: [1, 'top']}
-      , {id: 3, name: "Tam trùng", top: 83, left: 299, width: 172, height: 103, types: [2, 'top']}
-      , {id: 4, name: "Tam tứ", top: 83, left: 471, width: 91, height: 103, types: [1, 'top']}
-      , {id: 5, name: "Tam ngũ", top: 83, left: 562, width: 91, height: 103, types: [1, 'top']}
-      , {id: 6, name: "Tam lục", top: 83, left: 653, width: 117, height: 103, types: [1, 'top', 'right', 'top-right']}
-      , {id: 7, name: "Xỉu", top: 186, left: 0, width: 117, height: 152, types: [3, 'left']}
-      , {id: 8, name: "Bốn điểm", top: 186, left: 117, width: 76, height: 76, types: [4]}
-      , {id: 9, name: "Năm điểm", top: 186, left: 193, width: 76, height: 76, types: [4]}
-      , {id: 10, name: "Sáu điểm", top: 186, left: 269, width: 76, height: 76, types: [4]}
-      , {id: 11, name: "Bẩy điểm", top: 186, left: 345, width: 80, height: 76, types: [4]}
-      , {id: 12, name: "Tám điểm", top: 186, left: 425, width: 76, height: 76, types: [4]}
-      , {id: 13, name: "Chín điểm", top: 186, left: 501, width: 76, height: 76, types: [4]}
-      , {id: 14, name: "Mười điểm", top: 186, left: 577, width: 76, height: 76, types: [4]}
-      , {id: 15, name: "Tài", top: 186, left: 653, width: 117, height: 152, types: [3, 'right']}
-      , {id: 16, name: "Mười một điểm", top: 262, left: 117, width: 76, height: 76, types: [4]}
-      , {id: 17, name: "Mười hai điểm", top: 262, left: 193, width: 76, height: 76, types: [4]}
-      , {id: 18, name: "Mười ba điểm", top: 262, left: 269, width: 76, height: 76, types: [4]}
-      , {id: 19, name: "Mười bốn điểm", top: 262, left: 345, width: 80, height: 76, types: [4]}
-      , {id: 20, name: "Mười lăm điểm", top: 262, left: 425, width: 76, height: 76, types: [4]}
-      , {id: 21, name: "Mười sáu điểm", top: 262, left: 501, width: 76, height: 76, types: [4]}
-      , {id: 22, name: "Mười bẩy điểm", top: 262, left: 577, width: 76, height: 76, types: [4]}
-      , {id: 23, name: "Chẵn", top: 338, left: 0, width: 117, height: 75, types: [6, 'left', 'bottom-left', 'bottom']}
-      , {id: 24, name: "Nhất", top: 338, left: 117, width: 89, height: 75, types: [5, 'bottom']}
-      , {id: 25, name: "Nhị", top: 338, left: 206, width: 89, height: 75, types: [5, 'bottom']}
-      , {id: 26, name: "Tam", top: 338, left: 295, width: 90, height: 75, types: [5, 'bottom']}
-      , {id: 27, name: "Tứ", top: 338, left: 385, width: 90, height: 75, types: [5, 'bottom']}
-      , {id: 28, name: "Ngũ", top: 338, left: 475, width: 89, height: 75, types: [5, 'bottom']}
-      , {id: 29, name: "Lục", top: 338, left: 564, width: 89, height: 75, types: [5, 'bottom']}
-      , {id: 30, name: "Lẻ", top: 338, left: 653, width: 117, height: 75, types: [6, 'bottom', 'right', 'bottom-right']}
+    this.bettingPositions = [
+      {id: 0, name: "Tam nhất", top: 0, left: 0, width: 195, height: 112, types: [1, 'top-left', 'top', 'left']}
+      , {id: 1, name: "Tam nhị", top: 0, left: 200 - 5, width: 135, height: 112, types: [1, 'top']}
+      , {id: 2, name: "Tam tam", top: 0, left: 340 - 5, width: 135, height: 112, types: [1, 'top']}
+      , {id: 3, name: "Tam trùng", top: 0, left: 480 - 5, width: 275, height: 112, types: [2, 'top']}
+      , {id: 4, name: "Tam tứ", top: 0, left: 760 - 5, width: 135, height: 112, types: [1, 'top']}
+      , {id: 5, name: "Tam ngũ", top: 0, left: 900 - 5, width: 135, height: 112, types: [1, 'top']}
+      , {id: 6, name: "Tam lục", top: 0, left: 1040 - 5, width: 193, height: 112, types: [1, 'top', 'right', 'top-right']}
+      , {id: 7, name: "Xỉu", top: 115 - 3, left: 0, width: 195, height: 215, types: [3, 'left']}
+      , {id: 8, name: "Bốn điểm", top: 115 - 3, left: 200 - 5, width: 115, height: 105, types: [4]}
+      , {id: 9, name: "Năm điểm", top: 115 - 3, left: 320 - 5, width: 115, height: 105, types: [4]}
+      , {id: 10, name: "Sáu điểm", top: 115 - 3, left: 440 - 5, width: 115, height: 105, types: [4]}
+      , {id: 11, name: "Bẩy điểm", top: 115 - 3, left: 560 - 5, width: 115, height: 105, types: [4]}
+      , {id: 12, name: "Tám điểm", top: 115 - 3, left: 680 - 5, width: 115, height: 105, types: [4]}
+      , {id: 13, name: "Chín điểm", top: 115 - 3, left: 800 - 5, width: 115, height: 105, types: [4]}
+      , {id: 14, name: "Mười điểm", top: 115 - 3, left: 920 - 5, width: 115, height: 105, types: [4]}
+      , {id: 15, name: "Tài", top: 115 - 3, left: 1040 - 5, width: 193, height: 215, types: [3, 'right']}
+      , {id: 16, name: "Mười một điểm", top: 225 - 3, left: 200 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 17, name: "Mười hai điểm", top: 225 - 3, left: 320 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 18, name: "Mười ba điểm", top: 225 - 3, left: 440 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 19, name: "Mười bốn điểm", top: 225 - 3, left: 560 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 20, name: "Mười lăm điểm", top: 225 - 3, left: 680 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 21, name: "Mười sáu điểm", top: 225 - 3, left: 800 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 22, name: "Mười bẩy điểm", top: 225 - 3, left: 920 - 5, width: 115, height: 105, types: [4, 7]}
+      , {id: 23, name: "Chẵn", top: 335 - 3, left: 0, width: 195, height: 105, types: [6, 'left', 'bottom-left', 'bottom']}
+      , {id: 24, name: "Nhất", top: 335 - 3, left: 200 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 25, name: "Nhị", top: 335 - 3, left: 340 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 26, name: "Tam", top: 335 - 3, left: 480 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 27, name: "Tứ", top: 335 - 3, left: 620 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 28, name: "Ngũ", top: 335 - 3, left: 760 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 29, name: "Lục", top: 335 - 3, left: 900 - 5, width: 135, height: 105, types: [5, 'bottom']}
+      , {id: 30, name: "Lẻ", top: 335 - 3, left: 1040 - 5, width: 193, height: 105, types: [6, 'bottom', 'right', 'bottom-right']}
     ];
 
     this.bettingPositions.reverse();
@@ -6928,21 +6950,16 @@ this.TWIST = this.TWIST || {};
     this.desk = new TWIST.Desk(this.options);
     this.desk.name = "desk";
     this.stage.addChild(this.desk);
-    this.wrapper.css($.extend(initOptions.gameSize, {
-      width: 770
-    }));
+    this.wrapper.css(initOptions.gameSize);
   };
 
   p.drawGameInfo = function (data) {
 
     this.setHost(data.host);
-    this.changeStatus({
-      newStatus: data.status,
-      disableRebetting: data.disableRebetting
-    });
+    this.changeStatus(data);
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
-    this.setRemainingTime(data.remainingTime);
+    this.addHistoryList(data.historyList);
     this.drawBettingPositions(data.bettingPositions);
   };
 
@@ -6960,13 +6977,13 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate = $(wrapperTemplate);
     this.wrapper.append(wrapperTemplate);
 
-    this.initHistory();
-
     this.initBettingPositionList();
 
     this.initProfile();
 
     this.initHost();
+
+    this.initTotalTable();
 
     this.initGameCanvas();
 
@@ -6977,6 +6994,8 @@ this.TWIST = this.TWIST || {};
     this.initChipButton();
 
     this.initSellPopup();
+
+    this.initHistory();
 
     this.wrapperTemplate.append(this.errorPanel);
 
@@ -7011,10 +7030,19 @@ this.TWIST = this.TWIST || {};
 
     this.on("updateBettings", function (data) {
       _self.updateBettings(data);
+      _self.emit('getListPlayer');
+    });
+
+    this.on("updateListPlayer", function (data) {
+      this.listPlayer.html(data.count || "1");
     });
 
     this.on("xocDia", function (data) {
       _self.xocDia(data);
+    });
+
+    this.on("endXocDia", function (data) {
+      _self.endXocDia(data);
     });
 
     this.on("openDisk", function (data) {
@@ -7031,6 +7059,7 @@ this.TWIST = this.TWIST || {};
 
     this.on("suggetstHost", function (data) {
       _self.getHostButton.show();
+      _self.isSuggestHost = true;
     });
 
     this.on("reBettingResult", function (data) {
@@ -7058,6 +7087,8 @@ this.TWIST = this.TWIST || {};
 
   p.cancelBetting = function (data) {
     var _self = this;
+    this.totalTable.setTotalBetting(0);
+    this.cancelBettingButton.hide();
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
       item.setMineBetting(0);
@@ -7067,6 +7098,7 @@ this.TWIST = this.TWIST || {};
   p.hostPaymentPhase1 = function () {
     var _self = this;
     var data = this.hostPaymentData;
+    this.totalTable.setTotalWin(data && data.changeMoney);
     if (!data)
       return;
     this.bettingPositions.hasChipsMove = false;
@@ -7234,11 +7266,14 @@ this.TWIST = this.TWIST || {};
   };
 
   p.userBetting = function (data) {
+    this.totalTable.totalBettingValue += this.currentBetting.value;
+    this.totalTable.setTotalBetting(this.totalTable.totalBettingValue);
     var _self = this;
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
     bettingPosition.setTotalBetting(data.totalBetting);
     var currentBettingID = this.currentBetting.id;
@@ -7268,9 +7303,11 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
+      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
+    this.totalTable.setTotalBetting(this.totalTable.totalBettingValue);
   };
 
   p.bettingChipAction = function (bettingId, currentBettingID, isMine) {
@@ -7332,6 +7369,8 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
+    this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -7413,40 +7452,59 @@ this.TWIST = this.TWIST || {};
 
   p.xocDia = function () {
     var _self = this;
-    var message, position;
+    var message, position, animationTime;
+    animationTime = 80;
     if (this.status === 'STATUS_SHAKE_DISK') {
       position = {
-        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 5 + 5),
-        y: initOptions.diskPosition.y + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 5 + 5)
+//        x: initOptions.diskPosition.x + ((Math.random() - 0.5) < 0 ? -1 : 1) * (Math.random() * 10 + 10),
+//        y: initOptions.diskPosition.shakeY + (this.diskContainer.isTop ? -1 : 1) * (Math.random() * 10 + 10),
+        y: this.diskContainer.isTop ? initOptions.diskPosition.shakeY : initOptions.diskPosition.shakeY + initOptions.diskPosition.width * 0.05,
+//        scaleY: this.diskContainer.isTop ? initOptions.diskPosition.scaleY : initOptions.diskPosition.scaleY * 0.8
       };
       message = 'xocDia';
     } else {
-      position = initOptions.diskPosition;
+      position = {
+        y: initOptions.diskPosition.shakeY,
+        scaleY: initOptions.diskPosition.scaleY
+      };
       message = 'endXocDia';
     }
     createjs.Tween.get(this.diskContainer)
-            .to(position, 100)
+            .to(position, animationTime)
             .call(function () {
               _self.diskContainer.isTop = !_self.diskContainer.isTop;
               _self.emit(message);
             });
   };
 
-  p.openDisk = function (data) {
+  p.endXocDia = function () {
     var _self = this;
-    var newX = -150;
+    createjs.Tween.get(this.diskContainer)
+            .to({
+              y: initOptions.diskPosition.y
+            }, 1500)
+            .call(function () {
+              _self.history._toggle(true);
+            });
+  };
+
+  p.showResult = function (data) {
+    var _self = this;
+    var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
+    this.history.addResult(data.map);
     var message, position;
-    this.history.addResult(data);
     this.chipResultContainer.removeAllChildren();
-    data.map.forEach(function (item, index) {
+    var shuffleMap = Global.shuffle(data.map)
+    shuffleMap.forEach(function (item, index) {
       _self.createResultDice(item, index);
     });
-    this.bowl.set(initOptions.bowlPosition);
+    this.bowl.set({
+      y: initOptions.bowlPosition.y
+    });
     createjs.Tween.get(this.bowl)
             .to({
-              x: newX,
-              alpha: 0
-            }, 2000)
+              y: newY
+            }, 1000)
             .call(function () {
               _self.hostPaymentPhase1();
             });
@@ -7455,16 +7513,39 @@ this.TWIST = this.TWIST || {};
     });
   };
 
+  p.openDisk = function (data) {
+    this.history._toggle(false);
+    var _self = this;
+    var message, position, animationTime;
+    position = {
+      x: initOptions.diskPosition.x,
+      y: initOptions.diskPosition.shakeY
+    };
+    createjs.Tween.get(this.diskContainer)
+            .to(position, 1000)
+            .call(function () {
+              _self.showResult(data);
+            });
+  };
+
+  p.closeDisk = function (data) {
+    this.history._toggle(false);
+    createjs.Tween.get(this.bowl)
+            .to(initOptions.bowlPosition, 1000)
+            .call(function () {});
+  };
+
   p.createResultDice = function (id, index) {
-    var src = this.imagePath + "dice" + (id + 1) + ".png";
+    var src = this.imagePath + "dice" + (id + 1) + "-big.png";
     var resultChip = new createjs.Bitmap(src);
+    var unitWidth = this.chipResultContainer.width / 2;
+    var unitHeight = this.chipResultContainer.height / 2;
     var scale = initOptions.diskPosition.scaleX;
-    var positions = [{x: 12.5 / scale, y: 0}, {x: 0, y: 25 / scale}, {x: 25 / scale, y: 25 / scale}];
-    resultChip.set(positions[index]);
-    resultChip.set({
-      scaleX: 1 / scale,
-      scaleY: 1 / scale
-    });
+    var resultChipPosition = {
+      x: (Math.random() * (unitWidth - initOptions.chipResultPosition.diceWidth)) + (parseInt(index / 2) * unitWidth),
+      y: (Math.random() * (unitHeight - initOptions.chipResultPosition.diceHeight) + (parseInt(index % 2) * unitHeight))
+    };
+    resultChip.set(resultChipPosition);
     this.chipResultContainer.addChild(resultChip);
     return resultChip;
   };
@@ -7504,12 +7585,69 @@ this.TWIST = this.TWIST || {};
   p.renderUserInfo = function () {
     var avatarContainer = this.user.find('.avatar');
     var usernameContainer = this.user.find('.username');
-    avatarContainer.css("background-image", "url(./" + this.userInfo.avatar + ")");
+    avatarContainer.css("background-image", "url(" + (this.userInfo.avatar ? ("./" + this.userInfo.avatar) : initOptions.avatar) + ")");
     usernameContainer.text(this.userInfo.username);
     this.userMoney.runEffect(this.userInfo.money);
   };
 
+  p.initHistory = function () {
+    var _self = this;
+    this.history = $(TWIST.HTMLTemplate['taiXiu/history']);
+    this.wrapperTemplate.append(this.history);
+    this.historyInner = this.history.find('.history');
+    this.historyList = [];
+    this.history._toggle = function (active) {
+      if (typeof active !== "undefined") {
+        if (active) {
+          _self.historyInner.addClass('active');
+        } else {
+          _self.historyInner.removeClass('active');
+        }
+      } else {
+        _self.historyInner.toggleClass('active');
+      }
+    };
+    this.historyInner.on('click', function () {
+      _self.history._toggle();
+    });
+    this.history.addResult = function (map) {
+      var data = map;
+      var resultTemplate = $(TWIST.HTMLTemplate['taiXiu/history-item']);
+      var itemType = resultTemplate.find('.history-item-type');
+      var resultNumber = 0;
+      map.forEach(function (item, index) {
+        resultNumber += (item);
+        var dicePosition = resultTemplate.find('#dice-position' + index);
+        dicePosition.addClass("dice" + (item - 1));
+      });
+
+      var isTai = (resultNumber < 18 && resultNumber > 10);
+      var isXiu = (resultNumber < 11 && resultNumber > 3);
+      var itemType = resultTemplate.find('.history-item-type');
+      isTai && itemType.addClass('tai');
+      isXiu && itemType.addClass('xiu');
+      var itemNumber = resultTemplate.find('.history-item-number');
+      itemNumber.html(resultNumber);
+      _self.historyInner.append(resultTemplate);
+      _self.historyList.push(resultTemplate);
+      
+      if (_self.historyList.length > 15) {
+        _self.historyList[0].remove();
+        _self.historyList.shift();
+      }
+
+    };
+  };
+
+  p.addHistoryList = function (historyList) {
+    var _self = this;
+    historyList.forEach(function (item, index) {
+      _self.history.addResult(item);
+    });
+  };
+
   p.initHost = function () {
+    var _self = this;
     this.host = $(TWIST.HTMLTemplate['taiXiu/host']);
     this.wrapperTemplate.append(this.host);
     this.host.background = this.host.find('.host-background');
@@ -7518,11 +7656,32 @@ this.TWIST = this.TWIST || {};
     this.host.hostMessage = this.host.find('.chat-box-inner');
     this.host.setMessage = function (message) {
       if (message) {
-        this.chatBox.show();
+        this.show();
         this.hostMessage.html(message);
       } else {
-        this.chatBox.hide();
+        this.hide();
       }
+    };
+  };
+
+  p.initTotalTable = function () {
+    var _self = this;
+    this.totalTable = $(TWIST.HTMLTemplate['taiXiu/totalTable']);
+    this.wrapperTemplate.append(this.totalTable);
+
+    this.totalTable.totalBetting = this.totalTable.find('.total-table-betting');
+    this.totalTable.totalWin = this.totalTable.find('.total-table-win');
+
+    this.addNumberEffect(this.totalTable.totalBetting);
+    this.addNumberEffect(this.totalTable.totalWin);
+
+    this.totalTable.setTotalBetting = function (value) {
+      this.totalBettingValue = value;
+      this.totalBetting.runEffect(value);
+    };
+    this.totalTable.setTotalWin = function (value) {
+      this.totalWinValue = value;
+      this.totalWin.runEffect(value);
     };
   };
 
@@ -7556,49 +7715,6 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.initHistory = function () {
-    var _self = this;
-    this.history = $(TWIST.HTMLTemplate['taiXiu/history']);
-    this.wrapperTemplate.append(this.history);
-    this.historyList = this.history.find('.taixiu-history-content');
-    this.historyListInner = this.history.find('.taixiu-history-content-inner');
-    var height = this.history.css('height');
-    this.historyListScroll = new IScroll(this.historyList[0], {scrollX: true, freeScroll: true});
-    this.historyListScroll.refresh();
-
-
-    this.historyTitle = this.history.find('.taixiu-history-title');
-
-    this.history.toggle = function () {
-      _self.history.toggleClass('active');
-    };
-    this.historyTitle.on('click', this.history.toggle);
-
-    this.history.addResult = function (data) {
-      var isTai = data.winnerSlots.find(function (item, index) {
-        return item == 15;
-      });
-      var isXiu = data.winnerSlots.find(function (item, index) {
-        return item == 7;
-      });
-      var resultTemplate = $(TWIST.HTMLTemplate['taiXiu/history-item']);
-      var itemType = resultTemplate.find('.history-item-type');
-      isTai && itemType.addClass('tai');
-      isXiu && itemType.addClass('xiu');
-
-      var itemNumber = resultTemplate.find('.history-item-number');
-      var resultNumber = 0;
-      data.map.forEach(function (item, index) {
-        resultNumber += (item + 1);
-        var dicePosition = resultTemplate.find('#dice-position' + index);
-        dicePosition.addClass("dice" + item);
-      });
-      itemNumber.html(resultNumber);
-      _self.historyListInner.append(resultTemplate);
-      _self.historyListScroll.refresh();
-    };
-  };
-
   p.initBettingPositionList = function () {
     var _self = this;
     this.table = $(TWIST.HTMLTemplate['taiXiu/table']);
@@ -7609,7 +7725,7 @@ this.TWIST = this.TWIST || {};
       var element = _self.createBettingPosition(item, index);
       fragment.append(element);
     });
-    this.wrapperTemplate.append(fragment);
+    this.table.append(fragment);
 
     bettingPositions.forEach(function (item, index) {
       var element = _self.setBettingPositionsPrototype(item, index);
@@ -7622,12 +7738,16 @@ this.TWIST = this.TWIST || {};
   p.initVitualBetting = function () {
     var _self = this;
     var bettingPositions = this.bettingPositions;
+
+    var vitualBettingWrapper = $('<div class="vitual-table">');
+    this.wrapperTemplate.append(vitualBettingWrapper);
+
     var fragment = document.createDocumentFragment();
     bettingPositions.forEach(function (item, index) {
       var element = _self.createVitualBetting(item, index);
       fragment.append(element);
     });
-    this.wrapperTemplate.append(fragment);
+    vitualBettingWrapper.append(fragment);
 
     bettingPositions.forEach(function (item, index) {
       var element = _self.setVitualBettingPrototype(item, index);
@@ -7647,6 +7767,15 @@ this.TWIST = this.TWIST || {};
     this.initDisk();
 
     this.initMoveChipContainer();
+
+    var config = initOptions.timer;
+    this.desk.createTimer({
+      x: config.x - config.radius,
+      y: config.y - config.radius,
+      radius: config.radius,
+      strokeThick: 5,
+      __type: 1
+    });
 
     this.stage.addChild(this.moveChipContainer, this.diskContainer, this.desk);
   };
@@ -7840,12 +7969,26 @@ this.TWIST = this.TWIST || {};
 
   p.initDisk = function () {
     this.diskContainer = new createjs.Container();
-    this.diskContainer.set(initOptions.diskPosition);
+    var diskPosition = initOptions.diskPosition;
+    var chipResultPosition = initOptions.chipResultPosition;
+    var bowlPosition = initOptions.bowlPosition;
 
+    diskPosition.x = (initOptions.gameSize.width - diskPosition.width) / 2;
+    diskPosition.y = -diskPosition.width * 3 / 5;
+    diskPosition.shakeY = 0;
+    diskPosition.scaleX = diskPosition.scaleY = diskPosition.scale;
+
+    this.diskContainer.set(diskPosition);
     this.disk = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'disk.png');
+
     this.chipResultContainer = new createjs.Container();
+    chipResultPosition.height = chipResultPosition.width = bowlPosition.width / Math.sqrt(2);
+    chipResultPosition.x = chipResultPosition.y = (diskPosition.initWidth - chipResultPosition.width) / 2;
     this.chipResultContainer.set(initOptions.chipResultPosition);
+
     this.bowl = new createjs.Bitmap((TWIST.imagePath || imagePath) + 'taixiu/' + 'bowl.png');
+    bowlPosition.x = (diskPosition.initWidth - bowlPosition.width) / 2;
+    bowlPosition.y = (diskPosition.initHeight - bowlPosition.height) / 2;
     this.bowl.set(initOptions.bowlPosition);
 
     this.diskContainer.addChild(this.disk, this.chipResultContainer, this.bowl);
@@ -7858,10 +8001,10 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       var bettingSlot = new createjs.Container();
       var position = {
-        x: item.left + 2,
-        y: item.top,
-        width: item.width - 4,
-        height: item.height - 25,
+        x: item.left + 5 + 22.5 + 5,
+        y: item.top + 5 + 173 + 5,
+        width: item.width,
+        height: item.height - 35,
         name: item.id
       };
 
@@ -7872,7 +8015,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.createVitualBetting = function (data) {
-
     var _self = this;
     var temp = TWIST.HTMLTemplate['taiXiu/vitualBetting'];
     var element = document.createElement('div');
@@ -7980,7 +8122,12 @@ this.TWIST = this.TWIST || {};
 
     var _self = this;
     var vitualBetting = $('#' + "vitualBetting" + data.id);
-    vitualBetting.css(data);
+    vitualBetting.css({
+      top: data.top + 3,
+      left: data.left + 3,
+      width: data.width + 3,
+      height: data.height + 3
+    });
     data.vitualBetting = vitualBetting;
     vitualBetting.on('click', function () {
       if (_self.userInfo.isHost) {
@@ -7994,8 +8141,6 @@ this.TWIST = this.TWIST || {};
         _self.emitBetting(emitData);
       }
     });
-
-    vitualBetting.css(data);
   };
 
   p.addCoins = function (item, coinTittle) {
@@ -8016,19 +8161,25 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setRemainingTime = function (remainingTime) {
-    if (["STATUS_BETTING", "STATUS_ARRANGING"].indexOf(this.status) > -1) {
+  p.setRemainingTime = function (remainingTime, totalTime) {
+    if (["STATUS_BETTING"].indexOf(this.status) > -1) {
+      var config = this.options.timer;
       this.desk.setRemainingTime(parseInt(remainingTime), {
-        x: 287,
-        y: 23,
-        font: "bold 20px Roboto Condensed",
-        color: "blue"
+        x: config.x,
+        y: config.y - config.radius / 2 - 2,
+        font: "bold 36px Roboto Condensed",
+        color: "#ffde00"
       });
+      this.desk.setCicleTime(parseInt(remainingTime), parseInt(totalTime));
+    } else {
+      this.desk.setRemainingTime(-1);
+      this.desk.clearTimer();
     }
   };
 
   p.drawBettingPositions = function (data) {
     var _self = this;
+    var userBetting = 0;
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
         return _item.id == item.id;
@@ -8038,9 +8189,11 @@ this.TWIST = this.TWIST || {};
       item.setRatio(dataItem.ratio);
       item.setMineBetting(dataItem.mineBetting);
       _self.userReBetting(item, dataItem.mineBetting);
+      userBetting += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.playersBetting(item, dataItem.totalBetting - dataItem.mineBetting);
     });
+    this.totalTable.setTotalBetting(userBetting);
   };
 
   p.setShowChipButtons = function (data) {
@@ -8065,8 +8218,8 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.setShowVitualBettings = function (newStatus) {
-    var flag = (this.userInfo.isHost && newStatus == 4) || (!this.userInfo.isHost && newStatus == 3);
+  p.setShowVitualBettings = function (status) {
+    var flag = (this.userInfo.isHost && status == 4) || (!this.userInfo.isHost && status == 3);
     this.bettingPositions.forEach(function (item, index) {
       if (flag) {
         item.vitualBetting.show();
@@ -8076,20 +8229,22 @@ this.TWIST = this.TWIST || {};
     });
   };
 
-  p.removeSelectedBetting = function (newStatus) {
+  p.removeSelectedBetting = function (status) {
     this.bettingPositions.forEach(function (item, index) {
       item.setSelected(false);
     });
   };
 
   p.changeStatus = function (data) {
-    this.status = this.statusList[data.newStatus];
+    if (this.status == this.statusList[data.status])
+      return;
+    this.status = this.statusList[data.status];
     var func = this[this.status];
     this.buttons.hide();
     this.setShowChipButtons();
-    this.setShowVitualBettings(data.newStatus);
-    this.removeSelectedBetting(data.newStatus);
-    this.desk.setRemainingTime(-1);
+    this.setShowVitualBettings(data.status);
+    this.removeSelectedBetting(data.status);
+    this.setRemainingTime(data.remainingTime, data.totalTime);
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -8103,38 +8258,32 @@ this.TWIST = this.TWIST || {};
       item.setMineBetting(0);
       item.setTotalBetting(0);
     });
-    this.bowl.set(initOptions.bowlPosition);
-    this.chipResultContainer.removeAllChildren();
-    this.host.setMessage("Chờ ván mới !");
-    if (this.userInfo.isHost) {
-      this.resignationButton.show();
-    }
+    this.totalTable.setTotalBetting(0);
+    this.totalTable.setTotalWin(0);
+    this.closeDisk();
+    this.host.setMessage("");
   };
 
   p.STATUS_SHAKE_DISK = function () {
     this.host.background.show();
     this.emit("xocDia");
-    this.host.setMessage("Xóc, xóc !!!");
+    this.host.setMessage("Nhà cái xóc đĩa !");
   };
 
   p.STATUS_BETTING = function (data) {
-    this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
-    this.host.setMessage("Đặt đi anh ơi");
-    if (!this.userInfo.isHost) {
-      if (!data.disableRebetting) {
-        this.reBettingButton.show();
-      }
+    this.host.setMessage("");
+    if (data.showReBetting) {
+      this.reBettingButton.show();
+    }
+    if (data.showCancelBetting) {
       this.cancelBettingButton.show();
     }
   };
 
   p.STATUS_ARRANGING = function (data) {
     var defaultTime = 3;
-    if (this.host.name)
-      defaultTime = 15;
-    this.setRemainingTime(this.host.name ? defaultTime : (data.remainingTime || defaultTime));
-    this.host.setMessage("Chờ nhà cái thừa thiếu");
+    this.host.setMessage("");
     if (this.userInfo.isHost) {
       this.sellEvenButton.show();
       this.sellOddButton.show();
@@ -8143,11 +8292,10 @@ this.TWIST = this.TWIST || {};
 
   p.END_GAME = function () {
     this.sellPopup.hide();
-    this.host.setMessage("Trả tiền !");
+    this.host.setMessage("Mở bát !");
   };
 
   TWIST.TaiXiu = TaiXiu;
-
 })();
 this.TWIST = this.TWIST || {};
 
@@ -10332,7 +10480,6 @@ this.TWIST = this.TWIST || {};
     this.roomBetting = data.betting;
     this.setBettingChipValue(data.listBettingChip);
     this.addHistoryList(data.historyList);
-    this.setRemainingTime(data.remainingTime, data.totalTime);
     this.drawBettingPositions(data.bettingPositions);
   };
 
@@ -11625,7 +11772,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_BETTING = function (data) {
-    this.setRemainingTime(data.remainingTime || 15);
     this.host.background.hide();
     this.host.setMessage("");
     if (data.showReBetting) {

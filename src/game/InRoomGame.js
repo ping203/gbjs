@@ -108,7 +108,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawRoom = function () {
     var canvas = this.wrapper.find('canvas');
-    canvas.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
+    this.wrapper.css("background", "url(" + TWIST.imagePath + "Desk-bg.png) center no-repeat");
     this.playersContainer = new createjs.Container();
     this.desk = new TWIST.Desk(this.options);
     this.desk.name = "desk";

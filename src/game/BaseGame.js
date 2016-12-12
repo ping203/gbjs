@@ -39,6 +39,7 @@ this.TWIST = this.TWIST || {};
   p.initStage = function () {
     var _self = this;
     var stage = new createjs.Stage(this.canvas[0]);
+    TWIST.Observer._canvasList.push(stage);
     stage.enableMouseOver(20);
     var context = stage.canvas.getContext("2d");
     context.mozImageSmoothingEnabled = true;
@@ -48,6 +49,12 @@ this.TWIST = this.TWIST || {};
     stage.height = this.canvas.height;
     createjs.Ticker.addEventListener("tick", onUpdateStage);
     this.on('destroy', function () {
+      var _stageIndex = TWIST.Observer._canvasList.findIndex(function(item,index){
+        return item == stage;
+      });
+      if(_stageIndex > -1 ){
+        TWIST.Observer._canvasList.splice( _stageIndex, 1 );
+      }
       createjs.Ticker.removeEventListener("tick", onUpdateStage);
       _self.removeAllListeners();
       _self.timeOutList.forEach(function (item, index) {
