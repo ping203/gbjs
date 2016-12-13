@@ -277,7 +277,7 @@ this.TWIST = this.TWIST || {};
     
 
     this.buttonClose.on('click', function (event) {
-      _self.emit('showClose');
+      _self.emit('closePopup');
     });
 
     this.buttonHelp.on('click', function (event) {

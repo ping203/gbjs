@@ -1049,6 +1049,22 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'tinyMiniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
+'tinyMiniPoker/buttonClose':'<div class="button-close"></div>',
+'tinyMiniPoker/buttonHelp':'<div class="button-help"></div>',
+'tinyMiniPoker/buttonHistory':'<div class="button-history"></div>',
+'tinyMiniPoker/buttonSpin':'<div class="button-spin"></div>',
+'tinyMiniPoker/canvasWrapper':'<div class="tinyMiniPokerCanvasSVG">\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerCanvasSVG">\r\n        <path d="M138.891,4.438H617.9A153.257,153.257,0,0,1,771.156,157.7V262.952a9.579,9.579,0,0,1-9.579,9.579H138.891A134.047,134.047,0,0,1,4.844,138.484v0A134.047,134.047,0,0,1,138.891,4.438Z"/>\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n\r\n</div> \r\n',
+'tinyMiniPoker/chips':'<div class="chip-group">\r\n    <div class="chip">1K</div>\r\n    <div class="chip">10k</div>\r\n    <div class="chip">100k</div>\r\n\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerChip1">\r\n        <path d="M92.082,135.187A124.371,124.371,0,0,1,111,101.092c12.027-15.371,13.184-36.546,2.291-52.735L82.239,2.21a212.043,212.043,0,0,0-79.72,99.054Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip2">\r\n        <path d="M98.6,75.669h0a123.988,123.988,0,0,1,6.228-38.849L15.155,2.856a210.943,210.943,0,0,0-2.21,139.306L102.9,108.091A124.187,124.187,0,0,1,98.6,75.669Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip3">\r\n        <path d="M91.954,2.8L2.173,36.8A211.869,211.869,0,0,0,80.741,139.733l31.685-45.111c11.184-15.924,11.2-37.348-.562-52.851A124.156,124.156,0,0,1,91.954,2.8Z" />\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n</div>',
+'tinyMiniPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
+'tinyMiniPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
+'tinyMiniPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
+'tinyMiniPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'tinyMiniPoker/resultText':'<div class="result-text"></div>',
+'tinyMiniPoker/sessionId':'<div class="session-id"></div>',
+'tinyMiniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
+'tinyMiniPoker/winMoney':'<div class="win-money"></div>',
+'tinyMiniPoker/wrapper':'<div class="tiny-mini-poker-bg"></div> \r\n',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1067,22 +1083,6 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
-'tinyMiniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
-'tinyMiniPoker/buttonClose':'<div class="button-close"></div>',
-'tinyMiniPoker/buttonHelp':'<div class="button-help"></div>',
-'tinyMiniPoker/buttonHistory':'<div class="button-history"></div>',
-'tinyMiniPoker/buttonSpin':'<div class="button-spin"></div>',
-'tinyMiniPoker/canvasWrapper':'<div class="tinyMiniPokerCanvasSVG">\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerCanvasSVG">\r\n        <path d="M138.891,4.438H617.9A153.257,153.257,0,0,1,771.156,157.7V262.952a9.579,9.579,0,0,1-9.579,9.579H138.891A134.047,134.047,0,0,1,4.844,138.484v0A134.047,134.047,0,0,1,138.891,4.438Z"/>\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n\r\n</div> \r\n',
-'tinyMiniPoker/chips':'<div class="chip-group">\r\n    <div class="chip">1K</div>\r\n    <div class="chip">10k</div>\r\n    <div class="chip">100k</div>\r\n\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerChip1">\r\n        <path d="M92.082,135.187A124.371,124.371,0,0,1,111,101.092c12.027-15.371,13.184-36.546,2.291-52.735L82.239,2.21a212.043,212.043,0,0,0-79.72,99.054Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip2">\r\n        <path d="M98.6,75.669h0a123.988,123.988,0,0,1,6.228-38.849L15.155,2.856a210.943,210.943,0,0,0-2.21,139.306L102.9,108.091A124.187,124.187,0,0,1,98.6,75.669Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip3">\r\n        <path d="M91.954,2.8L2.173,36.8A211.869,211.869,0,0,0,80.741,139.733l31.685-45.111c11.184-15.924,11.2-37.348-.562-52.851A124.156,124.156,0,0,1,91.954,2.8Z" />\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n</div>',
-'tinyMiniPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
-'tinyMiniPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
-'tinyMiniPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
-'tinyMiniPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
-'tinyMiniPoker/resultText':'<div class="result-text"></div>',
-'tinyMiniPoker/sessionId':'<div class="session-id"></div>',
-'tinyMiniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
-'tinyMiniPoker/winMoney':'<div class="win-money"></div>',
-'tinyMiniPoker/wrapper':'<div class="tiny-mini-poker-bg"></div> \r\n',
 'videoPoker/button':'<div class="button-spin"></div>',
 'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
@@ -9331,7 +9331,7 @@ this.TWIST = this.TWIST || {};
     
 
     this.buttonClose.on('click', function (event) {
-      _self.emit('showClose');
+      _self.emit('closePopup');
     });
 
     this.buttonHelp.on('click', function (event) {
