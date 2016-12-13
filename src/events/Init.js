@@ -5,6 +5,6 @@ this.TWIST = this.TWIST || {};
 
     TWIST.Observer = new EventEmitter();
     TWIST.Observer._canvasList = [];
-    TWIST.imagePath = '../src/themes/gb-web/images/';
+    TWIST.imagePath = '../src/themes/jarvanIV/images/';
     
 })();

@@ -548,7 +548,7 @@ this.TWIST = this.TWIST || {};
 
     TWIST.Observer = new EventEmitter();
     TWIST.Observer._canvasList = [];
-    TWIST.imagePath = '../src/themes/gb-web/images/';
+    TWIST.imagePath = '../src/themes/jarvanIV/images/';
     
 })();
 /**
@@ -1034,9 +1034,6 @@ this.FATE = this.FATE || {};
 'hightLow/wrapper':'<div class="hight-low"></div>\r\n',
 'inviteList/inviteItem':'<div class="invite-item">\r\n    <div class="invite-item-inner"></div>\r\n</div>\r\n',
 'inviteList/wrapper':'<div class="invite-wrapper">\r\n    \r\n</div>\r\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'miniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
@@ -1049,6 +1046,9 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\r\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1067,10 +1067,35 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
+'tinyMiniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
+'tinyMiniPoker/buttonClose':'<div class="button-close"></div>',
+'tinyMiniPoker/buttonHelp':'<div class="button-help"></div>',
+'tinyMiniPoker/buttonHistory':'<div class="button-history"></div>',
+'tinyMiniPoker/buttonSpin':'<div class="button-spin"></div>',
+'tinyMiniPoker/canvasWrapper':'<div class="tinyMiniPokerCanvasSVG">\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerCanvasSVG">\r\n        <path d="M138.891,4.438H617.9A153.257,153.257,0,0,1,771.156,157.7V262.952a9.579,9.579,0,0,1-9.579,9.579H138.891A134.047,134.047,0,0,1,4.844,138.484v0A134.047,134.047,0,0,1,138.891,4.438Z"/>\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n\r\n</div> \r\n',
+'tinyMiniPoker/chips':'<div class="chip-group">\r\n    <div class="chip">1K</div>\r\n    <div class="chip">10k</div>\r\n    <div class="chip">100k</div>\r\n\r\n    <svg height="0" width="0">\r\n    <defs>\r\n    <clipPath id="tinyMiniPokerChip1">\r\n        <path d="M92.082,135.187A124.371,124.371,0,0,1,111,101.092c12.027-15.371,13.184-36.546,2.291-52.735L82.239,2.21a212.043,212.043,0,0,0-79.72,99.054Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip2">\r\n        <path d="M98.6,75.669h0a123.988,123.988,0,0,1,6.228-38.849L15.155,2.856a210.943,210.943,0,0,0-2.21,139.306L102.9,108.091A124.187,124.187,0,0,1,98.6,75.669Z"/>\r\n    </clipPath>\r\n    <clipPath id="tinyMiniPokerChip3">\r\n        <path d="M91.954,2.8L2.173,36.8A211.869,211.869,0,0,0,80.741,139.733l31.685-45.111c11.184-15.924,11.2-37.348-.562-52.851A124.156,124.156,0,0,1,91.954,2.8Z" />\r\n    </clipPath>\r\n    </defs>\r\n    </svg>\r\n</div>',
+'tinyMiniPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
+'tinyMiniPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
+'tinyMiniPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
+'tinyMiniPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'tinyMiniPoker/resultText':'<div class="result-text"></div>',
+'tinyMiniPoker/sessionId':'<div class="session-id"></div>',
+'tinyMiniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
+'tinyMiniPoker/winMoney':'<div class="win-money"></div>',
+'tinyMiniPoker/wrapper':'<div class="tiny-mini-poker-bg"></div> \r\n',
+'videoPoker/button':'<div class="button-spin"></div>',
+'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
 'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
 'videoPoker/getWinButton':'<div class="get-win-button">\r\n    Nh\u1EADn th\u01B0\u1EDFng\r\n</div>',
 'videoPoker/moveChip':'<div class="move-chip">\r\n    <i class="chip1"></i>\r\n    <i class="chip2"></i>\r\n    <i class="chip3"></i>\r\n    <i class="chip4"></i>\r\n    <i class="chip5"></i>\r\n    <i class="chip6"></i>\r\n    <i class="chip7"></i>\r\n    <i class="chip8"></i>\r\n</div>',
+'videoPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
+'videoPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
+'videoPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'videoPoker/resultText':'<div class="result-text"></div>',
+'videoPoker/sessionId':'<div class="session-id"></div>',
 'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'videoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
 'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\r\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
@@ -1114,7 +1139,7 @@ this.TWIST = this.TWIST || {};
   Card.threeCards.scale = Card.threeCards.width / Card.size.width;
   Card.threeCardsBanker = {width: 63, height: 86.1, seperator: 64, scale: 0.7};
   Card.threeCardsBanker.scale = Card.threeCardsBanker.width / Card.size.width;
-  Card.miniPoker = {width: 130, height: 180};
+  Card.miniPoker = {width: 115, height: 153};
   Card.miniPoker.scale = Card.miniPoker.width / Card.size.width;
   Card.shadow = new createjs.Shadow('#0ff', 0, 0, 10);
   Card.Suite = {
@@ -9030,6 +9055,903 @@ this.TWIST = this.TWIST || {};
 this.TWIST = this.TWIST || {};
 
 (function () {
+  "use strict";
+
+  var gameSize, columnSize, itemSize, distance, columns, speed, effectArray,
+          statusList, endingPhase, numberCard, time, stepValue, spinAreaConf, colorList,
+          lineList9, lineList20, isLine9, line9Left, line9Right, line20Left, line20Right,
+          line9Coordinate, activeLines, bets, effectQueue, moneyFallingEffectTime, currentEffectTurn, numberEffectCompleted,
+          timeOutList, fistLog, cardRankList, repeatEffectQueue;
+
+  var initOptions = {
+    resultTab: [{
+        name: "Sảnh rồng(Nỗ hũ)",
+        value: -1,
+        code: '1'
+      }, {
+        name: "Thùng phá sảnh",
+        value: 1000,
+        code: '2'
+      }, {
+        name: "Tứ quý",
+        value: 150,
+        code: '3'
+      }, {
+        name: "Cù lũ",
+        value: 50,
+        code: '4'
+      }, {
+        name: "Thùng",
+        value: 20,
+        code: '5'
+      }, {
+        name: "Sảnh",
+        value: 13,
+        code: '6'
+      }, {
+        name: "Ba lá",
+        value: 8,
+        code: '7'
+      }, {
+        name: "Hai đôi",
+        value: 5,
+        code: '8'
+      }, {
+        name: "Đôi J hoặc cao hơn",
+        value: 2.5,
+        code: '9'
+      }, {
+        name: "Không ăn !",
+        value: 0,
+        code: '10'
+      }]
+    ,
+    cardSize : {
+      width : 115,
+      height : 153
+    }
+  };
+
+  function TinyMiniPoker(wrapper, options) {
+    this.wrapper = $(wrapper);
+    this.options = $.extend(initOptions, options);
+    this.initTinyMiniPoker();
+  }
+
+  var p = TinyMiniPoker.prototype = new TWIST.BaseGame();
+
+  p.initTinyMiniPoker = function () {
+    this.initVariable();
+    $.extend(this.options, gameSize);
+    this.info = {
+      betting: 1000,
+      potData: {
+        1000: 0,
+        10000: 0,
+        100000: 0
+      }
+    };
+    TWIST.Card.RankMapIndex = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+    this.userInfo = {};
+    this.initCanvas();
+    this.initEvent();
+    this.initTemplate();
+    this.initButton();
+    this.draw();
+    this.pushEventListener();
+    this.status = 'pause';
+  };
+
+  p.initVariable = function () {
+
+
+    statusList = ["pause", "running", "ending", "effecting"];
+
+    cardRankList = [
+      {value: 0, name: "2"}
+      , {value: 1, name: "3"}
+      , {value: 2, name: "4"}
+      , {value: 3, name: "5"}
+      , {value: 4, name: "6"}
+      , {value: 5, name: "7"}
+      , {value: 6, name: "8"}
+      , {value: 7, name: "9"}
+      , {value: 8, name: "10"}
+      , {value: 9, name: "J"}
+      , {value: 10, name: "Q"}
+      , {value: 11, name: "K"}
+      , {value: 12, name: "A"}
+    ];
+
+    endingPhase = -1;
+
+    stepValue = 1;
+
+    itemSize = {width: 130, height: 270, padding: 10};
+
+    gameSize = {width: itemSize.width * 5, height: itemSize.height, x: 5, y: 1};
+
+    distance = itemSize.height;
+
+    columns = [];
+
+    speed = 2.5;//default 2
+
+    numberCard = 52;
+
+    spinAreaConf = {x: 166, y: 233};
+
+    effectQueue = [];
+
+    bets = [1000, 10000, 100000];
+
+    moneyFallingEffectTime = 2000;
+
+    currentEffectTurn = 0;
+
+    numberEffectCompleted = 0;
+
+    timeOutList = [];
+
+    repeatEffectQueue = false;
+  };
+
+  p.draw = function () {
+    var _self = this;
+    this.mapData = TWIST.MiniPokerLogic.generateMap();
+    var spinArea = new createjs.Container();
+    this.spinArea = spinArea;
+
+    for (var i = 0; i < gameSize.x; i++) {
+      columns[i] = new createjs.Container();
+      columns[i].set({x: i * itemSize.width, y: 0});
+      var columnItems = new createjs.Container();
+      columns[i].addChild(columnItems);
+
+      var value = this.mapData[i];
+      var item = this.createSlotItem(this.mapData[i], 0);
+      columnItems.addChild(item);
+
+      spinArea.addChild(columns[i]);
+    }
+
+    this.stage.addChild(spinArea);
+  };
+
+  p.initTemplate = function () {
+    var _self = this;
+    this.wrapperTemplate = $(TWIST.HTMLTemplate['tinyMiniPoker/wrapper']);
+    this.wrapper.append(this.wrapperTemplate);
+
+    this.canvasWrapper = $(TWIST.HTMLTemplate['tinyMiniPoker/canvasWrapper']);
+    this.wrapperTemplate.append(this.canvasWrapper);
+
+    this.canvasWrapper.append(this.canvas);
+    this.initStage();
+
+    this.resultText = $(TWIST.HTMLTemplate['tinyMiniPoker/resultText']);
+    this.wrapperTemplate.append(this.resultText);
+
+    this.wrapperTemplate.append($(TWIST.HTMLTemplate['tinyMiniPoker/pot']));
+    this.pot = this.wrapperTemplate.find('.pot-value');
+
+    this.buttonSpin = $(TWIST.HTMLTemplate['tinyMiniPoker/buttonSpin']);
+    this.wrapperTemplate.append(this.buttonSpin);
+
+    this.buttonClose = $(TWIST.HTMLTemplate['tinyMiniPoker/buttonClose']);
+    this.wrapperTemplate.append(this.buttonClose);
+
+    this.buttonHelp = $(TWIST.HTMLTemplate['tinyMiniPoker/buttonHelp']);
+    this.wrapperTemplate.append(this.buttonHelp);
+
+    this.buttonHistory = $(TWIST.HTMLTemplate['tinyMiniPoker/buttonHistory']);
+    this.wrapperTemplate.append(this.buttonHistory);
+
+    var autoSpin = $(TWIST.HTMLTemplate['tinyMiniPoker/autospin']);
+    this.wrapperTemplate.append(autoSpin);
+    this.autoSpin = autoSpin.find('input[type="checkbox"]');
+
+    this.chipWrapper = $(TWIST.HTMLTemplate['tinyMiniPoker/chips']);
+    this.wrapperTemplate.append(this.chipWrapper);
+
+    this.chipButtons = [{
+        value: 1000,
+        template: this.chipWrapper.find('.chip:first-child')
+      }, {
+        value: 10000,
+        template: this.chipWrapper.find('.chip:nth-child(2)')
+      }, {
+        value: 100000,
+        template: this.chipWrapper.find('.chip:nth-child(3)')
+      }];
+
+    this.errorPanel = $(TWIST.HTMLTemplate['tinyMiniPoker/errorPanel']);
+    this.wrapperTemplate.append(this.errorPanel);
+    this.errorPanel.hide();
+
+    this.resultTab = $(TWIST.HTMLTemplate['tinyMiniPoker/resultTab']);
+    this.wrapperTemplate.append(this.resultTab);
+
+    this.resultItemList = [];
+    this.resultItem = _.template(TWIST.HTMLTemplate['tinyMiniPoker/resultItem']);
+    this.options.resultTab.forEach(function (item, index) {
+      if (item.code === '10')
+        return;
+      var resultItem = {
+        code: item.code,
+        template: $(_self.resultItem({
+          name: item.name,
+          value: (item.value <= 0) ? "" : "X" + item.value
+        }))
+      };
+      _self.resultTab.append(resultItem.template);
+      _self.resultItemList.push(resultItem);
+    });
+
+    this.user = $(TWIST.HTMLTemplate['tinyMiniPoker/user']);
+    this.wrapperTemplate.append(this.user);
+
+    this.sessionId = $(TWIST.HTMLTemplate['tinyMiniPoker/sessionId']);
+    this.wrapperTemplate.append(this.sessionId);
+
+    this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
+    this.wrapperTemplate.append(this.effectWrapper);
+    this.explodePot = $(TWIST.HTMLTemplate['effect/explodePot']);
+    this.effectWrapper.append(this.explodePot);
+
+    this.money = this.user.find('.money');
+
+    this.setBetting(this.chipButtons[0]);
+  };
+
+  p.initButton = function () {
+    var _self = this;
+
+    this.chipButtons.forEach(function (item, index) {
+      item.template.on('click', function (event) {
+        if (_self.status !== 'pause' && _self.status !== 'effecting')
+          return;
+        TWIST.Sound.play("minigame/Common_Click");
+        _self.setBetting(item);
+      });
+    });
+
+    this.autoSpin.on('change', function (event) {
+      _self.isAutoSpin = event.target.checked;
+      if (_self.status == 'pause' || _self.status == 'effecting') {
+        _self.checkStart();
+      }
+    });
+
+    this.buttonSpin.on('click', function (event) {
+      if (_self.buttonSpin.hasClass('disabled'))
+        return;
+      _self.checkStart();
+    });
+    
+
+    this.buttonClose.on('click', function (event) {
+      _self.emit('showClose');
+    });
+
+    this.buttonHelp.on('click', function (event) {
+      _self.emit('showHelp');
+    }); 
+
+    this.buttonHistory.on('click', function (event) {
+      _self.emit('showHistory');
+    }); 
+ };
+
+  p.setBetting = function (item) {
+    this.chipWrapper.find('.chip').removeClass('active');
+    item.template.addClass("active");
+    this.info.betting = item.value;
+    this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
+  };
+
+  p.pushEventListener = function () {
+    var _self = this;
+
+    this.on("endSpin", function (data) {
+      _self.endSpin(data);
+    });
+
+    this.on("userInfo", function () {
+      _self.renderUserInfo(arguments[0]);
+    });
+
+    this.on("spin", function () {
+      _self.startSpin();
+    });
+
+    this.on("spinCompleted", function () {
+      _self.effecting();
+    });
+
+    this.on("endEffect", function () {
+//            _self.endEffect();
+    });
+
+    this.on("updateMoney", function (data) {
+      _self.updateMoney(data);
+    });
+
+    this.on("updatePots", function (data) {
+      _self.bindPots(data);
+    });
+
+    this.on("error", function (message) {
+      _self.showError(message);
+    });
+  };
+
+  p.showError = function (message) {
+    var errorItem = $('<div class="error-item-mini">' + message + '</div>');
+    var _self = this;
+    this.errorPanel.empty();
+    this.errorPanel.show();
+    this.errorPanel.append(errorItem);
+    var _self = this;
+    errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      $(errorItem).remove();
+      _self.errorPanel.hide();
+    });
+  };
+
+  p.checkStart = function () {
+    var _self = this;
+    if (_self.status !== 'pause' && _self.status !== 'effecting')
+      return;
+    var _self = this;
+    var flag = false;
+    if (this.userInfo.money < this.info.betting) {
+      this.emit("error", "Bạn không đủ tiền !");
+    } else {
+      if (_self.status !== "pause")
+        _self.changeStatus("pause");
+      this.startSound = TWIST.Sound.play("minigame/bonus_spin");
+      _self.emit("spin", this.info.betting);
+      _self.changeNumberEffect(_self.money, _self.userInfo.money - _self.info.betting, {duration: 200}).runEffect();
+    }
+  };
+
+  p.renderUserInfo = function (data) {
+    $.extend(this.userInfo, data);
+    var avatarContainer = this.user.find('.avatar');
+    var usernameContainer = this.user.find('.username');
+    var moneyContainer = this.user.find('.money');
+    var avatar = Global.md5Avatar(data.avatar);
+    avatarContainer.addClass('avatar' + avatar);
+    usernameContainer.text(data.username);
+    var money = Global.numberWithDot(data.money);
+    moneyContainer.text(money);
+  };
+
+  p.bindPots = function (data) {
+    $.extend(this.info.potData, data.pots)
+    this.changeNumberEffect(this.pot, this.info.potData[this.info.betting], {duration: 200}).runEffect();
+  };
+
+  p.changeStatus = function (status) {
+    var _self = this;
+    this.status = status;
+    this.timeOutList.forEach(function (item) {
+      clearTimeout(item);
+    });
+    this.timeOutList = [];
+    if (status == 'pause') {
+      this.result = {};
+      if (currentEffectTurn >= effectQueue.length)
+        currentEffectTurn = 0;
+      var effectArray = effectQueue[currentEffectTurn];
+      if (effectArray && effectArray.length) {
+        for (var i = 0; i < effectArray.length; i++) {
+          if (!effectArray[i].isDone)
+            effectArray[i].endEffect();
+        }
+      }
+      effectQueue = [];
+      currentEffectTurn = 0;
+      if (this.isAutoSpin) {
+        var newSpinTimeOut = setTimeout(function () {
+          _self.status = "pause";
+          _self.checkStart();
+        }, 500);
+        this.timeOutList.push(newSpinTimeOut);
+      }
+    }
+
+    if (status == "running") {
+      this.resultSound && this.resultSound.stop();
+      this.buttonSpin.addClass('disabled');
+      this.autoSpin.find('input').attr('disabled', true);
+      this.resultText.text("");
+    }
+
+    if (status == "effecting") {
+      this.startSound && this.startSound.stop();
+      if (this.isAutoSpin) {
+        this.buttonSpin.addClass('disabled');
+      } else {
+        this.buttonSpin.removeClass('disabled');
+      }
+      this.autoSpin.find('input').attr('disabled', false);
+    }
+  };
+
+  p.startSpin = function () {
+    endingPhase = -1;
+    var _self = this;
+    var firstColumn = columns[0].getChildAt(0);
+    this.changeStatus("running");
+    createjs.Tween.get(firstColumn)
+            .to({y: -50}, 150)
+            .call(function () {})
+            .to({y: 0}, 150)
+            .call(function () {
+              _self.spinAllColumns();
+            });
+
+  };
+
+  p.spinAllColumns = function () {
+    var _self = this;
+    for (var i = 0; i < gameSize.x; i++) {
+      _self.spinColumn(i);
+    }
+  };
+
+  p.spinColumn = function (columnIndex) {
+    var currentSpeed = this.options.speed || speed;
+    var isNewEndingPhase = false;
+    var beforeLastRow = false;
+    if (endingPhase > -1 && (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y))) {
+      if (endingPhase % 1 == 0) {
+        isNewEndingPhase = true;
+        beforeLastRow = (endingPhase % gameSize.y) == (gameSize.y);
+      }
+    }
+    var _self = this;
+    var newItem;
+    var itemsContainer = columns[columnIndex].getChildAt(0);
+    if (isNewEndingPhase) {
+      newItem = this.createSlotItem(this.mapData[columnIndex], -1);
+    } else {
+      newItem = this.createSlotItem(Math.floor(Math.random() * 4) + 52, -1);
+    }
+    itemsContainer.addChild(newItem);
+    var easeType = beforeLastRow ? createjs.Ease.getBackOut(5) : createjs.Ease.linear;
+    var timeAnimation = beforeLastRow ? 2 * distance / currentSpeed : distance / currentSpeed;
+    createjs.Tween.get(itemsContainer)
+            .to({y: distance}, timeAnimation, easeType)
+            .call(function () {
+              var columnIndex = this.parent.parent.getChildIndex(this.parent);
+              this.set({y: 0});
+              var slotItems = this.children;
+              slotItems.forEach(function (item, index) {
+                item.state++;
+                item.goNextStep();
+              });
+              this.removeChild(slotItems.find(function (item) {
+                return item.state == gameSize.y
+              }));
+
+              if (endingPhase > -1) {
+
+                var newValue = Math.floor(Math.floor((endingPhase + 0.9) / gameSize.y));
+                if (columnIndex == Math.floor(((endingPhase * 10 + 0.9 * 10) / 10) / gameSize.y)) {
+                  var isLastRow = (endingPhase % gameSize.y) == (gameSize.y - 1);
+                  if (isLastRow) {
+                    stepValue = 1 / 5;
+                  } else if ((endingPhase % gameSize.y) == 0) {
+                    stepValue = 1;
+                  }
+                  endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                  if (!isLastRow) {
+                    _self.spinColumn(columnIndex);
+                  } else {
+                    endingPhase = (endingPhase * 10 + stepValue * 10) / 10;
+                  }
+                } else {
+                  _self.spinColumn(columnIndex);
+                }
+                if (endingPhase > (gameSize.x * gameSize.y) - 1) {
+                  _self.emit("spinCompleted");
+                }
+              } else {
+                _self.spinColumn(columnIndex);
+              }
+
+            });
+  };
+
+  p.endSpin = function (data) {
+    if (this.status !== 'running')
+      return;
+    this.changeStatus("ending");
+    this.result = this.result || {};
+    $.extend(this.result, data);
+    this.mapData = data.map;
+    this.showSessionId(data.sessionId);
+    endingPhase = -0.8;
+    stepValue = 0.2;
+  };
+
+  p.updateMoney = function (data) {
+    this.result = this.result || {};
+    $.extend(this.result, data);
+    this.userInfo.money = data.newMoney;
+  };
+
+  p.effecting = function () {
+    var _self = this;
+    this.changeStatus("effecting");
+    var result = this.result;
+    effectQueue = [];
+
+    var effectArray = [];
+
+
+    var hightLightWinCards = this.hightLightWinCards(result.hightLightCards);
+    effectArray.push(hightLightWinCards);
+    this.showResultText(result.cardListRank, result.rankOfVerticalGroup);
+
+    if (result.cardListRank == 1) {
+      var explodePotEffect = this.explodePotEffect();
+      effectArray.push(explodePotEffect);
+    }
+
+    if (parseInt(result.winMoney) > 0) {
+      var changeWinMoneyEffect = this.winMoneyEffect(result.winMoney);
+      var changeTotalMoneyEffect = this.changeNumberEffect(this.money, result.newMoney, {duration: moneyFallingEffectTime});
+      var hightlightWinRank = this.hightlightWinRank(result.cardListRank);
+      effectArray.push(changeWinMoneyEffect, changeTotalMoneyEffect, hightlightWinRank);
+      this.resultSound = TWIST.Sound.play("minigame/NormalWin");
+    } else {
+      this.resultSound = TWIST.Sound.play("minigame/slot_result");
+    }
+    effectArray.oneTime = true;
+    effectArray.forEach(function (item, index) {
+      item.isTracking = true;
+    });
+    effectQueue.push(effectArray);
+    if (this.isAutoSpin) {
+      var timeOut = setTimeout(function () {
+        _self.checkStart();
+      }, 2000);
+
+      this.timeOutList.push(timeOut);
+    }
+
+    this.runNextEffect();
+  };
+
+  p.runNextEffect = function () {
+    var effectArray = effectQueue[currentEffectTurn];
+    if (!effectArray || !effectArray.length)
+      return;
+    function _runEffect() {
+      numberEffectCompleted = 0;
+      for (var i = 0; i < effectArray.length; i++) {
+        effectArray[i].runEffect();
+      }
+    }
+    if (effectArray.oneTime) {
+      if (effectArray.done) {
+        currentEffectTurn++;
+        if (currentEffectTurn == effectQueue.length) {
+          if (repeatEffectQueue) {
+            currentEffectTurn = 0;
+          } else {
+//                    this.status = "pause";
+            this.changeStatus("pause");
+          }
+        }
+        if (this.status === "effecting") {
+//                    this.runNextEffect();
+        }
+      } else {
+        _runEffect();
+      }
+    } else {
+      var timeOut = setTimeout(_runEffect, 300);
+      this.timeOutList.push(timeOut);
+    }
+  };
+
+  p.endEffect = function () {
+    var _self = this;
+    numberEffectCompleted++;
+    if (numberEffectCompleted == (effectQueue[currentEffectTurn] && effectQueue[currentEffectTurn].length)) {
+      if (effectQueue[currentEffectTurn].oneTime)
+        effectQueue[currentEffectTurn].done = true;
+      currentEffectTurn++;
+      if (currentEffectTurn == effectQueue.length) {
+        if (repeatEffectQueue) {
+          currentEffectTurn = 0;
+        } else {
+//                    this.status = "pause";
+
+          if (this.isAutoSpin) {
+            var newSpinTimeOut = setTimeout(function () {
+              _self.status = "pause";
+              _self.checkStart();
+            }, 500);
+            this.timeOutList.push(newSpinTimeOut);
+          } else {
+            _self.status = "pause";
+          }
+        }
+      }
+      if (this.status === "effecting") {
+//                this.runNextEffect();
+      }
+    }
+  };
+
+  p.createSlotItem = function (value, state) {
+    var _self = this;
+    var slotItem = new createjs.Container();
+
+    var bg = new TWIST.Card(value);
+    if (value > 51) {
+      value -= 52;
+      bg.bg.sourceRect = {
+        width: TWIST.Card.size.width,
+        height: 152,
+        x: TWIST.Card.size.width * (9 + value),
+        y: TWIST.Card.size.height * 4
+      };
+    }
+
+    bg.set({
+      scaleX: TWIST.Card.miniPoker.scale,
+      scaleY: TWIST.Card.miniPoker.scale,
+      x: (itemSize.width - TWIST.Card.miniPoker.width) / 2,
+      y: (itemSize.height - TWIST.Card.miniPoker.scale * TWIST.Card.size.height) / 2
+    });
+    slotItem.addChild(bg);
+    slotItem.set({
+      x: 0,
+      y: itemSize.height * state,
+      state: state
+    });
+
+    slotItem.goNextStep = function () {
+      var newY = itemSize.height * this.state;
+      this.set({y: newY});
+    };
+    return slotItem;
+  };
+
+  p.changeNumberEffect = function (el, newValue, options) {
+
+    var jElement = $(el);
+    var _self = this;
+
+    jElement.newValue = newValue;
+    jElement.options = options;
+
+    jElement.runEffect = function () {
+      jElement.finish();
+      jElement.isDone = true;
+      var oldValue = this.text();
+      var newOptions = {
+        duration: 1000,
+        step: function (now) {
+          jElement.text(Global.numberWithDot(Math.ceil(now)));
+        },
+        done: function () {
+          jElement.endEffect();
+        }
+      };
+      $.extend(newOptions, jElement.options);
+      oldValue = parseInt(oldValue.replace(/\,/g, ""));
+      if (isNaN(oldValue))
+        oldValue = 0;
+      this.prop('Counter', oldValue).animate({
+        Counter: jElement.newValue
+      }, newOptions);
+    };
+
+    jElement.endEffect = function () {
+      jElement.finish();
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.explodePotEffect = function () {
+    var _self = this;
+    var jElement = $('#effect .explorer-pot');
+    var firstTime = new Date();
+    jElement.runEffect = function () {
+      this.show();
+    };
+    jElement.click(function () {
+      jElement.isDone = false;
+      jElement.endEffect();
+    });
+    jElement.endEffect = function () {
+      this.hide();
+      this.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.winMoneyEffect = function (value) {
+    var _self = this;
+
+    var jElement = $(TWIST.HTMLTemplate['tinyMiniPoker/winMoney']);
+    jElement.text(Global.numberWithDot(value));
+
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.endEffect();
+    });
+
+    jElement.runEffect = function () {
+      jElement.isDone = false;
+      if (value > 0) {
+        _self.user.append(jElement);
+      }
+    };
+
+    jElement.endEffect = function () {
+      jElement.remove();
+      jElement.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.hightlightWinRank = function (code) {
+    var _self = this;
+
+    var rankItem = this.resultItemList.find(function (item, index) {
+      return item.code == code;
+    });
+
+    var jElement = rankItem ? rankItem.template : $('<div></div>');
+
+    jElement.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      jElement.endEffect();
+    });
+
+    jElement.runEffect = function () {
+      jElement.isDone = false;
+      jElement.addClass('active');
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    jElement.endEffect = function () {
+      jElement.removeClass('active');
+      jElement.isDone = true;
+    };
+
+    return jElement;
+  };
+
+  p.hightLightWinCards = function (cardList) {
+    var _self = this;
+
+    var cardListTemlate = [];
+
+    for (var i = 0; i < gameSize.x; i++) {
+      var card = columns[i].children[0].children[0].children[0];
+      card.active = cardList[i];
+      card.border.sourceRect.x = TWIST.Card.size.width * 4;
+      cardListTemlate.push(card);
+    }
+
+    cardListTemlate.runEffect = function () {
+      cardListTemlate.isDone = true;
+      cardListTemlate.forEach(function (item, index) {
+        if (parseInt(item.active)) {
+          item.hightLight();
+        } else {
+          item.Overlay();
+        }
+      });
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    cardListTemlate.endEffect = function () {
+      cardListTemlate.isDone = true;
+    };
+
+    return cardListTemlate;
+  };
+
+  p.showResultText = function (cardListRank, rankOfVerticalGroup) {
+    var _self = this;
+
+    var resultItem = this.options.resultTab.find(function (item, index) {
+      return item.code == cardListRank;
+    });
+    var rankItem = cardRankList.find(function (item, index) {
+      return item.value == rankOfVerticalGroup;
+    });
+    var resultText = resultItem.name;
+    if ((resultItem.code == 3 || resultItem.code == 7 || resultItem.code == 9) && rankItem) {
+      resultText = resultText + " " + rankItem.name;
+      if (resultItem.code == 9) {
+        resultText = "Đôi " + rankItem.name;
+      }
+    }
+    this.resultText.text(resultText);
+
+    var showResultText = {};
+
+    showResultText.runEffect = function () {
+      showResultText.isDone = false;
+      _self.resultText.text(resultText);
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    showResultText.endEffect = function () {
+      _self.resultText.text("");
+      showResultText.isDone = true;
+    };
+
+    return showResultText;
+  };
+
+  p.explodePotEffect = function () {
+    var _self = this;
+    var jElement = this.explodePot;
+    var firstTime = new Date();
+    jElement.runEffect = function () {
+      this.isDone = false;
+      this.show();
+    };
+    jElement.click(function () {
+      jElement.endEffect();
+    });
+    jElement.endEffect = function () {
+      this.hide();
+      this.isDone = true;
+      if (this.isTracking) {
+        this.isTracking = false;
+        _self.emit("endEffect");
+      }
+    };
+
+    return jElement;
+  };
+
+  p.showSessionId = function (sessionId) {
+    this.sessionId.text(sessionId);
+  };
+
+  TWIST.TinyMiniPoker = TinyMiniPoker;
+
+})();
+this.TWIST = this.TWIST || {};
+
+(function () {
     "use strict";
 
     var initOptions = {
@@ -9253,13 +10175,13 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(this.canvas);
     this.initStage();
 
-    this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
+    this.resultText = $(TWIST.HTMLTemplate['videoPoker/resultText']);
     this.wrapperTemplate.append(this.resultText);
 
-    this.wrapperTemplate.append($(TWIST.HTMLTemplate['miniPoker/pot']));
+    this.wrapperTemplate.append($(TWIST.HTMLTemplate['videoPoker/pot']));
     this.pot = this.wrapperTemplate.find('.pot-value');
 
-    this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
+    this.buttonSpin = $(TWIST.HTMLTemplate['videoPoker/button']);
     this.wrapperTemplate.append(this.buttonSpin);
 
     this.doubleButton = $(TWIST.HTMLTemplate['videoPoker/doubleButton']);
@@ -9271,7 +10193,7 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(this.getWinButton);
     this.getWinButton._disabled = true;
 
-    this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+    this.chipWrapper = $(TWIST.HTMLTemplate['videoPoker/chips']);
     this.wrapperTemplate.append(this.chipWrapper);
 
     this.chipButtons = [{
@@ -9285,11 +10207,11 @@ this.TWIST = this.TWIST || {};
         template: this.chipWrapper.find('.chip.blue')
       }];
 
-    this.errorPanel = $(TWIST.HTMLTemplate['miniPoker/errorPanel']);
+    this.errorPanel = $(TWIST.HTMLTemplate['videoPoker/errorPanel']);
     this.wrapperTemplate.append(this.errorPanel);
     this.errorPanel.hide();
 
-    this.resultTab = $(TWIST.HTMLTemplate['miniPoker/resultTab']);
+    this.resultTab = $(TWIST.HTMLTemplate['videoPoker/resultTab']);
     this.wrapperTemplate.append(this.resultTab);
 
     this.virtualCardsList = [];
@@ -9300,7 +10222,7 @@ this.TWIST = this.TWIST || {};
     }
 
     this.resultItemList = [];
-    this.resultItem = _.template(TWIST.HTMLTemplate['miniPoker/resultItem']);
+    this.resultItem = _.template(TWIST.HTMLTemplate['videoPoker/resultItem']);
     this.options.resultTab.forEach(function (item, index) {
       if (item.code === _self.options.resultTab[_self.options.resultTab.length - 1].code)
         return;
@@ -9315,10 +10237,10 @@ this.TWIST = this.TWIST || {};
       _self.resultItemList.push(resultItem);
     });
 
-    this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+    this.user = $(TWIST.HTMLTemplate['videoPoker/user']);
     this.wrapperTemplate.append(this.user);
 
-    this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+    this.sessionId = $(TWIST.HTMLTemplate['videoPoker/sessionId']);
     this.wrapperTemplate.append(this.sessionId);
 
     this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);

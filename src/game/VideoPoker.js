@@ -181,13 +181,13 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(this.canvas);
     this.initStage();
 
-    this.resultText = $(TWIST.HTMLTemplate['miniPoker/resultText']);
+    this.resultText = $(TWIST.HTMLTemplate['videoPoker/resultText']);
     this.wrapperTemplate.append(this.resultText);
 
-    this.wrapperTemplate.append($(TWIST.HTMLTemplate['miniPoker/pot']));
+    this.wrapperTemplate.append($(TWIST.HTMLTemplate['videoPoker/pot']));
     this.pot = this.wrapperTemplate.find('.pot-value');
 
-    this.buttonSpin = $(TWIST.HTMLTemplate['miniPoker/button']);
+    this.buttonSpin = $(TWIST.HTMLTemplate['videoPoker/button']);
     this.wrapperTemplate.append(this.buttonSpin);
 
     this.doubleButton = $(TWIST.HTMLTemplate['videoPoker/doubleButton']);
@@ -199,7 +199,7 @@ this.TWIST = this.TWIST || {};
     this.wrapperTemplate.append(this.getWinButton);
     this.getWinButton._disabled = true;
 
-    this.chipWrapper = $(TWIST.HTMLTemplate['miniPoker/chips']);
+    this.chipWrapper = $(TWIST.HTMLTemplate['videoPoker/chips']);
     this.wrapperTemplate.append(this.chipWrapper);
 
     this.chipButtons = [{
@@ -213,11 +213,11 @@ this.TWIST = this.TWIST || {};
         template: this.chipWrapper.find('.chip.blue')
       }];
 
-    this.errorPanel = $(TWIST.HTMLTemplate['miniPoker/errorPanel']);
+    this.errorPanel = $(TWIST.HTMLTemplate['videoPoker/errorPanel']);
     this.wrapperTemplate.append(this.errorPanel);
     this.errorPanel.hide();
 
-    this.resultTab = $(TWIST.HTMLTemplate['miniPoker/resultTab']);
+    this.resultTab = $(TWIST.HTMLTemplate['videoPoker/resultTab']);
     this.wrapperTemplate.append(this.resultTab);
 
     this.virtualCardsList = [];
@@ -228,7 +228,7 @@ this.TWIST = this.TWIST || {};
     }
 
     this.resultItemList = [];
-    this.resultItem = _.template(TWIST.HTMLTemplate['miniPoker/resultItem']);
+    this.resultItem = _.template(TWIST.HTMLTemplate['videoPoker/resultItem']);
     this.options.resultTab.forEach(function (item, index) {
       if (item.code === _self.options.resultTab[_self.options.resultTab.length - 1].code)
         return;
@@ -243,10 +243,10 @@ this.TWIST = this.TWIST || {};
       _self.resultItemList.push(resultItem);
     });
 
-    this.user = $(TWIST.HTMLTemplate['miniPoker/user']);
+    this.user = $(TWIST.HTMLTemplate['videoPoker/user']);
     this.wrapperTemplate.append(this.user);
 
-    this.sessionId = $(TWIST.HTMLTemplate['miniPoker/sessionId']);
+    this.sessionId = $(TWIST.HTMLTemplate['videoPoker/sessionId']);
     this.wrapperTemplate.append(this.sessionId);
 
     this.effectWrapper = $(TWIST.HTMLTemplate['effect/wrapper']);
