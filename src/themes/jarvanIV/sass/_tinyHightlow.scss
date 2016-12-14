@@ -197,17 +197,17 @@
                     top : 100px;
                 }
             }
-/*            &:before{
-                content: "";
-                position: absolute;
-                z-index: 0;
-                width: 366px;
-                height: 37px;
-                left : calc(50% - 183px);
-                top : 275px;
-                background-repeat: no-repeat;
-                background-image: url('#{$twistImagePath}tinyHightLow/description.png');
-            }*/
+            /*            &:before{
+                            content: "";
+                            position: absolute;
+                            z-index: 0;
+                            width: 366px;
+                            height: 37px;
+                            left : calc(50% - 183px);
+                            top : 275px;
+                            background-repeat: no-repeat;
+                            background-image: url('#{$twistImagePath}tinyHightLow/description.png');
+                        }*/
             &:after{
                 content: "";
                 position: absolute;
@@ -298,6 +298,16 @@
             z-index : 2;
             background-image: url('#{$twistImagePath}tinyHightLow/get-card.png');
         }
+
+        .button-help{
+            top : 185px;
+        }
+        .button-history{
+            top : 182px;
+        }
+        .button-close{
+            top : 190px;
+        }
     }
     &>.effect{
         z-index: 3;
@@ -317,8 +327,6 @@
             left: 80px;
         }
     }
-
-
     .move-chip{
         $move-chip-top : -625px;
         $move-chip-left : 440px;
@@ -369,4 +377,5 @@
             content: "ID : "
         }
     }
+
 }

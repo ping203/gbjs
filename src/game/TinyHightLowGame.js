@@ -129,6 +129,8 @@ this.TWIST = this.TWIST || {};
 
     this._initChipsButton();
 
+    this._initOtherButtons();
+
     this._initSessionId();
 
     this._initNewTurnButton();
@@ -329,6 +331,24 @@ this.TWIST = this.TWIST || {};
     });
 
     this.setBetting(this.chipButtons[0]);
+  };
+
+  p._initOtherButtons = function () {
+    var _self = this;
+    this.closeButton = this.bottomTempalte.find('.button-close');
+    this.closeButton.on('click', function (event) {
+      _self.emit('closePopup');
+    });
+    
+    this.showHelp = this.bottomTempalte.find('.button-help');
+    this.showHelp.on('click', function (event) {
+      _self.emit('showHelp');
+    });
+    
+    this.showHistory = this.bottomTempalte.find('.button-history');
+    this.showHistory.on('click', function (event) {
+      _self.emit('showHistory');
+    }); 
   };
 
   p._initSessionId = function () {

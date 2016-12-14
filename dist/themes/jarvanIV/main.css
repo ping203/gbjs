@@ -3705,16 +3705,16 @@ and open the template in the editor.
         width: 100%;
         text-align: center;
         /*            &:before{
-                content: "";
-                position: absolute;
-                z-index: 0;
-                width: 366px;
-                height: 37px;
-                left : calc(50% - 183px);
-                top : 275px;
-                background-repeat: no-repeat;
-                background-image: url('images/tinyHightLow/description.png');
-            }*/ }
+                            content: "";
+                            position: absolute;
+                            z-index: 0;
+                            width: 366px;
+                            height: 37px;
+                            left : calc(50% - 183px);
+                            top : 275px;
+                            background-repeat: no-repeat;
+                            background-image: url('images/tinyHightLow/description.png');
+                        }*/ }
         .twist .tiny-hight-low .center .canvas-wrapper canvas {
           position: absolute;
           z-index: 1;
@@ -3847,6 +3847,12 @@ and open the template in the editor.
     .twist .tiny-hight-low .bottom .get-card {
       z-index: 2;
       background-image: url("images/tinyHightLow/get-card.png"); }
+    .twist .tiny-hight-low .bottom .button-help {
+      top: 185px; }
+    .twist .tiny-hight-low .bottom .button-history {
+      top: 182px; }
+    .twist .tiny-hight-low .bottom .button-close {
+      top: 190px; }
     .twist .tiny-hight-low > .effect {
       z-index: 3;
       /*zoom : 2;*/
