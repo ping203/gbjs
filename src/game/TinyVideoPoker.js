@@ -328,6 +328,18 @@ this.TWIST = this.TWIST || {};
     this.buttonSpin.on('click', function (event) {
       _self.checkStart();
     });
+
+    this.buttonClose.on('click', function (event) {
+      _self.emit('closePopup');
+    });
+
+    this.buttonHelp.on('click', function (event) {
+      _self.emit('showHelp');
+    }); 
+
+    this.buttonHistory.on('click', function (event) {
+      _self.emit('showHistory');
+    }); 
   };
 
   p.setBetting = function (item) {

@@ -3500,7 +3500,7 @@ and open the template in the editor.
       .twist .tiny-mini-poker-bg .session-id:before {
         content: "ID : "; }
   .twist .tiny-video-poker {
-    /*background-image: url('images/tinyVideoPoker/background.png');*/ }
+    background-image: url("images/tinyVideoPoker/background.png"); }
     .twist .tiny-video-poker .tinyVideoPokerCanvasSVG {
       position: absolute;
       left: 84px;
