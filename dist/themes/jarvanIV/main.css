@@ -3197,7 +3197,8 @@ and open the template in the editor.
       position: absolute;
       right: 0;
       bottom: 0;
-      cursor: pointer; }
+      cursor: pointer;
+      z-index: 2; }
       .twist .tiny-mini-poker-bg .button-spin:active {
         transform: scale(0.98); }
       .twist .tiny-mini-poker-bg .button-spin.disabled {
@@ -3498,3 +3499,91 @@ and open the template in the editor.
       color: #2e7fae; }
       .twist .tiny-mini-poker-bg .session-id:before {
         content: "ID : "; }
+  .twist .tiny-video-poker {
+    /*background-image: url('images/tinyVideoPoker/background.png');*/ }
+    .twist .tiny-video-poker .tinyVideoPokerCanvasSVG {
+      position: absolute;
+      left: 84px;
+      top: 230px;
+      overflow: hidden;
+      width: 766px;
+      height: 268px;
+      clip-path: url(#tinyVideoPokerCanvasSVG);
+      -webkit-clip-path: url(#tinyVideoPokerCanvasSVG); }
+      .twist .tiny-video-poker .tinyVideoPokerCanvasSVG canvas {
+        position: absolute;
+        left: 70px;
+        top: 0px; }
+    .twist .tiny-video-poker .result-text {
+      background-image: url("images/tinyVideoPoker/text-result-card.png");
+      background-repeat: no-repeat;
+      width: 257px;
+      height: 78px;
+      line-height: 65px;
+      padding-right: 30px;
+      box-sizing: border-box;
+      top: 500px;
+      left: 305px; }
+    .twist .tiny-video-poker .get-win-button {
+      position: absolute;
+      left: 525px;
+      top: 500px;
+      width: 271px;
+      height: 78px;
+      background-image: url("images/tinyVideoPoker/get-win.png");
+      background-repeat: no-repeat;
+      cursor: pointer;
+      -webkit-filter: grayscale(100%); }
+      .twist .tiny-video-poker .get-win-button.active {
+        -webkit-filter: none; }
+        .twist .tiny-video-poker .get-win-button.active:active {
+          transform: translateY(4px);
+          border-bottom: 0; }
+    .twist .tiny-video-poker .support-text {
+      position: absolute;
+      width: 100%;
+      top: -70px;
+      text-align: center;
+      color: white;
+      font-size: 35px;
+      line-height: 70px;
+      font-weight: bold; }
+    .twist .tiny-video-poker .double-button.button-spin {
+      background-image: url("images/tinyVideoPoker/double-button.png");
+      background-size: cover;
+      z-index: 2; }
+      .twist .tiny-video-poker .double-button.button-spin.disabled {
+        -webkit-filter: grayscale(100%); }
+    .twist .tiny-video-poker .virtualCards {
+      position: absolute;
+      left: 160px;
+      top: 287px; }
+      .twist .tiny-video-poker .virtualCards .card {
+        position: absolute;
+        width: 115px;
+        height: 156px;
+        cursor: pointer;
+        left: 15px;
+        top: 0px;
+        border-radius: 20px;
+        margin-left: 0; }
+        .twist .tiny-video-poker .virtualCards .card.active:after {
+          content: "HOLD";
+          position: absolute;
+          width: 100%;
+          line-height: 45px;
+          left: 0px;
+          bottom: -45px;
+          font-size: 23px;
+          color: #bef0fd;
+          text-align: center; }
+      .twist .tiny-video-poker .virtualCards .vitualCard1 {
+        left: 0px; }
+      .twist .tiny-video-poker .virtualCards .vitualCard2 {
+        left: 130px; }
+      .twist .tiny-video-poker .virtualCards .vitualCard3 {
+        left: 260px; }
+      .twist .tiny-video-poker .virtualCards .vitualCard4 {
+        left: 390px; }
+      .twist .tiny-video-poker .virtualCards .vitualCard5 {
+        left: 520px; }

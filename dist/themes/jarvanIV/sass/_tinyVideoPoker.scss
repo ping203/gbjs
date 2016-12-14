@@ -1,0 +1,99 @@
+.tiny-video-poker{
+    /*background-image: url('#{$twistImagePath}tinyVideoPoker/background.png');*/
+    .tinyVideoPokerCanvasSVG{
+        position : absolute;
+        left : 84px;
+        top : 230px;
+        overflow: hidden; 
+        width: 766px;
+        height: 268px;
+        clip-path: url(#tinyVideoPokerCanvasSVG);
+        -webkit-clip-path: url(#tinyVideoPokerCanvasSVG);
+        canvas{
+            position : absolute;
+            left : 70px;
+            top : 0px;
+        }
+    }
+    .result-text{
+        background-image: url('#{$twistImagePath}tinyVideoPoker/text-result-card.png');
+        background-repeat: no-repeat;
+        width : 257px;
+        height : 78px;
+        line-height: 65px;
+        padding-right: 30px;
+        box-sizing: border-box;
+        top: 500px;
+        left: 305px;
+    }
+    .get-win-button{
+        position: absolute;
+        left : 525px;
+        top : 500px;
+        width: 271px;   
+        height: 78px;   
+        background-image: url('#{$twistImagePath}tinyVideoPoker/get-win.png');
+        background-repeat: no-repeat;
+        cursor: pointer;
+        -webkit-filter : grayscale(100%) ; 
+        &.active{
+            -webkit-filter : none;
+            &:active{
+                transform: translateY(4px);
+                border-bottom: 0;
+            }
+        }
+    }
+
+    .support-text{
+        position: absolute;
+        width: 100%;
+        top : -70px;
+        text-align: center;
+        color : white;  
+        font-size: 35px;
+        line-height: 70px;
+        font-weight: bold;
+    }
+    .double-button.button-spin {
+        background-image: url('#{$twistImagePath}tinyVideoPoker/double-button.png');
+        background-size: cover;
+        z-index : 2;
+        &.disabled{
+            -webkit-filter : grayscale(100%) ; 
+        }
+    }
+    .virtualCards{
+        position : absolute;
+        left : 160px;
+        top : 287px;
+        .card{
+            position: absolute;
+            width: 115px;
+            height: 156px;
+            cursor: pointer;
+            left : 15px;
+            top : 0px;
+            border-radius: 20px;
+            margin-left : 0;
+            &.active{
+                &:after{
+                    content: "HOLD";
+                    position: absolute;
+                    width: 100%;
+                    line-height: 45px;
+                    left : 0px;
+                    bottom : -45px; 
+                    font-size: 23px;
+                    color: #bef0fd; 
+                    text-align: center;
+                }
+            }
+        }
+        @for $i from 1 through 5{
+            .vitualCard#{$i}{
+                left : ($i - 1) * 130px;
+            }
+        }
+    }
+}
