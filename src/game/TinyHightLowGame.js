@@ -238,13 +238,13 @@ this.TWIST = this.TWIST || {};
   p._initVirtualCard = function () {
     var _self = this;
     this.virtualCard = this.centerTempalte.find('.virtual-card');
-    this.getCard = this.bottomTempalte.find('.get-card');
+    this.getCardButton = this.bottomTempalte.find('.get-card');
 
     this.virtualCard.on('click', function (event) {
       _self.checkStart();
     });
 
-    this.getCard.on('click', function (event) {
+    this.getCardButton.on('click', function (event) {
       _self.checkStart();
     });
 
@@ -339,16 +339,16 @@ this.TWIST = this.TWIST || {};
     this.closeButton.on('click', function (event) {
       _self.emit('closePopup');
     });
-    
+
     this.showHelp = this.bottomTempalte.find('.button-help');
     this.showHelp.on('click', function (event) {
       _self.emit('showHelp');
     });
-    
+
     this.showHistory = this.bottomTempalte.find('.button-history');
     this.showHistory.on('click', function (event) {
       _self.emit('showHistory');
-    }); 
+    });
   };
 
   p._initSessionId = function () {
@@ -445,7 +445,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawListCard = function (listCard) {
     var _self = this;
-    
+
     this.winCardContainer.removeAllChildren();
     listCard.forEach(drawSingleCard);
 
@@ -487,7 +487,7 @@ this.TWIST = this.TWIST || {};
     if (gameState == 0) {
       this.changeStatus('pause');
       this.addMainCard(-1);
-      this.getCard.show();
+      this.getCardButton.show();
       this.virtualCard.show();
       this.newTurnText.show();
       this.newTurnButton.hide();
@@ -498,7 +498,7 @@ this.TWIST = this.TWIST || {};
       this.effect.hide();
     } else if (gameState == 1) {
       this.newTurnText.hide();
-      this.getCard.hide();
+      this.getCardButton.hide();
       this.virtualCard.hide();
       this.newTurnButton.show();
     }
@@ -515,7 +515,7 @@ this.TWIST = this.TWIST || {};
   p.clearGameState = function () {
     this.clear();
     this.potCards.removeActiveCard();
-    this.winCardContainer.set({x : 0});
+    this.winCardContainer.set({x: 0});
     this.winCardContainer.removeAllChildren();
     this.currentBetting.runEffect(0);
   };
@@ -627,6 +627,7 @@ this.TWIST = this.TWIST || {};
       this.moveChip.runEffect();
       this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
       this.currentBetting.runEffect(0, {duration: 500});
+      _self.changeGameState(0);
       this.once('_moveChipComplete', function () {
         _self.changeGameState(0);
       });

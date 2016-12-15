@@ -1049,10 +1049,6 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
-'tinyHightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button"></div>\r\n    <div class="get-card"></div>\r\n    <div class="button-close"></div>\r\n    <div class="button-history"></div>\r\n    <div class="button-help"></div>\r\n</div>\r\n',
-'tinyHightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
-'tinyHightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
-'tinyHightLow/wrapper':'<div class="tiny-hight-low tiny-mini-poker-bg "></div>\r\n',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1071,6 +1067,10 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
+'tinyHightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button"></div>\r\n    <div class="get-card"></div>\r\n    <div class="button-close"></div>\r\n    <div class="button-history"></div>\r\n    <div class="button-help"></div>\r\n</div>\r\n',
+'tinyHightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
+'tinyHightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
+'tinyHightLow/wrapper':'<div class="tiny-hight-low tiny-mini-poker-bg "></div>\r\n',
 'tinyMiniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
 'tinyMiniPoker/buttonClose':'<div class="button-close"></div>',
 'tinyMiniPoker/buttonHelp':'<div class="button-help"></div>',
@@ -8585,13 +8585,13 @@ this.TWIST = this.TWIST || {};
   p._initVirtualCard = function () {
     var _self = this;
     this.virtualCard = this.centerTempalte.find('.virtual-card');
-    this.getCard = this.bottomTempalte.find('.get-card');
+    this.getCardButton = this.bottomTempalte.find('.get-card');
 
     this.virtualCard.on('click', function (event) {
       _self.checkStart();
     });
 
-    this.getCard.on('click', function (event) {
+    this.getCardButton.on('click', function (event) {
       _self.checkStart();
     });
 
@@ -8686,16 +8686,16 @@ this.TWIST = this.TWIST || {};
     this.closeButton.on('click', function (event) {
       _self.emit('closePopup');
     });
-    
+
     this.showHelp = this.bottomTempalte.find('.button-help');
     this.showHelp.on('click', function (event) {
       _self.emit('showHelp');
     });
-    
+
     this.showHistory = this.bottomTempalte.find('.button-history');
     this.showHistory.on('click', function (event) {
       _self.emit('showHistory');
-    }); 
+    });
   };
 
   p._initSessionId = function () {
@@ -8792,7 +8792,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawListCard = function (listCard) {
     var _self = this;
-    
+
     this.winCardContainer.removeAllChildren();
     listCard.forEach(drawSingleCard);
 
@@ -8834,7 +8834,7 @@ this.TWIST = this.TWIST || {};
     if (gameState == 0) {
       this.changeStatus('pause');
       this.addMainCard(-1);
-      this.getCard.show();
+      this.getCardButton.show();
       this.virtualCard.show();
       this.newTurnText.show();
       this.newTurnButton.hide();
@@ -8845,7 +8845,7 @@ this.TWIST = this.TWIST || {};
       this.effect.hide();
     } else if (gameState == 1) {
       this.newTurnText.hide();
-      this.getCard.hide();
+      this.getCardButton.hide();
       this.virtualCard.hide();
       this.newTurnButton.show();
     }
@@ -8862,7 +8862,7 @@ this.TWIST = this.TWIST || {};
   p.clearGameState = function () {
     this.clear();
     this.potCards.removeActiveCard();
-    this.winCardContainer.set({x : 0});
+    this.winCardContainer.set({x: 0});
     this.winCardContainer.removeAllChildren();
     this.currentBetting.runEffect(0);
   };
@@ -8974,6 +8974,7 @@ this.TWIST = this.TWIST || {};
       this.moveChip.runEffect();
       this.moneyContainer.runEffect(parseInt(this.userInfo.money) + currentBetting, {duration: 500});
       this.currentBetting.runEffect(0, {duration: 500});
+      _self.changeGameState(0);
       this.once('_moveChipComplete', function () {
         _self.changeGameState(0);
       });
