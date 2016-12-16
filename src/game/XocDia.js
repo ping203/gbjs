@@ -532,7 +532,8 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
-      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
+      if (dataItem.mineBetting)
+        _self.totalTable.totalBettingValue += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
@@ -930,6 +931,7 @@ this.TWIST = this.TWIST || {};
 
     this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
+      _self.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
     this.totalTable.setTotalWin = function (value) {
@@ -1522,6 +1524,7 @@ this.TWIST = this.TWIST || {};
   p.END_GAME = function () {
     this.sellPopup.hide();
     this.host.setMessage("Mở bát !");
+    this.totalBettingValue = 0;
   };
 
   TWIST.XocDia = XocDia;

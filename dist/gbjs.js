@@ -1032,8 +1032,6 @@ this.FATE = this.FATE || {};
 'hightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'hightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="title">H\u0169 th\u01B0\u1EDFng</div>\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="title">Bank</div>\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
 'hightLow/wrapper':'<div class="hight-low"></div>\r\n',
-'inviteList/inviteItem':'<div class="invite-item">\r\n    <div class="invite-item-inner"></div>\r\n</div>\r\n',
-'inviteList/wrapper':'<div class="invite-wrapper">\r\n    \r\n</div>\r\n',
 'miniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
@@ -1046,6 +1044,8 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\r\n',
+'inviteList/inviteItem':'<div class="invite-item">\r\n    <div class="invite-item-inner"></div>\r\n</div>\r\n',
+'inviteList/wrapper':'<div class="invite-wrapper">\r\n    \r\n</div>\r\n',
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
@@ -3505,7 +3505,6 @@ this.TWIST = this.TWIST || {};
   p.initEvent = function () {
     this.timeOutList = [];
     this.on('destroy', function () {
-      createjs.Tween.removeAllTweens();
       TWIST.Sound.stop();
     });
   };
@@ -7106,7 +7105,7 @@ this.TWIST = this.TWIST || {};
     });
 
     this.on("suggetstHost", function (data) {
-      _self.getHostButton.show();
+//      _self.getHostButton.show();
       _self.isSuggestHost = true;
     });
 
@@ -7351,7 +7350,8 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
-      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
+      if (dataItem.mineBetting)
+        _self.totalTable.totalBettingValue += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
@@ -7417,8 +7417,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
-    this.reBettingButton.hide();
-    this.cancelBettingButton.show();
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -7539,7 +7537,9 @@ this.TWIST = this.TWIST || {};
   p.showResult = function (data) {
     var _self = this;
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
-    this.history.addResult(data.map);
+    this.history.addResult(data.map.map(function (item) {
+      return item + 1;
+    }));
     var message, position;
     this.chipResultContainer.removeAllChildren();
     var shuffleMap = Global.shuffle(data.map)
@@ -7678,7 +7678,7 @@ this.TWIST = this.TWIST || {};
       itemNumber.html(resultNumber);
       _self.historyInner.append(resultTemplate);
       _self.historyList.push(resultTemplate);
-      
+
       if (_self.historyList.length > 15) {
         _self.historyList[0].remove();
         _self.historyList.shift();
@@ -7725,6 +7725,7 @@ this.TWIST = this.TWIST || {};
 
     this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
+      _self.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
     this.totalTable.setTotalWin = function (value) {
@@ -8341,6 +8342,7 @@ this.TWIST = this.TWIST || {};
   p.END_GAME = function () {
     this.sellPopup.hide();
     this.host.setMessage("Mở bát !");
+    this.totalBettingValue = 0;
   };
 
   TWIST.TaiXiu = TaiXiu;
@@ -9553,6 +9555,7 @@ this.TWIST = this.TWIST || {};
 
   p.effecting = function () {
     var _self = this;
+    _self.emit("endSpinTinyPoker");
     this.changeStatus("effecting");
     var result = this.result;
     effectQueue = [];
@@ -12939,7 +12942,8 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
-      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
+      if (dataItem.mineBetting)
+        _self.totalTable.totalBettingValue += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
@@ -13337,6 +13341,7 @@ this.TWIST = this.TWIST || {};
 
     this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
+      _self.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
     this.totalTable.setTotalWin = function (value) {
@@ -13929,6 +13934,7 @@ this.TWIST = this.TWIST || {};
   p.END_GAME = function () {
     this.sellPopup.hide();
     this.host.setMessage("Mở bát !");
+    this.totalBettingValue = 0;
   };
 
   TWIST.XocDia = XocDia;

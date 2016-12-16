@@ -532,6 +532,7 @@ this.TWIST = this.TWIST || {};
 
   p.effecting = function () {
     var _self = this;
+    _self.emit("endSpinTinyPoker");
     this.changeStatus("effecting");
     var result = this.result;
     effectQueue = [];

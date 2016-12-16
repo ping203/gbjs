@@ -3541,7 +3541,8 @@ and open the template in the editor.
           border-bottom: 0; }
     .twist .tiny-video-poker .support-text {
       position: absolute;
-      width: 100%;
+      width: 50%;
+      left: 25%;
       top: 220px;
       text-align: center;
       color: #bef0fd;

@@ -257,7 +257,7 @@ this.TWIST = this.TWIST || {};
     });
 
     this.on("suggetstHost", function (data) {
-      _self.getHostButton.show();
+//      _self.getHostButton.show();
       _self.isSuggestHost = true;
     });
 
@@ -502,7 +502,8 @@ this.TWIST = this.TWIST || {};
       if (!dataItem)
         return;
       item.setMineBetting(dataItem.mineBetting);
-      _self.totalTable.totalBettingValue += parseInt(data.mineBetting);
+      if (dataItem.mineBetting)
+        _self.totalTable.totalBettingValue += parseInt(dataItem.mineBetting);
       item.setTotalBetting(dataItem.totalBetting);
       _self.userReBetting(item, dataItem.mineBetting);
     });
@@ -568,8 +569,6 @@ this.TWIST = this.TWIST || {};
     var _self = this;
     var listChip = this.convertValueToChips(value);
     var waitAnimationStep = 500 / listChip.length;
-    this.reBettingButton.hide();
-    this.cancelBettingButton.show();
     listChip.forEach(function (item, index) {
       _self.timeOutList.push(setTimeout(function () {
         _self.bettingChipAction(slotBetting.id, item, true);
@@ -690,7 +689,9 @@ this.TWIST = this.TWIST || {};
   p.showResult = function (data) {
     var _self = this;
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
-    this.history.addResult(data.map);
+    this.history.addResult(data.map.map(function (item) {
+      return item + 1;
+    }));
     var message, position;
     this.chipResultContainer.removeAllChildren();
     var shuffleMap = Global.shuffle(data.map)
@@ -829,7 +830,7 @@ this.TWIST = this.TWIST || {};
       itemNumber.html(resultNumber);
       _self.historyInner.append(resultTemplate);
       _self.historyList.push(resultTemplate);
-      
+
       if (_self.historyList.length > 15) {
         _self.historyList[0].remove();
         _self.historyList.shift();
@@ -876,6 +877,7 @@ this.TWIST = this.TWIST || {};
 
     this.totalTable.setTotalBetting = function (value) {
       this.totalBettingValue = value;
+      _self.totalBettingValue = value;
       this.totalBetting.runEffect(value);
     };
     this.totalTable.setTotalWin = function (value) {
@@ -1492,6 +1494,7 @@ this.TWIST = this.TWIST || {};
   p.END_GAME = function () {
     this.sellPopup.hide();
     this.host.setMessage("Mở bát !");
+    this.totalBettingValue = 0;
   };
 
   TWIST.TaiXiu = TaiXiu;
