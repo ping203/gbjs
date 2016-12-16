@@ -37,7 +37,7 @@ gulp.task('build.sound', function() {
         return url.replace(/.ogg/, '');
     }
    }))
-   .pipe(gulp.dest('dist/themes/' + theme))
+   .pipe(gulp.dest('dist/sounds'))
    .pipe(concat('sounds.js'));
 });
 

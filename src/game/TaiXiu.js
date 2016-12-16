@@ -1446,6 +1446,7 @@ this.TWIST = this.TWIST || {};
     this.setShowVitualBettings(data.status);
     this.removeSelectedBetting(data.status);
     this.setRemainingTime(data.remainingTime, data.totalTime);
+    TWIST.Sound.stop();
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -1470,8 +1471,12 @@ this.TWIST = this.TWIST || {};
     this.emit("xocDia");
     this.host.setMessage("Nhà cái xóc đĩa !");
   };
-
   p.STATUS_BETTING = function (data) {
+    var srcs = ['news/anhoidatcuoc', 'news/batdaudatcuoc'
+              , 'news/moidatcuoc', 'news/datcuocdianh'];
+    var src = srcs[Math.floor(Math.random() * srcs.length)];
+    console.log("src",src);
+    TWIST.Sound.play(src);
     this.host.background.hide();
     this.host.setMessage("");
     if (data.showReBetting) {
