@@ -687,7 +687,9 @@ this.TWIST = this.TWIST || {};
   };
 
   p.showResult = function (data) {
+
     var _self = this;
+//    this.playResultSounds(data.map);
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.map.map(function (item) {
       return item + 1;
@@ -711,6 +713,49 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
     });
+  };
+
+  p.playResultSounds = function (data) {
+    var map = data.map;
+    var winnerSlots = data.winnerSlots;
+
+    var resultNumber = 0;
+    data.map.forEach(function (item, index) {
+      resultNumber += (item + 1);
+    });
+    var resultSounds = [];
+    var firstResultSound = "";
+    var seconResultSound = "";
+    var thirdResultSound = "";
+
+    var trippTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
+    var numberTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
+
+    var trippleType = winnerSlots.find(function (item, index) {
+      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    });
+
+    var trippleType = winnerSlots.find(function (item, index) {
+      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    });
+
+    var numberType = winnerSlots.find(function (item, index) {
+      return [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21].indexOf(item) > -1;
+    });
+
+    var isTrippleType = (typeof trippleType == "number");
+    firstResultSound = isTrippleType ? "news/dong" : "";
+    seconResultSound = trippleType ? trippTypeMap[trippleType] : "";
+
+    var xiuType = winnerSlots.find(function (item, index) {
+      return [9, 10, 11, 12, 13, 14].indexOf(item) > -1;
+    });
+    !isTrippleType && (thirdResultSound = xiuType ? "news/xiu" : "news/tai");
+
+
+    var srcs = ['news/ddungdatcuoc', 'news/mobat'];
+    var srcs = srcs.concat(resultSounds);
+    TWIST.Sound.playQueue(srcs);
   };
 
   p.openDisk = function (data) {
@@ -1475,7 +1520,6 @@ this.TWIST = this.TWIST || {};
     var srcs = ['news/anhoidatcuoc', 'news/batdaudatcuoc'
               , 'news/moidatcuoc', 'news/datcuocdianh'];
     var src = srcs[Math.floor(Math.random() * srcs.length)];
-    console.log("src",src);
     TWIST.Sound.play(src);
     this.host.background.hide();
     this.host.setMessage("");

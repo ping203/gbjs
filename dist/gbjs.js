@@ -475,6 +475,7 @@ this.TWIST = this.TWIST || {};
   function Sound() {
     this._isInited = false;
     this.settings;
+    this._queue = [];
   }
 
   var p = Sound.prototype;
@@ -488,16 +489,34 @@ this.TWIST = this.TWIST || {};
   };
 
 
-  p.play = function (src) {
+  p.play = function (src, options) {
     // This is fired for each sound that is registered.
     if (!this._isInited)
       return;
-    console.log("src",src);
-    var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
+    if(src instanceof Array){
+      this.playQueue(src, options);
+      return;
+    }
+    var instance = createjs.Sound.play(src, options);  // play using id.  Could also use full source path or event.src.
+    console.log("this.settings.volume",this.settings.volume);
     instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
     return instance;
   };
 
+  p.playQueue = function (srcs, options) {
+    var _self = this;
+    var playerIndex = 0;
+    playIndexSrc(playerIndex);
+        
+    function playIndexSrc(index) {
+      if(!srcs[playerIndex]) return;
+      var instance = _self.play(srcs[playerIndex], options);
+      instance.on("complete", function () {
+        playerIndex++;
+        playIndexSrc(playerIndex);
+      });
+    }
+  };
 
   p.stop = function (src) {
     createjs.Sound.stop(src);  //
@@ -1162,6 +1181,10 @@ this.FATE = this.FATE || {};
 'resultPanel/card':'<div class="card card<%- id %>"></div>',
 'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
 'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
+'tinyHightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button"></div>\r\n    <div class="get-card"></div>\r\n    <div class="button-close"></div>\r\n    <div class="button-history"></div>\r\n    <div class="button-help"></div>\r\n</div>\r\n',
+'tinyHightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
+'tinyHightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
+'tinyHightLow/wrapper':'<div class="tiny-hight-low tiny-mini-poker-bg "></div>\r\n',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1180,10 +1203,6 @@ this.FATE = this.FATE || {};
 'taiXiu/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div>\r\n            <div class="username "></div>\r\n            <div class="money "></div>\r\n        </div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="user avatar avatar1" ></div>\r\n    </div>\r\n</div>',
 'taiXiu/vitualBetting':'<div class="vitual-betting-position">\r\n</div>\r\n',
 'taiXiu/wrapper':'<div class="taixiu-wrapper"></div>',
-'tinyHightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button"></div>\r\n    <div class="get-card"></div>\r\n    <div class="button-close"></div>\r\n    <div class="button-history"></div>\r\n    <div class="button-help"></div>\r\n</div>\r\n',
-'tinyHightLow/center':'<div class="center">\r\n    <div class="text-support">Qu\xE2n b\xE0i ti\u1EBFp theo l\xE0 cao hay th\u1EA5p ?</div>\r\n    <div class="remain-time"></div>\r\n    <div class="canvas-wrapper">\r\n        <div class="game-button left-button">\r\n            <div class="low-button"></div>\r\n            <div class="low-value">0</div>\r\n        </div>\r\n        <div class="game-button right-button">\r\n            <div class="hight-button"></div>\r\n            <div class="hight-value">0</div>\r\n        </div>\r\n        <div class="virtual-card">\r\n            <div class="new-turn-text">\r\n                B\u1ED1c b\xE0i\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n',
-'tinyHightLow/top':'<div class="top">\r\n    <div class="pot">\r\n        <div class="pot-value">0</div>\r\n    </div>\r\n    <div class="bank">\r\n        <div class="bank-value">0</div>\r\n    </div>\r\n    <div class="pot-cards">\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n        <div class="pot-card"></div>\r\n    </div>\r\n</div>\r\n',
-'tinyHightLow/wrapper':'<div class="tiny-hight-low tiny-mini-poker-bg "></div>\r\n',
 'tinyMiniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
 'tinyMiniPoker/buttonClose':'<div class="button-close"></div>',
 'tinyMiniPoker/buttonHelp':'<div class="button-help"></div>',
@@ -7648,7 +7667,9 @@ this.TWIST = this.TWIST || {};
   };
 
   p.showResult = function (data) {
+
     var _self = this;
+//    this.playResultSounds(data.map);
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.map.map(function (item) {
       return item + 1;
@@ -7672,6 +7693,49 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
     });
+  };
+
+  p.playResultSounds = function (data) {
+    var map = data.map;
+    var winnerSlots = data.winnerSlots;
+
+    var resultNumber = 0;
+    data.map.forEach(function (item, index) {
+      resultNumber += (item + 1);
+    });
+    var resultSounds = [];
+    var firstResultSound = "";
+    var seconResultSound = "";
+    var thirdResultSound = "";
+
+    var trippTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
+    var numberTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
+
+    var trippleType = winnerSlots.find(function (item, index) {
+      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    });
+
+    var trippleType = winnerSlots.find(function (item, index) {
+      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    });
+
+    var numberType = winnerSlots.find(function (item, index) {
+      return [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21].indexOf(item) > -1;
+    });
+
+    var isTrippleType = (typeof trippleType == "number");
+    firstResultSound = isTrippleType ? "news/dong" : "";
+    seconResultSound = trippleType ? trippTypeMap[trippleType] : "";
+
+    var xiuType = winnerSlots.find(function (item, index) {
+      return [9, 10, 11, 12, 13, 14].indexOf(item) > -1;
+    });
+    !isTrippleType && (thirdResultSound = xiuType ? "news/xiu" : "news/tai");
+
+
+    var srcs = ['news/ddungdatcuoc', 'news/mobat'];
+    var srcs = srcs.concat(resultSounds);
+    TWIST.Sound.playQueue(srcs);
   };
 
   p.openDisk = function (data) {
@@ -8436,7 +8500,6 @@ this.TWIST = this.TWIST || {};
     var srcs = ['news/anhoidatcuoc', 'news/batdaudatcuoc'
               , 'news/moidatcuoc', 'news/datcuocdianh'];
     var src = srcs[Math.floor(Math.random() * srcs.length)];
-    console.log("src",src);
     TWIST.Sound.play(src);
     this.host.background.hide();
     this.host.setMessage("");

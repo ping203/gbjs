@@ -10,6 +10,7 @@ this.TWIST = this.TWIST || {};
   function Sound() {
     this._isInited = false;
     this.settings;
+    this._queue = [];
   }
 
   var p = Sound.prototype;
@@ -23,16 +24,34 @@ this.TWIST = this.TWIST || {};
   };
 
 
-  p.play = function (src) {
+  p.play = function (src, options) {
     // This is fired for each sound that is registered.
     if (!this._isInited)
       return;
-    console.log("src",src);
-    var instance = createjs.Sound.play(src);  // play using id.  Could also use full source path or event.src.
+    if(src instanceof Array){
+      this.playQueue(src, options);
+      return;
+    }
+    var instance = createjs.Sound.play(src, options);  // play using id.  Could also use full source path or event.src.
+    console.log("this.settings.volume",this.settings.volume);
     instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
     return instance;
   };
 
+  p.playQueue = function (srcs, options) {
+    var _self = this;
+    var playerIndex = 0;
+    playIndexSrc(playerIndex);
+        
+    function playIndexSrc(index) {
+      if(!srcs[playerIndex]) return;
+      var instance = _self.play(srcs[playerIndex], options);
+      instance.on("complete", function () {
+        playerIndex++;
+        playIndexSrc(playerIndex);
+      });
+    }
+  };
 
   p.stop = function (src) {
     createjs.Sound.stop(src);  //
