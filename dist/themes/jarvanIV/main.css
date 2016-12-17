@@ -1891,7 +1891,9 @@ and open the template in the editor.
         border-radius: 5px;
         text-align: center;
         left: calc(50% - 47px); }
-      .twist #taixiu-wrapper .betting-position.type-3.type-id23:after {
+      .twist #taixiu-wrapper .betting-position.type-3.type-id15 .name:before {
+        color: #00ccff; }
+      .twist #taixiu-wrapper .betting-position.type-3.type-id15:after {
         content: "11 - 17"; }
       .twist #taixiu-wrapper .betting-position.type-4 .name {
         font-size: 30px;

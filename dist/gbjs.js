@@ -493,12 +493,11 @@ this.TWIST = this.TWIST || {};
     // This is fired for each sound that is registered.
     if (!this._isInited)
       return;
-    if(src instanceof Array){
-      this.playQueue(src, options);
-      return;
-    }
+//    if(src instanceof Array){
+//      this.playQueue(src, options);
+//      return;
+//    }
     var instance = createjs.Sound.play(src, options);  // play using id.  Could also use full source path or event.src.
-    console.log("this.settings.volume",this.settings.volume);
     instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
     return instance;
   };
@@ -7669,7 +7668,7 @@ this.TWIST = this.TWIST || {};
   p.showResult = function (data) {
 
     var _self = this;
-//    this.playResultSounds(data.map);
+    this.playResultSounds(data);
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.map.map(function (item) {
       return item + 1;
@@ -7696,6 +7695,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.playResultSounds = function (data) {
+    console.log("data",data);
     var map = data.map;
     var winnerSlots = data.winnerSlots;
 
@@ -7703,39 +7703,43 @@ this.TWIST = this.TWIST || {};
     data.map.forEach(function (item, index) {
       resultNumber += (item + 1);
     });
-    var resultSounds = [];
     var firstResultSound = "";
     var seconResultSound = "";
     var thirdResultSound = "";
-
+    var resultSounds = [];
+    var initSrcs = ['news/ddungdatcuoc', 'news/mobat'];
+    
     var trippTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
-    var numberTypeMap = ["news/nhat", "news/nhi", "news/tam", "news/tu", "news/ngu", "news/luc"];
+    var numberTypeMap = ["news/so_4", "news/so_5", "news/so_6", "news/so_7", "news/so_8", "news/so_9", "news/so_10"
+      ,["news/so_10", "news/so_1"],["news/so_10", "news/so_2"],["news/so_10", "news/so_3"],["news/so_10", "news/so_4"]
+      ,["news/so_10", "news/so_5"],["news/so_10", "news/so_6"],["news/so_10", "news/so_7"]];
 
-    var trippleType = winnerSlots.find(function (item, index) {
-      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    var trippleType = [0, 1, 2, 4, 5, 6].findIndex(function (item, index) {
+      return winnerSlots.indexOf(item) > -1;
     });
 
-    var trippleType = winnerSlots.find(function (item, index) {
-      return [0, 1, 2, 4, 5, 6].indexOf(item) > -1;
+    var numberType = [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21].findIndex(function (item, index) {
+      return winnerSlots.indexOf(item) > -1;
     });
 
-    var numberType = winnerSlots.find(function (item, index) {
-      return [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21].indexOf(item) > -1;
-    });
-
-    var isTrippleType = (typeof trippleType == "number");
-    firstResultSound = isTrippleType ? "news/dong" : "";
-    seconResultSound = trippleType ? trippTypeMap[trippleType] : "";
-
-    var xiuType = winnerSlots.find(function (item, index) {
-      return [9, 10, 11, 12, 13, 14].indexOf(item) > -1;
-    });
-    !isTrippleType && (thirdResultSound = xiuType ? "news/xiu" : "news/tai");
-
-
-    var srcs = ['news/ddungdatcuoc', 'news/mobat'];
-    var srcs = srcs.concat(resultSounds);
-    TWIST.Sound.playQueue(srcs);
+    var isTrippleType = (trippleType > -1);
+    firstResultSound = isTrippleType ? "news/dong" : 'news/tong';
+    seconResultSound = isTrippleType ? trippTypeMap[trippleType] : numberTypeMap[numberType];
+    if(!isTrippleType && numberType > - 1){
+      thirdResultSound = numberType < 11 ? "news/xiu" : "news/tai";
+    }
+    
+    var srcs = [initSrcs,firstResultSound,seconResultSound,thirdResultSound];
+    var playSrc = [];
+    srcs.forEach(function (item){
+      if(item instanceof Array){
+        playSrc = playSrc.concat(item);
+      }else if(item){
+        playSrc.push(item);
+      }
+    }); 
+    console.log("play src", playSrc);
+    TWIST.Sound.playQueue(playSrc);
   };
 
   p.openDisk = function (data) {

@@ -28,12 +28,11 @@ this.TWIST = this.TWIST || {};
     // This is fired for each sound that is registered.
     if (!this._isInited)
       return;
-    if(src instanceof Array){
-      this.playQueue(src, options);
-      return;
-    }
+//    if(src instanceof Array){
+//      this.playQueue(src, options);
+//      return;
+//    }
     var instance = createjs.Sound.play(src, options);  // play using id.  Could also use full source path or event.src.
-    console.log("this.settings.volume",this.settings.volume);
     instance.volume = (typeof this.settings.volume === "undefined") ? 1 : this.settings.volume;
     return instance;
   };

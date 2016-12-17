@@ -347,8 +347,13 @@ and open the template in the editor.
                 text-align: center;
                 left: calc(50% - 47px);
             }
-            &.type-id23:after{
-                content: "11 - 17";
+            &.type-id15{
+                .name:before{
+                    color: #00ccff;
+                } 
+                &:after{
+                    content: "11 - 17";
+                } 
             }
         }
         &.type-4{
