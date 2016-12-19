@@ -134,6 +134,8 @@ this.TWIST = this.TWIST || {};
     this._initSessionId();
 
     this._initNewTurnButton();
+
+    this._initErrorPanel();
   };
 
   p._initExplodePot = function () {
@@ -331,6 +333,12 @@ this.TWIST = this.TWIST || {};
     });
 
     this.setBetting(this.chipButtons[0]);
+  };
+
+  p._initErrorPanel = function () {
+    this.errorPanel = $(TWIST.HTMLTemplate['tinyMiniPoker/errorPanel']);
+    this.wrapperTemplate.append(this.errorPanel);
+    this.errorPanel.hide();
   };
 
   p._initOtherButtons = function () {
@@ -641,7 +649,18 @@ this.TWIST = this.TWIST || {};
   };
 
   p.showError = function (message) {
-    this.supportText.text(message);
+//    this.supportText.text(message);
+
+    var errorItem = $('<div class="error-item-mini">' + message + '</div>');
+    var _self = this;
+    this.errorPanel.empty();
+    this.errorPanel.show();
+    this.errorPanel.append(errorItem);
+    var _self = this;
+    errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      $(errorItem).remove();
+      _self.errorPanel.hide();
+    });
   };
 
   p.reconnect = function (data) {

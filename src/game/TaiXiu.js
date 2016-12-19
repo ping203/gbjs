@@ -716,7 +716,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.playResultSounds = function (data) {
-    console.log("data",data);
     var map = data.map;
     var winnerSlots = data.winnerSlots;
 
@@ -759,7 +758,6 @@ this.TWIST = this.TWIST || {};
         playSrc.push(item);
       }
     }); 
-    console.log("play src", playSrc);
     TWIST.Sound.playQueue(playSrc);
   };
 

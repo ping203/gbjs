@@ -12,7 +12,7 @@ this.TWIST = this.TWIST || {};
   };
   var p = BaseGame.prototype = new EventEmitter();
 
-  p.initBaseGame = function () {
+  p.initBaseGame = function (options) {
 
     //Event List
 //        this.events = {
@@ -22,7 +22,7 @@ this.TWIST = this.TWIST || {};
     this.initEvent();
     this.initCanvas();
     this.wrapper.append(this.canvas);
-    this.initStage();
+    this.initStage(options);
   };
 
   p.initCanvas = function () {
@@ -36,9 +36,10 @@ this.TWIST = this.TWIST || {};
     return canvas;
   };
 
-  p.initStage = function () {
+  p.initStage = function (options) {
     var _self = this;
     var stage = new createjs.Stage(this.canvas[0]);
+    $.extend(stage,options);
     TWIST.Observer._canvasList.push(stage);
     stage.enableMouseOver(20);
     var context = stage.canvas.getContext("2d");

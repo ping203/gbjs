@@ -1218,6 +1218,21 @@ this.FATE = this.FATE || {};
 'tinyMiniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'tinyMiniPoker/winMoney':'<div class="win-money"></div>',
 'tinyMiniPoker/wrapper':'<div class="tiny-mini-poker-bg"></div> \r\n',
+'videoPoker/button':'<div class="button-spin"></div>',
+'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\r\n    Nh\u1EADn th\u01B0\u1EDFng\r\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\r\n    <i class="chip1"></i>\r\n    <i class="chip2"></i>\r\n    <i class="chip3"></i>\r\n    <i class="chip4"></i>\r\n    <i class="chip5"></i>\r\n    <i class="chip6"></i>\r\n    <i class="chip7"></i>\r\n    <i class="chip8"></i>\r\n</div>',
+'videoPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
+'videoPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
+'videoPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'videoPoker/resultText':'<div class="result-text"></div>',
+'videoPoker/sessionId':'<div class="session-id"></div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\r\n',
 'tinyVideoPoker/button':'<div class="button-spin"></div>',
 'tinyVideoPoker/buttonClose':'<div class="button-close"></div>',
 'tinyVideoPoker/buttonHelp':'<div class="button-help"></div>',
@@ -1237,21 +1252,6 @@ this.FATE = this.FATE || {};
 'tinyVideoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'tinyVideoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
 'tinyVideoPoker/wrapper':'<div class="tiny-mini-poker-bg tiny-video-poker"></div>\r\n',
-'videoPoker/button':'<div class="button-spin"></div>',
-'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
-'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
-'videoPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
-'videoPoker/getWinButton':'<div class="get-win-button">\r\n    Nh\u1EADn th\u01B0\u1EDFng\r\n</div>',
-'videoPoker/moveChip':'<div class="move-chip">\r\n    <i class="chip1"></i>\r\n    <i class="chip2"></i>\r\n    <i class="chip3"></i>\r\n    <i class="chip4"></i>\r\n    <i class="chip5"></i>\r\n    <i class="chip6"></i>\r\n    <i class="chip7"></i>\r\n    <i class="chip8"></i>\r\n</div>',
-'videoPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
-'videoPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
-'videoPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
-'videoPoker/resultText':'<div class="result-text"></div>',
-'videoPoker/sessionId':'<div class="session-id"></div>',
-'videoPoker/supportText':'<div class="support-text"></div>',
-'videoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
-'videoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\r\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
 'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
@@ -1520,7 +1520,6 @@ this.TWIST = this.TWIST || {};
               }
             });
           }
-          ;
           _self.position = curPosition;
         }
       });
@@ -1529,7 +1528,7 @@ this.TWIST = this.TWIST || {};
           _self.selected = false;
           _self.moveToPosition(_self.position);
           _self.parent.children.sort(function (a, b) {
-            return a.position - b.position
+            return a.position - b.position;
           });
         }
         _self.isDragging = false;
@@ -3577,7 +3576,7 @@ this.TWIST = this.TWIST || {};
   };
   var p = BaseGame.prototype = new EventEmitter();
 
-  p.initBaseGame = function () {
+  p.initBaseGame = function (options) {
 
     //Event List
 //        this.events = {
@@ -3587,7 +3586,7 @@ this.TWIST = this.TWIST || {};
     this.initEvent();
     this.initCanvas();
     this.wrapper.append(this.canvas);
-    this.initStage();
+    this.initStage(options);
   };
 
   p.initCanvas = function () {
@@ -3601,9 +3600,10 @@ this.TWIST = this.TWIST || {};
     return canvas;
   };
 
-  p.initStage = function () {
+  p.initStage = function (options) {
     var _self = this;
     var stage = new createjs.Stage(this.canvas[0]);
+    $.extend(stage,options);
     TWIST.Observer._canvasList.push(stage);
     stage.enableMouseOver(20);
     var context = stage.canvas.getContext("2d");
@@ -3822,7 +3822,9 @@ this.TWIST = this.TWIST || {};
   p.statusList = $.extend({}, InRoomGame.statusList);
 
   p.initInRoomGame = function () {
-    this.initBaseGame();
+    this.initBaseGame({
+      _transformAble : true
+    });
     this.drawRoom();
     this.pushInRoomGameEvent();
     this.initInviteList();
@@ -7695,7 +7697,6 @@ this.TWIST = this.TWIST || {};
   };
 
   p.playResultSounds = function (data) {
-    console.log("data",data);
     var map = data.map;
     var winnerSlots = data.winnerSlots;
 
@@ -7738,7 +7739,6 @@ this.TWIST = this.TWIST || {};
         playSrc.push(item);
       }
     }); 
-    console.log("play src", playSrc);
     TWIST.Sound.playQueue(playSrc);
   };
 
@@ -8668,6 +8668,8 @@ this.TWIST = this.TWIST || {};
     this._initSessionId();
 
     this._initNewTurnButton();
+
+    this._initErrorPanel();
   };
 
   p._initExplodePot = function () {
@@ -8865,6 +8867,12 @@ this.TWIST = this.TWIST || {};
     });
 
     this.setBetting(this.chipButtons[0]);
+  };
+
+  p._initErrorPanel = function () {
+    this.errorPanel = $(TWIST.HTMLTemplate['tinyMiniPoker/errorPanel']);
+    this.wrapperTemplate.append(this.errorPanel);
+    this.errorPanel.hide();
   };
 
   p._initOtherButtons = function () {
@@ -9175,7 +9183,18 @@ this.TWIST = this.TWIST || {};
   };
 
   p.showError = function (message) {
-    this.supportText.text(message);
+//    this.supportText.text(message);
+
+    var errorItem = $('<div class="error-item-mini">' + message + '</div>');
+    var _self = this;
+    this.errorPanel.empty();
+    this.errorPanel.show();
+    this.errorPanel.append(errorItem);
+    var _self = this;
+    errorItem.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
+      $(errorItem).remove();
+      _self.errorPanel.hide();
+    });
   };
 
   p.reconnect = function (data) {
@@ -12913,6 +12932,7 @@ this.TWIST = this.TWIST || {};
   p.cancelBetting = function (data) {
     var _self = this;
     this.totalTable.setTotalBetting(0);
+    this.cancelBettingButton.hide();
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
 //      item.setTotalBetting(item.totalValue - item.mineValue);
@@ -13098,6 +13118,7 @@ this.TWIST = this.TWIST || {};
       return item.id == data.id;
     });
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
     bettingPosition.setTotalBetting(data.totalBetting);
     var currentBettingID = this.currentBetting.id;
@@ -13302,6 +13323,7 @@ this.TWIST = this.TWIST || {};
 
   p.showResult = function (data) {
     var _self = this;
+    this.playResultSounds(data);
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.winnerSlots);
     var message, position;
@@ -13323,6 +13345,35 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
     });
+  };
+
+  p.playResultSounds = function (data) {
+    var map = data.map;
+    var winnerSlots = data.winnerSlots;
+
+    var resultNumber = 0;
+    data.map.forEach(function (item, index) {
+      resultNumber += (item + 1);
+    });
+    var firstResultSound = "";
+    var seconResultSound = "";
+    var thirdResultSound = "";
+    var resultSounds = [];
+    var initSrcs = ['news/ddungdatcuoc', 'news/mobat'];
+
+    var firstSoundMap = ["news/xap4", "news/xap1", "news/xap3", "news/xap2", "news/ngua"];
+
+    var sapType = [3, 4, 5, 6].findIndex(function (item, index) {
+      return winnerSlots.indexOf(item) > -1;
+    });
+    var isOdd = (winnerSlots.indexOf(1) > -1);
+
+    var isSapType = (sapType > -1);
+    firstResultSound = isSapType ? firstSoundMap[sapType] : firstSoundMap['4'];
+    seconResultSound = isOdd ? "news/le" : "news/chan";
+
+    var srcs = [ firstResultSound, seconResultSound];
+    TWIST.Sound.playQueue(srcs);
   };
 
   p.openDisk = function (data) {
@@ -13484,7 +13535,7 @@ this.TWIST = this.TWIST || {};
     historyListConver = historyList.map(function (item, index) {
       var winnerSlot = [];
       bettingPositions.forEach(function (betting, _index) {
-        if(betting.resultMap.indexOf(item) > -1){
+        if (betting.resultMap.indexOf(item) > -1) {
           winnerSlot.push(betting.id);
         }
       });
@@ -14051,6 +14102,7 @@ this.TWIST = this.TWIST || {};
     this.setShowVitualBettings(data.status);
     this.removeSelectedBetting(data.status);
     this.setRemainingTime(data.remainingTime, data.totalTime);
+    TWIST.Sound.stop();
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -14086,6 +14138,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_BETTING = function (data) {
+    var srcs = ['news/anhoidatcuoc', 'news/batdaudatcuoc'
+              , 'news/moidatcuoc', 'news/datcuocdianh'];
+    var src = srcs[Math.floor(Math.random() * srcs.length)];
+    TWIST.Sound.play(src);
     this.host.background.hide();
     this.host.setMessage("");
     if (data.showReBetting) {

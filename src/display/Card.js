@@ -251,7 +251,6 @@ this.TWIST = this.TWIST || {};
               }
             });
           }
-          ;
           _self.position = curPosition;
         }
       });
@@ -260,7 +259,7 @@ this.TWIST = this.TWIST || {};
           _self.selected = false;
           _self.moveToPosition(_self.position);
           _self.parent.children.sort(function (a, b) {
-            return a.position - b.position
+            return a.position - b.position;
           });
         }
         _self.isDragging = false;

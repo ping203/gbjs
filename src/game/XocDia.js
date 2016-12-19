@@ -318,6 +318,7 @@ this.TWIST = this.TWIST || {};
   p.cancelBetting = function (data) {
     var _self = this;
     this.totalTable.setTotalBetting(0);
+    this.cancelBettingButton.hide();
     this.bettingPositions.forEach(function (item, index) {
       _self.moveChipToUser(item.id, item.mineValue);
 //      item.setTotalBetting(item.totalValue - item.mineValue);
@@ -503,6 +504,7 @@ this.TWIST = this.TWIST || {};
       return item.id == data.id;
     });
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
     bettingPosition.setTotalBetting(data.totalBetting);
     var currentBettingID = this.currentBetting.id;
@@ -707,6 +709,7 @@ this.TWIST = this.TWIST || {};
 
   p.showResult = function (data) {
     var _self = this;
+    this.playResultSounds(data);
     var newY = initOptions.bowlPosition.y - initOptions.bowlPosition.height;
     this.history.addResult(data.winnerSlots);
     var message, position;
@@ -728,6 +731,35 @@ this.TWIST = this.TWIST || {};
     this.bettingPositions.forEach(function (item, index) {
       item.setStatus(data.winnerSlots);
     });
+  };
+
+  p.playResultSounds = function (data) {
+    var map = data.map;
+    var winnerSlots = data.winnerSlots;
+
+    var resultNumber = 0;
+    data.map.forEach(function (item, index) {
+      resultNumber += (item + 1);
+    });
+    var firstResultSound = "";
+    var seconResultSound = "";
+    var thirdResultSound = "";
+    var resultSounds = [];
+    var initSrcs = ['news/ddungdatcuoc', 'news/mobat'];
+
+    var firstSoundMap = ["news/xap4", "news/xap1", "news/xap3", "news/xap2", "news/ngua"];
+
+    var sapType = [3, 4, 5, 6].findIndex(function (item, index) {
+      return winnerSlots.indexOf(item) > -1;
+    });
+    var isOdd = (winnerSlots.indexOf(1) > -1);
+
+    var isSapType = (sapType > -1);
+    firstResultSound = isSapType ? firstSoundMap[sapType] : firstSoundMap['4'];
+    seconResultSound = isOdd ? "news/le" : "news/chan";
+
+    var srcs = [ firstResultSound, seconResultSound];
+    TWIST.Sound.playQueue(srcs);
   };
 
   p.openDisk = function (data) {
@@ -889,7 +921,7 @@ this.TWIST = this.TWIST || {};
     historyListConver = historyList.map(function (item, index) {
       var winnerSlot = [];
       bettingPositions.forEach(function (betting, _index) {
-        if(betting.resultMap.indexOf(item) > -1){
+        if (betting.resultMap.indexOf(item) > -1) {
           winnerSlot.push(betting.id);
         }
       });
@@ -1456,6 +1488,7 @@ this.TWIST = this.TWIST || {};
     this.setShowVitualBettings(data.status);
     this.removeSelectedBetting(data.status);
     this.setRemainingTime(data.remainingTime, data.totalTime);
+    TWIST.Sound.stop();
     if (typeof func === "function") {
       func.call(this, data);
     }
@@ -1491,6 +1524,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_BETTING = function (data) {
+    var srcs = ['news/anhoidatcuoc', 'news/batdaudatcuoc'
+              , 'news/moidatcuoc', 'news/datcuocdianh'];
+    var src = srcs[Math.floor(Math.random() * srcs.length)];
+    TWIST.Sound.play(src);
     this.host.background.hide();
     this.host.setMessage("");
     if (data.showReBetting) {

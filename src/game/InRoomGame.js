@@ -30,7 +30,9 @@ this.TWIST = this.TWIST || {};
   p.statusList = $.extend({}, InRoomGame.statusList);
 
   p.initInRoomGame = function () {
-    this.initBaseGame();
+    this.initBaseGame({
+      _transformAble : true
+    });
     this.drawRoom();
     this.pushInRoomGameEvent();
     this.initInviteList();
