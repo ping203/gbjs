@@ -318,6 +318,7 @@ this.TWIST = this.TWIST || {};
     var data = this.hostPaymentData;
     if (!data)
       return;
+    TWIST.Sound.play("chip/multichip");
     if (this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
@@ -352,6 +353,7 @@ this.TWIST = this.TWIST || {};
     if (!this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
+    TWIST.Sound.play("chip/multichip");
     this.bettingPositions.forEach(function (item, index) {
       if (item.status) {
         (function (mineValue, totalValue) {
@@ -471,6 +473,7 @@ this.TWIST = this.TWIST || {};
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
+    TWIST.Sound.play("chip/singlechip");
     this.reBettingButton.hide();
     this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
@@ -493,8 +496,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.reBetting = function (data) {
+    TWIST.Sound.play("chip/multichip");
     var _self = this;
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
         return _item.id == item.id;

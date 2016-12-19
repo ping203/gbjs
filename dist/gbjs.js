@@ -1218,21 +1218,6 @@ this.FATE = this.FATE || {};
 'tinyMiniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'tinyMiniPoker/winMoney':'<div class="win-money"></div>',
 'tinyMiniPoker/wrapper':'<div class="tiny-mini-poker-bg"></div> \r\n',
-'videoPoker/button':'<div class="button-spin"></div>',
-'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
-'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
-'videoPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
-'videoPoker/getWinButton':'<div class="get-win-button">\r\n    Nh\u1EADn th\u01B0\u1EDFng\r\n</div>',
-'videoPoker/moveChip':'<div class="move-chip">\r\n    <i class="chip1"></i>\r\n    <i class="chip2"></i>\r\n    <i class="chip3"></i>\r\n    <i class="chip4"></i>\r\n    <i class="chip5"></i>\r\n    <i class="chip6"></i>\r\n    <i class="chip7"></i>\r\n    <i class="chip8"></i>\r\n</div>',
-'videoPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
-'videoPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
-'videoPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
-'videoPoker/resultText':'<div class="result-text"></div>',
-'videoPoker/sessionId':'<div class="session-id"></div>',
-'videoPoker/supportText':'<div class="support-text"></div>',
-'videoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
-'videoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
-'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\r\n',
 'tinyVideoPoker/button':'<div class="button-spin"></div>',
 'tinyVideoPoker/buttonClose':'<div class="button-close"></div>',
 'tinyVideoPoker/buttonHelp':'<div class="button-help"></div>',
@@ -1252,6 +1237,21 @@ this.FATE = this.FATE || {};
 'tinyVideoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'tinyVideoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
 'tinyVideoPoker/wrapper':'<div class="tiny-mini-poker-bg tiny-video-poker"></div>\r\n',
+'videoPoker/button':'<div class="button-spin"></div>',
+'videoPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
+'videoPoker/doubleButton':'<div class="button-spin double-button"></div>',
+'videoPoker/errorPanel':'<div class="error-panel-mini">\r\n    \r\n</div>',
+'videoPoker/getWinButton':'<div class="get-win-button">\r\n    Nh\u1EADn th\u01B0\u1EDFng\r\n</div>',
+'videoPoker/moveChip':'<div class="move-chip">\r\n    <i class="chip1"></i>\r\n    <i class="chip2"></i>\r\n    <i class="chip3"></i>\r\n    <i class="chip4"></i>\r\n    <i class="chip5"></i>\r\n    <i class="chip6"></i>\r\n    <i class="chip7"></i>\r\n    <i class="chip8"></i>\r\n</div>',
+'videoPoker/pot':'<div class="pot">\r\n    H\u0169 th\u01B0\u1EDFng\r\n    <div class="pot-value"></div>\r\n</div>',
+'videoPoker/resultItem':'<div class="result-mini-item">\r\n    <span class="icon"></span>\r\n    <%- name %> \r\n    <div class="value"><%- value %> </div>\r\n</div>',
+'videoPoker/resultTab':'<div class="result-mini-poker-tab"></div>',
+'videoPoker/resultText':'<div class="result-text"></div>',
+'videoPoker/sessionId':'<div class="session-id"></div>',
+'videoPoker/supportText':'<div class="support-text"></div>',
+'videoPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
+'videoPoker/virtualCards':'<div class="virtualCards">\r\n    <div class="card vitualCard1">\r\n        \r\n    </div>\r\n    <div class="card vitualCard2">\r\n        \r\n    </div>\r\n    <div class="card vitualCard3">\r\n        \r\n    </div>\r\n    <div class="card vitualCard4">\r\n        \r\n    </div>\r\n    <div class="card vitualCard5">\r\n        \r\n    </div>\r\n</div>',
+'videoPoker/wrapper':'<div class="mini-poker-bg video-poker"></div>\r\n',
 'xocDia/bettingPosition':'<div class="betting-position">\r\n    <div class="coin-tittle"></div>\r\n    <div class="name"></div>\r\n    <div class="mine-betting">\r\n        0\r\n    </div>\r\n    <div class="total-betting">\r\n        0\r\n    </div>\r\n</div>\r\n',
 'xocDia/buttons':'<div class="button-bar xocdia-button-bar">\r\n    <div class="button blue xocdia-button button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button button-bottom" id="sellOdd">B\xE1n c\u1EEDa l\u1EBD</div>\r\n    <div class="button blue xocdia-button button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button button-top" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <div class="button orange xocdia-button button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>\r\n    <div class="button orange xocdia-button button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'xocDia/changeMoney':'<div class="change-money"></div>\r\n',
@@ -7299,6 +7299,7 @@ this.TWIST = this.TWIST || {};
     var data = this.hostPaymentData;
     if (!data)
       return;
+    TWIST.Sound.play("chip/multichip");
     if (this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
@@ -7333,6 +7334,7 @@ this.TWIST = this.TWIST || {};
     if (!this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
+    TWIST.Sound.play("chip/multichip");
     this.bettingPositions.forEach(function (item, index) {
       if (item.status) {
         (function (mineValue, totalValue) {
@@ -7452,6 +7454,7 @@ this.TWIST = this.TWIST || {};
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
+    TWIST.Sound.play("chip/singlechip");
     this.reBettingButton.hide();
     this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
@@ -7474,8 +7477,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.reBetting = function (data) {
+    TWIST.Sound.play("chip/multichip");
     var _self = this;
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
         return _item.id == item.id;
@@ -12964,6 +12969,7 @@ this.TWIST = this.TWIST || {};
     var data = this.hostPaymentData;
     if (!data)
       return;
+    TWIST.Sound.play("chip/multichip");
     if (this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
@@ -12998,6 +13004,7 @@ this.TWIST = this.TWIST || {};
     if (!this.userInfo.isHost) {
       this.showChangeMoney(data);
     }
+    TWIST.Sound.play("chip/multichip");
     this.bettingPositions.forEach(function (item, index) {
       if (item.status) {
         (function (mineValue, totalValue) {
@@ -13117,6 +13124,7 @@ this.TWIST = this.TWIST || {};
     var bettingPosition = this.bettingPositions.find(function (item, index) {
       return item.id == data.id;
     });
+    TWIST.Sound.play("chip/singlechip");
     this.reBettingButton.hide();
     this.cancelBettingButton.show();
     bettingPosition.setMineBetting(data.mineBetting);
@@ -13139,8 +13147,10 @@ this.TWIST = this.TWIST || {};
   };
 
   p.reBetting = function (data) {
+    TWIST.Sound.play("chip/multichip");
     var _self = this;
     this.reBettingButton.hide();
+    this.cancelBettingButton.show();
     this.bettingPositions.forEach(function (item, index) {
       var dataItem = data.find(function (_item, _index) {
         return _item.id == item.id;
