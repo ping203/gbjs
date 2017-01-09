@@ -743,15 +743,16 @@ this.TWIST = this.TWIST || {};
       return winnerSlots.indexOf(item) > -1;
     });
 
-    var numberType = [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21].findIndex(function (item, index) {
+    var numberType = [8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22].findIndex(function (item, index) {
       return winnerSlots.indexOf(item) > -1;
     });
 
     var isTrippleType = (trippleType > -1);
     firstResultSound = isTrippleType ? "news/dong" : 'news/tong';
     seconResultSound = isTrippleType ? trippTypeMap[trippleType] : numberTypeMap[numberType];
+    console.log("numberType",numberType);
     if(!isTrippleType && numberType > - 1){
-      thirdResultSound = numberType < 11 ? "news/xiu" : "news/tai";
+      thirdResultSound = numberType < 7 ? "news/xiu" : "news/tai";
     }
     
     var srcs = [initSrcs,firstResultSound,seconResultSound,thirdResultSound];
