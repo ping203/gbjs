@@ -4142,7 +4142,7 @@ this.TWIST = this.TWIST || {};
 
     listPlayer.forEach(function (item, index) {
       item.cardList = item.isRoomMaster ? listCardToSet : [];
-      if (!listCardToSet.length)
+      if (isNaN(listCardToSet.length))
         return;
       var addCardsLength = _self.options.numberCardsInHand - item.cardList.length;
       if (addCardsLength > 0) {
@@ -4439,7 +4439,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.addPlayer = function (data) {
-
+    TWIST.Sound.play("inroomgame/join_room");
     var userPosition = this.userInfo.indexPosition;
     var playerPosition = data.indexPosition - userPosition;
     if (playerPosition < 0)
