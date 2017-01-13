@@ -93,6 +93,10 @@ and open the template in the editor.
     transform: scale(0.98); }
   .twist .button.first {
     right: 30px; }
+  .twist .button.zero {
+    right: 830px;
+    bottom: 20px;
+    top: initial; }
   .twist .button.second {
     right: 230px; }
   .twist .button.third {
@@ -3908,3 +3912,55 @@ and open the template in the editor.
       color: #2e7fae; }
       .twist .tiny-hight-low .session-id:before {
         content: "ID : "; }
+  .twist .button.zero {
+    color: red; }
+  .twist .cheater {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    font-size: 20px;
+    color: wheat; }
+    .twist .cheater .card {
+      margin-left: 0; }
+    .twist .cheater .cheat-backgound {
+      background-color: rgba(0, 0, 0, 0.2);
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: 0;
+      position: absolute; }
+    .twist .cheater .cheat-options {
+      position: absolute;
+      right: 10px;
+      bottom: 330px; }
+      .twist .cheater .cheat-options label {
+        display: block;
+        margin-top: 10px;
+        border: 1px solid red;
+        cursor: pointer; }
+    .twist .cheater .card-button-list {
+      position: absolute;
+      top: 0;
+      z-index: 1; }
+    .twist .cheater .random-card-list {
+      position: absolute;
+      top: 200px;
+      z-index: 1; }
+      .twist .cheater .random-card-list:before {
+        content: "Cây bài random"; }
+    .twist .cheater .fix-card-list {
+      position: absolute;
+      top: 300px;
+      z-index: 1; }
+      .twist .cheater .fix-card-list:before {
+        content: "Cây bài cố định"; }
+    .twist .cheater .total-cheat-card-list {
+      position: absolute;
+      top: 400px;
+      z-index: 1; }
+      .twist .cheater .total-cheat-card-list:before {
+        content: "Bộ bài yêu cầu"; }

@@ -364,8 +364,8 @@ this.TWIST = this.TWIST || {};
     var cardNumberBg = this.numberOfCards.getChildAt(0);
     var cardNumber = this.numberOfCards.getChildAt(1);
     if (this.position !== 0 && numOfCards > 0) {
-      cardNumberBg.visible = true;
-      cardNumber.visible = true;
+      cardNumberBg.visible = false;
+      cardNumber.visible = false;
       cardNumber.text = numOfCards;
 
     } else {

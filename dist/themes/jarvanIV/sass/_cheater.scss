@@ -1,0 +1,20 @@
+.cheater{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top : 100%;
+    bottom: 100%;
+    .cheat-options{
+        position: absolute;
+        right: 10px;
+        background-color: rgba(0,0,0,0.2);
+        bottom: 10px;
+        label{
+            display: block;
+            margin-top: 10px;
+            border :  1px solid red;
+            cursor: pointer;
+        }
+    }
+}

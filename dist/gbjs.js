@@ -1157,6 +1157,7 @@ this.FATE = this.FATE || {};
 'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
 'buttonBar/startButton':'<div class="button first yellow" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/wrapper':'<div class="button-bar"></div>',
+'cheater/wrapper':'<div class="cheater">\n    <div class="cheat-backgound"></div>\n    <div class="cheat-options">\n        <label>\n            <input id="showPlayerCards" type="checkbox" checked="true"/>\n            Xem b\xE0i\n        </label>\n        <label>\n            <input id="hightCards" type="radio" name="cheatType"/>\n            B\xE0i cao\n        </label>\n        <label>\n            <input id="hasGun" type="radio" name="cheatType"/>\n            C\xF3 h\xE0ng\n        </label>\n        <label>\n            <input id="whiteVictory" type="radio" name="cheatType"/>\n            \u0102n tr\u1EAFng\n        </label>\n        <label>\n            <input id="noCheat" type="radio" name="cheatType"/>\n            Kh\xF4ng cheat\n        </label>\n        <label>\n            <input id="hasFixedCards" type="checkbox"/>\n            Ch\u1EE9a list b\xE0i c\u1ED1 \u0111\u1ECBnh\n        </label>\n    </div>\n    <div class="card-button-list" > \n        \n    </div>\n    <div class="random-card-list" > \n        \n    </div>\n    <div class="fix-card-list" > \n        \n    </div>\n    <div class="total-cheat-card-list" > \n        \n    </div>\n</div>',
 'effect/explodePot':'<div class="explorer-pot">\r\n    <span class="effect"></span>\r\n    <span class="txt"></span>\r\n</div>\r\n<div class="money-falling">\r\n    <div class="text-light pos-1">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-2">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-3">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-4">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
 'hightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\r\n</div>\r\n',
@@ -2453,8 +2454,8 @@ this.TWIST = this.TWIST || {};
     var cardNumberBg = this.numberOfCards.getChildAt(0);
     var cardNumber = this.numberOfCards.getChildAt(1);
     if (this.position !== 0 && numOfCards > 0) {
-      cardNumberBg.visible = true;
-      cardNumber.visible = true;
+      cardNumberBg.visible = false;
+      cardNumber.visible = false;
       cardNumber.text = numOfCards;
 
     } else {
@@ -3823,7 +3824,7 @@ this.TWIST = this.TWIST || {};
 
   p.initInRoomGame = function () {
     this.initBaseGame({
-      _transformAble : true
+      _transformAble: true
     });
     this.drawRoom();
     this.pushInRoomGameEvent();
@@ -3948,6 +3949,10 @@ this.TWIST = this.TWIST || {};
     this.on("reconnect", this.reconnect);
 
     this.on("updateUuid", this.updateUuid);
+
+    this.on("showPlayersCards", this.showPlayersCards);
+
+    this.on("reSortDraftCards", this.reSortDraftCards);
   };
 
   p.setUserInfo = function (data) {
@@ -3992,6 +3997,309 @@ this.TWIST = this.TWIST || {};
       this.playersContainer.removeChild(player);
     }
     var playerData = this.removePlayerData(data.uuid);
+  };
+
+  p.addCheater = function () {
+    var _self = this;
+
+    this.cheaterButton = $('<div class="button zero yellow">Cheater</div>');
+    this.wrapper.append(this.cheaterButton);
+    this.cheaterButton.unbind('click');
+    this.cheaterButton.click(function () {
+      $('.cheater').toggle();
+    });
+
+    this.cheater = $(TWIST.HTMLTemplate['cheater/wrapper']);
+    this.cheater.find('.cheat-backgound').click(function () {
+      $('.cheater').toggle();
+    });
+    this.cardButtonList = this.cheater.find('.card-button-list');
+    this.randomCardList = this.cheater.find('.random-card-list');
+    this.randomCardList.cardList = [];
+    this.fixCardList = this.cheater.find('.fix-card-list');
+    this.fixCardList.cardList = [];
+    this.totalCheatCardList = this.cheater.find('.total-cheat-card-list');
+    this.totalCheatCardList.cardList = [];
+    this.wrapper.append(this.cheater);
+
+    this.addCheatCardButtons();
+  };
+
+  p.addCheatCardButtons = function () {
+    var _self = this;
+    for (var i = 0; i < 52; i++) {
+      var elementStr = '<div class="card-cheat-button card card' + i + '"></div>';
+      var element = $(elementStr);
+      (function (element, i) {
+        element.click(function () {
+          _self.addCheatCard(i);
+        });
+      })(element, i);
+      this.cardButtonList.append(element);
+    }
+  };
+
+  p.addCheatCard = function (index) {
+    if (this.fixCardList.cardList.indexOf(index) === -1) {
+      this.renderHtmlCardInElement(index, this.fixCardList);
+      this.createTotalCheatCardList();
+    }
+  };
+
+  p.renderHtmlCardInElement = function (index, container) {
+    var _self = this;
+    if (container.cardList.length >= this.options.numberCardsInHand)
+      return;
+    container.cardList.push(index);
+    var card = $('<div class="card-cheat-button card card' + index + '"></div>');
+    card.click(function () {
+      var arrayIndex = container.cardList.indexOf(index);
+      if (arrayIndex > -1) {
+        container.cardList.splice(arrayIndex, 1);
+      }
+      $(this).remove();
+      _self.createTotalCheatCardList();
+    });
+    container.append(card);
+  };
+
+  p.createTotalCheatCardList = function () {
+    var _self = this;
+    _self.totalCheatCardList.cardList = [];
+    var totalList = [];
+    this.fixCardList.cardList.forEach(function (item, index) {
+      if (totalList.indexOf(item) === -1) {
+        totalList.push(item);
+      }
+    });
+    this.randomCardList.cardList.forEach(function (item, index) {
+      if (totalList.indexOf(item) === -1) {
+        totalList.push(item);
+      }
+    });
+    totalList.sort(function (a, b) {
+      return a - b;
+    });
+    this.clearCardListContainer(_self.totalCheatCardList);
+    totalList.forEach(function (item, index) {
+      _self.renderHtmlCardInElement(item, _self.totalCheatCardList);
+    });
+  };
+
+  p.clearCardListContainer = function (element) {
+    element.cardList = [];
+    element.empty();
+  };
+
+  p.getListCheatCard = function (element) {
+    var _self = this;
+    this.createTotalCheatCardList();
+    var listCardToSet = [];
+    if ($('#whiteVictory').prop('checked')) {
+      listCardToSet = this.createWhiteVictoryList();
+    } else if ($('#hasGun').prop('checked')) {
+      listCardToSet = this.createGunList();
+    } else if ($('#hightCards').prop('checked')) {
+      listCardToSet = this.createHightCardsList();
+    } else {
+      listCardToSet = [];
+    }
+    if ($('#hasFixedCards').prop('checked')) {
+      _self.totalCheatCardList.cardList.forEach(function (item, index) {
+        if ((listCardToSet.indexOf(item) === -1) && listCardToSet.length < _self.options.numberCardsInHand) {
+          listCardToSet.push(item);
+        }
+      });
+    }
+    
+//    listCardToSet = [];
+
+    var listPlayer = this.playersContainer.children.map(function (item, index) {
+      return {
+        uuid: item.uuid,
+        username: item.username,
+        isRoomMaster: item.isRoomMaster,
+        indexPosition: item.indexPosition
+      };
+    });
+    listPlayer.sort(function (a, b) {
+      return a.indexPosition - b.indexPosition
+    });
+
+    var listFullCard = [];
+    for (var i = 0; i < 52; i++) {
+      listFullCard.push({
+        value: i,
+        disabled: false
+      });
+    }
+
+    listFullCard.forEach(function (item, index) {
+      if (listCardToSet.indexOf(item.value) > -1) {
+        item.disabled = true;
+      }
+    });
+
+    listPlayer.forEach(function (item, index) {
+      item.cardList = item.isRoomMaster ? listCardToSet : [];
+      if (!listCardToSet.length)
+        return;
+      var addCardsLength = _self.options.numberCardsInHand - item.cardList.length;
+      if (addCardsLength > 0) {
+        for (var i = 0; i < addCardsLength; i++) {
+          addCardToPlayer(item.cardList);
+        }
+      }
+    });
+
+    function addCardToPlayer(cardList) {
+      var remainingCards = listFullCard.filter(function (item) {
+        return !item.disabled;
+      });
+      var cardItem = remainingCards[parseInt(Math.random() * remainingCards.length)];
+      cardList.push(cardItem.value);
+      var disabledCard = listFullCard.find(function (item) {
+        return item.value == (cardItem && cardItem.value);
+      });
+      disabledCard && (disabledCard.disabled = true);
+    }
+    return listPlayer;
+  };
+
+  p.createWhiteVictoryList = function () {
+    var whiteVictoryList = [
+      "3s4c5h6d7s8c9h0djdqdkskdac", "3d3h4d5s6c7c8s9s0hjsqskcad", "3c4d5h6h7d8c9s0djcqskdas2d",
+      "3s4d5d6d7c8d9d0sjcqckhac2s", "3h4s5s6d7s8c9h0h0sjcqdkdad", "3h4h5h6c6s7s8s9d0cjdqskdas",
+      // 5 doi thong
+      "4s4d5d5c6h6d7c7s8h8sjcjdkh", "6c6d7s7h8d8s9h9s0c0dadah2h", "3h5d8d8c9s9h0c0djsjdqcqd2s",
+      "3d3s4s4d5d5c6h6d7c7sjdqckc", "6d6h7s7c8c8d9d9s0s0hacasad", "8s8c8h9s9h0s0cjsjcqdqhac2d",
+      // 6 doi
+      "4s4d5c5s7d7c8c8h9s9dkdkcas", "3c3h8s8h9s9c0s0dkhkcjdjh2s", "6s6h4c4d7s9s9dkckhasah2d2h",
+      // Tu 2
+      "3h4s5d6c8h9djhjcks2h2c2d2s", "4s4h6h8s8c9s0hjckd2s2c2h2d", "5s6c7c7h0h0cqdqckd2d2c2s2h",
+      "3s4d6d6c7h9s0cjhqc2h2c2d2s", "3c3h4d5d6s0c0hkdks2s2c2h2d"];
+    var randomString = whiteVictoryList[parseInt(Math.random() * whiteVictoryList.length)];
+    var cardStringList = randomString.match(/.{1,2}/g);
+    var rankMap = ["3", "4", "5", "6", "7", "8", "9", "0", "j", "q", "k", "a", "2"];
+    var suitMap = ['s', 'c', 'd', 'h'];
+    var idList = cardStringList.map(function (item, index) {
+      return rankMap.indexOf(item[0]) * 4 + suitMap.indexOf(item[1]);
+    });
+    return idList;
+  };
+
+  p.createGunList = function () {
+    var idList = [];
+    var startId = 0;
+    if (Math.random() < 0.5) {
+      startId = parseInt(Math.random() * 11);
+      for (var i = 0; i < 4; i++) {
+        idList.push(startId * 4 + i)
+      }
+    } else {
+      startId = parseInt(Math.random() * 9);
+      for (var i = 0; i < 3; i++) {
+       idList = idList.concat(getDoubleCards(startId + i))
+      }
+    }
+    function getDoubleCards(id) {
+      var returnArr = [];
+      while (returnArr.length < 2) {
+        var newItem = parseInt(Math.random() * 4) + id * 4;
+        if (returnArr.indexOf(newItem) == -1) {
+          returnArr.push(newItem)
+        }
+      }
+      return returnArr;
+    }
+    return idList;
+  };
+
+  p.createHightCardsList = function () {
+    var idList = [];
+    var length = parseInt(this.options.numberCardsInHand * 2 / 3);
+
+    while (idList.length < length) {
+      var newItem = parseInt(36 + Math.random() * 16);
+      if (idList.indexOf(newItem) == -1) {
+        idList.push(newItem)
+      }
+    }
+    return idList;
+  };
+
+  p.reSortDraftCards = function (data) {
+    var userID = data.uuid;
+    var Player = this.getPlayerByUuid(userID);
+    var cardType = TWIST.Card.draftCard;
+    if (!Player) {
+      this.showError({code: 0});
+      return;
+    }
+    if (Player.position == 0)
+      return;
+    if (Player.x < 100) {
+      Player.showCardsDirection = "horizontal";
+      Player.indexShowCardX = 0;
+    } else {
+      Player.showCardsDirection = "horizontal";
+      Player.indexShowCardX = -300;
+    }
+    Player.handCards.children.sort(function (a, b) {
+      return a.cardValue - b.cardValue;
+    });
+    Player.handCards.children.forEach(function (item, index) {
+      item.set({
+        scaleX: cardType.scale * 3 / 4,
+        scaleY: cardType.scale * 3 / 4,
+        x: Player.indexShowCardX + index * cardType.seperator * 3 / 4,
+        y: 0
+      })
+    });
+  };
+
+  p.showPlayersCards = function (data) {
+    var _self = this;
+    var cardType = TWIST.Card.draftCard;
+    var currentPlayer = this.getCurrentPlayer();
+    currentPlayer.showPlayersCards = true;
+
+    data.forEach(openPlayerCards);
+    function openPlayerCards(itemData) {
+      var player = _self.getPlayerByUuid(itemData.uuid);
+      if (player.position == 0)
+        return;
+      player.clearHand();
+//      if (player.x < 100 || player.x > 1000) {
+//        player.showCardsDirection = "vertical";
+//        player.indexShowCardY = -250;
+//      } else {
+//        player.showCardsDirection = "horizontal";
+//        player.indexShowCardX = -300;
+//      }
+
+      if (player.x < 100) {
+        player.showCardsDirection = "horizontal";
+        player.indexShowCardX = 0;
+      } else {
+        player.showCardsDirection = "horizontal";
+        player.indexShowCardX = -300;
+      }
+      itemData.cardList.sort(function (a, b) {
+        return a - b;
+      });
+      itemData.cardList.forEach(function (item, index) {
+        var card = new TWIST.Card(item);
+        player.handCards.addChild(card);
+        card.set({
+          scaleX: cardType.scale * 3 / 4,
+          scaleY: cardType.scale * 3 / 4,
+          x: player.showCardsDirection == "vertical" ? 0 : (player.indexShowCardX + index * cardType.seperator * 3 / 4),
+//          y: player.showCardsDirection == "vertical" ? (player.indexShowCardY + index * cardType.height * 2 / 3) : 0,
+          y: 0
+        })
+      });
+    }
   };
 
   p.showError = function (data) {
@@ -4224,7 +4532,7 @@ this.TWIST = this.TWIST || {};
 
   p.drawPlayer = function (playerData) {
     playerData.config = playerData.config || {};
-    $.extend(playerData,this.options.playerConfig);
+    $.extend(playerData, this.options.playerConfig);
     playerData.index = playerData.index || 0;
 
     var newPlayer = new TWIST.Player(playerData);
@@ -4372,6 +4680,7 @@ this.TWIST = this.TWIST || {};
     this.initInRoomGame();
     this.pushTLMNDemlaEvent();
     this.bindButton();
+    this.addCheater();
   };
 
   p.pushTLMNDemlaEvent = function () {
@@ -4382,6 +4691,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.handCardSelected = function (card) {
+    return;
     var lastDraftCard = this.desk.lastDraftCards;
     if (card && lastDraftCard && lastDraftCard.length) {
       var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
@@ -4502,8 +4812,8 @@ this.TWIST = this.TWIST || {};
 
   p.onNotifyOne = function (data) {
     var player = this.getPlayerByUuid(data.uuid);
-    player.setPlayerStatus("Báo 1 !",{
-      default : "Báo 1 !"
+    player.setPlayerStatus("Báo 1 !", {
+      default: "Báo 1 !"
     });
   };
 
@@ -4565,7 +4875,11 @@ this.TWIST = this.TWIST || {};
 
     this.startButton.unbind('click');
     this.startButton.click(function () {
-      _self.emit("start", _self.model.players);
+      var listCheatCard = _self.getListCheatCard();
+      _self.emit("start", {
+        listCheatCard : listCheatCard,
+        showPlayerCards : $('#showPlayerCards').prop('checked')
+      });
     });
 
     this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
@@ -4600,7 +4914,7 @@ this.TWIST = this.TWIST || {};
       _self.emit('userFold');
     });
   };
-
+  
   p.STATUS_ENDING = function () {
     this.buttonBar.hide();
     this.errorPanel.empty();
@@ -6352,6 +6666,7 @@ this.TWIST = this.TWIST || {};
     this.initInRoomGame();
     this.bindButton();
     this.pushPhomEvent();
+    this.addCheater();
   };
 
   p.pushPhomEvent = function () {
@@ -6428,7 +6743,7 @@ this.TWIST = this.TWIST || {};
     this.eatCardButton.hide();
     if (data.uuid === this.userInfo.uuid) {
       this.hitButton.show();
-    }else{
+    } else {
       this.hitButton.hide();
     }
     this.setPlayerTurn(data.uuid, data.remainingTime);
@@ -6635,7 +6950,11 @@ this.TWIST = this.TWIST || {};
 
     this.startButton.unbind('click');
     this.startButton.click(function () {
-      _self.emit("start", _self.model.players);
+      var listCheatCard = _self.getListCheatCard();
+      _self.emit("start", {
+        listCheatCard: listCheatCard,
+        showPlayerCards: $('#showPlayerCards').prop('checked')
+      });
     });
 
     this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
@@ -6721,6 +7040,199 @@ this.TWIST = this.TWIST || {};
 
   };
 
+  p.getListCheatCard = function (element) {
+    var _self = this;
+    this.createTotalCheatCardList();
+    var listCardToSet = [];
+    if ($('#whiteVictory').prop('checked')) {
+      listCardToSet = this.createWhiteVictoryList();
+    } else if ($('#hasGun').prop('checked')) {
+      listCardToSet = this.createGunList();
+    } else if ($('#hightCards').prop('checked')) {
+      listCardToSet = this.createHightCardsList();
+    } else {
+      listCardToSet = [];
+    }
+    if ($('#hasFixedCards').prop('checked')) {
+      _self.totalCheatCardList.cardList.forEach(function (item, index) {
+        if ((listCardToSet.indexOf(item) === -1) && listCardToSet.length < _self.options.numberCardsInHand) {
+          listCardToSet.push(item);
+        }
+      });
+    }
+
+//    listCardToSet = [];
+
+    var listPlayer = this.playersContainer.children.map(function (item, index) {
+      return {
+        uuid: item.uuid,
+        username: item.username,
+        isRoomMaster: item.isRoomMaster,
+        indexPosition: item.indexPosition
+      };
+    });
+    listPlayer.sort(function (a, b) {
+      return a.indexPosition - b.indexPosition
+    });
+
+    var listFullCard = [];
+    for (var i = 0; i < 52; i++) {
+      listFullCard.push({
+        value: i,
+        disabled: false
+      });
+    }
+
+    listFullCard.forEach(function (item, index) {
+      if (listCardToSet.indexOf(item.value) > -1) {
+        item.disabled = true;
+      }
+    });
+
+    listPlayer.forEach(function (item, index) {
+      item.cardList = item.isRoomMaster ? listCardToSet : [];
+      if (!listCardToSet.length)
+        return;
+      var addCardsLength = _self.options.numberCardsInHand - item.cardList.length;
+      if ((_self.lastWinner && (_self.lastWinner == item.uuid)) || (!_self.lastWinner && item.isRoomMaster)) {
+        addCardsLength ++;
+      };
+      if (addCardsLength > 0) {
+        for (var i = 0; i < addCardsLength; i++) {
+          addCardToPlayer(item.cardList);
+        }
+      }
+    });
+
+    function addCardToPlayer(cardList) {
+      var remainingCards = listFullCard.filter(function (item) {
+        return !item.disabled;
+      });
+      var cardItem = remainingCards[parseInt(Math.random() * remainingCards.length)];
+      cardList.push(cardItem.value);
+      var disabledCard = listFullCard.find(function (item) {
+        return item.value == (cardItem && cardItem.value);
+      });
+      disabledCard && (disabledCard.disabled = true);
+    }
+    return listPlayer;
+  };
+
+  p.createWhiteVictoryList = function () {
+    var whiteVictoryList = [
+      "3s4c5h6d7s8c9h0djdqdkskdac", "3d3h4d5s6c7c8s9s0hjsqskcad", "3c4d5h6h7d8c9s0djcqskdas2d",
+      "3s4d5d6d7c8d9d0sjcqckhac2s", "3h4s5s6d7s8c9h0h0sjcqdkdad", "3h4h5h6c6s7s8s9d0cjdqskdas",
+      // 5 doi thong
+      "4s4d5d5c6h6d7c7s8h8sjcjdkh", "6c6d7s7h8d8s9h9s0c0dadah2h", "3h5d8d8c9s9h0c0djsjdqcqd2s",
+      "3d3s4s4d5d5c6h6d7c7sjdqckc", "6d6h7s7c8c8d9d9s0s0hacasad", "8s8c8h9s9h0s0cjsjcqdqhac2d",
+      // 6 doi
+      "4s4d5c5s7d7c8c8h9s9dkdkcas", "3c3h8s8h9s9c0s0dkhkcjdjh2s", "6s6h4c4d7s9s9dkckhasah2d2h",
+      // Tu 2
+      "3h4s5d6c8h9djhjcks2h2c2d2s", "4s4h6h8s8c9s0hjckd2s2c2h2d", "5s6c7c7h0h0cqdqckd2d2c2s2h",
+      "3s4d6d6c7h9s0cjhqc2h2c2d2s", "3c3h4d5d6s0c0hkdks2s2c2h2d"];
+    var randomString = whiteVictoryList[parseInt(Math.random() * whiteVictoryList.length)];
+    var cardStringList = randomString.match(/.{1,2}/g);
+    var rankMap = ["3", "4", "5", "6", "7", "8", "9", "0", "j", "q", "k", "a", "2"];
+    var suitMap = ['s', 'c', 'd', 'h'];
+    var idList = cardStringList.map(function (item, index) {
+      return rankMap.indexOf(item[0]) * 4 + suitMap.indexOf(item[1]);
+    });
+    return idList;
+  };
+
+  p.createGunList = function () {
+    var idList = [];
+    var startId = 0;
+    if (Math.random() < 0.5) {
+      startId = parseInt(Math.random() * 11);
+      for (var i = 0; i < 3; i++) {
+        idList.push(startId * 4 + i)
+      }
+    } else {
+      startId = parseInt(Math.random() * 9);
+      var suilt = parseInt(Math.random() * 4);
+      for (var i = 0; i < 3; i++) {
+        idList.push((startId + i) * 4 + suilt);
+      }
+    }
+    return idList;
+  };
+
+
+  p.reSortDraftCards = function (data) {
+    var userID = data.uuid;
+    var Player = this.getPlayerByUuid(userID);
+    var cardType = TWIST.Card.draftCard;
+    if (!Player) {
+      this.showError({code: 0});
+      return;
+    }
+    if (Player.position == 0)
+      return;
+    if (Player.x < 100) {
+      Player.showCardsDirection = "horizontal";
+      Player.indexShowCardX = 0;
+    } else {
+      Player.showCardsDirection = "horizontal";
+      Player.indexShowCardX = -300;
+    }
+    Player.handCards.children.sort(function (a, b) {
+      return a.cardValue - b.cardValue;
+    });
+    Player.handCards.children.forEach(function (item, index) {
+      item.set({
+        scaleX: cardType.scale * 3 / 4,
+        scaleY: cardType.scale * 3 / 4,
+        x: Player.indexShowCardX + index * cardType.seperator * 3 / 4,
+        y: 100
+      })
+    });
+  };
+
+  p.showPlayersCards = function (data) {
+    var _self = this;
+    var cardType = TWIST.Card.draftCard;
+    var currentPlayer = this.getCurrentPlayer();
+    currentPlayer.showPlayersCards = true;
+
+    data.forEach(openPlayerCards);
+    function openPlayerCards(itemData) {
+      var player = _self.getPlayerByUuid(itemData.uuid);
+      if (player.position == 0)
+        return;
+      player.clearHand();
+//      if (player.x < 100 || player.x > 1000) {
+//        player.showCardsDirection = "vertical";
+//        player.indexShowCardY = -250;
+//      } else {
+//        player.showCardsDirection = "horizontal";
+//        player.indexShowCardX = -300;
+//      }
+
+      if (player.x < 100) {
+        player.showCardsDirection = "horizontal";
+        player.indexShowCardX = 0;
+      } else {
+        player.showCardsDirection = "horizontal";
+        player.indexShowCardX = -300;
+      }
+      itemData.cardList.sort(function (a, b) {
+        return a - b;
+      });
+      itemData.cardList.forEach(function (item, index) {
+        var card = new TWIST.Card(item);
+        player.handCards.addChild(card);
+        card.set({
+          scaleX: cardType.scale * 3 / 4,
+          scaleY: cardType.scale * 3 / 4,
+          x: player.showCardsDirection == "vertical" ? 0 : (player.indexShowCardX + index * cardType.seperator * 3 / 4),
+//          y: player.showCardsDirection == "vertical" ? (player.indexShowCardY + index * cardType.height * 2 / 3) : 0,
+          y: 100
+        })
+      });
+    }
+  };
+
   p.handCardSelected = function (card) {
 
   };
@@ -6797,7 +7309,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.STATUS_PLAYING = function () {
-    
+
   };
 
   p._STATUS_PLAYING = function () {
@@ -6814,6 +7326,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.endGame = function (data, result, nomalWinType) {
+    var _self = this;
 
     function convertRemainCards(item) {
       return item > 7 ? item - 8 : item + 44;
@@ -6844,6 +7357,7 @@ this.TWIST = this.TWIST || {};
       } else if (parseInt(player.changeMoney) > 0) {
         player.gameResultString = player.playerResult;
         player.isWinner = true;
+        _self.lastWinner = player.uuid;
         if (player.uuid === this.userInfo.uuid) {
           resultData.isWinner = true;
         }
@@ -6946,6 +7460,40 @@ this.TWIST = this.TWIST || {};
         player.setPlayerStatus("");
       }
     }
+  };
+
+  p.createWhiteVictoryList = function () {
+    var whiteVictoryList = [
+      // 3 Sam co
+      "3d3s9d3h6c9c9s6s6d1d", "6d8s6s8d6c4h8c4c4s5s", "kcks6h6dkh6cjs2sjcjd",
+      "qs6sqdqc6c4c8h4s6d4h", "5s3s3c5c8h5h8c3dks8d", "8c8s9c8djskcjd9s9djh",
+      // 5 doi
+      "4s4d6h6d7c7s8h8sjcjd", "6c6d7s7h8d8s9h9sadah", "8d8c10c10djsjdqcqdacad",
+      "4s4d5d5c6h6djdjckckd", "6d6h7s7c9d9s10s10hasad", "8s8c10s10cjsjcqdqh2c2d",
+      "4s4d7d7c8c8h9s9dkdkc", "3c3h8s8h9s9c10s10dkhkc", "6s6h4c4d9s9dasah2d2h",
+      // Tu 2
+      "3h4s5djhjcks2h2c2d2s", "4s4h8c9s10hjc2s2c2h2d", "7h10h10cqdqckd2d2c2s2h",
+      "6c7h9s10cjhqc2h2c2d2s", "5d6s10c10hkdks2s2c2h2d",
+      // Dong chat
+      "3s4s5sjcjsks2h6s7s2s", "4s4h8h9d10hjd2dahqhqd"];
+    var randomString = whiteVictoryList[parseInt(Math.random() * whiteVictoryList.length)];
+    var cardStringList = randomString.match(/.{1,2}/g);
+    var rankMap = ["3", "4", "5", "6", "7", "8", "9", "0", "j", "q", "k", "a", "2"];
+    var suitMap = ['s', 'c', 'd', 'h'];
+    var idList = cardStringList.map(function (item, index) {
+      return rankMap.indexOf(item[0]) * 4 + suitMap.indexOf(item[1]);
+    });
+    return idList;
+  };
+
+  p.createGunList = function () {
+    var idList = [];
+    var startId = 0;
+    startId = parseInt(Math.random() * 11);
+    for (var i = 0; i < 4; i++) {
+      idList.push(startId * 4 + i)
+    }
+    return idList;
   };
 
   p.onFoldSam = function (data) {

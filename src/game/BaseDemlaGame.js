@@ -12,6 +12,7 @@ this.TWIST = this.TWIST || {};
     this.initInRoomGame();
     this.pushTLMNDemlaEvent();
     this.bindButton();
+    this.addCheater();
   };
 
   p.pushTLMNDemlaEvent = function () {
@@ -22,6 +23,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.handCardSelected = function (card) {
+    return;
     var lastDraftCard = this.desk.lastDraftCards;
     if (card && lastDraftCard && lastDraftCard.length) {
       var result = TWIST.TLMNLogic(lastDraftCard, card).getCards();
@@ -142,8 +144,8 @@ this.TWIST = this.TWIST || {};
 
   p.onNotifyOne = function (data) {
     var player = this.getPlayerByUuid(data.uuid);
-    player.setPlayerStatus("Báo 1 !",{
-      default : "Báo 1 !"
+    player.setPlayerStatus("Báo 1 !", {
+      default: "Báo 1 !"
     });
   };
 
@@ -205,7 +207,11 @@ this.TWIST = this.TWIST || {};
 
     this.startButton.unbind('click');
     this.startButton.click(function () {
-      _self.emit("start", _self.model.players);
+      var listCheatCard = _self.getListCheatCard();
+      _self.emit("start", {
+        listCheatCard : listCheatCard,
+        showPlayerCards : $('#showPlayerCards').prop('checked')
+      });
     });
 
     this.hitButton = $(TWIST.HTMLTemplate['buttonBar/hitButton']);
@@ -240,7 +246,7 @@ this.TWIST = this.TWIST || {};
       _self.emit('userFold');
     });
   };
-
+  
   p.STATUS_ENDING = function () {
     this.buttonBar.hide();
     this.errorPanel.empty();
