@@ -7227,7 +7227,7 @@ this.TWIST = this.TWIST || {};
           scaleY: cardType.scale * 3 / 4,
           x: player.showCardsDirection == "vertical" ? 0 : (player.indexShowCardX + index * cardType.seperator * 3 / 4),
 //          y: player.showCardsDirection == "vertical" ? (player.indexShowCardY + index * cardType.height * 2 / 3) : 0,
-          y: 100
+          y: player.position == 2 ? 0 : 100
         })
       });
     }
