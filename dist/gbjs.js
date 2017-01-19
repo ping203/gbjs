@@ -4704,6 +4704,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.drawPlayingState = function (data) {
+    this._STATUS_PLAYING(); 
     var players = data.players || [];
     var _self = this;
 
@@ -4752,6 +4753,7 @@ this.TWIST = this.TWIST || {};
   };
 
   p.dealCards = function (data) {
+    this._STATUS_PLAYING();
     var cardList = data.cardList;
     var players = this.model.players;
     var numberPlayer = 0;
@@ -4788,6 +4790,12 @@ this.TWIST = this.TWIST || {};
 
     });
 
+  };
+
+  p.STATUS_PLAYING = function () {};
+
+  p._STATUS_PLAYING = function () {
+    TWIST.InRoomGame.prototype.STATUS_PLAYING.call(this);
   };
 
   p.onHitTurn = function (data) {
