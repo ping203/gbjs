@@ -213,6 +213,8 @@ this.TWIST = this.TWIST || {};
     this.wrapper.append(this.cheaterButton);
     this.cheaterButton.unbind('click');
     this.cheaterButton.click(function () {
+      console.log("click cheaterButton133");
+      _self.renderCheater();
       $('.cheater').toggle();
     });
 
@@ -227,6 +229,9 @@ this.TWIST = this.TWIST || {};
     this.fixCardList.cardList = [];
     this.totalCheatCardList = this.cheater.find('.total-cheat-card-list');
     this.totalCheatCardList.cardList = [];
+    this.listPlayerCards = $('<div class="list-player-cards"></div>');
+    this.listPlayerCards.listPlayer = [];
+    this.cheater.append(this.listPlayerCards);
     this.wrapper.append(this.cheater);
 
     this.addCheatCardButtons();
@@ -247,10 +252,24 @@ this.TWIST = this.TWIST || {};
   };
 
   p.addCheatCard = function (index) {
-    if (this.fixCardList.cardList.indexOf(index) === -1) {
-      this.renderHtmlCardInElement(index, this.fixCardList);
+    var _self = this;
+    var targetElement = $('input[name=selectedPlayer]:checked');
+    if(targetElement.length != 1) return;
+    
+    var uuid = targetElement.val();
+    
+    var cheatPlayer = this.listPlayerCards.listPlayer.find(function (item, index) {
+      return item.uuid ==  uuid;
+    });
+    
+    if (cheatPlayer && cheatPlayer.cardContainer) {
+      this.renderHtmlCardInElement(index, cheatPlayer.cardContainer);
       this.createTotalCheatCardList();
     }
+//    if (this.fixCardList.cardList.indexOf(index) === -1) {
+//      this.renderHtmlCardInElement(index, this.fixCardList);
+//      this.createTotalCheatCardList();
+//    }
   };
 
   p.renderHtmlCardInElement = function (index, container) {
@@ -298,6 +317,52 @@ this.TWIST = this.TWIST || {};
     element.empty();
   };
 
+  p.renderCheater = function (element) {
+    var _self = this;
+
+    var listPlayer = this.playersContainer.children.map(function (item, index) {
+      return {
+        uuid: item.uuid,
+        username: item.username,
+        isRoomMaster: item.isRoomMaster,
+        indexPosition: item.indexPosition
+      };
+    });
+
+    listPlayer.sort(function (a, b) {
+      return a.indexPosition - b.indexPosition;
+    });
+
+    this.listPlayerCards.listPlayer = this.listPlayerCards.listPlayer || [];
+
+    this.listPlayerCards.listPlayer.forEach(function (item, index) {
+      var exitsPlayer = listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      if (!exitsPlayer) {
+        item.remove();
+      }
+    });
+
+    listPlayer.forEach(function (item, index) {
+      var exitsPlayer = _self.listPlayerCards.listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      if (!exitsPlayer) {
+
+        var playerCards = $('<div id="' + item.uuid + '"><label><input value="'+item.uuid+'" type="radio" name="selectedPlayer"/>'+ item.uuid +'</label></div>');
+        playerCards.cardContainer = $('<div></div>');
+        Object.assign(playerCards,item);
+        playerCards.cardContainer.cardList = [];
+
+        playerCards.append(playerCards.cardContainer);
+
+        _self.listPlayerCards.listPlayer.push(playerCards);
+        _self.listPlayerCards.append(playerCards);
+      }
+    });
+  };
+
   p.getListCheatCard = function (element) {
     var _self = this;
     this.createTotalCheatCardList();
@@ -318,7 +383,7 @@ this.TWIST = this.TWIST || {};
         }
       });
     }
-    
+
 //    listCardToSet = [];
 
     var listPlayer = this.playersContainer.children.map(function (item, index) {
@@ -348,7 +413,11 @@ this.TWIST = this.TWIST || {};
     });
 
     listPlayer.forEach(function (item, index) {
-      item.cardList = item.isRoomMaster ? listCardToSet : [];
+      var player =  _self.listPlayerCards.listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      item.cardList = player ? player.cardContainer.cardList : [];
+//      item.cardList = item.isRoomMaster ? listCardToSet : [];
       if (isNaN(listCardToSet.length))
         return;
       var addCardsLength = _self.options.numberCardsInHand - item.cardList.length;
@@ -406,7 +475,7 @@ this.TWIST = this.TWIST || {};
     } else {
       startId = parseInt(Math.random() * 9);
       for (var i = 0; i < 3; i++) {
-       idList = idList.concat(getDoubleCards(startId + i))
+        idList = idList.concat(getDoubleCards(startId + i))
       }
     }
     function getDoubleCards(id) {

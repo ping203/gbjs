@@ -1157,7 +1157,7 @@ this.FATE = this.FATE || {};
 'buttonBar/sortCardButton':'<div class="button third blue" id="sort-card">X\u1EAFp x\u1EBFp</div>',
 'buttonBar/startButton':'<div class="button first yellow" id="start-button">B\u1EAFt \u0111\u1EA7u</div>',
 'buttonBar/wrapper':'<div class="button-bar"></div>',
-'cheater/wrapper':'<div class="cheater">\n    <div class="cheat-backgound"></div>\n    <div class="cheat-options">\n        <label>\n            <input id="showPlayerCards" type="checkbox" checked="true"/>\n            Xem b\xE0i\n        </label>\n        <label>\n            <input id="hightCards" type="radio" name="cheatType"/>\n            B\xE0i cao\n        </label>\n        <label>\n            <input id="hasGun" type="radio" name="cheatType"/>\n            C\xF3 h\xE0ng\n        </label>\n        <label>\n            <input id="whiteVictory" type="radio" name="cheatType"/>\n            \u0102n tr\u1EAFng\n        </label>\n        <label>\n            <input id="noCheat" type="radio" name="cheatType"/>\n            Kh\xF4ng cheat\n        </label>\n        <label>\n            <input id="hasFixedCards" type="checkbox"/>\n            Ch\u1EE9a list b\xE0i c\u1ED1 \u0111\u1ECBnh\n        </label>\n    </div>\n    <div class="card-button-list" > \n        \n    </div>\n    <div class="random-card-list" > \n        \n    </div>\n    <div class="fix-card-list" > \n        \n    </div>\n    <div class="total-cheat-card-list" > \n        \n    </div>\n</div>',
+'cheater/wrapper':'<div class="cheater">\r\n    <div class="cheat-backgound"></div>\r\n    <div class="cheat-options">\r\n        <label>\r\n            <input id="showPlayerCards" type="checkbox" checked="true"/>\r\n            Xem b\xE0i\r\n        </label>\r\n        <label>\r\n            <input id="hightCards" type="radio" name="cheatType"/>\r\n            B\xE0i cao\r\n        </label>\r\n        <label>\r\n            <input id="hasGun" type="radio" name="cheatType"/>\r\n            C\xF3 h\xE0ng\r\n        </label>\r\n        <label>\r\n            <input id="whiteVictory" type="radio" name="cheatType"/>\r\n            \u0102n tr\u1EAFng\r\n        </label>\r\n        <label>\r\n            <input id="noCheat" type="radio" name="cheatType"/>\r\n            Kh\xF4ng cheat\r\n        </label>\r\n        <label>\r\n            <input id="hasFixedCards" type="checkbox"/>\r\n            Ch\u1EE9a list b\xE0i c\u1ED1 \u0111\u1ECBnh\r\n        </label>\r\n    </div>\r\n    <div class="card-button-list" > \r\n        \r\n    </div>\r\n    <div class="random-card-list" > \r\n        \r\n    </div>\r\n    <div class="fix-card-list" > \r\n        \r\n    </div>\r\n    <div class="total-cheat-card-list" > \r\n        \r\n    </div>\r\n</div>',
 'effect/explodePot':'<div class="explorer-pot">\r\n    <span class="effect"></span>\r\n    <span class="txt"></span>\r\n</div>\r\n<div class="money-falling">\r\n    <div class="text-light pos-1">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-2">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-3">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n    <div class="text-light pos-4">\r\n        <i class="l-obj lobj-1"></i>\r\n        <i class="l-obj lobj-2"></i>\r\n        <i class="l-obj lobj-3"></i>\r\n        <i class="l-obj lobj-4"></i>\r\n        <i class="l-obj lobj-5"></i>\r\n        <i class="l-obj lobj-6"></i>\r\n        <i class="l-obj lobj-7"></i>\r\n        <i class="l-obj lobj-8"></i>\r\n    </div>\r\n</div>',
 'effect/wrapper':'<div class="effect"></div>',
 'hightLow/bottom':'<div class="bottom">\r\n    <div class="profile-hight-low">\r\n\r\n    </div>\r\n    <div class="chips-hight-low">\r\n\r\n    </div>\r\n    <div class="new-turn-button">L\u01B0\u1EE3t m\u1EDBi</div>\r\n</div>\r\n',
@@ -1166,6 +1166,9 @@ this.FATE = this.FATE || {};
 'hightLow/wrapper':'<div class="hight-low"></div>\r\n',
 'inviteList/inviteItem':'<div class="invite-item">\r\n    <div class="invite-item-inner"></div>\r\n</div>\r\n',
 'inviteList/wrapper':'<div class="invite-wrapper">\r\n    \r\n</div>\r\n',
+'resultPanel/card':'<div class="card card<%- id %>"></div>',
+'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
+'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'miniPoker/autospin':'<div class="autospin">\r\n    <input id="autospin" type="checkbox" />\r\n    <label for="autospin"></label>\r\n    <span>T\u1EF1 \u0111\u1ED9ng quay</span>\r\n</div>\r\n',
 'miniPoker/button':'<div class="button-spin"></div>',
 'miniPoker/chips':'<div class="chip-group">\r\n    <div class="chip violet">1K</div>\r\n    <div class="chip green">10k</div>\r\n    <div class="chip blue">100k</div>\r\n</div>\r\n',
@@ -1178,9 +1181,6 @@ this.FATE = this.FATE || {};
 'miniPoker/user':'<div class="profile">\r\n    <div class="profile-left">\r\n        <div class="user avatar" ></div>\r\n    </div>\r\n    <div class="profile-right">\r\n        <div class="username "></div>\r\n        <div class="money "></div>\r\n    </div>\r\n</div>',
 'miniPoker/winMoney':'<div class="win-money"></div>',
 'miniPoker/wrapper':'<div class="mini-poker-bg"></div>\r\n',
-'resultPanel/card':'<div class="card card<%- id %>"></div>',
-'resultPanel/user':'<div class="result-item <%- isWinnerClass %>">\r\n    <div class="result-item-info"> \r\n        <div class="result-item-username"><%- username %> </div>\r\n        <div class="result-item-result-info">\r\n            <span class="result-item-money"><%- moneyChange %></span>\r\n            <div class="user-result-string"x><%- resultText %></div>\r\n        </div>\r\n    </div>\r\n    <div class="result-card-list-container">\r\n        <%= cardList %>\r\n    </div>\r\n</div>',
-'resultPanel/wrapper':'<div class="game-result">\r\n    <div class="global-mask"></div>\r\n    <div class="game-result-popup">\r\n        <div class="popup-header">\r\n            <div class="popup-icon"></div> \r\n            <div class="close-popup">X</div>\r\n        </div>\r\n        <div class="popup-content">\r\n            <div class="container">\r\n                <div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>',
 'taiXiu/bettingPosition':'<div class="name"></div>\r\n<div class="ratio"></div>\r\n<div class="betting-number-wrapper">\r\n    <div class="betting-number-inner">\r\n        <div class="mine-betting">\r\n            0\r\n        </div><div class="total-betting">\r\n            0\r\n        </div>\r\n    </div>\r\n</div>\r\n',
 'taiXiu/buttons':'<div class="button-bar taixiu-button-bar">\r\n    <div class="button blue  xocdia-button  button-bottom" id="cancelBetting">H\u1EE7y c\u01B0\u1EE3c</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="sellOdd">B\xE1n c\u1EEDa</div>\r\n    <div class="button blue xocdia-button  button-bottom" id="resignation">H\u1EE7y c\xE1i</div>\r\n    <div class="button orange xocdia-button  button-bottom" id="reBetting">\u0110\u1EB7t l\u1EA1i</div>\r\n    <!--<div class="button blue button-top" id="sellEven">B\xE1n c\u1EEDa ch\u1EB5n</div>-->\r\n    <div class="button orange xocdia-button  button-top" id="getHost">Xin c\xE1i</div>\r\n</div>',
 'taiXiu/changeMoney':'<div class="change-money"></div>\r\n',
@@ -4006,6 +4006,8 @@ this.TWIST = this.TWIST || {};
     this.wrapper.append(this.cheaterButton);
     this.cheaterButton.unbind('click');
     this.cheaterButton.click(function () {
+      console.log("click cheaterButton133");
+      _self.renderCheater();
       $('.cheater').toggle();
     });
 
@@ -4020,6 +4022,9 @@ this.TWIST = this.TWIST || {};
     this.fixCardList.cardList = [];
     this.totalCheatCardList = this.cheater.find('.total-cheat-card-list');
     this.totalCheatCardList.cardList = [];
+    this.listPlayerCards = $('<div class="list-player-cards"></div>');
+    this.listPlayerCards.listPlayer = [];
+    this.cheater.append(this.listPlayerCards);
     this.wrapper.append(this.cheater);
 
     this.addCheatCardButtons();
@@ -4040,10 +4045,24 @@ this.TWIST = this.TWIST || {};
   };
 
   p.addCheatCard = function (index) {
-    if (this.fixCardList.cardList.indexOf(index) === -1) {
-      this.renderHtmlCardInElement(index, this.fixCardList);
+    var _self = this;
+    var targetElement = $('input[name=selectedPlayer]:checked');
+    if(targetElement.length != 1) return;
+    
+    var uuid = targetElement.val();
+    
+    var cheatPlayer = this.listPlayerCards.listPlayer.find(function (item, index) {
+      return item.uuid ==  uuid;
+    });
+    
+    if (cheatPlayer && cheatPlayer.cardContainer) {
+      this.renderHtmlCardInElement(index, cheatPlayer.cardContainer);
       this.createTotalCheatCardList();
     }
+//    if (this.fixCardList.cardList.indexOf(index) === -1) {
+//      this.renderHtmlCardInElement(index, this.fixCardList);
+//      this.createTotalCheatCardList();
+//    }
   };
 
   p.renderHtmlCardInElement = function (index, container) {
@@ -4091,6 +4110,52 @@ this.TWIST = this.TWIST || {};
     element.empty();
   };
 
+  p.renderCheater = function (element) {
+    var _self = this;
+
+    var listPlayer = this.playersContainer.children.map(function (item, index) {
+      return {
+        uuid: item.uuid,
+        username: item.username,
+        isRoomMaster: item.isRoomMaster,
+        indexPosition: item.indexPosition
+      };
+    });
+
+    listPlayer.sort(function (a, b) {
+      return a.indexPosition - b.indexPosition;
+    });
+
+    this.listPlayerCards.listPlayer = this.listPlayerCards.listPlayer || [];
+
+    this.listPlayerCards.listPlayer.forEach(function (item, index) {
+      var exitsPlayer = listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      if (!exitsPlayer) {
+        item.remove();
+      }
+    });
+
+    listPlayer.forEach(function (item, index) {
+      var exitsPlayer = _self.listPlayerCards.listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      if (!exitsPlayer) {
+
+        var playerCards = $('<div id="' + item.uuid + '"><label><input value="'+item.uuid+'" type="radio" name="selectedPlayer"/>'+ item.uuid +'</label></div>');
+        playerCards.cardContainer = $('<div></div>');
+        Object.assign(playerCards,item);
+        playerCards.cardContainer.cardList = [];
+
+        playerCards.append(playerCards.cardContainer);
+
+        _self.listPlayerCards.listPlayer.push(playerCards);
+        _self.listPlayerCards.append(playerCards);
+      }
+    });
+  };
+
   p.getListCheatCard = function (element) {
     var _self = this;
     this.createTotalCheatCardList();
@@ -4111,7 +4176,7 @@ this.TWIST = this.TWIST || {};
         }
       });
     }
-    
+
 //    listCardToSet = [];
 
     var listPlayer = this.playersContainer.children.map(function (item, index) {
@@ -4141,7 +4206,11 @@ this.TWIST = this.TWIST || {};
     });
 
     listPlayer.forEach(function (item, index) {
-      item.cardList = item.isRoomMaster ? listCardToSet : [];
+      var player =  _self.listPlayerCards.listPlayer.find(function (_item) {
+        return _item.uuid == item.uuid;
+      });
+      item.cardList = player ? player.cardContainer.cardList : [];
+//      item.cardList = item.isRoomMaster ? listCardToSet : [];
       if (isNaN(listCardToSet.length))
         return;
       var addCardsLength = _self.options.numberCardsInHand - item.cardList.length;
@@ -4199,7 +4268,7 @@ this.TWIST = this.TWIST || {};
     } else {
       startId = parseInt(Math.random() * 9);
       for (var i = 0; i < 3; i++) {
-       idList = idList.concat(getDoubleCards(startId + i))
+        idList = idList.concat(getDoubleCards(startId + i))
       }
     }
     function getDoubleCards(id) {

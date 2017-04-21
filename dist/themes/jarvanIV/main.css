@@ -3949,18 +3949,26 @@ and open the template in the editor.
     .twist .cheater .random-card-list {
       position: absolute;
       top: 200px;
-      z-index: 1; }
+      z-index: 1;
+      display: none; }
       .twist .cheater .random-card-list:before {
         content: "Cây bài random"; }
     .twist .cheater .fix-card-list {
       position: absolute;
       top: 300px;
-      z-index: 1; }
+      z-index: 1;
+      display: none; }
       .twist .cheater .fix-card-list:before {
         content: "Cây bài cố định"; }
     .twist .cheater .total-cheat-card-list {
       position: absolute;
       top: 400px;
-      z-index: 1; }
+      z-index: 1;
+      display: none; }
       .twist .cheater .total-cheat-card-list:before {
         content: "Bộ bài yêu cầu"; }
+    .twist .cheater .list-player-cards {
+      position: absolute;
+      top: 200px;
+      z-index: 1;
+      text-align: left; }
